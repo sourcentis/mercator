@@ -1787,7 +1787,7 @@ If you also want to display fields from that relation in <code>FIELDS</code>, de
 <p>Lists applications not attached to any logical server — a possible indicator of an incomplete cartography.</p>
 <h2 id="best-practices">Best practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Keep <code>LIMIT</code> to the necessary value</strong>: overly broad queries can be slow on large repositories.</li>
+<li><strong>Use <code>LIMIT</code></strong> to limit the number of results to the necessary value: overly broad queries can be slow on large repositories.</li>
 <li><strong>Use <code>OUTPUT graph</code></strong> only when relations are declared in <code>WITH</code>; a graph without relations will consist of isolated nodes only.</li>
 <li><strong>Check field names</strong> in the <a href="../api/">API reference</a> — a typo in a field name simply returns nothing, with no error message.</li>
 <li><strong>With <code>EXISTS</code></strong>, declare the relation in <code>WITH</code> only if you need to display its fields in <code>FIELDS</code>; otherwise, <code>EXISTS</code> alone is sufficient to filter without extra overhead.</li>

@@ -1787,7 +1787,7 @@ Si vous souhaitez également afficher les champs de cette relation dans <code>FI
 <p>Liste les applications non rattachées à un serveur logique, symptôme possible d'une cartographie incomplète.</p>
 <h2 id="bonnes-pratiques">Bonnes pratiques<a class="headerlink" href="#bonnes-pratiques" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Limitez le <code>LIMIT</code></strong> à la valeur nécessaire : des requêtes trop larges peuvent être lentes sur de grands référentiels.</li>
+<li><strong>Utilisez <code>LIMIT</code></strong> pour limiter le nombre de résultats à la valeur nécessaire : des requêtes trop larges peuvent être lentes sur de grands référentiels.</li>
 <li><strong>Utilisez <code>OUTPUT graph</code></strong> uniquement lorsque les relations sont déclarées dans <code>WITH</code> ; un graphe sans relations ne sera composé que de nœuds isolés.</li>
 <li><strong>Vérifiez les noms de champs</strong> dans la <a href="../api/">référence API</a> — une faute de frappe dans un champ n'affiche simplement rien, sans message d'erreur.</li>
 <li><strong>Avec <code>EXISTS</code></strong>, déclarez la relation dans <code>WITH</code> uniquement si vous avez besoin d'afficher ses champs dans <code>FIELDS</code> ; sinon, <code>EXISTS</code> seul suffit à filtrer sans surcharge.</li>

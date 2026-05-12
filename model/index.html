@@ -861,7 +861,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#flows" class="md-nav__link">
+  <a href="#application-flows" class="md-nav__link">
     <span class="md-ellipsis">
       
         Application Flows
@@ -1842,7 +1842,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#flows" class="md-nav__link">
+  <a href="#application-flows" class="md-nav__link">
     <span class="md-ellipsis">
       
         Application Flows
@@ -3286,7 +3286,7 @@ Impacts are only accessible through "activities" objects.</p>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><span style="color: blue;"><em>activity_impacts</em></span></td>
+<td style="text-align: left;"><span style="color: blue;"><em>activity_impact</em></span></td>
 <td style="text-align: left;">N/A</td>
 </tr>
 </tbody>
@@ -3812,7 +3812,7 @@ server per physical server.</p>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><span style="color: blue;"><em>m_applications</em></span></td>
+<td style="text-align: left;"><span style="color: blue;"><em>applications</em></span></td>
 <td style="text-align: left;"><code>/api/applications</code></td>
 </tr>
 </tbody>
@@ -4065,7 +4065,7 @@ Major events are only accessible through application objects.</p>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><span style="color: blue;"><em>m_application_events</em></span></td>
+<td style="text-align: left;"><span style="color: blue;"><em>application_events</em></span></td>
 <td style="text-align: left;">N/A</td>
 </tr>
 </tbody>
@@ -4090,8 +4090,8 @@ Major events are only accessible through application objects.</p>
 <td style="text-align: left;">Mercator user id who has register the event</td>
 </tr>
 <tr>
-<td style="text-align: left;">m_application_id</td>
-<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">application_id</td>
+<td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">Reference to the id of the application that suffered the event</td>
 </tr>
 <tr>
@@ -4380,7 +4380,7 @@ In the app, an information can be linked with a database from a database object.
 <p>In the app, an application can be linked with a database from these two objects.<br />
 In the app, a logical server can be linked with a database from these two objects.<br />
 In the app, a container can be linked with a database from these two objects.</p>
-<h3 id="flows">Application Flows<a class="headerlink" href="#flows" title="Permanent link">&para;</a></h3>
+<h3 id="application-flows">Application Flows<a class="headerlink" href="#application-flows" title="Permanent link">&para;</a></h3>
 <p>An application flow is an exchange of information between a sender and a receiver (application, application service,
 application module, or database).</p>
 <p>An application flow represents an exchange of information between two elements of the information system. It is
@@ -4395,8 +4395,8 @@ important to avoid representing all firewall filtering rules in terms of flows.<
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><span style="color: blue;"><em>fluxes</em></span></td>
-<td style="text-align: left;"><code>/api/fluxes</code></td>
+<td style="text-align: left;"><span style="color: blue;"><em>application_flows</em></span></td>
+<td style="text-align: left;"><code>/api/application-flows</code></td>
 </tr>
 </tbody>
 </table>
@@ -4470,9 +4470,11 @@ important to avoid representing all firewall filtering rules in terms of flows.<
 <table>
 <thead>
 <tr>
-<th style="text-align: left;">Actif (<em>device</em>)</th>
+<th style="text-align: left;">Active (<em>device</em>)</th>
 <th style="text-align: center;">Source</th>
 <th style="text-align: center;">Destination</th>
+<th>Source field name</th>
+<th>dest field name</th>
 </tr>
 </thead>
 <tbody>
@@ -4480,21 +4482,29 @@ important to avoid representing all firewall filtering rules in terms of flows.<
 <td style="text-align: left;">Application</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>application_source_id</td>
+<td>application_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Application service</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>service_source_id</td>
+<td>service_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Application module</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>module_source_id</td>
+<td>module_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Database</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>database_source_id</td>
+<td>database_dest_id</td>
 </tr>
 </tbody>
 </table>
@@ -4677,9 +4687,9 @@ them to be administered.</p>
 <td style="text-align: left;">Reference to Administration zone</td>
 </tr>
 <tr>
-<td style="text-align: left;">domaines</td>
+<td style="text-align: left;">domains</td>
 <td style="text-align: left;">List int [,]</td>
-<td style="text-align: left;">IDs list of related active directory domaines</td>
+<td style="text-align: left;">IDs list of related active directory domains</td>
 </tr>
 <tr>
 <td style="text-align: left;">created_at</td>
@@ -4710,8 +4720,8 @@ objects rights, and a part of IT policies (e.g. Group Policy Object - GPO).</p>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><span style="color: blue;"><em>domaine_ads</em></span></td>
-<td style="text-align: left;"><code>/api/domaine-ads</code></td>
+<td style="text-align: left;"><span style="color: blue;"><em>domains</em></span></td>
+<td style="text-align: left;"><code>/api/domains</code></td>
 </tr>
 </tbody>
 </table>
@@ -4755,7 +4765,7 @@ objects rights, and a part of IT policies (e.g. Group Policy Object - GPO).</p>
 <td style="text-align: left;">Number of domain computers</td>
 </tr>
 <tr>
-<td style="text-align: left;">relation_inter_domaine</td>
+<td style="text-align: left;">relation_inter_domain</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Cross domains relationships description</td>
 </tr>
@@ -6273,9 +6283,11 @@ A logical server can be linked to a container from a container object.</p>
 <table>
 <thead>
 <tr>
-<th style="text-align: left;"><em>device</em></th>
+<th style="text-align: left;">Active (<em>device</em>)</th>
 <th style="text-align: center;">Source</th>
 <th style="text-align: center;">Destination</th>
+<th>Source field name</th>
+<th>dest field name</th>
 </tr>
 </thead>
 <tbody>
@@ -6283,46 +6295,64 @@ A logical server can be linked to a container from a container object.</p>
 <td style="text-align: left;">Peripherals</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>peripheral_source_id</td>
+<td>peripheral_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Physical security device</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>physical_security_device_source_id</td>
+<td></td>
 </tr>
 <tr>
 <td style="text-align: left;">Physical server</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>physical_server_source_id</td>
+<td>physical_server_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Storage infrastructure</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>storage_device_source_id</td>
+<td>storage_device_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Workstations</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>workstation_source_id</td>
+<td>workstation_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Logical security device</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>security_device_source_id</td>
+<td>security_device_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Logical server</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>logical_server_source_id</td>
+<td>logical_server_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">clusters</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>cluster_source_id</td>
+<td>cluster_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Subnetworks</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>subnetwork_source_id</td>
+<td>subnetwork_dest_id</td>
 </tr>
 </tbody>
 </table>
@@ -7932,6 +7962,8 @@ A logic flow describes a relationship at layers 3 and 4 of the OSI model.</p>
 <th style="text-align: left;"><em>device</em></th>
 <th style="text-align: center;">Source</th>
 <th style="text-align: center;">Destination</th>
+<th>Source field name</th>
+<th>dest field name</th>
 </tr>
 </thead>
 <tbody>
@@ -7939,61 +7971,85 @@ A logic flow describes a relationship at layers 3 and 4 of the OSI model.</p>
 <td style="text-align: left;">Peripheral device</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>peripheral_source_id</td>
+<td>peripheral_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Phone</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>phone_src_id</td>
+<td>phone_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Physical router</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>physical_router_src_id</td>
+<td> physical_router_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Physical security device</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>physical_security_device_source_id</td>
+<td>physical_security_device_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Physical server</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>physical_server_source_id</td>
+<td>physical_server_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Physical switch</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>physical_switch_src_id</td>
+<td>physical_switch_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Storage infrastructure</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>storage_device_source_id</td>
+<td>storage_device_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Wifi terminal</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>wifi_terminal_src_id</td>
+<td>wifi_terminal_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Workstation</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>workstation_source_id</td>
+<td>workstation_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Logical server</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>logical_server_source_id</td>
+<td>logical_server_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Logical switch</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>network_switch_src_id</td>
+<td>network_switch_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Logical router</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>router_src_id</td>
+<td>router_dest_id</td>
 </tr>
 </tbody>
 </table>

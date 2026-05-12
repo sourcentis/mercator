@@ -861,10 +861,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#flux" class="md-nav__link">
+  <a href="#flux-applicatifs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Flux
+        Flux applicatifs
       
     </span>
   </a>
@@ -1831,10 +1831,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#flux" class="md-nav__link">
+  <a href="#flux-applicatifs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Flux
+        Flux applicatifs
       
     </span>
   </a>
@@ -3270,7 +3270,7 @@ Les impacts ne sont accessibles qu'à travers les objets activités.</p>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><span style="color: blue;"><em>activity_impacts</em></span></td>
+<td style="text-align: left;"><span style="color: blue;"><em>activity_impact</em></span></td>
 <td style="text-align: left;"></td>
 </tr>
 </tbody>
@@ -3754,7 +3754,7 @@ a un serveur logique par serveur physique.</p>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><span style="color: blue;"><em>m_applications</em></span></td>
+<td style="text-align: left;"><span style="color: blue;"><em>applications</em></span></td>
 <td style="text-align: left;"><code>/api/applications</code></td>
 </tr>
 </tbody>
@@ -4007,7 +4007,7 @@ Les évènements majeurs ne sont accessibles qu'à travers les objets applicatio
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><span style="color: blue;"><em>m_application_events</em></span></td>
+<td style="text-align: left;"><span style="color: blue;"><em>application_events</em></span></td>
 <td style="text-align: left;">S/O</td>
 </tr>
 </tbody>
@@ -4032,8 +4032,8 @@ Les évènements majeurs ne sont accessibles qu'à travers les objets applicatio
 <td style="text-align: left;">Utilisateur de Mercator ayant renseigné l'évènement</td>
 </tr>
 <tr>
-<td style="text-align: left;">m_application_id</td>
-<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">application_id</td>
+<td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">Référence vers l'application ayant subi l'évènement</td>
 </tr>
 <tr>
@@ -4333,7 +4333,7 @@ Dans l'application, une information peut être rattachée à une base de donnée
 Dans l'application, une application peut être rattachée à une base de données depuis ces deux objets.<br />
 Dans l'application, un serveur logique peut être rattaché à une base de données depuis ces deux objets.<br />
 Dans l'application, un conteneur peut être rattaché à une base de données depuis ces deux objets.</p>
-<h3 id="flux">Flux<a class="headerlink" href="#flux" title="Permanent link">&para;</a></h3>
+<h3 id="flux-applicatifs">Flux applicatifs<a class="headerlink" href="#flux-applicatifs" title="Permanent link">&para;</a></h3>
 <p>Un flux est un échange d’informations entre un émetteur ou un récepteur (application, service applicatif, module
 applicatif ou base de données).</p>
 <p>Un flux représente un échange d’information entre deux éléments du système d’information. Il faut éviter de représenter
@@ -4348,8 +4348,8 @@ en termes de flux l’ensemble des règles de filtrage du firewall.</p>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><span style="color: blue;"><em>fluxes</em></span></td>
-<td style="text-align: left;"><code>/api/fluxes</code></td>
+<td style="text-align: left;"><span style="color: blue;"><em>application_flows</em></span></td>
+<td style="text-align: left;"><code>/api/application-flows</code></td>
 </tr>
 </tbody>
 </table>
@@ -4431,6 +4431,8 @@ en termes de flux l’ensemble des règles de filtrage du firewall.</p>
 <th style="text-align: left;">Actif (<em>device</em>)</th>
 <th style="text-align: center;">Source</th>
 <th style="text-align: center;">Destination</th>
+<th>nom du champs source</th>
+<th>nom du champs destination</th>
 </tr>
 </thead>
 <tbody>
@@ -4438,21 +4440,29 @@ en termes de flux l’ensemble des règles de filtrage du firewall.</p>
 <td style="text-align: left;">Application</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>application_source_id</td>
+<td>application_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Service applicatif</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>service_source_id</td>
+<td>service_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Module applicatif</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>module_source_id</td>
+<td>module_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Base de données</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>database_source_id</td>
+<td>database_dest_id</td>
 </tr>
 </tbody>
 </table>
@@ -4640,7 +4650,7 @@ comme Mercator.</p>
 <td style="text-align: left;">Référence vers la zone d'administration</td>
 </tr>
 <tr>
-<td style="text-align: left;">domaines</td>
+<td style="text-align: left;">domains</td>
 <td style="text-align: left;">List int [,]</td>
 <td style="text-align: left;">Liens vers les IDs des domaines active directory</td>
 </tr>
@@ -4676,8 +4686,8 @@ GPO, par exemple) ainsi que les droits des objets.</p>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><span style="color: blue;"><em>domaine_ads</em></span></td>
-<td style="text-align: left;"><code>/api/domaine-ads</code></td>
+<td style="text-align: left;"><span style="color: blue;"><em>domains</em></span></td>
+<td style="text-align: left;"><code>/api/domains</code></td>
 </tr>
 </tbody>
 </table>
@@ -4721,7 +4731,7 @@ GPO, par exemple) ainsi que les droits des objets.</p>
 <td style="text-align: left;">Nombre de machines du domaine</td>
 </tr>
 <tr>
-<td style="text-align: left;">relation_inter_domaine</td>
+<td style="text-align: left;">relation_inter_domain</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Description des relations inter-domaines</td>
 </tr>
@@ -6253,6 +6263,8 @@ Un serveur logique peut être rattaché à un conteneur depuis un objet conteneu
 <th style="text-align: left;">Actif (<em>device</em>)</th>
 <th style="text-align: center;">Source</th>
 <th style="text-align: center;">Destination</th>
+<th>nom du champs source</th>
+<th>nom du champs destination</th>
 </tr>
 </thead>
 <tbody>
@@ -6260,46 +6272,64 @@ Un serveur logique peut être rattaché à un conteneur depuis un objet conteneu
 <td style="text-align: left;">Périphérique</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>peripheral_source_id</td>
+<td>peripheral_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Equipement de sécurité physique</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>physical_security_device_source_id</td>
+<td>physical_security_device_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Serveur physique</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>physical_server_source_id</td>
+<td>physical_server_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Infrastructure de stockage</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>storage_device_source_id</td>
+<td>storage_device_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Poste de travail</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>workstation_source_id</td>
+<td>workstation_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Equipement de sécurité logique</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>security_device_source_id</td>
+<td>security_device_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Serveur logique</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>logical_server_source_id</td>
+<td>logical_server_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Clusters</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>cluster_source_id</td>
+<td>cluster_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Sous-réseaux</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>subnetwork_source_id</td>
+<td>subnetwork_dest_id</td>
 </tr>
 </tbody>
 </table>
@@ -7935,6 +7965,8 @@ Un flux logique décrit une relation au niveau des couches 3 et 4 du modèle OSI
 <th style="text-align: left;">Actif</th>
 <th style="text-align: center;">Source</th>
 <th style="text-align: center;">Destination</th>
+<th>nom du champs source</th>
+<th>nom du champs destination</th>
 </tr>
 </thead>
 <tbody>
@@ -7942,61 +7974,85 @@ Un flux logique décrit une relation au niveau des couches 3 et 4 du modèle OSI
 <td style="text-align: left;">Périphérique</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>peripheral_source_id</td>
+<td>peripheral_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Téléphone</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>phone_src_id</td>
+<td>phone_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Routeur physique</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>physical_router_src_id</td>
+<td> physical_router_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Equipement de sécurité physique</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>physical_security_device_source_id</td>
+<td>physical_security_device_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Serveur physique</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>physical_server_source_id</td>
+<td>physical_server_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Commutateur physique</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>physical_switch_src_id</td>
+<td>physical_switch_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Infrastructure de stockage</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>storage_device_source_id</td>
+<td>storage_device_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Borne Wifi</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>wifi_terminal_src_id</td>
+<td>wifi_terminal_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Poste de travail</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>workstation_source_id</td>
+<td>workstation_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Serveur logique</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>logical_server_source_id</td>
+<td>logical_server_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Commutateur logique</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>network_switch_src_id</td>
+<td>network_switch_dest_id</td>
 </tr>
 <tr>
 <td style="text-align: left;">Routeur logique</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td>router_src_id</td>
+<td>router_dest_id</td>
 </tr>
 </tbody>
 </table>
