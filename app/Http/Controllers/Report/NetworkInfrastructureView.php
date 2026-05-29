@@ -219,8 +219,8 @@ class NetworkInfrastructureView extends Controller
                 });
             */
             $workstations = Workstation::query()->orderBy('name')->get()
-                ->filter(function ($item) use ($site, $buildings) {
-                    if (($item->building_id === null) && ($item->site_id === $site)) {
+                ->filter(function ($item) use ($siteId, $buildings) {
+                    if (($item->building_id === null) && ($item->site_id === $siteId)) {
                         return true;
                     }
                     foreach ($buildings as $building) {
@@ -233,10 +233,10 @@ class NetworkInfrastructureView extends Controller
                 });
 
             $storageDevices = StorageDevice::query()->orderBy('name')->get()
-                ->filter(function ($item) use ($site, $buildings, $bays) {
+                ->filter(function ($item) use ($siteId, $buildings, $bays) {
                     if (($item->bay_id === null) &&
                         ($item->building_id === null) &&
-                        ($item->site_id === $site)) {
+                        ($item->site_id === $siteId)) {
                         return true;
                     }
                     if ($item->bay_id === null) {
@@ -257,10 +257,10 @@ class NetworkInfrastructureView extends Controller
                 });
 
             $physicalSwitches = PhysicalSwitch::query()->orderBy('name')->get()
-                ->filter(function ($item) use ($site, $buildings, $bays) {
+                ->filter(function ($item) use ($siteId, $buildings, $bays) {
                     if (($item->bay_id === null) &&
                         ($item->building_id === null) &&
-                        ($item->site_id === $site)) {
+                        ($item->site_id === $siteId)) {
                         return true;
                     }
                     if ($item->bay_id === null) {
@@ -281,10 +281,10 @@ class NetworkInfrastructureView extends Controller
                 });
 
             $peripherals = Peripheral::query()->orderBy('name')->get()
-                ->filter(function ($item) use ($site, $buildings, $bays) {
+                ->filter(function ($item) use ($siteId, $buildings, $bays) {
                     if (($item->bay_id === null) &&
                         ($item->building_id === null) &&
-                        ($item->site_id === $site)) {
+                        ($item->site_id === $siteId)) {
                         return true;
                     }
                     if ($item->bay_id === null) {
@@ -305,8 +305,8 @@ class NetworkInfrastructureView extends Controller
                 });
 
             $phones = Phone::query()->orderBy('name')->get()
-                ->filter(function ($item) use ($site, $buildings) {
-                    if (($item->building_id === null) && ($item->site_id === $site)) {
+                ->filter(function ($item) use ($siteId, $buildings) {
+                    if (($item->building_id === null) && ($item->site_id === $siteId)) {
                         return true;
                     }
                     foreach ($buildings as $building) {
@@ -319,10 +319,10 @@ class NetworkInfrastructureView extends Controller
                 });
 
             $physicalRouters = PhysicalRouter::query()->orderBy('name')->get()
-                ->filter(function ($item) use ($site, $buildings, $bays) {
+                ->filter(function ($item) use ($siteId, $buildings, $bays) {
                     if (($item->bay_id === null) &&
                         ($item->building_id === null) &&
-                        ($item->site_id === $site)) {
+                        ($item->site_id === $siteId)) {
                         return true;
                     }
                     if ($item->bay_id === null) {
@@ -343,8 +343,8 @@ class NetworkInfrastructureView extends Controller
                 });
 
             $wifiTerminals = WifiTerminal::query()->orderBy('name')->get()
-                ->filter(function ($item) use ($site, $buildings) {
-                    if (($item->building_id === null) && ($item->site_id === $site)) {
+                ->filter(function ($item) use ($siteId, $buildings) {
+                    if (($item->building_id === null) && ($item->site_id === $siteId)) {
                         return true;
                     }
                     foreach ($buildings as $building) {
@@ -357,10 +357,10 @@ class NetworkInfrastructureView extends Controller
                 });
 
             $physicalSecurityDevices = PhysicalSecurityDevice::query()->orderBy('name')->get()
-                ->filter(function ($item) use ($site, $buildings, $bays) {
+                ->filter(function ($item) use ($siteId, $buildings, $bays) {
                     if (($item->bay_id === null) &&
                         ($item->building_id === null) &&
-                        ($item->site_id === $site)) {
+                        ($item->site_id === $siteId)) {
                         return true;
                     }
                     if ($item->bay_id === null) {
@@ -390,7 +390,8 @@ class NetworkInfrastructureView extends Controller
                     $physicalSwitches,
                     $peripherals,
                     $wifiTerminals,
-                    $phones
+                    $phones,
+                    $physicalSecurityDevices
                 ) {
                     // Routers
                     if ($item->physical_router_src_id !== null) {
@@ -584,6 +585,31 @@ class NetworkInfrastructureView extends Controller
                         $found = false;
                         foreach ($phones as $phone) {
                             if ($item->phone_dest_id === $phone->id) {
+                                $found = true;
+                                break;
+                            }
+                        }
+                        if (! $found) {
+                            return false;
+                        }
+                    }
+                    // Physical Security Devices
+                    if ($item->physical_security_device_src_id !== null) {
+                        $found = false;
+                        foreach ($physicalSecurityDevices as $psd) {
+                            if ($item->physical_security_device_src_id === $psd->id) {
+                                $found = true;
+                                break;
+                            }
+                        }
+                        if (! $found) {
+                            return false;
+                        }
+                    }
+                    if ($item->physical_security_device_dest_id !== null) {
+                        $found = false;
+                        foreach ($physicalSecurityDevices as $psd) {
+                            if ($item->physical_security_device_dest_id === $psd->id) {
                                 $found = true;
                                 break;
                             }
