@@ -1,11 +1,11 @@
 apiVersion: v2
 name: mercator
 description: Mercator is a powerful and versatile open-source web application designed to facilitate the mapping of information systems, as outlined in the Mapping The Information System Guide by ANSSI.
-home: https://github.com/dbarzin/mercator
-icon: https://raw.githubusercontent.com/dbarzin/mercator/refs/heads/master/public/images/mercator.png
+home: https://github.com/sourcentis/mercator
+icon: https://raw.githubusercontent.com/sourcentis/mercator/refs/heads/master/public/images/mercator.png
 maintainers:
   - name: Mercator
-    url: https://github.com/dbarzin/mercator/chart
+    url: https://github.com/sourcentis/mercator
 dependencies:
   - condition: redis.enabled
     name: redis
