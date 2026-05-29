@@ -232,6 +232,7 @@
                     </tbody>
                 </table>
             </div>
+            @include('partials.pagination-footer', ['paginator' => $logicalFlows])
         </div>
     </div>
 @endsection
@@ -243,7 +244,8 @@
     'id' => '#dataTable',
     'title' => trans("cruds.logicalFlow.title_singular"),
     'URL' => route('admin.logical-flows.massDestroy'),
-    'canDelete' => auth()->user()->can('logical_flow_delete') ? true : false
+    'canDelete' => auth()->user()->can('logical_flow_delete') ? true : false,
+    'serverSidePagination' => true,
 ));
 document.addEventListener("DOMContentLoaded", function () {
     if (typeof table !== 'undefined' && !table.state.loaded()) {

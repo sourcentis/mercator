@@ -92,4 +92,9 @@ return [
     'tracability_short' => 'T',
     'old' => 'Old',
     'active' => 'Actif',
+    'showing' => 'Affichage de',
+    'of' => 'sur',
+    'page' => 'page',
+    'elements_per_page' => 'éléments par page',
+    'search' => 'Rechercher',
 ];

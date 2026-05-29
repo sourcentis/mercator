@@ -297,4 +297,9 @@ return [
     'tracability_short' => 'T',
     'old' => 'Old',
     'active' => 'Active',
+    'showing' => 'Showing',
+    'of' => 'of',
+    'page' => 'page',
+    'elements_per_page' => 'elements per page',
+    'search' => 'Search',
 ];

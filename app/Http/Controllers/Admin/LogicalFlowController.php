@@ -47,8 +47,15 @@ class LogicalFlowController extends Controller
             'subnetworkDest',
             'clusterDest',
         ])
+            ->when(request('search'), function ($q, $search) {
+                $q->where(function ($q) use ($search) {
+                    foreach (LogicalFlow::$searchable as $field) {
+                        $q->orWhere($field, 'like', "%{$search}%");
+                    }
+                });
+            })
             ->orderby('name')
-            ->get();
+            ->paginate(min(max((int) request('per_page', 50), 10), 500));
 
         return view('admin.logicalFlows.index', compact('logicalFlows'));
     }
