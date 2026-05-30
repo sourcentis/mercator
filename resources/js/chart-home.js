@@ -40,6 +40,13 @@ function createGaugeChart(ctx, value) {
                     bottom: 10
                 }
             },
+            plugins: {
+                datalabels: {
+                    formatter: function (value, context) {
+                        return null;
+                    }
+                }
+            }
         }
     });
 }
