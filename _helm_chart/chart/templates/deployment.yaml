@@ -1,37 +1,37 @@
-{ { - $defaultSecretName := printf "%s-%s" (include "chart.fullname" .) "postgresql" - } }
-  { { - $postgresSecretName := .Values.secret.managed | ternary $defaultSecretName .Values.postgresql.auth.existingSecret - } }
+{{- $defaultSecretName := printf "%s-%s" (include "chart.fullname" .) "postgresql" -}}
+{{- $postgresSecretName := .Values.secret.managed | ternary $defaultSecretName .Values.postgresql.auth.existingSecret -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: { { include "chart.fullname" . } }
+  name: {{ include "chart.fullname" . }}
   labels:
-    { { - include "chart.labels" . | nindent 4 } }
+    {{- include "chart.labels" . | nindent 4 }}
 spec:
-  { { - if not .Values.autoscaling.enabled } }
-  replicas: { { .Values.replicaCount } }
-  { { - end } }
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
   selector:
     matchLabels:
-      { { - include "chart.selectorLabels" . | nindent 6 } }
+      {{- include "chart.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      { { - with .Values.podAnnotations } }
+      {{- with .Values.podAnnotations }}
       annotations:
-        { { - toYaml . | nindent 8 } }
-      { { - end } }
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
-        { { - include "chart.labels" . | nindent 8 } }
-          { { - with .Values.podLabels } }
-          { { - toYaml . | nindent 8 } }
-          { { - end } }
+        {{- include "chart.labels" . | nindent 8 }}
+          {{- with .Values.podLabels }}
+          {{- toYaml . | nindent 8 }}
+          {{- end }}
     spec:
-      { { - with .Values.imagePullSecrets } }
+      {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-        { { - toYaml . | nindent 8 } }
-      { { - end } }
-      serviceAccountName: { { include "chart.serviceAccountName" . } }
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "chart.serviceAccountName" . }}
       securityContext:
-        { { - toYaml .Values.podSecurityContext | nindent 8 } }
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
         - name: check-db-ready
           image: "postgres:18"
@@ -39,30 +39,30 @@ spec:
             'until pg_isready -h {{ .Values.postgresql.fullnameOverride }} -p 5432 -d {{ .Values.postgresql.auth.database }}  -U {{ .Values.postgresql.auth.username }} ;
           do echo waiting for database; sleep 10; done;' ]
       containers:
-        - name: { { .Chart.Name } }
+        - name: {{ .Chart.Name }}
           securityContext:
-            { { - toYaml .Values.securityContext | nindent 12 } }
+            {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: { { .Values.image.pullPolicy } }
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
               containerPort: 8080
               protocol: TCP
           livenessProbe:
-            { { - toYaml .Values.livenessProbe | nindent 12 } }
+            {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:
-            { { - toYaml .Values.readinessProbe | nindent 12 } }
+            {{- toYaml .Values.readinessProbe | nindent 12 }}
           resources:
-            { { - toYaml .Values.resources | nindent 12 } }
+            {{- toYaml .Values.resources | nindent 12 }}
           env:
             - name: NAMESPACE
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
             - name: APP_NAME
-              value: { { .Chart.Name | quote } }
+              value: {{ .Chart.Name | quote }}
             - name: REDIS_HOST
-              value: { { .Values.redis.fullnameOverride | quote } }
+              value: {{ .Values.redis.fullnameOverride | quote }}
             - name: REDIS_PASSWORD
               value: "null"
             - name: REDIS_PORT
@@ -70,17 +70,17 @@ spec:
             - name: DB_CONNECTION
               value: "pgsql"
             - name: DB_HOST
-              value: { { .Values.postgresql.fullnameOverride | quote } }
+              value: {{ .Values.postgresql.fullnameOverride | quote }}
             - name: DB_PORT
               value: "5432"
             - name: DB_DATABASE
-              value: { { .Values.postgresql.auth.database | quote } }
+              value: {{ .Values.postgresql.auth.database | quote }}
             - name: DB_USERNAME
-              value: { { .Values.postgresql.auth.username | quote } }
+              value: {{ .Values.postgresql.auth.username | quote }}
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: { { $postgresSecretName } }
+                  name: {{ $postgresSecretName }}
                   key: password
             - name: BROADCAST_DRIVER
               value: "log"
@@ -97,112 +97,112 @@ spec:
             - name: MAIL_MAILER
               value: "smtp"
             - name: MAIL_HOST
-              value: { { .Values.smtp.host | quote } }
+              value: {{ .Values.smtp.host | quote }}
             - name: MAIL_PORT
-              value: { { .Values.smtp.port | quote } }
+              value: {{ .Values.smtp.port | quote }}
             - name: MAIL_USERNAME
-              value: { { .Values.smtp.username | quote } }
+              value: {{ .Values.smtp.username | quote }}
             - name: MAIL_PASSWORD
-              value: { { .Values.smtp.password | quote } }
+              value: {{ .Values.smtp.password | quote }}
             - name: MAIL_ENCRYPTION
-              value: { { .Values.smtp.encryption | quote } }
+              value: {{ .Values.smtp.encryption | quote }}
             - name: MAIL_FROM_ADDRESS
-              value: { { .Values.smtp.from_address | quote } }
+              value: {{ .Values.smtp.from_address | quote }}
             - name: MAIL_FROM_NAME
-              value: { { .Chart.Name | quote } }
+              value: {{ .Chart.Name | quote }}
             - name: AWS_ACCESS_KEY_ID
-              value: { { .Values.aws.access_key_id | quote } }
+              value: {{ .Values.aws.access_key_id | quote }}
             - name: AWS_SECRET_ACCESS_KEY
-              value: { { .Values.aws.secret_access_key | quote } }
+              value: {{ .Values.aws.secret_access_key | quote }}
             - name: AWS_DEFAULT_REGION
-              value: { { .Values.aws.default_region | quote } }
+              value: {{ .Values.aws.default_region | quote }}
             - name: AWS_BUCKET
-              value: { { .Values.aws.bucket | quote } }
+              value: {{ .Values.aws.bucket | quote }}
             - name: PUSHER_APP_ID
-              value: { { .Values.pusher.app_id | quote } }
+              value: {{ .Values.pusher.app_id | quote }}
             - name: PUSHER_APP_KEY
-              value: { { .Values.pusher.app_key | quote } }
+              value: {{ .Values.pusher.app_key | quote }}
             - name: PUSHER_APP_SECRET
-              value: { { .Values.pusher.app_secret | quote } }
+              value: {{ .Values.pusher.app_secret | quote }}
             - name: PUSHER_APP_CLUSTER
-              value: { { .Values.pusher.app_cluster | quote } }
+              value: {{ .Values.pusher.app_cluster | quote }}
             - name: MIX_PUSHER_APP_KEY
-              value: { { .Values.pusher.app_key | quote } }
+              value: {{ .Values.pusher.app_key | quote }}
             - name: MIX_PUSHER_APP_CLUSTER
-              value: { { .Values.pusher.app_cluster | quote } }
-          { { - if .Values.keycloak.enabled } }
+              value: {{ .Values.pusher.app_cluster | quote }}
+          {{- if .Values.keycloak.enabled }}
           - name: KEYCLOAK
             value: "enabled"
           - name: KEYCLOAK_CLIENT_ID
-            value: { { .Values.keycloak.client_id | quote } }
+            value: {{ .Values.keycloak.client_id | quote }}
           - name: KEYCLOAK_CLIENT_SECRET
-            value: { { .Values.keycloak.client_secret | quote } }
+            value: {{ .Values.keycloak.client_secret | quote }}
           - name: KEYCLOAK_REDIRECT_URI
-            value: { { .Values.keycloak.redirect_uri | quote } }
+            value: {{ .Values.keycloak.redirect_uri | quote }}
           - name: KEYCLOAK_BASE_URL
-            value: { { .Values.keycloak.base_url | quote } }
+            value: {{ .Values.keycloak.base_url | quote }}
           - name: KEYCLOAK_REALM
-            value: { { .Values.keycloak.realm | quote } }
-          { { - else } }
+            value: {{ .Values.keycloak.realm | quote }}
+          {{- else }}
           - name: KEYCLOAK
             value: "disable"
-          { { - end } }
-          { { - if .Values.ldap.enabled } }
+          {{- end }}
+          {{- if .Values.ldap.enabled }}
           - name: LDAP_TYPE
-            value: { { .Values.ldap.type | quote } }
+            value: {{ .Values.ldap.type | quote }}
           - name: LDAP_LOGGING
-            value: { { .Values.ldap.logging } }
+            value: {{ .Values.ldap.logging }}
           - name: LDAP_CONNECTION
-            value: { { .Values.ldap.connection | quote } }
+            value: {{ .Values.ldap.connection | quote }}
           - name: LDAP_HOST
-            value: { { .Values.ldap.host | quote } }
+            value: {{ .Values.ldap.host | quote }}
           - name: LDAP_USERNAME
-            value: { { .Values.ldap.username | quote } }
+            value: {{ .Values.ldap.username | quote }}
           - name: LDAP_PASSWORD
-            value: { { .Values.ldap.password | quote } }
+            value: {{ .Values.ldap.password | quote }}
           - name: LDAP_PORT
-            value: { { .Values.ldap.service.number | quote } }
+            value: {{ .Values.ldap.service.number | quote }}
           - name: LDAP_BASE_DN
-            value: { { .Values.ldap.base_dn | quote } }
+            value: {{ .Values.ldap.base_dn | quote }}
           - name: LDAP_TIMEOUT
-            value: { { .Values.ldap.timeout | quote } }
+            value: {{ .Values.ldap.timeout | quote }}
           - name: LDAP_SSL
-            value: { { .Values.ldap.service.ssl } }
+            value: {{ .Values.ldap.service.ssl }}
           - name: LDAP_TLS
-            value: { { .Values.ldap.service.tls } }
+            value: {{ .Values.ldap.service.tls }}
           - name: LDAP_SCOPE
-            value: { { .Values.ldap.scope | quote } }
+            value: {{ .Values.ldap.scope | quote }}
           - name: LDAP_GROUPS
-            value: { { .Values.ldap.groups | quote } }
-          { { - end } }
+            value: {{ .Values.ldap.groups | quote }}
+          {{- end }}
           - name: APP_DEBUG
-            value: { { .Values.debug | quote } }
+            value: {{ .Values.debug | quote }}
           - name: APP_ENV
-            value: { { .Values.environment | quote } }
+            value: {{ .Values.environment | quote }}
           - name: APP_KEY
-            value: { { .Values.key | quote } }
+            value: {{ .Values.key | quote }}
           - name: APP_URL
-            value: { { .Values.reverse_proxy | quote } }
+            value: {{ .Values.reverse_proxy | quote }}
           - name: USE_DEMO_DATA
-            value: { { .Values.use_demo_data | quote } }
+            value: {{ .Values.use_demo_data | quote }}
 
-          { { - with .Values.volumeMounts } }
+          {{- with .Values.volumeMounts }}
           volumeMounts:
-            { { - toYaml . | nindent 12 } }
-          { { - end } }
-      { { - with .Values.volumes } }
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.volumes }}
       volumes:
-        { { - toYaml . | nindent 8 } }
-      { { - end } }
-      { { - with .Values.nodeSelector } }
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
       nodeSelector:
-        { { - toYaml . | nindent 8 } }
-      { { - end } }
-      { { - with .Values.affinity } }
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
       affinity:
-        { { - toYaml . | nindent 8 } }
-      { { - end } }
-      { { - with .Values.tolerations } }
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
       tolerations:
-        { { - toYaml . | nindent 8 } }
-      { { - end } }
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
