@@ -818,7 +818,7 @@
   <a href="#les-rapports-excel-peuvent-aussi-etre-extraits-en-format-csv" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Les rapports excel peuvent aussi être extraits en format csv.
+        Les rapports Excel peuvent aussi être extraits en format CSV.
       
     </span>
   </a>
@@ -912,7 +912,7 @@
   <a href="#powershell" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Powershell
+        PowerShell
       
     </span>
   </a>
@@ -1209,7 +1209,7 @@
   <a href="#les-rapports-excel-peuvent-aussi-etre-extraits-en-format-csv" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Les rapports excel peuvent aussi être extraits en format csv.
+        Les rapports Excel peuvent aussi être extraits en format CSV.
       
     </span>
   </a>
@@ -1303,7 +1303,7 @@
   <a href="#powershell" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Powershell
+        PowerShell
       
     </span>
   </a>
@@ -1354,7 +1354,7 @@
 est une interface de programmation d'application qui respecte les contraintes du style d'architecture REST
 et permet d'interagir avec les services web RESTful.</p>
 <h2 id="installer-lapi-sur-mercator">Installer l'API sur Mercator<a class="headerlink" href="#installer-lapi-sur-mercator" title="Permanent link">&para;</a></h2>
-<p>pour installer l'API dans Mercator, il est nécessaire d'installer Passport en lançant cette commande :</p>
+<p>Pour installer l'API dans Mercator, il est nécessaire d'installer Passport en lançant cette commande :</p>
 <div class="highlight"><pre><span></span><code>php<span class="w"> </span>artisan<span class="w"> </span>passport:install
 </code></pre></div>
 <ul>
@@ -1448,7 +1448,7 @@ La liste des API se trouve dans le fichier /route/api.php</p>
 <li><a href="../model/#documents">/api/documents</a></li>
 </ul>
 <p>La particularité du point de terminaison <strong>documents</strong> est qu'il permet d'ajouter ou de télécharger un document.</p>
-<h4 id="exemple-pour-un-document-dans-mercator">Exemple pour un document dans mercator:<a class="headerlink" href="#exemple-pour-un-document-dans-mercator" title="Permanent link">&para;</a></h4>
+<h4 id="exemple-pour-un-document-dans-mercator">Exemple pour un document dans Mercator:<a class="headerlink" href="#exemple-pour-un-document-dans-mercator" title="Permanent link">&para;</a></h4>
 <ul>
 <li>
 <p>Ajout d'un document dans la base
@@ -1464,7 +1464,7 @@ La liste des API se trouve dans le fichier /route/api.php</p>
 </code></pre></div></p>
 </li>
 <li>
-<p>Téléchargement d'un document de mercator:
+<p>Téléchargement d'un document de Mercator:
 <div class="highlight"><pre><span></span><code><span class="w"> </span><span class="nv">OUTFILE</span><span class="o">=</span><span class="s2">&quot;./downloaded_</span><span class="si">${</span><span class="nv">DOC_ID</span><span class="si">}</span><span class="s2">.pdf&quot;</span>
 <span class="w">    </span>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$API</span><span class="s2">/api/documents/</span><span class="nv">$DOC_ID</span><span class="s2">/download&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">        </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
@@ -1498,9 +1498,9 @@ La liste des API se trouve dans le fichier /route/api.php</p>
 <li>/api/report/impacts</li>
 <li>/api/report/rto</li>
 </ul>
-<h3 id="les-rapports-excel-peuvent-aussi-etre-extraits-en-format-csv">Les rapports excel peuvent aussi être extraits en format csv.<a class="headerlink" href="#les-rapports-excel-peuvent-aussi-etre-extraits-en-format-csv" title="Permanent link">&para;</a></h3>
+<h3 id="les-rapports-excel-peuvent-aussi-etre-extraits-en-format-csv">Les rapports Excel peuvent aussi être extraits en format CSV.<a class="headerlink" href="#les-rapports-excel-peuvent-aussi-etre-extraits-en-format-csv" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Exemple de sortie excel
+<li>Exemple de sortie Excel
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://localhost:8081/api/report/cve<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>-H<span class="w"> </span><span class="s2">&quot;Accept: application/octet-stream&quot;</span><span class="w"> </span><span class="se">\</span>
@@ -1806,7 +1806,7 @@ UPDATED_OBJECT=$(curl -s -X GET &quot;${API_URL}/${OBJECT}/${OBJECT_ID}&quot; \
 
 echo &quot;Objet mis à jour: ${UPDATED_OBJECT}&quot;
 </code></pre></div>
-<h3 id="powershell">Powershell<a class="headerlink" href="#powershell" title="Permanent link">&para;</a></h3>
+<h3 id="powershell">PowerShell<a class="headerlink" href="#powershell" title="Permanent link">&para;</a></h3>
 <p>Le script PowerShell ci-dessous montre comment s’authentifier auprès de l’API et récupérer la liste des serveurs
 logiques.</p>
 <h4 id="etape-1-authentification-et-obtention-du-jeton-dacces">Étape 1 — Authentification et obtention du jeton d’accès<a class="headerlink" href="#etape-1-authentification-et-obtention-du-jeton-dacces" title="Permanent link">&para;</a></h4>

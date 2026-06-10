@@ -569,7 +569,7 @@
   <span class="md-ellipsis">
     
   
-    Data model
+    Model
   
 
     
@@ -818,7 +818,7 @@
   <a href="#excel-reports-can-be-extracted-as-csv" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Excel reports can be extracted as csv.
+        Excel reports can be extracted as CSV.
       
     </span>
   </a>
@@ -1209,7 +1209,7 @@
   <a href="#excel-reports-can-be-extracted-as-csv" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Excel reports can be extracted as csv.
+        Excel reports can be extracted as CSV.
       
     </span>
   </a>
@@ -1463,7 +1463,7 @@ The list of APIs can be found in /route/api.php</p>
 </code></pre></div></p>
 </li>
 <li>
-<p>Exemple of downloading a document from mercator:
+<p>Example of downloading a document from mercator:
 <div class="highlight"><pre><span></span><code><span class="w"> </span><span class="nv">OUTFILE</span><span class="o">=</span><span class="s2">&quot;./downloaded_</span><span class="si">${</span><span class="nv">DOC_ID</span><span class="si">}</span><span class="s2">.pdf&quot;</span>
 <span class="w">    </span>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$API</span><span class="s2">/api/documents/</span><span class="nv">$DOC_ID</span><span class="s2">/download&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">        </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
@@ -1497,7 +1497,7 @@ The list of APIs can be found in /route/api.php</p>
 <li>/api/report/impacts</li>
 <li>/api/report/rto</li>
 </ul>
-<h3 id="excel-reports-can-be-extracted-as-csv">Excel reports can be extracted as csv.<a class="headerlink" href="#excel-reports-can-be-extracted-as-csv" title="Permanent link">&para;</a></h3>
+<h3 id="excel-reports-can-be-extracted-as-csv">Excel reports can be extracted as CSV.<a class="headerlink" href="#excel-reports-can-be-extracted-as-csv" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Example for report extracted with excel format
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://localhost:8081/api/report/cve<span class="w"> </span><span class="se">\</span>
@@ -1505,7 +1505,7 @@ The list of APIs can be found in /route/api.php</p>
 <span class="w">    </span>-H<span class="w"> </span><span class="s2">&quot;Accept: application/octet-stream&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>-o<span class="w"> </span><span class="s2">&quot;rapport_cve_</span><span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span><span class="s2">.xlsx&quot;</span>
 </code></pre></div></li>
-<li>Exemple for a report extracted with csv format
+<li>Example for a report extracted with CSV format
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;http://localhost:8081/api/report/cve?format=csv&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Accept: text/csv&quot;</span><span class="w"> </span><span class="se">\</span>
@@ -1513,7 +1513,7 @@ The list of APIs can be found in /route/api.php</p>
 </code></pre></div></li>
 </ul>
 <h2 id="actions-managed-by-the-resource-controller">Actions managed by the resource controller<a class="headerlink" href="#actions-managed-by-the-resource-controller" title="Permanent link">&para;</a></h2>
-<p>Requests and URIs for each api are shown in the table below.</p>
+<p>Requests and URIs for each API are shown in the table below.</p>
 <table>
 <thead>
 <tr>
@@ -1571,8 +1571,7 @@ The list of APIs can be found in /route/api.php</p>
 <p>To access the APIs, you must identify yourself as a Mercator application user.
 This user must have a role in Mercator that allows him/her to access/modify the objects
 objects accessed via the API.</p>
-<p>When authentication is successful, the API sends an "access_token", which must be passed in the "Authorization" header.
-header of the API request.</p>
+<p>When authentication is successful, the API sends an "access_token", which must be passed in the "Authorization" header of the API request.</p>
 <h2 id="linking-objects">Linking objects<a class="headerlink" href="#linking-objects" title="Permanent link">&para;</a></h2>
 <p>Mapping objects can refer to other objects. For example, we can link a process to an application. Suppose we have a
 ‘process’ that uses two applications, ‘app1’ and ‘app2’. To do this, we follow these steps:</p>
@@ -1602,10 +1601,10 @@ header of the API request.</p>
 <p>The names of all extra fields
 are: ['actors', 'tasks', 'activities', 'entities', 'applications', 'informations', 'processes', 'databases', 'logical_servers', 'modules', 'domainesForestAds', 'servers', 'vlans', 'lans', 'mans', 'wans', 'operations', 'domaines', 'applicationServices', 'certificates', 'peripherals', 'physicalServers', 'networkSwitches', 'physicalSwitches', 'physicalRouters']</p>
 <h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
-<p>Please find below few examples with differents languages</p>
+<p>Please find below few examples with different languages</p>
 <h3 id="php">PHP<a class="headerlink" href="#php" title="Permanent link">&para;</a></h3>
 <p>Here are a few examples of how to use the API with PHP:</p>
-<h4 id="authentification">Authentification<a class="headerlink" href="#authentification" title="Permanent link">&para;</a></h4>
+<h4 id="authentication">Authentication<a class="headerlink" href="#authentication" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
     <span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">();</span>
 
@@ -1638,9 +1637,9 @@ are: ['actors', 'tasks', 'activities', 'entities', 'applications', 'informations
             <span class="nv">$access_token</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$response</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">access_token</span><span class="p">;</span>
 
         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="nb">set_error_handler</span><span class="p">(</span><span class="s2">&quot;Login to api faild status 403&quot;</span><span class="p">);</span>
+            <span class="nb">set_error_handler</span><span class="p">(</span><span class="s2">&quot;Login to API failed status 403&quot;</span><span class="p">);</span>
             <span class="nb">error_log</span><span class="p">(</span><span class="nv">$responseInfo</span><span class="p">[</span><span class="s1">&#39;http_code&#39;</span><span class="p">]);</span>
-            <span class="nb">error_log</span><span class="p">(</span><span class="s2">&quot;No login api status 403&quot;</span><span class="p">);</span>
+            <span class="nb">error_log</span><span class="p">(</span><span class="s2">&quot;No login API status 403&quot;</span><span class="p">);</span>
 
         <span class="p">}</span>
     <span class="p">}</span>
