@@ -2,8 +2,34 @@ apiVersion: v1
 entries:
   mercator:
   - apiVersion: v2
+    appVersion: 2026.06.11
+    created: '2026-06-11T20:49:13.929049903+02:00'
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 20.x.x
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 16.x.x
+    description: Mercator is a powerful and versatile open-source web application
+      designed to facilitate the mapping of information systems, as outlined in the
+      Mapping The Information System Guide by ANSSI.
+    digest: fbca2746c96bf2ec3258a25afe55a24aebc24431eb73c724d49d488a2a1c4598
+    home: https://github.com/sourcentis/mercator
+    icon: https://raw.githubusercontent.com/sourcentis/mercator/refs/heads/master/public/images/mercator.png
+    maintainers:
+    - name: Mercator
+      url: https://github.com/sourcentis/mercator
+    name: mercator
+    type: application
+    urls:
+    - https://github.com/sourcentis/mercator/releases/download/mercator-2026.06.11/mercator-2026.06.11.tgz
+    version: 2026.06.11
+  - apiVersion: v2
     appVersion: 2026.06.05
-    created: '2026-06-05T08:19:44.33628295+02:00'
+    created: '2026-06-11T20:49:13.915050426+02:00'
     dependencies:
     - condition: redis.enabled
       name: redis
@@ -25,11 +51,11 @@ entries:
     name: mercator
     type: application
     urls:
-    - https://github.com/sourcentis/mercator/releases/download/mercator-2026.06.05/mercator-2026.06.05.tgz
+    - https://github.com/sourcentis/mercator/releases/download/mercator-2026.06.11/mercator-2026.06.05.tgz
     version: 2026.06.05
   - apiVersion: v2
     appVersion: 2026.05.30
-    created: '2026-06-05T08:19:44.324553948+02:00'
+    created: '2026-06-11T20:49:13.895824768+02:00'
     dependencies:
     - condition: redis.enabled
       name: redis
@@ -51,11 +77,11 @@ entries:
     name: mercator
     type: application
     urls:
-    - https://github.com/sourcentis/mercator/releases/download/mercator-2026.06.05/mercator-2026.05.30.tgz
+    - https://github.com/sourcentis/mercator/releases/download/mercator-2026.06.11/mercator-2026.05.30.tgz
     version: 2026.05.30
   - apiVersion: v2
     appVersion: 2026.05.25
-    created: '2026-06-05T08:19:44.312280418+02:00'
+    created: '2026-06-11T20:49:13.880031402+02:00'
     dependencies:
     - condition: redis.enabled
       name: redis
@@ -69,19 +95,19 @@ entries:
       designed to facilitate the mapping of information systems, as outlined in the
       Mapping The Information System Guide by ANSSI.
     digest: 241b59bbe6789c602559e192ce367ab2ee9ef222d93e8901d5be09c6faeb22a8
-    home: https://github.com/sourcentis/mercator
-    icon: https://raw.githubusercontent.com/sourcentis/mercator/refs/heads/master/public/images/mercator.png
+    home: https://github.com/dbarzin/mercator
+    icon: https://raw.githubusercontent.com/dbarzin/mercator/refs/heads/master/public/images/mercator.png
     maintainers:
     - name: Mercator
-      url: https://github.com/sourcentis/mercator/chart
+      url: https://github.com/dbarzin/mercator/chart
     name: mercator
     type: application
     urls:
-    - https://github.com/sourcentis/mercator/releases/download/mercator-2026.06.05/mercator-2026.05.25.tgz
+    - https://github.com/sourcentis/mercator/releases/download/mercator-2026.06.11/mercator-2026.05.25.tgz
     version: 2026.05.25
   - apiVersion: v2
     appVersion: 2026.05.19
-    created: '2026-06-05T08:19:44.299270275+02:00'
+    created: '2026-06-11T20:49:13.863240339+02:00'
     dependencies:
     - condition: redis.enabled
       name: redis
@@ -95,19 +121,19 @@ entries:
       designed to facilitate the mapping of information systems, as outlined in the
       Mapping The Information System Guide by ANSSI.
     digest: f08eaf410d728042415e2cbceea9d8c016a24e35a1e4ee5376b44c56f4743e91
-    home: https://github.com/sourcentis/mercator
-    icon: https://raw.githubusercontent.com/sourcentis/mercator/refs/heads/master/public/images/mercator.png
+    home: https://github.com/dbarzin/mercator
+    icon: https://raw.githubusercontent.com/dbarzin/mercator/refs/heads/master/public/images/mercator.png
     maintainers:
     - name: Mercator
-      url: https://github.com/sourcentis/mercator/chart
+      url: https://github.com/dbarzin/mercator/chart
     name: mercator
     type: application
     urls:
-    - https://github.com/sourcentis/mercator/releases/download/mercator-2026.06.05/mercator-2026.05.19.tgz
+    - https://github.com/sourcentis/mercator/releases/download/mercator-2026.06.11/mercator-2026.05.19.tgz
     version: 2026.05.19
   - apiVersion: v2
     appVersion: 2026.05.12
-    created: '2026-06-05T08:19:44.286774073+02:00'
+    created: '2026-06-11T20:49:13.850922504+02:00'
     dependencies:
     - condition: redis.enabled
       name: redis
@@ -121,19 +147,19 @@ entries:
       designed to facilitate the mapping of information systems, as outlined in the
       Mapping The Information System Guide by ANSSI.
     digest: aa50356bd483a17ba71ad920407c5f23157bc0548abbe9178b5986519cc4f950
-    home: https://github.com/sourcentis/mercator
-    icon: https://raw.githubusercontent.com/sourcentis/mercator/refs/heads/master/public/images/mercator.png
+    home: https://github.com/dbarzin/mercator
+    icon: https://raw.githubusercontent.com/dbarzin/mercator/refs/heads/master/public/images/mercator.png
     maintainers:
     - name: Mercator
-      url: https://github.com/sourcentis/mercator/chart
+      url: https://github.com/dbarzin/mercator/chart
     name: mercator
     type: application
     urls:
-    - https://github.com/sourcentis/mercator/releases/download/mercator-2026.06.05/mercator-2026.05.12.tgz
+    - https://github.com/sourcentis/mercator/releases/download/mercator-2026.06.11/mercator-2026.05.12.tgz
     version: 2026.05.12
   - apiVersion: v2
     appVersion: 2026.05.09
-    created: '2026-06-05T08:19:44.274117118+02:00'
+    created: '2026-06-11T20:49:13.838654562+02:00'
     dependencies:
     - condition: redis.enabled
       name: redis
@@ -147,19 +173,19 @@ entries:
       designed to facilitate the mapping of information systems, as outlined in the
       Mapping The Information System Guide by ANSSI.
     digest: d48f30a3adff9144f5a2938f2c71303f9fc8bd734026bfaa400bf4a91cfbb5a0
-    home: https://github.com/sourcentis/mercator
-    icon: https://raw.githubusercontent.com/sourcentis/mercator/refs/heads/master/public/images/mercator.png
+    home: https://github.com/dbarzin/mercator
+    icon: https://raw.githubusercontent.com/dbarzin/mercator/refs/heads/master/public/images/mercator.png
     maintainers:
     - name: Mercator
-      url: https://github.com/sourcentis/mercator/chart
+      url: https://github.com/dbarzin/mercator/chart
     name: mercator
     type: application
     urls:
-    - https://github.com/sourcentis/mercator/releases/download/mercator-2026.06.05/mercator-2026.05.09.tgz
+    - https://github.com/sourcentis/mercator/releases/download/mercator-2026.06.11/mercator-2026.05.09.tgz
     version: 2026.05.09
   - apiVersion: v2
     appVersion: 2026.04.27
-    created: '2026-06-05T08:19:44.262265194+02:00'
+    created: '2026-06-11T20:49:13.825707822+02:00'
     dependencies:
     - condition: redis.enabled
       name: redis
@@ -173,19 +199,19 @@ entries:
       designed to facilitate the mapping of information systems, as outlined in the
       Mapping The Information System Guide by ANSSI.
     digest: 3c96466a6cf4d42db8e62e3ab6d9200b63ee3591dc37152dd930e6b12866ae4e
-    home: https://github.com/sourcentis/mercator
-    icon: https://raw.githubusercontent.com/sourcentis/mercator/refs/heads/master/public/images/mercator.png
+    home: https://github.com/dbarzin/mercator
+    icon: https://raw.githubusercontent.com/dbarzin/mercator/refs/heads/master/public/images/mercator.png
     maintainers:
     - name: Mercator
-      url: https://github.com/sourcentis/mercator/chart
+      url: https://github.com/dbarzin/mercator/chart
     name: mercator
     type: application
     urls:
-    - https://github.com/sourcentis/mercator/releases/download/mercator-2026.06.05/mercator-2026.04.27.tgz
+    - https://github.com/sourcentis/mercator/releases/download/mercator-2026.06.11/mercator-2026.04.27.tgz
     version: 2026.04.27
   - apiVersion: v2
     appVersion: 2026.04.23
-    created: '2026-06-05T08:19:44.249119358+02:00'
+    created: '2026-06-11T20:49:13.813035091+02:00'
     dependencies:
     - condition: redis.enabled
       name: redis
@@ -199,19 +225,19 @@ entries:
       designed to facilitate the mapping of information systems, as outlined in the
       Mapping The Information System Guide by ANSSI.
     digest: 431c6b6ef1b38e2acdc404c31a0a99f67ff3571190c229ee7242bb8ba4d16f8f
-    home: https://github.com/sourcentis/mercator
-    icon: https://raw.githubusercontent.com/sourcentis/mercator/refs/heads/master/public/images/mercator.png
+    home: https://github.com/dbarzin/mercator
+    icon: https://raw.githubusercontent.com/dbarzin/mercator/refs/heads/master/public/images/mercator.png
     maintainers:
     - name: Mercator
-      url: https://github.com/sourcentis/mercator/chart
+      url: https://github.com/dbarzin/mercator/chart
     name: mercator
     type: application
     urls:
-    - https://github.com/sourcentis/mercator/releases/download/mercator-2026.06.05/mercator-2026.04.23.tgz
+    - https://github.com/sourcentis/mercator/releases/download/mercator-2026.06.11/mercator-2026.04.23.tgz
     version: 2026.04.23
   - apiVersion: v2
     appVersion: 2026.04.23
-    created: '2026-06-05T08:19:44.236294085+02:00'
+    created: '2026-06-11T20:49:13.799110352+02:00'
     dependencies:
     - condition: redis.enabled
       name: redis
@@ -225,19 +251,19 @@ entries:
       designed to facilitate the mapping of information systems, as outlined in the
       Mapping The Information System Guide by ANSSI.
     digest: 176340e6672595a710ccb486a564eb0768dd8731b9d3dff4171b49ac3be9edb3
-    home: https://github.com/sourcentis/mercator
-    icon: https://raw.githubusercontent.com/sourcentis/mercator/refs/heads/master/public/images/mercator.png
+    home: https://github.com/dbarzin/mercator
+    icon: https://raw.githubusercontent.com/dbarzin/mercator/refs/heads/master/public/images/mercator.png
     maintainers:
     - name: Mercator
-      url: https://github.com/sourcentis/mercator/chart
+      url: https://github.com/dbarzin/mercator/chart
     name: mercator
     type: application
     urls:
-    - https://github.com/sourcentis/mercator/releases/download/mercator-2026.06.05/mercator-2.1.2.tgz
+    - https://github.com/sourcentis/mercator/releases/download/mercator-2026.06.11/mercator-2.1.2.tgz
     version: 2.1.2
   - apiVersion: v2
     appVersion: 0.1.0
-    created: '2026-06-05T08:19:44.223959692+02:00'
+    created: '2026-06-11T20:49:13.783498494+02:00'
     dependencies:
     - condition: redis.enabled
       name: redis
@@ -249,13 +275,13 @@ entries:
       version: 16.x.x
     description: A Helm chart for running Mercator via Kubernetes
     digest: 30b956f6f889f82c049de1ef1e145835f6982f10211f48fa9aecc28d5fe8e9ea
-    home: https://github.com/sourcentis/mercator
+    home: https://github.com/dbarzin/mercator
     maintainers:
     - name: Mercator
-      url: https://github.com/sourcentis/mercator/chart
+      url: https://github.com/dbarzin/mercator/chart
     name: mercator
     type: application
     urls:
-    - https://github.com/sourcentis/mercator/releases/download/mercator-2026.06.05/mercator-0.1.0.tgz
+    - https://github.com/sourcentis/mercator/releases/download/mercator-2026.06.11/mercator-0.1.0.tgz
     version: 0.1.0
-generated: '2026-06-05T08:19:44.21009691+02:00'
+generated: '2026-06-11T20:49:13.769905271+02:00'
