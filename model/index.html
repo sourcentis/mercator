@@ -2868,6 +2868,11 @@ processes, applications, and information used by the information system.</p>
 <td style="text-align: left;">auto_increment</td>
 </tr>
 <tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "\</td>
+</tr>
+<tr>
 <td style="text-align: left;">name</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Processing Name</td>
@@ -3048,6 +3053,11 @@ A document can be linked to a data processing from a data processing object.</p>
 <td style="text-align: left;">auto_increment</td>
 </tr>
 <tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
+</tr>
+<tr>
 <td style="text-align: left;">name</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">measure name</td>
@@ -3111,6 +3121,11 @@ mapped.</p>
 <td style="text-align: left;">id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">Unique identifier of the entity</td>
+</tr>
+<tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td style="text-align: left;">name</td>
@@ -3219,6 +3234,11 @@ An application can be linked with an entity (as operations manager) from these t
 <td style="text-align: left;">id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td style="text-align: left;">name</td>
@@ -3376,6 +3396,11 @@ thus understand their context of use.</p>
 <td style="text-align: left;">auto_increment</td>
 </tr>
 <tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
+</tr>
+<tr>
 <td style="text-align: left;">name</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Name of macro process</td>
@@ -3472,6 +3497,11 @@ output) (in the form of deliverables) from information (input) produced by other
 <td style="text-align: left;">id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td style="text-align: left;">name</td>
@@ -3620,6 +3650,11 @@ organizational structure of the company.</p>
 <td style="text-align: left;">id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td style="text-align: left;">name</td>
@@ -3815,6 +3850,11 @@ Impacts are only accessible through "activities" objects.</p>
 <td style="text-align: left;">auto_increment</td>
 </tr>
 <tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
+</tr>
+<tr>
 <td style="text-align: left;">name</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Name of operation</td>
@@ -3897,6 +3937,11 @@ the value-added chain of a process.</p>
 <td style="text-align: left;">auto_increment</td>
 </tr>
 <tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
+</tr>
+<tr>
 <td style="text-align: left;">name</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Task name</td>
@@ -3955,6 +4000,11 @@ processes. This role can be carried by a person, a group of people, or an entity
 <td style="text-align: left;">id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td style="text-align: left;">name</td>
@@ -4031,6 +4081,11 @@ Information can be linked to multiple information.</p>
 <td style="text-align: left;">id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td style="text-align: left;">name</td>
@@ -4176,6 +4231,11 @@ applications, etc.</p>
 <td style="text-align: left;">auto_increment</td>
 </tr>
 <tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
+</tr>
+<tr>
 <td style="text-align: left;">name</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Name of information</td>
@@ -4241,6 +4301,11 @@ server per physical server.</p>
 <td style="text-align: left;">id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td style="text-align: left;">name</td>
@@ -4496,6 +4561,11 @@ Major events are only accessible through application objects.</p>
 <td style="text-align: left;">auto_increment</td>
 </tr>
 <tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
+</tr>
+<tr>
 <td style="text-align: left;">user_id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">Mercator user id who has register the event</td>
@@ -4553,6 +4623,11 @@ organisation.</p>
 <td style="text-align: left;">id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td style="text-align: left;">name</td>
@@ -4634,6 +4709,11 @@ homogeneity.</p>
 <td style="text-align: left;">auto_increment</td>
 </tr>
 <tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
+</tr>
+<tr>
 <td style="text-align: left;">name</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Name of the application module</td>
@@ -4701,6 +4781,11 @@ homogeneity.</p>
 <td style="text-align: left;">id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td style="text-align: left;">name</td>
@@ -4824,6 +4909,11 @@ important to avoid representing all firewall filtering rules in terms of flows.<
 <td style="text-align: left;">id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td style="text-align: left;">name</td>
@@ -4957,6 +5047,11 @@ administrator(s).</p>
 <td style="text-align: left;">auto_increment</td>
 </tr>
 <tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
+</tr>
+<tr>
 <td style="text-align: left;">name</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Name of the area</td>
@@ -5014,6 +5109,11 @@ them to be administered.</p>
 <td style="text-align: left;">id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td style="text-align: left;">name</td>
@@ -5083,6 +5183,11 @@ them to be administered.</p>
 <td style="text-align: left;">auto_increment</td>
 </tr>
 <tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
+</tr>
+<tr>
 <td style="text-align: left;">name</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Name of Active Directory or LDAP forests</td>
@@ -5149,6 +5254,11 @@ objects rights, and a part of IT policies (e.g. Group Policy Object - GPO).</p>
 <td style="text-align: left;">id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td style="text-align: left;">name</td>
@@ -5229,6 +5339,11 @@ A logical server can be linked with an AD domain / LDAP from these two objects.<
 <td style="text-align: left;">id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td style="text-align: left;">user_id</td>
@@ -5324,6 +5439,11 @@ handles the traffic.</p>
 <td style="text-align: left;">id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td style="text-align: left;">name</td>
@@ -5424,6 +5544,11 @@ This default configuration can be changed in the menu Configuration &gt; Paramet
 <td style="text-align: left;">id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td style="text-align: left;">name</td>
@@ -5544,6 +5669,11 @@ This default configuration can be changed in the menu Configuration &gt; Paramet
 <td style="text-align: left;">auto_increment</td>
 </tr>
 <tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
+</tr>
+<tr>
 <td style="text-align: left;">name</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Name of the gateway</td>
@@ -5610,6 +5740,11 @@ This default configuration can be changed in the menu Configuration &gt; Paramet
 <td style="text-align: left;">id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td style="text-align: left;">name</td>
@@ -5722,6 +5857,11 @@ A document can be attached to a connected external entity from a connected exter
 <td style="text-align: left;">auto_increment</td>
 </tr>
 <tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
+</tr>
+<tr>
 <td style="text-align: left;">name</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Name of the switch</td>
@@ -5785,6 +5925,11 @@ A physical switch can be linked with a network switch from these two objects.</p
 <td style="text-align: left;">id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td style="text-align: left;">name</td>
@@ -5862,6 +6007,11 @@ systems (IPS: Intrusion Prevention System) and equipment monitoring systems.</p>
 <td style="text-align: left;">id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td style="text-align: left;">name</td>
@@ -5965,6 +6115,11 @@ An application can be linked a to logical security device from these two objects
 <td style="text-align: left;">auto_increment</td>
 </tr>
 <tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
+</tr>
+<tr>
 <td style="text-align: left;">name</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Name of the DHCP server</td>
@@ -6032,6 +6187,11 @@ An application can be linked a to logical security device from these two objects
 <td style="text-align: left;">auto_increment</td>
 </tr>
 <tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
+</tr>
+<tr>
 <td style="text-align: left;">name</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">DNS server's name</td>
@@ -6092,6 +6252,11 @@ An application can be linked a to logical security device from these two objects
 <td style="text-align: left;">id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td style="text-align: left;">name</td>
@@ -6174,6 +6339,11 @@ into a single logical server.</p>
 <td style="text-align: left;">id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td style="text-align: left;">name</td>
@@ -6373,6 +6543,11 @@ These strategies describe:<br />
 <td>Unique identifier of the backup plan (auto‑increment).</td>
 </tr>
 <tr>
+<td><strong>ext_refs</strong></td>
+<td>varchar(255)</td>
+<td>External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
+</tr>
+<tr>
 <td><strong>logical_server_id</strong></td>
 <td>int unsigned</td>
 <td>Identifier of the <strong>logical server</strong> covered by the backup strategy.</td>
@@ -6507,6 +6682,11 @@ on internal or external (cloud) logical servers.</p>
 <td style="text-align: left;">auto_increment</td>
 </tr>
 <tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
+</tr>
+<tr>
 <td style="text-align: left;">name</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Container name</td>
@@ -6592,6 +6772,11 @@ A logical server can be linked to a container from a container object.</p>
 <td style="text-align: left;">id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td style="text-align: left;">name</td>
@@ -6799,6 +6984,11 @@ A logical server can be linked to a container from a container object.</p>
 <td style="text-align: left;">auto_increment</td>
 </tr>
 <tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
+</tr>
+<tr>
 <td style="text-align: left;">name</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Name of the certificate</td>
@@ -6902,6 +7092,11 @@ physical constraints.</p>
 <td style="text-align: left;">auto_increment</td>
 </tr>
 <tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
+</tr>
+<tr>
 <td style="text-align: left;">name</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Name of VLAN</td>
@@ -6973,6 +7168,11 @@ In the app, a VLAN can be linked to a logic switch from these two objects.</p>
 <td style="text-align: left;">auto_increment</td>
 </tr>
 <tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
+</tr>
+<tr>
 <td style="text-align: left;">name</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Name of the site</td>
@@ -7034,6 +7234,11 @@ In the app, a VLAN can be linked to a logic switch from these two objects.</p>
 <td style="text-align: left;">id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td style="text-align: left;">name</td>
@@ -7120,6 +7325,11 @@ room.</p>
 <td style="text-align: left;">auto_increment</td>
 </tr>
 <tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
+</tr>
+<tr>
 <td style="text-align: left;">name</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Name of the rack</td>
@@ -7181,6 +7391,11 @@ room.</p>
 <td style="text-align: left;">id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td style="text-align: left;">name</td>
@@ -7248,6 +7463,11 @@ room.</p>
 <td style="text-align: left;">id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td style="text-align: left;">name</td>
@@ -7442,6 +7662,11 @@ have been gathered into the following table:</p>
 <td style="text-align: left;">id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td style="text-align: left;">name</td>
@@ -7694,6 +7919,11 @@ network (SAN), hard disk...</p>
 <td style="text-align: left;">auto_increment</td>
 </tr>
 <tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
+</tr>
+<tr>
 <td style="text-align: left;">name</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Name of storage infrastructure</td>
@@ -7791,6 +8021,11 @@ scanner, etc.).</p>
 <td style="text-align: left;">id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td style="text-align: left;">name</td>
@@ -7898,6 +8133,11 @@ scanner, etc.).</p>
 <td style="text-align: left;">auto_increment</td>
 </tr>
 <tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
+</tr>
+<tr>
 <td style="text-align: left;">name</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Name of telephone</td>
@@ -7998,6 +8238,11 @@ with a network switch (either physical or logical) through a physical link objec
 <td style="text-align: left;">auto_increment</td>
 </tr>
 <tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
+</tr>
+<tr>
 <td style="text-align: left;">name</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Name of physical switch</td>
@@ -8091,6 +8336,11 @@ with a network switch (either physical or logical) through a physical link objec
 <td style="text-align: left;">id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td style="text-align: left;">name</td>
@@ -8200,6 +8450,11 @@ A VLAN can be linked to a physical router from a physical router object.</p>
 <td style="text-align: left;">auto_increment</td>
 </tr>
 <tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
+</tr>
+<tr>
 <td style="text-align: left;">name</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Name of WiFi hotspot</td>
@@ -8299,6 +8554,11 @@ information system security.</p>
 <td style="text-align: left;">auto_increment</td>
 </tr>
 <tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
+</tr>
+<tr>
 <td style="text-align: left;">name</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Name of security device</td>
@@ -8395,6 +8655,11 @@ A logic flow describes a relationship at layers 3 and 4 of the OSI model.</p>
 <td style="text-align: left;">id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td style="text-align: left;"><em>device</em>_src_id</td>
@@ -8563,6 +8828,11 @@ or LANs.</p>
 <td style="text-align: left;">auto_increment</td>
 </tr>
 <tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
+</tr>
+<tr>
 <td style="text-align: left;">name</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Name of WAN</td>
@@ -8629,6 +8899,11 @@ interconnect LANs.</p>
 <td style="text-align: left;">auto_increment</td>
 </tr>
 <tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
+</tr>
+<tr>
 <td style="text-align: left;">name</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Name of MAN</td>
@@ -8687,6 +8962,11 @@ A LAN can be linked to a MAN from a MAN object.</p>
 <td style="text-align: left;">id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">ext_refs</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td style="text-align: left;">name</td>
@@ -8759,6 +9039,11 @@ A WAN can be linked to a LAN from a WAN object.</p>
 <td>id</td>
 <td>int unsigned</td>
 <td>auto_increment</td>
+</tr>
+<tr>
+<td>ext_refs</td>
+<td>varchar(255)</td>
+<td>External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td>filename</td>
@@ -9052,6 +9337,11 @@ A WAN can be linked to a LAN from a WAN object.</p>
 <td>id</td>
 <td>int(10) unsigned</td>
 <td>auto_increment</td>
+</tr>
+<tr>
+<td>ext_refs</td>
+<td>varchar(255)</td>
+<td>External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
 </tr>
 <tr>
 <td>title</td>
