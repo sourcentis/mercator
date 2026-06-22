@@ -4093,6 +4093,16 @@ Information can be linked to multiple information.</p>
 <td style="text-align: left;">Name of information</td>
 </tr>
 <tr>
+<td style="text-align: left;">type</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Type of information</td>
+</tr>
+<tr>
+<td style="text-align: left;">attributes</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Attributes (#tag...)</td>
+</tr>
+<tr>
 <td style="text-align: left;">description</td>
 <td style="text-align: left;">longtext</td>
 <td style="text-align: left;">Description of information</td>
@@ -5451,6 +5461,16 @@ handles the traffic.</p>
 <td style="text-align: left;">Name of network</td>
 </tr>
 <tr>
+<td style="text-align: left;">type</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Type of network</td>
+</tr>
+<tr>
+<td style="text-align: left;">attributes</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Attributes (#tag...)</td>
+</tr>
+<tr>
 <td style="text-align: left;">description</td>
 <td style="text-align: left;">longtext</td>
 <td style="text-align: left;">Description of the network</td>
@@ -5554,6 +5574,16 @@ This default configuration can be changed in the menu Configuration &gt; Paramet
 <td style="text-align: left;">name</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Name of the subnet</td>
+</tr>
+<tr>
+<td style="text-align: left;">type</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Type of the subnet</td>
+</tr>
+<tr>
+<td style="text-align: left;">attributes</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Attributes (#tag...)</td>
 </tr>
 <tr>
 <td style="text-align: left;">description</td>
@@ -6784,6 +6814,16 @@ A logical server can be linked to a container from a container object.</p>
 <td style="text-align: left;">Name of logical flow</td>
 </tr>
 <tr>
+<td style="text-align: left;">type</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Type of logical flow</td>
+</tr>
+<tr>
+<td style="text-align: left;">attributes</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Attributes (#tag...)</td>
+</tr>
+<tr>
 <td style="text-align: left;">description</td>
 <td style="text-align: left;">text</td>
 <td style="text-align: left;">Description of logical flow</td>
@@ -7176,6 +7216,16 @@ In the app, a VLAN can be linked to a logic switch from these two objects.</p>
 <td style="text-align: left;">name</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Name of the site</td>
+</tr>
+<tr>
+<td style="text-align: left;">type</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Type of the site</td>
+</tr>
+<tr>
+<td style="text-align: left;">attributes</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Attributes (#tag...)</td>
 </tr>
 <tr>
 <td style="text-align: left;">icon_id</td>
@@ -8665,6 +8715,26 @@ A logic flow describes a relationship at layers 3 and 4 of the OSI model.</p>
 <td style="text-align: left;">ext_refs</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "|"</td>
+</tr>
+<tr>
+<td style="text-align: left;">type</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Link type (e.g., Ethernet, fiber, etc.)</td>
+</tr>
+<tr>
+<td style="text-align: left;">color</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Link color</td>
+</tr>
+<tr>
+<td style="text-align: left;">attributes</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Attributes (#tag...)</td>
+</tr>
+<tr>
+<td style="text-align: left;">description</td>
+<td style="text-align: left;">longtext</td>
+<td style="text-align: left;">Description of the link</td>
 </tr>
 <tr>
 <td style="text-align: left;"><em>device</em>_src_id</td>
