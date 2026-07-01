@@ -78,6 +78,13 @@
         <xhtml:link rel="alternate" hreflang="fr" href="https://sourcentis.github.io/mercator/fr/import/"/>
     </url>
     <url>
+        <loc>https://sourcentis.github.io/mercator/maps/</loc>
+        <lastmod>2026-07-01</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://sourcentis.github.io/mercator/maps/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://sourcentis.github.io/mercator/fr/maps/"/>
+    </url>
+    <url>
         <loc>https://sourcentis.github.io/mercator/maturity/</loc>
         <lastmod>2026-07-01</lastmod>
         <changefreq>daily</changefreq>
@@ -202,6 +209,13 @@
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="fr" href="https://sourcentis.github.io/mercator/fr/import/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://sourcentis.github.io/mercator/import/"/>
+    </url>
+    <url>
+        <loc>https://sourcentis.github.io/mercator/fr/maps/</loc>
+        <lastmod>2026-07-01</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://sourcentis.github.io/mercator/fr/maps/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://sourcentis.github.io/mercator/maps/"/>
     </url>
     <url>
         <loc>https://sourcentis.github.io/mercator/fr/maturity/</loc>

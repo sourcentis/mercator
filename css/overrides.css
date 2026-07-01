@@ -8,6 +8,17 @@
 .md-typeset code {
     color: #0066cc;
 }
+
+/* Icônes de la barre d'outils (bootstrap-icons) insérées inline dans le texte */
+.md-typeset .toolbar-icon {
+    width: 18px;
+    height: 18px;
+    vertical-align: text-bottom;
+    margin: 0 2px;
+    position: relative;
+    top: -2px;
+}
+
 /*
 .img-600 {
   width: 600px !important;
