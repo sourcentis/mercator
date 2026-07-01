@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://sourcentis.github.io/mercator/admin/">
+        <link rel="canonical" href="https://sourcentis.github.io/mercator/cartographers/">
       
       
-        <link rel="prev" href="../vulnerabilities/">
+        <link rel="prev" href="../features/">
       
       
-        <link rel="next" href="../config/">
+        <link rel="next" href="../usecases/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -24,7 +24,7 @@
     
     
       
-        <title>-- Administration - Mercator</title>
+        <title>-- Cartographers - Mercator</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#administration" class="md-skip">
+        <a href="#cartographers-in-mercator" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              -- Administration
+              -- Cartographers
             
           </span>
         </div>
@@ -167,7 +167,7 @@
           </li>
         
           <li class="md-select__item">
-            <a href="../fr/admin/" hreflang="fr" class="md-select__link">
+            <a href="../fr/cartographers/" hreflang="fr" class="md-select__link">
               Français
             </a>
           </li>
@@ -280,6 +280,8 @@
       
   
   
+    
+  
   
   
     
@@ -305,13 +307,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
         
           
           
@@ -333,7 +333,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
             GETTING STARTED
@@ -388,10 +388,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../cartographers/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    -- Cartographers
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -400,6 +420,218 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction-what-is-a-cartographer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction — What is a cartographer?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#managing-cartographers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Managing cartographers
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Managing cartographers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#who-can-assign-a-cartographer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Who can assign a cartographer?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assigning-a-cartographer-administration-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      Assigning a cartographer (administration interface)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-the-cartographer-role-allows" class="md-nav__link">
+    <span class="md-ellipsis">
+      What the cartographer role allows
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What the cartographer role allows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#read-access-to-their-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Read access to their objects
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modifying-their-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modifying their objects
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-remains-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      What remains out of scope
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#viewing-assigned-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Viewing assigned objects
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Viewing assigned objects">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dashboard
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-of-the-cartographers-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      List of the cartographer's objects
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filtering-in-lists" class="md-nav__link">
+    <span class="md-ellipsis">
+      Filtering in lists
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#receiving-notifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Receiving notifications
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Receiving notifications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#periodic-reminders-to-keep-the-cartography-up-to-date" class="md-nav__link">
+    <span class="md-ellipsis">
+      Periodic reminders to keep the cartography up to date
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notification-when-modified-by-another-cartographer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notification when modified by another cartographer
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cartography-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cartography best practices
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cartography best practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#keeping-records-up-to-date" class="md-nav__link">
+    <span class="md-ellipsis">
+      Keeping records up to date
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reporting-an-anomaly-or-a-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reporting an anomaly or a change
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -820,10 +1052,8 @@
       
   
   
-    
   
   
-  
     
     
       
@@ -841,11 +1071,13 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
         
           
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
@@ -859,7 +1091,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             OPERATIONS
@@ -870,30 +1102,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    -- Administration
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../admin/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -902,110 +1114,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#parameters" class="md-nav__link">
-    <span class="md-ellipsis">
-      Parameters
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Parameters">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#applications" class="md-nav__link">
-    <span class="md-ellipsis">
-      Applications
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#logical-infrastructure" class="md-nav__link">
-    <span class="md-ellipsis">
-      Logical Infrastructure
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#certificates" class="md-nav__link">
-    <span class="md-ellipsis">
-      Certificates
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#cve" class="md-nav__link">
-    <span class="md-ellipsis">
-      CVE
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="CVE">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#external-services" class="md-nav__link">
-    <span class="md-ellipsis">
-      External services
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#documents" class="md-nav__link">
-    <span class="md-ellipsis">
-      Documents
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#summary-table" class="md-nav__link">
-    <span class="md-ellipsis">
-      Summary Table
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1087,28 +1195,37 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#parameters" class="md-nav__link">
+  <a href="#introduction-what-is-a-cartographer" class="md-nav__link">
     <span class="md-ellipsis">
-      Parameters
+      Introduction — What is a cartographer?
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Parameters">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#managing-cartographers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Managing cartographers
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Managing cartographers">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#applications" class="md-nav__link">
+  <a href="#who-can-assign-a-cartographer" class="md-nav__link">
     <span class="md-ellipsis">
-      Applications
+      Who can assign a cartographer?
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#logical-infrastructure" class="md-nav__link">
+  <a href="#assigning-a-cartographer-administration-interface" class="md-nav__link">
     <span class="md-ellipsis">
-      Logical Infrastructure
+      Assigning a cartographer (administration interface)
     </span>
   </a>
   
@@ -1120,28 +1237,37 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#certificates" class="md-nav__link">
+  <a href="#what-the-cartographer-role-allows" class="md-nav__link">
     <span class="md-ellipsis">
-      Certificates
+      What the cartographer role allows
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What the cartographer role allows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#read-access-to-their-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Read access to their objects
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#cve" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#modifying-their-objects" class="md-nav__link">
     <span class="md-ellipsis">
-      CVE
+      Modifying their objects
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="CVE">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
-  <a href="#external-services" class="md-nav__link">
+  <a href="#what-remains-out-of-scope" class="md-nav__link">
     <span class="md-ellipsis">
-      External services
+      What remains out of scope
     </span>
   </a>
   
@@ -1153,20 +1279,110 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#documents" class="md-nav__link">
+  <a href="#viewing-assigned-objects" class="md-nav__link">
     <span class="md-ellipsis">
-      Documents
+      Viewing assigned objects
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Viewing assigned objects">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dashboard
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#summary-table" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#list-of-the-cartographers-objects" class="md-nav__link">
     <span class="md-ellipsis">
-      Summary Table
+      List of the cartographer's objects
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filtering-in-lists" class="md-nav__link">
+    <span class="md-ellipsis">
+      Filtering in lists
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#receiving-notifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Receiving notifications
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Receiving notifications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#periodic-reminders-to-keep-the-cartography-up-to-date" class="md-nav__link">
+    <span class="md-ellipsis">
+      Periodic reminders to keep the cartography up to date
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notification-when-modified-by-another-cartographer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notification when modified by another cartographer
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cartography-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cartography best practices
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cartography best practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#keeping-records-up-to-date" class="md-nav__link">
+    <span class="md-ellipsis">
+      Keeping records up to date
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reporting-an-anomaly-or-a-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reporting an anomaly or a change
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1185,7 +1401,7 @@
                   
 
   
-    <a href="https://github.com/sourcentis/mercator/edit/master/docs/admin.md" title="Edit this page" class="md-content__button md-icon">
+    <a href="https://github.com/sourcentis/mercator/edit/master/docs/cartographers.md" title="Edit this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
     </a>
@@ -1194,308 +1410,112 @@
     
       
     
-    <a href="https://github.com/sourcentis/mercator/raw/master/docs/admin.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/sourcentis/mercator/raw/master/docs/cartographers.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.15 8.15 0 0 1-1.23-2Z"/></svg>
     </a>
   
 
 
-<h1 id="administration">Administration<a class="headerlink" href="#administration" title="Permanent link">&para;</a></h1>
-<p>The configuration parameters are accessible in Mercator via :</p>
-<blockquote>
-<p><strong>Admin → Configuration → Parameters</strong> (<code>/admin/config/parameters</code>)</p>
-</blockquote>
-<p>Unlike environment variables, these settings are stored in the <strong>config/mercator.php</strong> file and can be modified at runtime by an administrator, without restarting the application or editing <code>.env</code>.</p>
-<p>The parameters page is organised into four tabs.</p>
-<hr />
-<h2 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h2>
-<p>This tab groups application-level behavioural options.</p>
-<h3 id="applications">Applications<a class="headerlink" href="#applications" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Documents attached to applications</strong></td>
-<td>Allows local files (documents) to be uploaded and associated with applications.</td>
-<td><code>inactive</code></td>
-</tr>
-</tbody>
-</table>
-<h3 id="logical-infrastructure">Logical Infrastructure<a class="headerlink" href="#logical-infrastructure" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Security need authentication</strong></td>
-<td>When enabled, the security-need fields on logical servers require prior authentication before being displayed.</td>
-<td><code>false</code></td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="certificates">Certificates<a class="headerlink" href="#certificates" title="Permanent link">&para;</a></h2>
-<p>Controls the automated monitoring and notification of TLS/SSL certificate expiry.</p>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-<th>Values</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Message subject</strong></td>
-<td>Subject line of the expiry alert email.</td>
-<td>Free text</td>
-</tr>
-<tr>
-<td><strong>Sent from</strong></td>
-<td>Sender address for expiry alert emails.</td>
-<td>Email address</td>
-</tr>
-<tr>
-<td><strong>Recipients</strong></td>
-<td>Destination address(es) for expiry alert emails.</td>
-<td>Email address(es)</td>
-</tr>
-<tr>
-<td><strong>Alert delay</strong></td>
-<td>How many days before expiry the notification is sent.</td>
-<td>1, 7, 15, 30, 60 or 90 days</td>
-</tr>
-<tr>
-<td><strong>Check frequency</strong></td>
-<td>How often Mercator scans for expiring certificates.</td>
-<td>Never / Daily / Weekly / Monthly</td>
-</tr>
-<tr>
-<td><strong>Grouping</strong></td>
-<td>Send one consolidated email for all expiring certificates, or one email per certificate.</td>
-<td>One email / One per certificate</td>
-</tr>
-<tr>
-<td><strong>Repeat notifications</strong></td>
-<td>Send a single notification per expiry event, or repeat until the certificate is renewed or removed.</td>
-<td>Single / Repeat</td>
-</tr>
-</tbody>
-</table>
-<p>A <strong>Test</strong> button is available to send a test email using the current configuration without saving.</p>
-<hr />
-<h2 id="cve">CVE<a class="headerlink" href="#cve" title="Permanent link">&para;</a></h2>
-<p>Controls the automated scanning for known vulnerabilities (CVE) affecting inventory items.</p>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-<th>Values</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Message subject</strong></td>
-<td>Subject line of the CVE alert email.</td>
-<td>Free text</td>
-</tr>
-<tr>
-<td><strong>Sent from</strong></td>
-<td>Sender address for CVE alert emails.</td>
-<td>Email address</td>
-</tr>
-<tr>
-<td><strong>Recipients</strong></td>
-<td>Destination address(es) for CVE alert emails.</td>
-<td>Email address(es)</td>
-</tr>
-<tr>
-<td><strong>Check frequency</strong></td>
-<td>How often Mercator scans for new CVEs affecting the inventory.</td>
-<td>Never / Daily / Weekly / Monthly</td>
-</tr>
-<tr>
-<td><strong>CPE Guesser URL</strong></td>
-<td>URL of the CPE Guesser service used to infer CPE identifiers from software names.</td>
-<td>URL</td>
-</tr>
-<tr>
-<td><strong>CVE Provider URL</strong></td>
-<td>URL of the CVE data provider.</td>
-<td>URL</td>
-</tr>
-</tbody>
-</table>
-<h3 id="external-services">External services<a class="headerlink" href="#external-services" title="Permanent link">&para;</a></h3>
-<p><strong>CVE Provider</strong> — Mercator queries a <a href="https://github.com/vulnerability-lookup/vulnerability-lookup">vulnerability-lookup</a> instance to retrieve CVEs affecting the inventory items. A public instance is available at <code>https://vulnerability.circl.lu</code>. You can also self-host the service.</p>
-<p><strong>CPE Guesser</strong> — Mercator uses <a href="https://github.com/vulnerability-lookup/cpe-guesser">cpe-guesser</a> to automatically infer CPE identifiers from software names. A public instance is available at <code>https://cpe-guesser.cve-search.org</code>. You can also self-host the service.</p>
-<p>Three <strong>Test</strong> buttons are available:</p>
+<h1 id="cartographers-in-mercator">Cartographers in Mercator<a class="headerlink" href="#cartographers-in-mercator" title="Permanent link">&para;</a></h1>
+<p>Cartographers are responsible for keeping the information system's cartography up to date and reliable. This documentation explains their role, their rights, and the tools available to them.</p>
+<h2 id="introduction-what-is-a-cartographer">Introduction — What is a cartographer?<a class="headerlink" href="#introduction-what-is-a-cartographer" title="Permanent link">&para;</a></h2>
+<p>A <strong>cartographer</strong> is a Mercator user who has been given responsibility for one or more objects in the cartography: a server, an application, a network, a site, etc.</p>
+<p>Concretely, being the cartographer of an object means:</p>
 <ul>
-<li><strong>Test Mail</strong> — sends a test email with the current configuration.</li>
-<li><strong>Test Provider</strong> — checks connectivity to the configured CVE provider.</li>
-<li><strong>Test Guesser</strong> — checks connectivity to the configured CPE Guesser service.</li>
+<li>being <strong>responsible for the quality and accuracy</strong> of the information describing it,</li>
+<li>having the <strong>necessary rights</strong> to view and modify that object,</li>
+<li>being <strong>notified</strong> when an update is expected.</li>
 </ul>
-<hr />
-<h2 id="documents">Documents<a class="headerlink" href="#documents" title="Permanent link">&para;</a></h2>
-<p>This tab is <strong>read-only</strong> and provides an overview of the documents stored in Mercator.</p>
-<table>
-<thead>
-<tr>
-<th>Information</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Document count</strong></td>
-<td>Total number of documents stored in the database.</td>
-</tr>
-<tr>
-<td><strong>Total size</strong></td>
-<td>Cumulative size of all stored documents (displayed in human-readable units).</td>
-</tr>
-</tbody>
-</table>
-<p>A <strong>Check</strong> button triggers an integrity verification of all documents: Mercator compares each document's recorded SHA-256 hash against the file currently on disk and reports one of three statuses:</p>
-<table>
-<thead>
-<tr>
-<th>Status</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>OK</code></td>
-<td>File is present and its hash matches the database record.</td>
-</tr>
-<tr>
-<td><code>MISSING</code></td>
-<td>File is referenced in the database but not found on disk.</td>
-</tr>
-<tr>
-<td><code>HASH FAILS</code></td>
-<td>File is present but its hash does not match — the file may be corrupted or tampered with.</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="summary-table">Summary Table<a class="headerlink" href="#summary-table" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Tab</th>
-<th>Parameter</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>General</td>
-<td>Security need authentication</td>
-<td>Requires authentication to display security-need fields</td>
-<td><code>false</code></td>
-</tr>
-<tr>
-<td>Certificates</td>
-<td>Message subject</td>
-<td>Subject of expiry alert emails</td>
-<td>—</td>
-</tr>
-<tr>
-<td>Certificates</td>
-<td>Sent from</td>
-<td>Sender address for certificate alerts</td>
-<td>—</td>
-</tr>
-<tr>
-<td>Certificates</td>
-<td>Recipients</td>
-<td>Destination address(es) for certificate alerts</td>
-<td>—</td>
-</tr>
-<tr>
-<td>Certificates</td>
-<td>Alert delay</td>
-<td>Days before expiry to trigger notification</td>
-<td>30 days</td>
-</tr>
-<tr>
-<td>Certificates</td>
-<td>Check frequency</td>
-<td>Scan interval for expiring certificates</td>
-<td>Never</td>
-</tr>
-<tr>
-<td>Certificates</td>
-<td>Grouping</td>
-<td>One consolidated email or one per certificate</td>
-<td>One email</td>
-</tr>
-<tr>
-<td>Certificates</td>
-<td>Repeat notifications</td>
-<td>Single or repeated notifications until resolved</td>
-<td>Single</td>
-</tr>
-<tr>
-<td>CVE</td>
-<td>Message subject</td>
-<td>Subject of CVE alert emails</td>
-<td>—</td>
-</tr>
-<tr>
-<td>CVE</td>
-<td>Sent from</td>
-<td>Sender address for CVE alerts</td>
-<td>—</td>
-</tr>
-<tr>
-<td>CVE</td>
-<td>Recipients</td>
-<td>Destination address(es) for CVE alerts</td>
-<td>—</td>
-</tr>
-<tr>
-<td>CVE</td>
-<td>Check frequency</td>
-<td>Scan interval for new CVEs</td>
-<td>Never</td>
-</tr>
-<tr>
-<td>CPE</td>
-<td>CPE Guesser URL</td>
-<td>Endpoint of the <a href="https://github.com/vulnerability-lookup/cpe-guesser">cpe-guesser</a> service</td>
-<td>—</td>
-</tr>
-<tr>
-<td>CVE</td>
-<td>CVE Provider URL</td>
-<td>Endpoint of the <a href="https://github.com/vulnerability-lookup/vulnerability-lookup">vulnerability-lookup</a> provider</td>
-<td>—</td>
-</tr>
-<tr>
-<td>Documents</td>
-<td>—</td>
-<td>Read-only: document count, total size, integrity check</td>
-<td>—</td>
-</tr>
-</tbody>
-</table>
+<p>The cartographer system allows the maintenance of the cartography to be <strong>finely delegated</strong> to the people closest to the field, without giving them access to the entire information system cartography.</p>
+<div class="admonition info">
+<p class="admonition-title">A cartographer is not an administrator</p>
+<p>The cartographer role is limited to the objects explicitly assigned to it. It does not grant access to the entire cartography or to Mercator's administration functions.</p>
+</div>
+<h2 id="managing-cartographers">Managing cartographers<a class="headerlink" href="#managing-cartographers" title="Permanent link">&para;</a></h2>
+<h3 id="who-can-assign-a-cartographer">Who can assign a cartographer?<a class="headerlink" href="#who-can-assign-a-cartographer" title="Permanent link">&para;</a></h3>
+<p>Only users with cartographer management permissions, granted through a specific role, can assign cartographers. This operation is performed from Mercator's configuration interface.</p>
+<h3 id="assigning-a-cartographer-administration-interface">Assigning a cartographer (administration interface)<a class="headerlink" href="#assigning-a-cartographer-administration-interface" title="Permanent link">&para;</a></h3>
+<p>Assignment is done from the <strong>Configuration → Cartographers</strong> menu.</p>
+<p>To assign a cartographer to an object:</p>
+<ol>
+<li>Go to the <strong>Administration → Cartographers</strong> menu.</li>
+<li>Click <strong>New</strong>.</li>
+<li>Select the <strong>user</strong> (or <strong>role</strong>) to designate as cartographer.</li>
+<li>Choose the <strong>type of object</strong> concerned (e.g., logical server, application, network…).</li>
+<li>Select the specific <strong>object</strong> from the list.</li>
+<li>Confirm.</li>
+</ol>
+<p>It is possible to assign several cartographers to the same object, and a single user can be cartographer of several objects.</p>
+<div class="admonition tip">
+<p class="admonition-title">Assigning a role rather than a user</p>
+<p>It is possible to assign a <strong>role</strong> as the cartographer of an object. All users with that role will then benefit from the same rights on that object. This simplifies management when team changes occur.</p>
+</div>
+<h2 id="what-the-cartographer-role-allows">What the cartographer role allows<a class="headerlink" href="#what-the-cartographer-role-allows" title="Permanent link">&para;</a></h2>
+<h3 id="read-access-to-their-objects">Read access to their objects<a class="headerlink" href="#read-access-to-their-objects" title="Permanent link">&para;</a></h3>
+<p>A cartographer can <strong>view</strong> all the objects assigned to them, even if their usual role does not give them access to that category of objects.</p>
+<p>For example, a user without access to networks will be able to view the records of the networks for which they are cartographer.</p>
+<h3 id="modifying-their-objects">Modifying their objects<a class="headerlink" href="#modifying-their-objects" title="Permanent link">&para;</a></h3>
+<p>A cartographer can <strong>modify</strong> the records of the objects assigned to them: updating information, adding relationships, correcting data…</p>
+<p>Changes are logged in Mercator's audit trail, like any other change.</p>
+<h3 id="what-remains-out-of-scope">What remains out of scope<a class="headerlink" href="#what-remains-out-of-scope" title="Permanent link">&para;</a></h3>
+<p>The cartographer role <strong>does not grant access</strong> to:</p>
+<ul>
+<li>creating or deleting objects (unless the user has a role that otherwise allows it),</li>
+<li>objects that have not been explicitly assigned to them,</li>
+<li>Mercator's administration functions (user management, role management, configuration…),</li>
+<li>global reports and exports reserved for administrators.</li>
+</ul>
+<h2 id="viewing-assigned-objects">Viewing assigned objects<a class="headerlink" href="#viewing-assigned-objects" title="Permanent link">&para;</a></h2>
+<h3 id="dashboard">Dashboard<a class="headerlink" href="#dashboard" title="Permanent link">&para;</a></h3>
+<p>Mercator's dashboard only displays objects the user has access to through their role, as well as objects for which they are cartographer. The dashboard thus naturally reflects the cartographer's scope, with no additional configuration required.</p>
+<h3 id="list-of-the-cartographers-objects">List of the cartographer's objects<a class="headerlink" href="#list-of-the-cartographers-objects" title="Permanent link">&para;</a></h3>
+<p>Cartographers have access to the consolidated list of objects they are responsible for via the <strong>Preferences → Cartography</strong> menu. This list gathers all assigned objects, regardless of type, and provides direct access to each record and its change history.</p>
+<div class="admonition info">
+<p class="admonition-title">Menu visible only if objects are assigned</p>
+<p>The <strong>Preferences → Cartography</strong> menu only appears if at least one object has been assigned to the user. It is invisible to users with no cartography responsibility.</p>
+</div>
+<h3 id="filtering-in-lists">Filtering in lists<a class="headerlink" href="#filtering-in-lists" title="Permanent link">&para;</a></h3>
+<p>In object lists (servers, applications, networks…), each cartographer only sees the objects they have access to through their role and those for which they are cartographer. This filtering is automatic and transparent: there is nothing to activate.</p>
+<h2 id="receiving-notifications">Receiving notifications<a class="headerlink" href="#receiving-notifications" title="Permanent link">&para;</a></h2>
+<p>Mercator can send notifications to cartographers by email to keep them informed of the status of their objects and the changes made to them.</p>
+<h3 id="periodic-reminders-to-keep-the-cartography-up-to-date">Periodic reminders to keep the cartography up to date<a class="headerlink" href="#periodic-reminders-to-keep-the-cartography-up-to-date" title="Permanent link">&para;</a></h3>
+<p>A periodic reminder can be configured by the administrator to encourage cartographers to check and update their records. This reminder indicates:</p>
+<ul>
+<li>the objects for which the cartographer is responsible,</li>
+<li>a direct link to each record in Mercator.</li>
+</ul>
+<p>The frequency of reminders (weekly, monthly…) and the content of the message are defined by the administrator in <strong>Administration → Configuration → Notifications</strong>.</p>
+<div class="admonition note">
+<p class="admonition-title">No reminder if no configuration is set</p>
+<p>Reminders are only sent if the administrator has enabled and configured this feature. In the absence of configuration, no email is sent.</p>
+</div>
+<h3 id="notification-when-modified-by-another-cartographer">Notification when modified by another cartographer<a class="headerlink" href="#notification-when-modified-by-another-cartographer" title="Permanent link">&para;</a></h3>
+<p>When an object is modified by a user other than you, Mercator can send you a notification to inform you. This notification specifies:</p>
+<ul>
+<li>which object was modified,</li>
+<li>which fields changed,</li>
+<li>who made the change.</li>
+</ul>
+<p>This allows several cartographers of the same object to stay in sync.</p>
+<h2 id="cartography-best-practices">Cartography best practices<a class="headerlink" href="#cartography-best-practices" title="Permanent link">&para;</a></h2>
+<h3 id="keeping-records-up-to-date">Keeping records up to date<a class="headerlink" href="#keeping-records-up-to-date" title="Permanent link">&para;</a></h3>
+<p>The value of a cartography rests entirely on the <strong>reliability and freshness of the data</strong>. As a cartographer, it is recommended to:</p>
+<ul>
+<li>regularly check the information of your objects, especially after a change in production,</li>
+<li>fill in empty fields as soon as the information is available,</li>
+<li>not wait for the automatic reminder to make an update if a change is already known.</li>
+</ul>
+<h3 id="reporting-an-anomaly-or-a-change">Reporting an anomaly or a change<a class="headerlink" href="#reporting-an-anomaly-or-a-change" title="Permanent link">&para;</a></h3>
+<p>If an object for which you are cartographer changes significantly (decommissioning, name change, migration…), it is important to:</p>
+<ul>
+<li>update the record in Mercator without delay,</li>
+<li>contact the administrator if action beyond your scope is required (deletion, merging of objects, category change…).</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">An outdated object is false information</p>
+<p>A record that is not kept up to date can mislead other users or distort security analyses. Keeping it up to date is a full responsibility of the cartographer.</p>
+</div>
 
 
 

@@ -43,6 +43,13 @@
         <xhtml:link rel="alternate" hreflang="fr" href="https://sourcentis.github.io/mercator/fr/bpmn/"/>
     </url>
     <url>
+        <loc>https://sourcentis.github.io/mercator/cartographers/</loc>
+        <lastmod>2026-07-01</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://sourcentis.github.io/mercator/cartographers/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://sourcentis.github.io/mercator/fr/cartographers/"/>
+    </url>
+    <url>
         <loc>https://sourcentis.github.io/mercator/cartography/</loc>
         <lastmod>2026-07-01</lastmod>
         <changefreq>daily</changefreq>
@@ -162,10 +169,11 @@
         <xhtml:link rel="alternate" hreflang="en" href="https://sourcentis.github.io/mercator/bpmn/"/>
     </url>
     <url>
-        <loc>https://sourcentis.github.io/mercator/fr/cartgrapher/</loc>
+        <loc>https://sourcentis.github.io/mercator/fr/cartographers/</loc>
         <lastmod>2026-07-01</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="fr" href="https://sourcentis.github.io/mercator/fr/cartgrapher/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://sourcentis.github.io/mercator/fr/cartographers/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://sourcentis.github.io/mercator/cartographers/"/>
     </url>
     <url>
         <loc>https://sourcentis.github.io/mercator/fr/cartography/</loc>
