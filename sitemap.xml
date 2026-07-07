@@ -15,13 +15,6 @@
         <xhtml:link rel="alternate" hreflang="fr" href="https://sourcentis.github.io/mercator/fr/admin/"/>
     </url>
     <url>
-        <loc>https://sourcentis.github.io/mercator/analysis-cartography-report/</loc>
-        <lastmod>2026-07-07</lastmod>
-        <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="https://sourcentis.github.io/mercator/analysis-cartography-report/"/>
-        <xhtml:link rel="alternate" hreflang="fr" href="https://sourcentis.github.io/mercator/fr/analysis-cartography-report/"/>
-    </url>
-    <url>
         <loc>https://sourcentis.github.io/mercator/api/</loc>
         <lastmod>2026-07-07</lastmod>
         <changefreq>daily</changefreq>
@@ -153,13 +146,6 @@
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="fr" href="https://sourcentis.github.io/mercator/fr/admin/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://sourcentis.github.io/mercator/admin/"/>
-    </url>
-    <url>
-        <loc>https://sourcentis.github.io/mercator/fr/analysis-cartography-report/</loc>
-        <lastmod>2026-07-07</lastmod>
-        <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="fr" href="https://sourcentis.github.io/mercator/fr/analysis-cartography-report/"/>
-        <xhtml:link rel="alternate" hreflang="en" href="https://sourcentis.github.io/mercator/analysis-cartography-report/"/>
     </url>
     <url>
         <loc>https://sourcentis.github.io/mercator/fr/api/</loc>
