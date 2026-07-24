@@ -3044,6 +3044,7 @@ field </em><em>informations</em>**</p>
         string attributes
         text description
         int icon_id
+        string status
         string responsible
         string functional_referent
         string editor
@@ -3051,9 +3052,10 @@ field </em><em>informations</em>**</p>
         string technology
         string type
         string external
-        datetime install_date
-        datetime update_date
-        datetime next_update
+        date install_date
+        date prod_date
+        date update_date
+        date next_update
         string documentation
         int security_need_c
         int security_need_i
@@ -3066,6 +3068,8 @@ field </em><em>informations</em>**</p>
         string product
         string version
         int patching_frequency
+        string hosting
+        string urls
         list entities
         list processes
         list services
@@ -3404,6 +3408,26 @@ server per physical server.</p>
 <td style="text-align: left;">patching_frequency</td>
 <td style="text-align: left;">int</td>
 <td style="text-align: left;">Patching frequency</td>
+</tr>
+<tr>
+<td style="text-align: left;">status</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Status of the application</td>
+</tr>
+<tr>
+<td style="text-align: left;">date_prod</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">Production date</td>
+</tr>
+<tr>
+<td style="text-align: left;">hosting</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Hosting</td>
+</tr>
+<tr>
+<td style="text-align: left;">urls</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Application's URLs</td>
 </tr>
 <tr>
 <td style="text-align: left;">entities</td>

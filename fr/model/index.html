@@ -3045,6 +3045,10 @@ champ </em><em>informations</em>**</p>
         string product
         string version
         int patching_frequency
+        string status
+        date date_prod
+        string hosting
+        string urls
         list entities
         list processes
         list services
@@ -3274,6 +3278,11 @@ a un serveur logique par serveur physique.</p>
 <td style="text-align: left;">Référence vers une image spécifique</td>
 </tr>
 <tr>
+<td style="text-align: left;">status</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Statut de l'application</td>
+</tr>
+<tr>
 <td style="text-align: left;">responsible</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Responsable de l'application</td>
@@ -3309,9 +3318,24 @@ a un serveur logique par serveur physique.</p>
 <td style="text-align: left;">Externe</td>
 </tr>
 <tr>
+<td style="text-align: left;">hosting</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Hébergement</td>
+</tr>
+<tr>
+<td style="text-align: left;">urls</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">URLs de l'application</td>
+</tr>
+<tr>
 <td style="text-align: left;">install_date</td>
 <td style="text-align: left;">datetime</td>
 <td style="text-align: left;">Date d'installation de l'application</td>
+</tr>
+<tr>
+<td style="text-align: left;">date_prod</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">Date de mise en production</td>
 </tr>
 <tr>
 <td style="text-align: left;">update_date</td>
