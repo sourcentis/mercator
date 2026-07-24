@@ -1,337 +1,165 @@
 
-<!doctype html>
-<html lang="fr" class="no-js">
-  <head>
-    
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width,initial-scale=1">
-      
-        <meta name="description" content="Mapping the Information System !">
-      
-      
-      
-        <link rel="canonical" href="https://sourcentis.github.io/mercator/fr/model/">
-      
-      
-        <link rel="prev" href="../usecases/">
-      
-      
-        <link rel="next" href="../maturity/">
-      
-      
-        
-          <link rel="alternate" href="../../model/" hreflang="en">
-        
-          <link rel="alternate" href="./" hreflang="fr">
-        
-      
-      
-      <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
-    
-    
-      
-        <title>-- Modèle de données - Mercator</title>
-      
-    
-    
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
-      
-        
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
-      
-      
+<!DOCTYPE html>
 
-
-    
-    
-      
-    
-    
-      
-        
-        
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
-      
-    
-    
-      <link rel="stylesheet" href="../../css/overrides.css">
-    
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
-    
-      
-
-    
-    
-  </head>
-  
-  
-    
-    
-      
-    
-    
-    
-    
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="indigo">
-  
-    
-    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
-    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" for="__drawer"></label>
-    <div data-md-component="skip">
-      
-        
-        <a href="#modele-de-donnees" class="md-skip">
+<html class="no-js" lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Mapping the Information System !" name="description"/>
+<link href="https://sourcentis.github.io/mercator/fr/model/" rel="canonical"/>
+<link href="../usecases/" rel="prev"/>
+<link href="../maturity/" rel="next"/>
+<link href="../../model/" hreflang="en" rel="alternate"/>
+<link href="./" hreflang="fr" rel="alternate"/>
+<link href="../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.7.6" name="generator"/>
+<title>-- Modèle de données - Mercator</title>
+<link href="../../assets/stylesheets/main.484c7ddc.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<link href="../../css/overrides.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="indigo" data-md-color-primary="blue" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#modele-de-donnees">
           Aller au contenu
         </a>
-      
-    </div>
-    <div data-md-component="announce">
-      
-    </div>
-    
-    
-      
-
-  
-
+</div>
+<div data-md-component="announce">
+</div>
 <header class="md-header md-header--shadow" data-md-component="header">
-  <nav class="md-header__inner md-grid" aria-label="En-tête">
-    <a href="../" title="Mercator" class="md-header__button md-logo" aria-label="Mercator" data-md-component="logo">
-      
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
-
-    </a>
-    <label class="md-header__button md-icon" for="__drawer">
-      
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
-    </label>
-    <div class="md-header__title" data-md-component="header-title">
-      <div class="md-header__ellipsis">
-        <div class="md-header__topic">
-          <span class="md-ellipsis">
+<nav aria-label="En-tête" class="md-header__inner md-grid">
+<a aria-label="Mercator" class="md-header__button md-logo" data-md-component="logo" href="../" title="Mercator">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
             Mercator
           </span>
-        </div>
-        <div class="md-header__topic" data-md-component="header-topic">
-          <span class="md-ellipsis">
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
             
               -- Modèle de données
             
           </span>
-        </div>
-      </div>
-    </div>
-    
-      
-        <form class="md-header__option" data-md-component="palette">
-  
-    
-    
-    
-    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
-    
-      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
-      </label>
-    
-  
-    
-    
-    
-    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
-    
-      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
-      </label>
-    
-  
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="indigo" data-md-color-media="" data-md-color-primary="blue" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="indigo" data-md-color-media="" data-md-color-primary="blue" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"></path></svg>
+</label>
 </form>
-      
-    
-    
-      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
-    
-    
-      <div class="md-header__option">
-  <div class="md-select">
-    
-    <button class="md-header__button md-icon" aria-label="Sélectionner la langue">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
-    </button>
-    <div class="md-select__inner">
-      <ul class="md-select__list">
-        
-          <li class="md-select__item">
-            <a href="../../model/" hreflang="en" class="md-select__link">
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<div class="md-header__option">
+<div class="md-select">
+<button aria-label="Sélectionner la langue" class="md-header__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"></path></svg>
+</button>
+<div class="md-select__inner">
+<ul class="md-select__list">
+<li class="md-select__item">
+<a class="md-select__link" href="../../model/" hreflang="en">
               English
             </a>
-          </li>
-        
-          <li class="md-select__item">
-            <a href="./" hreflang="fr" class="md-select__link">
+</li>
+<li class="md-select__item">
+<a class="md-select__link" href="./" hreflang="fr">
               Français
             </a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
+</li>
+</ul>
 </div>
-    
-    
-      
-      
-        <label class="md-header__button md-icon" for="__search">
-          
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
-        </label>
-        <div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="__search"></label>
-  <div class="md-search__inner" role="search">
-    <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
-      <label class="md-search__icon md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
-      </label>
-      <nav class="md-search__options" aria-label="Recherche">
-        
-        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
-          
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-        </button>
-      </nav>
-      
-    </form>
-    <div class="md-search__output">
-      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="search-result">
-          <div class="md-search-result__meta">
+</div>
+</div>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Rechercher" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Rechercher" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Recherche" class="md-search__options">
+<button aria-label="Effacer" class="md-search__icon md-icon" tabindex="-1" title="Effacer" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
             Initialisation de la recherche
           </div>
-          <ol class="md-search-result__list" role="presentation"></ol>
-        </div>
-      </div>
-    </div>
-  </div>
+<ol class="md-search-result__list" role="presentation"></ol>
 </div>
-      
-    
-    
-      <div class="md-header__source">
-        <a href="https://github.com/sourcentis/mercator" title="Aller au dépôt" class="md-source" data-md-component="source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
-  </div>
-  <div class="md-source__repository">
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/sourcentis/mercator" title="Aller au dépôt">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+</div>
+<div class="md-source__repository">
     GitHub
   </div>
 </a>
-      </div>
-    
-  </nav>
-  
+</div>
+</nav>
 </header>
-    
-    <div class="md-container" data-md-component="container">
-      
-      
-        
-          
-        
-      
-      <main class="md-main" data-md-component="main">
-        <div class="md-main__inner md-grid">
-          
-            
-              
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-
-
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
-  <label class="md-nav__title" for="__drawer">
-    <a href="../" title="Mercator" class="md-nav__button md-logo" aria-label="Mercator" data-md-component="logo">
-      
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
-
-    </a>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Mercator" class="md-nav__button md-logo" data-md-component="logo" href="../" title="Mercator">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
     Mercator
   </label>
-  
-    <div class="md-nav__source">
-      <a href="https://github.com/sourcentis/mercator" title="Aller au dépôt" class="md-source" data-md-component="source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
-  </div>
-  <div class="md-source__repository">
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/sourcentis/mercator" title="Aller au dépôt">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+</div>
+<div class="md-source__repository">
     GitHub
   </div>
 </a>
-    </div>
-  
-  <ul class="md-nav__list" data-md-scrollfix>
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-        
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
-        
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
-              
-  
-  
-  <span class="md-ellipsis">
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_1" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../">
+<span class="md-ellipsis">
     
   
     DÉMARRAGE
@@ -339,43 +167,24 @@
 
     
   </span>
-  
-  
-
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_1">
-            <span class="md-nav__icon md-icon"></span>
+</a>
+<label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_1_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_1">
+<span class="md-nav__icon md-icon"></span>
             
   
     DÉMARRAGE
   
 
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../cartography/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../cartography/">
+<span class="md-ellipsis">
     
   
     -- Cartographie
@@ -383,27 +192,11 @@
 
     
   </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../application/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../application/">
+<span class="md-ellipsis">
     
   
     -- Application
@@ -411,27 +204,11 @@
 
     
   </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../features/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../features/">
+<span class="md-ellipsis">
     
   
     -- Fonctionnalités
@@ -439,27 +216,11 @@
 
     
   </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../cartographers/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../cartographers/">
+<span class="md-ellipsis">
     
   
     -- Cartographes
@@ -467,27 +228,11 @@
 
     
   </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../usecases/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../usecases/">
+<span class="md-ellipsis">
     
   
     -- Cas d'usage
@@ -495,58 +240,15 @@
 
     
   </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-    
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-    
-    
-    
-      
-        
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+<span class="md-ellipsis">
     
   
     MODÈLE DE DONNÉES
@@ -554,44 +256,22 @@
 
     
   </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_2">
-            <span class="md-nav__icon md-icon"></span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
             
   
     MODÈLE DE DONNÉES
   
 
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
     
   
     -- Modèle de données
@@ -599,17 +279,10 @@
 
     
   </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  
-  <span class="md-ellipsis">
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
     
   
     -- Modèle de données
@@ -617,843 +290,663 @@
 
     
   </span>
-  
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
+</a>
+<nav aria-label="Table des matières" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
       Table des matières
     </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#vue-du-rgpd" class="md-nav__link">
-    <span class="md-ellipsis">
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#vue-du-rgpd">
+<span class="md-ellipsis">
       
         Vue du RGPD
       
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Vue du RGPD">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#registre" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="Vue du RGPD" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#registre">
+<span class="md-ellipsis">
       
         Registre
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#mesures-de-securite" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#mesures-de-securite">
+<span class="md-ellipsis">
       
         Mesures de sécurité
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#vue-de-lecosysteme" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#vue-de-lecosysteme">
+<span class="md-ellipsis">
       
         Vue de l’écosystème
       
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Vue de l’écosystème">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#entites" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="Vue de l’écosystème" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#entites">
+<span class="md-ellipsis">
       
         Entités
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#relations" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#relations">
+<span class="md-ellipsis">
       
         Relations
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#vue-metier-du-systeme-dinformation" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#vue-metier-du-systeme-dinformation">
+<span class="md-ellipsis">
       
         Vue métier du système d’information
       
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Vue métier du système d’information">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#macro-processus" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="Vue métier du système d’information" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#macro-processus">
+<span class="md-ellipsis">
       
         Macro-processus
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#processus" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#processus">
+<span class="md-ellipsis">
       
         Processus
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#activites" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#activites">
+<span class="md-ellipsis">
       
         Activités
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#operations" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#operations">
+<span class="md-ellipsis">
       
         Opérations
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#taches" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#taches">
+<span class="md-ellipsis">
       
         Tâches
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#acteurs" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#acteurs">
+<span class="md-ellipsis">
       
         Acteurs
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#information" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#information">
+<span class="md-ellipsis">
       
         Information
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#la-vue-des-applications" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#la-vue-des-applications">
+<span class="md-ellipsis">
       
         La vue des applications
       
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="La vue des applications">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#blocs-applicatif" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="La vue des applications" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#blocs-applicatif">
+<span class="md-ellipsis">
       
         Blocs applicatif
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#applications" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#applications">
+<span class="md-ellipsis">
       
         Applications
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#services-applicatif" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#services-applicatif">
+<span class="md-ellipsis">
       
         Services applicatif
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#modules-applicatif" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#modules-applicatif">
+<span class="md-ellipsis">
       
         Modules applicatif
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#bases-de-donnees" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#bases-de-donnees">
+<span class="md-ellipsis">
       
         Bases de données
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#flux-applicatifs" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#flux-applicatifs">
+<span class="md-ellipsis">
       
         Flux applicatifs
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#zone-dadministration" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#zone-dadministration">
+<span class="md-ellipsis">
       
         Zone d’administration
       
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Zone d’administration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#zones-dadministration" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="Zone d’administration" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#zones-dadministration">
+<span class="md-ellipsis">
       
         Zones d’administration
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#services-dannuaire-dadministration" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#services-dannuaire-dadministration">
+<span class="md-ellipsis">
       
         Services d’annuaire d’administration
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#forets-active-directory-arborescence-ldap" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#forets-active-directory-arborescence-ldap">
+<span class="md-ellipsis">
       
         Forêts Active Directory / Arborescence LDAP
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#domaines-active-directory-ldap" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#domaines-active-directory-ldap">
+<span class="md-ellipsis">
       
         Domaines Active Directory / LDAP
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#utilisateurs" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#utilisateurs">
+<span class="md-ellipsis">
       
         Utilisateurs
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#linfrastructure-logique" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#linfrastructure-logique">
+<span class="md-ellipsis">
       
         L’infrastructure logique
       
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="L’infrastructure logique">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#reseaux" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="L’infrastructure logique" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#reseaux">
+<span class="md-ellipsis">
       
         Réseaux
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#sous-reseaux" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#sous-reseaux">
+<span class="md-ellipsis">
       
         Sous-réseaux
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#passerelles-dentrees-depuis-lexterieur" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#passerelles-dentrees-depuis-lexterieur">
+<span class="md-ellipsis">
       
         Passerelles d’entrées depuis l’extérieur
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#entites-exterieures-connectees" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#entites-exterieures-connectees">
+<span class="md-ellipsis">
       
         Entités extérieures connectées
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#commutateurs-reseau" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#commutateurs-reseau">
+<span class="md-ellipsis">
       
         Commutateurs réseau
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#routeurs-logiques" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#routeurs-logiques">
+<span class="md-ellipsis">
       
         Routeurs logiques
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#equipements-de-securite" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#equipements-de-securite">
+<span class="md-ellipsis">
       
         Équipements de sécurité
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#serveurs-dhcp" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#serveurs-dhcp">
+<span class="md-ellipsis">
       
         Serveurs DHCP
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#serveurs-dns" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#serveurs-dns">
+<span class="md-ellipsis">
       
         Serveurs DNS
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#clusters" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#clusters">
+<span class="md-ellipsis">
       
         Clusters
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#serveurs-logiques" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#serveurs-logiques">
+<span class="md-ellipsis">
       
         Serveurs logiques
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#plans-de-sauvegarde" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#plans-de-sauvegarde">
+<span class="md-ellipsis">
       
         Plans de sauvegarde
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#conteneurs" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#conteneurs">
+<span class="md-ellipsis">
       
         Conteneurs
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#flux-logiques" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#flux-logiques">
+<span class="md-ellipsis">
       
         Flux logiques
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#certificats" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#certificats">
+<span class="md-ellipsis">
       
         Certificats
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#vlans" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#vlans">
+<span class="md-ellipsis">
       
         VLANs
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#linfrastructure-physique" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#linfrastructure-physique">
+<span class="md-ellipsis">
       
         L’infrastructure physique
       
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="L’infrastructure physique">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#sites" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="L’infrastructure physique" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#sites">
+<span class="md-ellipsis">
       
         Sites
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#batiments-salles" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#batiments-salles">
+<span class="md-ellipsis">
       
         Bâtiments / Salles
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#baies" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#baies">
+<span class="md-ellipsis">
       
         Baies
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#zones-de-securite" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#zones-de-securite">
+<span class="md-ellipsis">
       
         Zones de sécurité
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#serveurs-physiques" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#serveurs-physiques">
+<span class="md-ellipsis">
       
         Serveurs physiques
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#postes-de-travail" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#postes-de-travail">
+<span class="md-ellipsis">
       
         Postes de travail
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#infrastructures-de-stockage" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#infrastructures-de-stockage">
+<span class="md-ellipsis">
       
         Infrastructures de stockage
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#peripheriques" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#peripheriques">
+<span class="md-ellipsis">
       
         Périphériques
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#telephones" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#telephones">
+<span class="md-ellipsis">
       
         Téléphones
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#commutateurs-physiques" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#commutateurs-physiques">
+<span class="md-ellipsis">
       
         Commutateurs physiques
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#routeurs-physiques" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#routeurs-physiques">
+<span class="md-ellipsis">
       
         Routeurs physiques
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#bornes-wifi" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#bornes-wifi">
+<span class="md-ellipsis">
       
         Bornes WiFi
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#equipements-de-securite-physique" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#equipements-de-securite-physique">
+<span class="md-ellipsis">
       
         Équipements de sécurité physique
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#liens-physiques" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#liens-physiques">
+<span class="md-ellipsis">
       
         Liens physiques
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#wans" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#wans">
+<span class="md-ellipsis">
       
         WANs
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#mans" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#mans">
+<span class="md-ellipsis">
       
         MANs
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#lans" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#lans">
+<span class="md-ellipsis">
       
         LANs
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#configuration">
+<span class="md-ellipsis">
       
         Configuration
       
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#documents" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="Configuration" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#documents">
+<span class="md-ellipsis">
       
         documents
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#utilisateurs_1" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#utilisateurs_1">
+<span class="md-ellipsis">
       
         utilisateurs
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#roles" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#roles">
+<span class="md-ellipsis">
       
         Roles
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#cartographie" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#cartographie">
+<span class="md-ellipsis">
       
         Cartographie
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#permissions" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#permissions">
+<span class="md-ellipsis">
       
         Permissions
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
+</ul>
 </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../maturity/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../maturity/">
+<span class="md-ellipsis">
     
   
     -- Maturité
@@ -1461,98 +954,37 @@
 
     
   </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-        
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
-        
-          
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+<span class="md-ellipsis">
     
   
-    PROCESSUS & ANALYSE
+    PROCESSUS &amp; ANALYSE
   
 
     
   </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3">
-            <span class="md-nav__icon md-icon"></span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
             
   
-    PROCESSUS & ANALYSE
+    PROCESSUS &amp; ANALYSE
   
 
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../maps/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../maps/">
+<span class="md-ellipsis">
     
   
     -- Cartes
@@ -1560,27 +992,11 @@
 
     
   </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../bpmn/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../bpmn/">
+<span class="md-ellipsis">
     
   
     -- BPMN
@@ -1588,27 +1004,11 @@
 
     
   </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../queries/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../queries/">
+<span class="md-ellipsis">
     
   
     -- Requêtes
@@ -1616,27 +1016,11 @@
 
     
   </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../reports/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../reports/">
+<span class="md-ellipsis">
     
   
     -- Rapports
@@ -1644,100 +1028,37 @@
 
     
   </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-        
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+<span class="md-ellipsis">
     
   
-    API & INTÉGRATION
+    API &amp; INTÉGRATION
   
 
     
   </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
-            <span class="md-nav__icon md-icon"></span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
             
   
-    API & INTÉGRATION
+    API &amp; INTÉGRATION
   
 
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../api/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../api/">
+<span class="md-ellipsis">
     
   
     -- API
@@ -1745,27 +1066,11 @@
 
     
   </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../apifilters/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../apifilters/">
+<span class="md-ellipsis">
     
   
     -- Filtres d'API
@@ -1773,27 +1078,11 @@
 
     
   </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../import/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../import/">
+<span class="md-ellipsis">
     
   
     -- Import
@@ -1801,27 +1090,11 @@
 
     
   </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../vulnerabilities/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../vulnerabilities/">
+<span class="md-ellipsis">
     
   
     -- Vulnérabilités
@@ -1829,27 +1102,11 @@
 
     
   </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../monarc/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../monarc/">
+<span class="md-ellipsis">
     
   
     -- Monarc
@@ -1857,60 +1114,15 @@
 
     
   </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-        
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+<span class="md-ellipsis">
     
   
     OPÉRATIONS
@@ -1918,35 +1130,21 @@
 
     
   </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
-            <span class="md-nav__icon md-icon"></span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
             
   
     OPÉRATIONS
   
 
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../admin/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../admin/">
+<span class="md-ellipsis">
     
   
     -- Administration
@@ -1954,27 +1152,11 @@
 
     
   </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../config/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../config/">
+<span class="md-ellipsis">
     
   
     -- Configuration
@@ -1982,27 +1164,11 @@
 
     
   </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../references/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../references/">
+<span class="md-ellipsis">
     
   
     -- Références
@@ -2010,884 +1176,736 @@
 
     
   </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-  </ul>
+</a>
+</li>
+</ul>
 </nav>
-                  </div>
-                </div>
-              </div>
-            
-            
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table des matières" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
       Table des matières
     </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#vue-du-rgpd" class="md-nav__link">
-    <span class="md-ellipsis">
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#vue-du-rgpd">
+<span class="md-ellipsis">
       
         Vue du RGPD
       
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Vue du RGPD">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#registre" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="Vue du RGPD" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#registre">
+<span class="md-ellipsis">
       
         Registre
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#mesures-de-securite" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#mesures-de-securite">
+<span class="md-ellipsis">
       
         Mesures de sécurité
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#vue-de-lecosysteme" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#vue-de-lecosysteme">
+<span class="md-ellipsis">
       
         Vue de l’écosystème
       
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Vue de l’écosystème">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#entites" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="Vue de l’écosystème" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#entites">
+<span class="md-ellipsis">
       
         Entités
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#relations" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#relations">
+<span class="md-ellipsis">
       
         Relations
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#vue-metier-du-systeme-dinformation" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#vue-metier-du-systeme-dinformation">
+<span class="md-ellipsis">
       
         Vue métier du système d’information
       
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Vue métier du système d’information">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#macro-processus" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="Vue métier du système d’information" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#macro-processus">
+<span class="md-ellipsis">
       
         Macro-processus
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#processus" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#processus">
+<span class="md-ellipsis">
       
         Processus
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#activites" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#activites">
+<span class="md-ellipsis">
       
         Activités
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#operations" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#operations">
+<span class="md-ellipsis">
       
         Opérations
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#taches" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#taches">
+<span class="md-ellipsis">
       
         Tâches
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#acteurs" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#acteurs">
+<span class="md-ellipsis">
       
         Acteurs
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#information" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#information">
+<span class="md-ellipsis">
       
         Information
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#la-vue-des-applications" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#la-vue-des-applications">
+<span class="md-ellipsis">
       
         La vue des applications
       
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="La vue des applications">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#blocs-applicatif" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="La vue des applications" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#blocs-applicatif">
+<span class="md-ellipsis">
       
         Blocs applicatif
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#applications" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#applications">
+<span class="md-ellipsis">
       
         Applications
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#services-applicatif" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#services-applicatif">
+<span class="md-ellipsis">
       
         Services applicatif
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#modules-applicatif" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#modules-applicatif">
+<span class="md-ellipsis">
       
         Modules applicatif
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#bases-de-donnees" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#bases-de-donnees">
+<span class="md-ellipsis">
       
         Bases de données
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#flux-applicatifs" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#flux-applicatifs">
+<span class="md-ellipsis">
       
         Flux applicatifs
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#zone-dadministration" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#zone-dadministration">
+<span class="md-ellipsis">
       
         Zone d’administration
       
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Zone d’administration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#zones-dadministration" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="Zone d’administration" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#zones-dadministration">
+<span class="md-ellipsis">
       
         Zones d’administration
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#services-dannuaire-dadministration" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#services-dannuaire-dadministration">
+<span class="md-ellipsis">
       
         Services d’annuaire d’administration
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#forets-active-directory-arborescence-ldap" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#forets-active-directory-arborescence-ldap">
+<span class="md-ellipsis">
       
         Forêts Active Directory / Arborescence LDAP
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#domaines-active-directory-ldap" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#domaines-active-directory-ldap">
+<span class="md-ellipsis">
       
         Domaines Active Directory / LDAP
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#utilisateurs" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#utilisateurs">
+<span class="md-ellipsis">
       
         Utilisateurs
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#linfrastructure-logique" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#linfrastructure-logique">
+<span class="md-ellipsis">
       
         L’infrastructure logique
       
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="L’infrastructure logique">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#reseaux" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="L’infrastructure logique" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#reseaux">
+<span class="md-ellipsis">
       
         Réseaux
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#sous-reseaux" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#sous-reseaux">
+<span class="md-ellipsis">
       
         Sous-réseaux
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#passerelles-dentrees-depuis-lexterieur" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#passerelles-dentrees-depuis-lexterieur">
+<span class="md-ellipsis">
       
         Passerelles d’entrées depuis l’extérieur
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#entites-exterieures-connectees" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#entites-exterieures-connectees">
+<span class="md-ellipsis">
       
         Entités extérieures connectées
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#commutateurs-reseau" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#commutateurs-reseau">
+<span class="md-ellipsis">
       
         Commutateurs réseau
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#routeurs-logiques" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#routeurs-logiques">
+<span class="md-ellipsis">
       
         Routeurs logiques
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#equipements-de-securite" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#equipements-de-securite">
+<span class="md-ellipsis">
       
         Équipements de sécurité
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#serveurs-dhcp" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#serveurs-dhcp">
+<span class="md-ellipsis">
       
         Serveurs DHCP
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#serveurs-dns" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#serveurs-dns">
+<span class="md-ellipsis">
       
         Serveurs DNS
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#clusters" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#clusters">
+<span class="md-ellipsis">
       
         Clusters
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#serveurs-logiques" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#serveurs-logiques">
+<span class="md-ellipsis">
       
         Serveurs logiques
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#plans-de-sauvegarde" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#plans-de-sauvegarde">
+<span class="md-ellipsis">
       
         Plans de sauvegarde
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#conteneurs" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#conteneurs">
+<span class="md-ellipsis">
       
         Conteneurs
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#flux-logiques" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#flux-logiques">
+<span class="md-ellipsis">
       
         Flux logiques
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#certificats" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#certificats">
+<span class="md-ellipsis">
       
         Certificats
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#vlans" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#vlans">
+<span class="md-ellipsis">
       
         VLANs
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#linfrastructure-physique" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#linfrastructure-physique">
+<span class="md-ellipsis">
       
         L’infrastructure physique
       
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="L’infrastructure physique">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#sites" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="L’infrastructure physique" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#sites">
+<span class="md-ellipsis">
       
         Sites
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#batiments-salles" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#batiments-salles">
+<span class="md-ellipsis">
       
         Bâtiments / Salles
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#baies" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#baies">
+<span class="md-ellipsis">
       
         Baies
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#zones-de-securite" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#zones-de-securite">
+<span class="md-ellipsis">
       
         Zones de sécurité
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#serveurs-physiques" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#serveurs-physiques">
+<span class="md-ellipsis">
       
         Serveurs physiques
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#postes-de-travail" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#postes-de-travail">
+<span class="md-ellipsis">
       
         Postes de travail
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#infrastructures-de-stockage" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#infrastructures-de-stockage">
+<span class="md-ellipsis">
       
         Infrastructures de stockage
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#peripheriques" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#peripheriques">
+<span class="md-ellipsis">
       
         Périphériques
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#telephones" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#telephones">
+<span class="md-ellipsis">
       
         Téléphones
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#commutateurs-physiques" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#commutateurs-physiques">
+<span class="md-ellipsis">
       
         Commutateurs physiques
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#routeurs-physiques" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#routeurs-physiques">
+<span class="md-ellipsis">
       
         Routeurs physiques
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#bornes-wifi" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#bornes-wifi">
+<span class="md-ellipsis">
       
         Bornes WiFi
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#equipements-de-securite-physique" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#equipements-de-securite-physique">
+<span class="md-ellipsis">
       
         Équipements de sécurité physique
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#liens-physiques" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#liens-physiques">
+<span class="md-ellipsis">
       
         Liens physiques
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#wans" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#wans">
+<span class="md-ellipsis">
       
         WANs
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#mans" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#mans">
+<span class="md-ellipsis">
       
         MANs
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#lans" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#lans">
+<span class="md-ellipsis">
       
         LANs
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#configuration">
+<span class="md-ellipsis">
       
         Configuration
       
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#documents" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="Configuration" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#documents">
+<span class="md-ellipsis">
       
         documents
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#utilisateurs_1" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#utilisateurs_1">
+<span class="md-ellipsis">
       
         utilisateurs
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#roles" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#roles">
+<span class="md-ellipsis">
       
         Roles
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#cartographie" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#cartographie">
+<span class="md-ellipsis">
       
         Cartographie
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#permissions" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#permissions">
+<span class="md-ellipsis">
       
         Permissions
       
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
+</ul>
 </nav>
-                  </div>
-                </div>
-              </div>
-            
-          
-          
-            <div class="md-content" data-md-component="content">
-              
-              <article class="md-content__inner md-typeset">
-                
-                  
-
-
-  
-    <a href="https://github.com/sourcentis/mercator/edit/master/docs/model.fr.md" title="Editer cette page" class="md-content__button md-icon" rel="edit">
-      
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
-    </a>
-  
-  
-    
-      
-    
-    <a href="https://github.com/sourcentis/mercator/raw/master/docs/model.fr.md" title="Consulter la source de cette page" class="md-content__button md-icon">
-      
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
-    </a>
-  
-
-
-<h1 id="modele-de-donnees">Modèle de données<a class="headerlink" href="#modele-de-donnees" title="Permanent link">&para;</a></h1>
-<p><a href="../images/model.png"><img src="/mercator/fr/images/model.png" width="700"></a></p>
-<h2 id="vue-du-rgpd">Vue du RGPD<a class="headerlink" href="#vue-du-rgpd" title="Permanent link">&para;</a></h2>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<a class="md-content__button md-icon" href="https://github.com/sourcentis/mercator/edit/master/docs/model.fr.md" rel="edit" title="Editer cette page">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
+</a>
+<a class="md-content__button md-icon" href="https://github.com/sourcentis/mercator/raw/master/docs/model.fr.md" title="Consulter la source de cette page">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"></path></svg>
+</a>
+<h1 id="modele-de-donnees">Modèle de données<a class="headerlink" href="#modele-de-donnees" title="Permanent link">¶</a></h1>
+<p>Schéma simplifier du modèle de données </p>
+<p><a href="../images/model.png"><img src="/mercator/fr/images/model.png" width="700"/></a></p>
+<h2 id="vue-du-rgpd">Vue du RGPD<a class="headerlink" href="#vue-du-rgpd" title="Permanent link">¶</a></h2>
 <p>La vue du RGPD contient l'ensemble des données nécessaires au maintien du registre des traitements et fait le lien avec
 les processus, applications et informations utilisées par le système d'information.</p>
 <p>Cette vue permet de remplir les obligations prévues à l’article 30 du RGPD.</p>
-<h3 id="registre">Registre<a class="headerlink" href="#registre" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>erDiagram
+    data_processing {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        string legal_basis
+        text responsible
+        text purpose
+        text lawfulness
+        boolean lawfulness_consent
+        boolean lawfulness_contract
+        boolean lawfulness_legal_obligation
+        boolean lawfulness_vital_interest
+        boolean lawfulness_public_interest
+        boolean lawfulness_legitimate_interest
+        text categories
+        text data_source
+        text data_collection_obligation
+        text recipients
+        text transfert
+        text automated_decision_making
+        text retention
+        text data_subject_rights
+        date update_date
+        text controls
+        list informations
+        list applications
+        list processes
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    security_controls {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+</code></pre>
+<p>Il n'y a pas de relation directe entre <code>data_processing</code> et <code>security_controls</code> au sein de cette vue : les deux
+tables sont rattachées aux processus et aux applications, qui appartiennent à d'autres vues (voir
+<a href="#processus">vue métier</a> et <a href="#applications">vue des applications</a>).</p>
+<h3 id="registre">Registre<a class="headerlink" href="#registre" title="Permanent link">¶</a></h3>
 <p>Le registre des activités de traitement contient les informations prévues à l'article 30.1 du RGPD.</p>
 <table>
 <thead>
@@ -3068,11 +2086,11 @@ les processus, applications et informations utilisées par le système d'informa
 <p>L'export du modèle de données référence les processus, les informations, les applications et les documents
 rattachés à un traitement de données.</p>
 <p>Dans l'application, un processus peut être rattaché à un traitement de données depuis un objet traitement
-de données.<br />
+de données.<br/>
 Une information peut être rattachée à un traitement de données depuis un objet traitement de données.</p>
-<p>Une application peut être rattachée à un traitement de données depuis un objet traitement de données.<br />
+<p>Une application peut être rattachée à un traitement de données depuis un objet traitement de données.<br/>
 Un document peut être rattaché à un traitement de données depuis un objet traitement de données.</p>
-<h3 id="mesures-de-securite">Mesures de sécurité<a class="headerlink" href="#mesures-de-securite" title="Permanent link">&para;</a></h3>
+<h3 id="mesures-de-securite">Mesures de sécurité<a class="headerlink" href="#mesures-de-securite" title="Permanent link">¶</a></h3>
 <p>Cette table permet d'identifier les mesures de sécurité appliquées aux processus et applications.</p>
 <p>Par défaut cette table est complétée avec les mesures de sécurité de la norme ISO 27001:2022.</p>
 <table>
@@ -3135,13 +2153,62 @@ Un document peut être rattaché à un traitement de données depuis un objet tr
 </tr>
 </tbody>
 </table>
-<h2 id="vue-de-lecosysteme">Vue de l’écosystème<a class="headerlink" href="#vue-de-lecosysteme" title="Permanent link">&para;</a></h2>
+<h2 id="vue-de-lecosysteme">Vue de l’écosystème<a class="headerlink" href="#vue-de-lecosysteme" title="Permanent link">¶</a></h2>
 <p>La vue de l’écosystème décrit l’ensemble des entités ou systèmes qui gravitent autour du système d’information considéré
 dans le cadre de la cartographie.</p>
-<p><a href="../../images/ecosystem.png"><img src="/mercator/images/ecosystem.png" width="600"></a></p>
 <p>Cette vue permet à la fois de délimiter le périmètre de la cartographie, mais aussi de disposer d’une vision d’ensemble
 de l’écosystème sans se limiter à l’étude individuelle de chaque entité.</p>
-<h3 id="entites">Entités<a class="headerlink" href="#entites" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>erDiagram
+    entities {
+        int id PK
+        string ext_refs
+        string name
+        int icon_id
+        string entity_type
+        string attributes
+        text description
+        string reference
+        int parent_entity_id FK
+        boolean is_external
+        text security_level
+        text contact_point
+        string external_ref_id
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    relations {
+        int id PK
+        string ext_refs
+        string name
+        string type
+        string attributes
+        text description
+        int source_id FK
+        int destination_id FK
+        string reference
+        string responsible
+        string order_number
+        boolean active
+        date start_date
+        date end_date
+        text comments
+        int importance
+        int security_need_c
+        int security_need_i
+        int security_need_a
+        int security_need_t
+        int security_need_auth
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+
+    entities ||--o{ entities : "parent_entity_id"
+    entities ||--o{ relations : "source_id"
+    entities ||--o{ relations : "destination_id"
+</code></pre>
+<h3 id="entites">Entités<a class="headerlink" href="#entites" title="Permanent link">¶</a></h3>
 <p>Les entités sont une partie de l’organisme (ex. : filiale, département, etc.) ou en relation avec le système
 d’information qui vise à être cartographié.</p>
 <p>Les entités sont des départements, des fournisseurs, des partenaires avec lesquels des informations sont échangées au
@@ -3253,11 +2320,11 @@ travers de relations.</p>
 </table>
 <p>Le champ "external_ref_id" n'est pas utilisé et est donc absent de l'application.</p>
 <p>L'export du modèle de données référence les processus et applications rattachées à une entité.</p>
-<p>Dans l'application, un processus peut être rattaché à une entité depuis ces deux objets.<br />
+<p>Dans l'application, un processus peut être rattaché à une entité depuis ces deux objets.<br/>
 Une application peut être rattachée à une entité (en tant que responsable de l'exploitation) depuis ces deux objets.</p>
 <p>Dans l'application, une base de données peut être rattachée à une entité (en tant que responsable de l'exploitation)
 depuis ces deux objets.</p>
-<h3 id="relations">Relations<a class="headerlink" href="#relations" title="Permanent link">&para;</a></h3>
+<h3 id="relations">Relations<a class="headerlink" href="#relations" title="Permanent link">¶</a></h3>
 <p>Les relations représentent un lien entre deux entités ou systèmes.</p>
 <p>Les relations sont des contrats, accords de services, des obligations légales... qui ont une influence sur le système
 d’information.</p>
@@ -3407,19 +2474,153 @@ d’information.</p>
 </tbody>
 </table>
 <p>Dans l'application, le besoin en authenticité est masqué par défaut. Il est obligatoire dans le cas
-d'une entité soumise à la directive UE 2022/2554 (DORA).<br />
+d'une entité soumise à la directive UE 2022/2554 (DORA).<br/>
 Il s'active depuis le menu Configuration &gt; Paramètres.</p>
-<p>L'export du modèle de données référence les documents de référence rattachés à une relation.<br />
+<p>L'export du modèle de données référence les documents de référence rattachés à une relation.<br/>
 Dans l'application, un document peut être rattaché à une relation depuis un objet relations.</p>
 <p>Les valeurs financières d'un contrat peuvent être indiquées dans des champs dédiés.</p>
-<hr />
-<h2 id="vue-metier-du-systeme-dinformation">Vue métier du système d’information<a class="headerlink" href="#vue-metier-du-systeme-dinformation" title="Permanent link">&para;</a></h2>
+<hr/>
+<h2 id="vue-metier-du-systeme-dinformation">Vue métier du système d’information<a class="headerlink" href="#vue-metier-du-systeme-dinformation" title="Permanent link">¶</a></h2>
 <p>La vue métier du système d’information décrit l’ensemble des processus métiers de l’organisme avec les acteurs qui y
 participent, indépendamment des choix technologiques faits par l’organisme et des ressources mises à sa disposition.</p>
-<p><a href="../../images/information_system.png"><img src="/mercator/images/information_system.png" width="600"></a></p>
 <p>La vue métier est essentielle, car elle permet de repositionner les éléments techniques dans leur environnement métier
 et ainsi de comprendre leur contexte d’emploi.</p>
-<h3 id="macro-processus">Macro-processus<a class="headerlink" href="#macro-processus" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>erDiagram
+    "macro-processuses" {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        text io_elements
+        int security_need_c
+        int security_need_i
+        int security_need_a
+        int security_need_t
+        int security_need_auth
+        string owner
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    processes {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        int icon_id
+        string owner
+        text in_out
+        int security_need_c
+        int security_need_i
+        int security_need_a
+        int security_need_t
+        int security_need_auth
+        int macroprocess_id FK
+        list activities
+        list entities
+        list informations
+        list applications
+        list operations
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    activities {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        int recovery_time_objective
+        int maximum_tolerable_downtime
+        int recovery_point_objective
+        int maximum_tolerable_data_loss
+        text drp
+        string drp_link
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    activity_impact {
+        bigint id PK
+        int activity_id FK
+        string impact_type
+        int severity
+        timestamp created_at
+        timestamp updated_at
+    }
+    operations {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        int process_id FK
+        list actors
+        list tasks
+        list activities
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    tasks {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    actors {
+        int id PK
+        string ext_refs
+        string name
+        string nature
+        string type
+        string contact
+        list operations
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    information {
+        int id PK
+        string ext_refs
+        string name
+        string type
+        string attributes
+        text description
+        string owner
+        string administrator
+        string sensitivity
+        string storage
+        int security_need_c
+        int security_need_i
+        int security_need_a
+        int security_need_t
+        int security_need_auth
+        text constraints
+        string retention
+        list parents
+        list children
+        list processes
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+
+    "macro-processuses" ||--o{ processes : "macroprocess_id"
+    processes }o--o{ activities : "activities"
+    processes }o--o{ information : "informations"
+    operations }o--|| processes : "process_id"
+    operations }o--o{ actors : "actors"
+    operations }o--o{ tasks : "tasks"
+    operations }o--o{ activities : "activities"
+    activities ||--o{ activity_impact : "activity_id"
+    information }o--o{ information : "parents / children"
+</code></pre>
+<p><em>Remarque : les entités, applications et bases de données référencées par les processus/activités/informations
+appartiennent à d'autres vues (Écosystème, Applications) et ne sont donc pas représentées dans ce schéma.</em></p>
+<h3 id="macro-processus">Macro-processus<a class="headerlink" href="#macro-processus" title="Permanent link">¶</a></h3>
 <p>Les macro-processus représentent des ensembles de processus.</p>
 <table>
 <thead>
@@ -3517,10 +2718,10 @@ et ainsi de comprendre leur contexte d’emploi.</p>
 </tbody>
 </table>
 <p>Dans l'application, le besoin en authenticité est masqué par défaut. Il est obligatoire dans le cas
-d'une entité soumise à la directive UE 2022/2554 (DORA).<br />
+d'une entité soumise à la directive UE 2022/2554 (DORA).<br/>
 Il s'active depuis le menu Configuration &gt; Paramètres.</p>
 <p>Dans l'application, un processus peut être rattaché à un macro-processus depuis ces deux objets.</p>
-<h3 id="processus">Processus<a class="headerlink" href="#processus" title="Permanent link">&para;</a></h3>
+<h3 id="processus">Processus<a class="headerlink" href="#processus" title="Permanent link">¶</a></h3>
 <p>Les processus sont un ensemble d’activités concourant à un objectif. Le processus produit des informations (de sortie) à
 valeur ajoutée (sous forme de livrables) à partir d’informations (d’entrées) produites par d’autres processus.</p>
 <p>Les processus sont composés d’activités, des entités qui participent à ce processus et des informations traitées par
@@ -3656,7 +2857,7 @@ celui-ci.</p>
 </tbody>
 </table>
 <p>Dans l'application, le besoin en authenticité est masqué par défaut. Il est obligatoire dans le cas
-d'une entité soumise à la directive UE 2022/2554 (DORA).<br />
+d'une entité soumise à la directive UE 2022/2554 (DORA).<br/>
 Il s'active depuis le menu Configuration &gt; Paramètres.</p>
 <p>L'export du modèle de données référence les :</p>
 <ul>
@@ -3668,14 +2869,14 @@ Il s'active depuis le menu Configuration &gt; Paramètres.</p>
 <li>et mesures de sécurité</li>
 </ul>
 <p>rattachées à un processus.</p>
-<p>Dans l'application, une entité associée à un processus peut être rattachée à un processus depuis ces deux objets.<br />
-Une activité peut être rattachée à un processus depuis ces deux objets.<br />
+<p>Dans l'application, une entité associée à un processus peut être rattachée à un processus depuis ces deux objets.<br/>
+Une activité peut être rattachée à un processus depuis ces deux objets.<br/>
 Une information peut être rattachée à un processus depuis ces deux objets.</p>
-<p>Une application peut être rattachée à un processus depuis ces deux objets.<br />
+<p>Une application peut être rattachée à un processus depuis ces deux objets.<br/>
 Un traitement du registre RGPD peut être rattachée à un processus depuis un objet traitement du registre.</p>
-<p>Une mesure de sécurité peut être rattachée à une application depuis le bouton "Assigner une mesure de sécurité".<br />
+<p>Une mesure de sécurité peut être rattachée à une application depuis le bouton "Assigner une mesure de sécurité".<br/>
 Ce bouton est présent dans la vue du RGDP et visible dans la liste des objets Mesures de sécurité.</p>
-<h3 id="activites">Activités<a class="headerlink" href="#activites" title="Permanent link">&para;</a></h3>
+<h3 id="activites">Activités<a class="headerlink" href="#activites" title="Permanent link">¶</a></h3>
 <p>Une activité est une étape nécessaire à la réalisation d’un processus. Elle correspond à un savoir-faire spécifique et
 pas forcément à une structure organisationnelle de l’entreprise.</p>
 <table>
@@ -3768,15 +2969,15 @@ pas forcément à une structure organisationnelle de l’entreprise.</p>
 </tr>
 </tbody>
 </table>
-<p>DMTP : Temps d'interruption maximale avant que les conséquences ne se soient critiques ou ne deviennent inacceptables.<br />
+<p>DMTP : Temps d'interruption maximale avant que les conséquences ne se soient critiques ou ne deviennent inacceptables.<br/>
 PDMA : perte de données maximales avant des conséquences critiques ou inacceptables.</p>
 <p>L'export du modèle de données référence les processus, opérations et applications rattachées à une activité.</p>
-<p>Dans l'application, un processus peut être rattaché à une activité depuis ces deux objets.<br />
-Une opération peut être rattachée à une activité depuis ces deux objets.<br />
+<p>Dans l'application, un processus peut être rattaché à une activité depuis ces deux objets.<br/>
+Une opération peut être rattachée à une activité depuis ces deux objets.<br/>
 Une application peut être rattachée à une activité depuis ces deux objets.</p>
 <p>Dans l'application, les champs "Type d'impact" et "Gravité" sont gérés dans une table à part.</p>
-<h4 id="impacts">Impacts<a class="headerlink" href="#impacts" title="Permanent link">&para;</a></h4>
-<p>Les impacts sont les conséquences de la survenue d'un risque lors d'une activité.<br />
+<h4 id="impacts">Impacts<a class="headerlink" href="#impacts" title="Permanent link">¶</a></h4>
+<p>Les impacts sont les conséquences de la survenue d'un risque lors d'une activité.<br/>
 Les impacts ne sont accessibles qu'à travers les objets activités.</p>
 <p>Ils ne sont ni importables, ni exportables à travers l'outil graphique.</p>
 <table>
@@ -3834,7 +3035,7 @@ Les impacts ne sont accessibles qu'à travers les objets activités.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="operations">Opérations<a class="headerlink" href="#operations" title="Permanent link">&para;</a></h3>
+<h3 id="operations">Opérations<a class="headerlink" href="#operations" title="Permanent link">¶</a></h3>
 <p>Une opération est composée d’acteurs et de tâches.</p>
 <table>
 <thead>
@@ -3917,10 +3118,10 @@ Les impacts ne sont accessibles qu'à travers les objets activités.</p>
 </tbody>
 </table>
 <p>L'export du modèle de données référence les activités, les acteurs et les tâches rattachées à une opération.</p>
-<p>Dans l'application, une activité peut être rattachée à une opération depuis ces deux objets.<br />
-Un acteur peut être rattaché à une opération depuis l'objet opérations.<br />
+<p>Dans l'application, une activité peut être rattachée à une opération depuis ces deux objets.<br/>
+Un acteur peut être rattaché à une opération depuis l'objet opérations.<br/>
 Une tâche peut être rattachée à une opération depuis l'objet opérations.</p>
-<h3 id="taches">Tâches<a class="headerlink" href="#taches" title="Permanent link">&para;</a></h3>
+<h3 id="taches">Tâches<a class="headerlink" href="#taches" title="Permanent link">¶</a></h3>
 <p>Une tâche est une activité élémentaire exercée par une fonction organisationnelle et constituant une unité indivisible
 de travail dans la chaîne de valeur ajoutée d’un processus.</p>
 <table>
@@ -3985,7 +3186,7 @@ de travail dans la chaîne de valeur ajoutée d’un processus.</p>
 </table>
 <p>L'export du modèle de données référence les opérations rattachées à une tâche.</p>
 <p>Dans l'application, une opération peut être rattachée à une tâche depuis l'objet opérations.</p>
-<h3 id="acteurs">Acteurs<a class="headerlink" href="#acteurs" title="Permanent link">&para;</a></h3>
+<h3 id="acteurs">Acteurs<a class="headerlink" href="#acteurs" title="Permanent link">¶</a></h3>
 <p>Un acteur est un représentant d’un rôle métier qui exécute des opérations, utilise des applications et prend des
 décisions dans le cadre des processus. Ce rôle peut être porté par une personne, un groupe de personnes ou une entité.</p>
 <table>
@@ -4065,7 +3266,7 @@ décisions dans le cadre des processus. Ce rôle peut être porté par une perso
 </table>
 <p>L'export du modèle de données référence les opérations rattachées à un acteur.</p>
 <p>Dans l'application, une opération peut être rattachée à un acteur depuis l'objet opérations.</p>
-<h3 id="information">Information<a class="headerlink" href="#information" title="Permanent link">&para;</a></h3>
+<h3 id="information">Information<a class="headerlink" href="#information" title="Permanent link">¶</a></h3>
 <p>Une information est une donnée faisant l’objet d’un traitement informatique.
 Une information peut être héritée d'une ou plusieurs informations parentes.
 Les informations peuvent former des hiérarchies parent-enfant via des liaisons explicites.</p>
@@ -4211,19 +3412,154 @@ Les informations peuvent former des hiérarchies parent-enfant via des liaisons 
 </table>
 <p>Le champ "retention" n'est pas utilisé pour le moment et est donc absent de l'application.</p>
 <p>Dans l'application, le besoin en authenticité est masqué par défaut. Il est obligatoire dans le cas
-d'une entité soumise à la directive UE 2022/2554 (DORA).<br />
+d'une entité soumise à la directive UE 2022/2554 (DORA).<br/>
 Il s'active depuis le menu Configuration &gt; Paramètres.</p>
-<p>L'export du modèle de données référence les bases de données et processus rattachés à une information.<br />
-Dans l'application, une base de donnée peut être rattachée à une information depuis l'objet base de données.<br />
+<p>L'export du modèle de données référence les bases de données et processus rattachés à une information.<br/>
+Dans l'application, une base de donnée peut être rattachée à une information depuis l'objet base de données.<br/>
 Un processus peut être rattachée à une information depuis ces deux objets.</p>
 <p><em>Note: le lien processes est une représentation du résultat généré par le endpoint <a href="#processus">processes</a> et son
 champ </em><em>informations</em>**</p>
-<hr />
-<h2 id="la-vue-des-applications">La vue des applications<a class="headerlink" href="#la-vue-des-applications" title="Permanent link">&para;</a></h2>
+<hr/>
+<h2 id="la-vue-des-applications">La vue des applications<a class="headerlink" href="#la-vue-des-applications" title="Permanent link">¶</a></h2>
 <p>La vue des applications permet de décrire une partie de ce qui est classiquement appelé le « système informatique ».</p>
-<p><a href="../../images/applications.png"><img src="/mercator/images/applications.png" width="600"></a></p>
 <p>Cette vue décrit les solutions technologiques qui supportent les processus métiers, principalement les applications.</p>
-<h3 id="blocs-applicatif">Blocs applicatif<a class="headerlink" href="#blocs-applicatif" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>erDiagram
+    "application-blocks" {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        string responsible
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    applications {
+        int id PK
+        string ext_refs
+        string name
+        int application_block_id FK
+        string attributes
+        text description
+        int icon_id
+        string responsible
+        string functional_referent
+        string editor
+        string users
+        string technology
+        string type
+        string external
+        datetime install_date
+        datetime update_date
+        datetime next_update
+        string documentation
+        int security_need_c
+        int security_need_i
+        int security_need_a
+        int security_need_t
+        int security_need_auth
+        int rto
+        int rpo
+        string vendor
+        string product
+        string version
+        int patching_frequency
+        list entities
+        list processes
+        list services
+        list databases
+        list logical_servers
+        list activities
+        list containers
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    application_events {
+        int id PK
+        string ext_refs
+        int user_id FK
+        int application_id FK
+        text message
+        timestamp created_at
+        timestamp updated_at
+    }
+    application_services {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        string exposition
+        list modules
+        list applications
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    application_modules {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        list entities
+        list application_services
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    databases {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        string type
+        int entity_resp_id FK
+        string responsible
+        int icon_id
+        int security_need_c
+        int security_need_i
+        int security_need_a
+        int security_need_t
+        int security_need_auth
+        string external
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    application_flows {
+        int id PK
+        string ext_refs
+        string name
+        string attributes
+        text description
+        int application_source_id FK
+        int service_source_id FK
+        int module_source_id FK
+        int database_source_id FK
+        int application_dest_id FK
+        int service_dest_id FK
+        int module_dest_id FK
+        int database_dest_id FK
+        boolean crypted
+        boolean bidirectional
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+
+    "application-blocks" ||--o{ applications : "application_block_id"
+    applications ||--o{ application_events : "application_id"
+    applications }o--o{ application_services : "services"
+    applications }o--o{ databases : "databases"
+    application_services }o--o{ application_modules : "modules"
+    application_flows }o--|| applications : "source / destination"
+    application_flows }o--|| application_services : "source / destination"
+    application_flows }o--|| application_modules : "source / destination"
+    application_flows }o--|| databases : "source / destination"
+</code></pre>
+<p><em>Remarque : les entités, processus, activités, serveurs logiques et conteneurs référencés par les applications
+appartiennent à d'autres vues et ne sont donc pas représentés dans ce schéma.</em></p>
+<h3 id="blocs-applicatif">Blocs applicatif<a class="headerlink" href="#blocs-applicatif" title="Permanent link">¶</a></h3>
 <p>Un bloc applicatif représente un ensemble d’application.</p>
 <p>Un bloc applicatif peut être : les applications bureautique, de gestion, d’analyse, de développement, ...</p>
 <table>
@@ -4292,7 +3628,7 @@ champ </em><em>informations</em>**</p>
 </tbody>
 </table>
 <p>Dans l'application, une application peut être rattachée à un bloc applicatif depuis ces deux objets.</p>
-<h3 id="applications">Applications<a class="headerlink" href="#applications" title="Permanent link">&para;</a></h3>
+<h3 id="applications">Applications<a class="headerlink" href="#applications" title="Permanent link">¶</a></h3>
 <p>Une application est un ensemble cohérent d’objets informatiques (exécutables, programmes, données...). Elle constitue un
 regroupement de services applicatifs.</p>
 <p>Une application peut être déployée sur un ou plusieurs serveurs logiques.</p>
@@ -4518,12 +3854,12 @@ a un serveur logique par serveur physique.</p>
 </tr>
 </tbody>
 </table>
-<p>RTO : <em>Recovery Time Objective</em><br />
+<p>RTO : <em>Recovery Time Objective</em><br/>
 RPO : <em>Recovery Point Objective</em></p>
 <p>Les champs "patching_frequency" et "next_update" ne sont pas utilisés pour le moment et sont donc absent de
 l'application.</p>
 <p>Dans l'application, le besoin en authenticité est masqué par défaut. Il est obligatoire dans le cas
-d'une entité soumise à la directive UE 2022/2554 (DORA).<br />
+d'une entité soumise à la directive UE 2022/2554 (DORA).<br/>
 Il s'active depuis le menu Configuration &gt; Paramètres.</p>
 <p>L'export du modèle de données référence :</p>
 <ul>
@@ -4539,21 +3875,21 @@ Il s'active depuis le menu Configuration &gt; Paramètres.</p>
 <li>et les mesures de sécurité</li>
 </ul>
 <p>rattachées à une application.</p>
-<p>Dans l'application, une entité utilisatrice peut être rattachée à une application depuis un objet application.<br />
-Un processus peut être rattaché à une application depuis ces deux objets.<br />
+<p>Dans l'application, une entité utilisatrice peut être rattachée à une application depuis un objet application.<br/>
+Un processus peut être rattaché à une application depuis ces deux objets.<br/>
 Une activité peut être rattachée à une application depuis ces deux objets.</p>
-<p>Un service applicatif peut être rattaché à une application depuis ces deux objets.<br />
-Une base de données peut être rattachée à une application depuis ces deux objets.<br />
+<p>Un service applicatif peut être rattaché à une application depuis ces deux objets.<br/>
+Une base de données peut être rattachée à une application depuis ces deux objets.<br/>
 Un poste de travail peut être rattaché à une application depuis un objet poste de travail.</p>
-<p>Un serveur logique peut être rattaché à une application depuis ces deux objets.<br />
-Un équipement de sécurité logique peut être rattaché à une application depuis ces deux objets.<br />
+<p>Un serveur logique peut être rattaché à une application depuis ces deux objets.<br/>
+Un équipement de sécurité logique peut être rattaché à une application depuis ces deux objets.<br/>
 Un administrateur peut être rattaché à une application depuis un objet application.</p>
-<p>Une mesure de sécurité peut être rattachée à une application depuis le bouton "Assigner une mesure de sécurité".<br />
+<p>Une mesure de sécurité peut être rattachée à une application depuis le bouton "Assigner une mesure de sécurité".<br/>
 Ce bouton est présent dans la vue du RGDP et visible dans la liste des objets Mesures de sécurité.</p>
-<p>Dans l'application, un conteneur peut être rattaché à une application depuis ces deux objets.<br />
+<p>Dans l'application, un conteneur peut être rattaché à une application depuis ces deux objets.<br/>
 Dans l'application, le champ <em>évènements majeurs</em> est géré dans une table à part.</p>
-<h4 id="evenements-majeurs">Évènements majeurs<a class="headerlink" href="#evenements-majeurs" title="Permanent link">&para;</a></h4>
-<p>Les évènements majeurs sont les principaux évènements subis par une application au cours de son exploitation.<br />
+<h4 id="evenements-majeurs">Évènements majeurs<a class="headerlink" href="#evenements-majeurs" title="Permanent link">¶</a></h4>
+<p>Les évènements majeurs sont les principaux évènements subis par une application au cours de son exploitation.<br/>
 Les évènements majeurs ne sont accessibles qu'à travers les objets applications.</p>
 <p>Ils ne sont ni importables, ni exportables à travers l'outil graphique.</p>
 <table>
@@ -4616,7 +3952,7 @@ Les évènements majeurs ne sont accessibles qu'à travers les objets applicatio
 </tr>
 </tbody>
 </table>
-<h3 id="services-applicatif">Services applicatif<a class="headerlink" href="#services-applicatif" title="Permanent link">&para;</a></h3>
+<h3 id="services-applicatif">Services applicatif<a class="headerlink" href="#services-applicatif" title="Permanent link">¶</a></h3>
 <p>Un service applicatif est un élément de découpage de l’application mis à disposition de l’utilisateur final dans le
 cadre de son travail.</p>
 <p>Un service applicatif peut, par exemple, être un service dans le nuage (Cloud).</p>
@@ -4696,12 +4032,12 @@ cadre de son travail.</p>
 </tbody>
 </table>
 <p>L'export du modèle de données référence les applications et les modules applicatifs rattachés à un service applicatif.</p>
-<p>Dans l'application, une application peut être rattachée à un service applicatif depuis ces deux objets.<br />
+<p>Dans l'application, une application peut être rattachée à un service applicatif depuis ces deux objets.<br/>
 Dans l'application, un module applicatif peut être rattaché à un service applicatif depuis ces deux objets.</p>
 <p>Il y a deux champs comportant les mêmes informations dans l'export du modèle de données, <em>servicesApplications</em> et
-<em>applications</em>.<br />
+<em>applications</em>.<br/>
 La liaison avec les objets applications se fait par le champ <em>applications</em>.</p>
-<h3 id="modules-applicatif">Modules applicatif<a class="headerlink" href="#modules-applicatif" title="Permanent link">&para;</a></h3>
+<h3 id="modules-applicatif">Modules applicatif<a class="headerlink" href="#modules-applicatif" title="Permanent link">¶</a></h3>
 <p>Un module applicatif est un composant d’une application caractérisé par une cohérence fonctionnelle en matière
 d’informatique et une homogénéité technologique.</p>
 <table>
@@ -4784,9 +4120,9 @@ d’informatique et une homogénéité technologique.</p>
 </tr>
 </tbody>
 </table>
-<p>L'export du modèle de données référence les services applicatifs rattachés à un module applicatif.<br />
+<p>L'export du modèle de données référence les services applicatifs rattachés à un module applicatif.<br/>
 Dans l'application, un service applicatif peut être rattaché à un module applicatif depuis ces deux objets.</p>
-<h3 id="bases-de-donnees">Bases de données<a class="headerlink" href="#bases-de-donnees" title="Permanent link">&para;</a></h3>
+<h3 id="bases-de-donnees">Bases de données<a class="headerlink" href="#bases-de-donnees" title="Permanent link">¶</a></h3>
 <p>Une base de données est un ensemble structuré et ordonné d’informations destinées à être exploitées informatiquement.</p>
 <table>
 <thead>
@@ -4899,19 +4235,19 @@ Dans l'application, un service applicatif peut être rattaché à un module appl
 </tbody>
 </table>
 <p>Dans l'application, le besoin en authenticité est masqué par défaut. Il est obligatoire dans le cas
-d'une entité soumise à la directive UE 2022/2554 (DORA).<br />
+d'une entité soumise à la directive UE 2022/2554 (DORA).<br/>
 Il s'active depuis le menu Configuration &gt; Paramètres.</p>
-<p>L'export du modèle de données référence l'image spécifique d'une base de données.<br />
+<p>L'export du modèle de données référence l'image spécifique d'une base de données.<br/>
 Dans l'application, une image spécifique peut être rattachée à une base de données depuis un objet base de données.</p>
 <p>L'export du modèle de données référence les entités utilisatrices (champ <em>entities</em>), les applications, les
 informations,
-les serveurs logiques et les conteneurs rattachés à une base de données.<br />
-Dans l'application, une entité utilisatrice peut être rattachée à une base de données depuis un objet base de données.<br />
-Dans l'application, une information peut être rattachée à une base de données depuis un objet base de données.<br />
-Dans l'application, une application peut être rattachée à une base de données depuis ces deux objets.<br />
-Dans l'application, un serveur logique peut être rattaché à une base de données depuis ces deux objets.<br />
+les serveurs logiques et les conteneurs rattachés à une base de données.<br/>
+Dans l'application, une entité utilisatrice peut être rattachée à une base de données depuis un objet base de données.<br/>
+Dans l'application, une information peut être rattachée à une base de données depuis un objet base de données.<br/>
+Dans l'application, une application peut être rattachée à une base de données depuis ces deux objets.<br/>
+Dans l'application, un serveur logique peut être rattaché à une base de données depuis ces deux objets.<br/>
 Dans l'application, un conteneur peut être rattaché à une base de données depuis ces deux objets.</p>
-<h3 id="flux-applicatifs">Flux applicatifs<a class="headerlink" href="#flux-applicatifs" title="Permanent link">&para;</a></h3>
+<h3 id="flux-applicatifs">Flux applicatifs<a class="headerlink" href="#flux-applicatifs" title="Permanent link">¶</a></h3>
 <p>Un flux est un échange d’informations entre un émetteur ou un récepteur (application, service applicatif, module
 applicatif ou base de données).</p>
 <p>Un flux représente un échange d’information entre deux éléments du système d’information. Il faut éviter de représenter
@@ -4966,12 +4302,12 @@ en termes de flux l’ensemble des règles de filtrage du firewall.</p>
 <td style="text-align: left;">Description du flux</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span style="color: purple;"><em>device</em>**_source_id</td>
+<td style="text-align: left;"><span style="color: purple;"><em>device</em>**_source_id</span></td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">Lien vers l'actif source</td>
 </tr>
 <tr>
-<td style="text-align: left;"><span style="color: purple;"><em>device</em>**_dest_id</td>
+<td style="text-align: left;"><span style="color: purple;"><em>device</em>**_dest_id</span></td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">Lien vers l'actif destinataire</td>
 </tr>
@@ -5050,14 +4386,79 @@ en termes de flux l’ensemble des règles de filtrage du firewall.</p>
 </tbody>
 </table>
 <p>Dans l'application, une information peut être rattaché à un flux applicatif depuis un objet flux applicatif.</p>
-<hr />
-<h2 id="zone-dadministration">Zone d’administration<a class="headerlink" href="#zone-dadministration" title="Permanent link">&para;</a></h2>
+<hr/>
+<h2 id="zone-dadministration">Zone d’administration<a class="headerlink" href="#zone-dadministration" title="Permanent link">¶</a></h2>
 <p>La vue de l’administration répertorie l’administration des ressources, des annuaires et les niveaux de privilèges des
 utilisateurs du système d’information.</p>
-<p><a href="../../images/administration.png"><img src="/mercator/images/administration.png" width="400"></a></p>
 <p>Disposer d’annuaires et d’une centralisation des droits d’accès des utilisateurs est fortement recommandé pour les
 opérateurs d’importance vitale (OIV).</p>
-<h3 id="zones-dadministration">Zones d’administration<a class="headerlink" href="#zones-dadministration" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>erDiagram
+    zone_admins {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    annuaires {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        string solution
+        int zone_admin_id FK
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    forest_ads {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        int zone_admin_id FK
+        list domains
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    domains {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        int domain_ctrl_cnt
+        int user_count
+        int machine_count
+        string relation_inter_domain
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    admin_users {
+        int id PK
+        string ext_refs
+        string user_id
+        string firstname
+        string lastname
+        string type
+        string attributes
+        int icon_id
+        text description
+        int domain_id FK
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+
+    zone_admins ||--o{ annuaires : "zone_admin_id"
+    zone_admins ||--o{ forest_ads : "zone_admin_id"
+    forest_ads }o--o{ domains : "domains"
+    domains ||--o{ admin_users : "domain_id"
+</code></pre>
+<h3 id="zones-dadministration">Zones d’administration<a class="headerlink" href="#zones-dadministration" title="Permanent link">¶</a></h3>
 <p>Une zone d’administration est un ensemble de ressources (personnes, données, équipements) sous la responsabilité d’un (
 ou plusieurs) administrateur(s).</p>
 <p>Une zone d’administration est composée de services d’annuaires et de forêts Active Directory (AD) ou d’arborescences
@@ -5122,7 +4523,7 @@ LDAP.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="services-dannuaire-dadministration">Services d’annuaire d’administration<a class="headerlink" href="#services-dannuaire-dadministration" title="Permanent link">&para;</a></h3>
+<h3 id="services-dannuaire-dadministration">Services d’annuaire d’administration<a class="headerlink" href="#services-dannuaire-dadministration" title="Permanent link">¶</a></h3>
 <p>Un service d’annuaire d’administration est une application regroupant les données sur les utilisateurs ou les
 équipements informatiques de l’entreprise et permettant leur administration.</p>
 <p>Il peut s’agir d’un outil d’inventaire servant à la gestion des changements ou des tickets ou d’un outil de cartographie
@@ -5197,7 +4598,7 @@ comme Mercator.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="forets-active-directory-arborescence-ldap">Forêts Active Directory / Arborescence LDAP<a class="headerlink" href="#forets-active-directory-arborescence-ldap" title="Permanent link">&para;</a></h3>
+<h3 id="forets-active-directory-arborescence-ldap">Forêts Active Directory / Arborescence LDAP<a class="headerlink" href="#forets-active-directory-arborescence-ldap" title="Permanent link">¶</a></h3>
 <p>Ces objets représentent un regroupement organisé de domaines Active Directory ou d’arborescence LDAP.</p>
 <table>
 <thead>
@@ -5269,9 +4670,9 @@ comme Mercator.</p>
 </tr>
 </tbody>
 </table>
-<p>L'export du modèle de données référence les domaines rattachés à une forêt AD / Arborescence LDAP.<br />
+<p>L'export du modèle de données référence les domaines rattachés à une forêt AD / Arborescence LDAP.<br/>
 Dans l'application, un domaine peut être rattaché à une forêt AD / arborescence LDAP depuis ces deux objets.</p>
-<h3 id="domaines-active-directory-ldap">Domaines Active Directory / LDAP<a class="headerlink" href="#domaines-active-directory-ldap" title="Permanent link">&para;</a></h3>
+<h3 id="domaines-active-directory-ldap">Domaines Active Directory / LDAP<a class="headerlink" href="#domaines-active-directory-ldap" title="Permanent link">¶</a></h3>
 <p>Les domaines Active Directory / LDAP sont des annuaires informatique d'entreprise. Ils contiennent les comptes
 utilisateurs et machines, les contacts, une partie des configurations de la gestion des SI (politiques de groupes,
 GPO, par exemple) ainsi que les droits des objets.</p>
@@ -5355,11 +4756,11 @@ GPO, par exemple) ainsi que les droits des objets.</p>
 </tr>
 </tbody>
 </table>
-<p>L'export du modèle de données référence les forêts AD / arborescence LDAP rattachées à un domaine AD / LDAP.<br />
+<p>L'export du modèle de données référence les forêts AD / arborescence LDAP rattachées à un domaine AD / LDAP.<br/>
 Dans l'application, une forêt AD / arborescence LDAP peut être rattachée à un domaine AD / LDAP depuis ces deux
-objets.<br />
+objets.<br/>
 Un serveur logique peut être rattaché à un domaine AD / LDAP depuis ces deux objets.</p>
-<h3 id="utilisateurs">Utilisateurs<a class="headerlink" href="#utilisateurs" title="Permanent link">&para;</a></h3>
+<h3 id="utilisateurs">Utilisateurs<a class="headerlink" href="#utilisateurs" title="Permanent link">¶</a></h3>
 <p>Les utilisateurs représentent les comptes ayant des droits privilégiés sur les SI.</p>
 <table>
 <thead>
@@ -5451,15 +4852,290 @@ Un serveur logique peut être rattaché à un domaine AD / LDAP depuis ces deux 
 </tr>
 </tbody>
 </table>
-<p>L'export du modèle de données référence les applications dont un utilisateur est administrateur.<br />
+<p>L'export du modèle de données référence les applications dont un utilisateur est administrateur.<br/>
 Dans l'application, un utilisateur peut être défini comme administrateur d'une application depuis un objet application.</p>
-<hr />
-<h2 id="linfrastructure-logique">L’infrastructure logique<a class="headerlink" href="#linfrastructure-logique" title="Permanent link">&para;</a></h2>
+<hr/>
+<h2 id="linfrastructure-logique">L’infrastructure logique<a class="headerlink" href="#linfrastructure-logique" title="Permanent link">¶</a></h2>
 <p>La vue de l'infrastructure logique correspond à la répartition logique du réseau.</p>
-<p><a href="../../images/logical.png"><img src="/mercator/images/logical.png" width="400"></a></p>
 <p>Elle illustre le cloisonnement des réseaux et les liens logiques entre eux. En outre, elle répertorie les équipements
 réseau en charge du trafic.</p>
-<h3 id="reseaux">Réseaux<a class="headerlink" href="#reseaux" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>erDiagram
+    networks {
+        int id PK
+        string ext_refs
+        string name
+        string type
+        string attributes
+        text description
+        string protocol_type
+        string responsible
+        string responsible_sec
+        int security_need_c
+        int security_need_i
+        int security_need_a
+        int security_need_t
+        int security_need_auth
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    subnetworks {
+        int id PK
+        string ext_refs
+        string name
+        string type
+        string attributes
+        text description
+        int network_id FK
+        int subnetwork_id FK
+        int connected_subnets_id
+        string address
+        string default_gateway
+        int gateway_id FK
+        int vlan_id FK
+        string ip_allocation_type
+        string zone
+        string dmz
+        string wifi
+        string responsible_exp
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    gateways {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        string ip
+        string authentification
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    external_connected_entities {
+        int id PK
+        string ext_refs
+        string name
+        string type
+        text description
+        int entity_id FK
+        int network_id FK
+        list subnetworks
+        string contacts
+        string src
+        string src_desc
+        string dest
+        string dest_desc
+        text security
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    network_switches {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        string ip
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    routers {
+        int id PK
+        string ext_refs
+        string name
+        string type
+        text ip_addresses
+        text description
+        text rules
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    security_devices {
+        int id PK
+        string ext_refs
+        string name
+        string type
+        string attributes
+        int icon_id
+        text description
+        string address_ip
+        string vendor
+        string product
+        string version
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    dhcp_servers {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        string address_ip
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    dnsservers {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        string address_ip
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    clusters {
+        int id PK
+        string ext_refs
+        string name
+        string type
+        int icon_id
+        text description
+        string attributes
+        string address_ip
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    logical_servers {
+        int id PK
+        string ext_refs
+        string name
+        int icon_id
+        string type
+        boolean active
+        string attributes
+        text description
+        string operating_system
+        datetime install_date
+        datetime update_date
+        int patching_frequency
+        date next_update
+        string net_services
+        string environment
+        string address_ip
+        int domain_id FK
+        string cpu
+        string memory
+        int disk
+        int disk_used
+        text configuration
+        list databases
+        list cluster_id
+        list physical_servers
+        list applications
+        list containers
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    backups {
+        int id PK
+        string ext_refs
+        string name
+        string type
+        string attributes
+        list logical_server_ids
+        list storage_device_ids
+        int backup_frequency
+        int backup_cycle
+        int backup_retention
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    containers {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        string type
+        int icon_id
+        list applications
+        list databases
+        list logical_servers
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    logical_flows {
+        int id PK
+        string ext_refs
+        string name
+        string type
+        string attributes
+        text description
+        string chain
+        string interface
+        int router_id FK
+        int priority
+        string action
+        string protocol
+        string source_ip_range
+        string dest_ip_range
+        string source_port
+        string dest_port
+        int device_source_id FK
+        int device_dest_id FK
+        string users
+        string schedule
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    certificates {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        string type
+        date start_validity
+        date end_validity
+        int status
+        list logical_servers
+        list applications
+        datetime last_notification
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    vlans {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        int vlan_id
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+
+    networks ||--o{ subnetworks : "network_id"
+    subnetworks ||--o{ subnetworks : "subnetwork_id"
+    subnetworks }o--|| gateways : "gateway_id"
+    subnetworks }o--|| vlans : "vlan_id"
+    networks ||--o{ external_connected_entities : "network_id"
+    external_connected_entities }o--o{ subnetworks : "subnetworks"
+    routers ||--o{ logical_flows : "router_id"
+    clusters }o--o{ logical_servers : "cluster_id"
+    logical_servers }o--o{ containers : "containers"
+    backups }o--o{ logical_servers : "logical_server_ids"
+    logical_flows }o--|| security_devices : "device (poly)"
+    logical_flows }o--|| logical_servers : "device (poly)"
+    logical_flows }o--|| clusters : "device (poly)"
+    logical_flows }o--|| subnetworks : "device (poly)"
+    certificates }o--o{ logical_servers : "logical_servers"
+</code></pre>
+<p><em>Remarque : les entités, domaines d'administration, applications, bases de données et équipements de
+l'infrastructure physique référencés ici appartiennent à d'autres vues et ne sont donc pas représentés dans ce
+schéma.</em></p>
+<h3 id="reseaux">Réseaux<a class="headerlink" href="#reseaux" title="Permanent link">¶</a></h3>
 <p>Les réseaux sont un ensemble d’équipements reliés logiquement entre eux et qui échangent des informations.</p>
 <table>
 <thead>
@@ -5572,9 +5248,9 @@ réseau en charge du trafic.</p>
 </tbody>
 </table>
 <p>Dans l'application, le besoin en authenticité est masqué par défaut. Il est obligatoire dans le cas
-d'une entité soumise à la directive UE 2022/2554 (DORA).<br />
+d'une entité soumise à la directive UE 2022/2554 (DORA).<br/>
 Il s'active depuis le menu Configuration &gt; Paramètres.</p>
-<h3 id="sous-reseaux">Sous-réseaux<a class="headerlink" href="#sous-reseaux" title="Permanent link">&para;</a></h3>
+<h3 id="sous-reseaux">Sous-réseaux<a class="headerlink" href="#sous-reseaux" title="Permanent link">¶</a></h3>
 <p>Les sous-réseaux sont une subdivision logique d’un réseau de taille plus importante.</p>
 <table>
 <thead>
@@ -5707,7 +5383,7 @@ Il s'active depuis le menu Configuration &gt; Paramètres.</p>
 </tbody>
 </table>
 <p>Le champ "connected_subnets_id" sert à définir une clé étrangère. Cependant, celle-ci ne semble pas utilisée.</p>
-<h3 id="passerelles-dentrees-depuis-lexterieur">Passerelles d’entrées depuis l’extérieur<a class="headerlink" href="#passerelles-dentrees-depuis-lexterieur" title="Permanent link">&para;</a></h3>
+<h3 id="passerelles-dentrees-depuis-lexterieur">Passerelles d’entrées depuis l’extérieur<a class="headerlink" href="#passerelles-dentrees-depuis-lexterieur" title="Permanent link">¶</a></h3>
 <p>Les passerelles sont des composants permettant de relier un réseau local avec l’extérieur.</p>
 <table>
 <thead>
@@ -5780,7 +5456,7 @@ Il s'active depuis le menu Configuration &gt; Paramètres.</p>
 </tbody>
 </table>
 <p>Dans l'application, un sous-réseau peut être rattaché à une passerelle depuis ces objets.</p>
-<h3 id="entites-exterieures-connectees">Entités extérieures connectées<a class="headerlink" href="#entites-exterieures-connectees" title="Permanent link">&para;</a></h3>
+<h3 id="entites-exterieures-connectees">Entités extérieures connectées<a class="headerlink" href="#entites-exterieures-connectees" title="Permanent link">¶</a></h3>
 <p>Les entités extérieures connectées représentent les entités externes connectées au réseau.</p>
 <table>
 <thead>
@@ -5892,11 +5568,11 @@ Il s'active depuis le menu Configuration &gt; Paramètres.</p>
 </tr>
 </tbody>
 </table>
-<p>L'export du modèle de données référence les sous-réseaux et documents rattachés à une entité extérieure connectées.<br />
+<p>L'export du modèle de données référence les sous-réseaux et documents rattachés à une entité extérieure connectées.<br/>
 Dans l'application, un sous-réseau peut être rattaché à une entité extérieure connectée depuis un objet entité
-extérieure connectée.<br />
+extérieure connectée.<br/>
 Un document peut être rattaché à une entité extérieure connectée depuis un objet entité extérieure connectée.</p>
-<h3 id="commutateurs-reseau">Commutateurs réseau<a class="headerlink" href="#commutateurs-reseau" title="Permanent link">&para;</a></h3>
+<h3 id="commutateurs-reseau">Commutateurs réseau<a class="headerlink" href="#commutateurs-reseau" title="Permanent link">¶</a></h3>
 <p>Les commutateurs réseau sont les composants gérant les connexions entre les différents serveurs au sein d’un réseau.</p>
 <table>
 <thead>
@@ -5968,10 +5644,10 @@ Un document peut être rattaché à une entité extérieure connectée depuis un
 </tr>
 </tbody>
 </table>
-<p>L'export du modèle de données référence les commutateurs physiques et les VLAN rattachés à un commutateur réseau.<br />
-Dans l'application, un VLAN peut être rattaché à un commutateur réseau depuis ces deux objets.<br />
+<p>L'export du modèle de données référence les commutateurs physiques et les VLAN rattachés à un commutateur réseau.<br/>
+Dans l'application, un VLAN peut être rattaché à un commutateur réseau depuis ces deux objets.<br/>
 Un commutateur physique peut être rattaché à un commutateur réseau depuis ces deux objets.</p>
-<h3 id="routeurs-logiques">Routeurs logiques<a class="headerlink" href="#routeurs-logiques" title="Permanent link">&para;</a></h3>
+<h3 id="routeurs-logiques">Routeurs logiques<a class="headerlink" href="#routeurs-logiques" title="Permanent link">¶</a></h3>
 <p>Les routeurs logiques sont des composants logiques gérant les connexions entre différents réseaux.</p>
 <table>
 <thead>
@@ -6048,9 +5724,9 @@ Un commutateur physique peut être rattaché à un commutateur réseau depuis ce
 </tr>
 </tbody>
 </table>
-<p>L'export du modèle de données référence les routeurs physiques rattachés à un routeur logique.<br />
+<p>L'export du modèle de données référence les routeurs physiques rattachés à un routeur logique.<br/>
 Dans l'application, un routeur physique peut être rattaché à un routeur logique depuis ces deux objets.</p>
-<h3 id="equipements-de-securite">Équipements de sécurité<a class="headerlink" href="#equipements-de-securite" title="Permanent link">&para;</a></h3>
+<h3 id="equipements-de-securite">Équipements de sécurité<a class="headerlink" href="#equipements-de-securite" title="Permanent link">¶</a></h3>
 <p>Les équipements de sécurité sont des composants permettant la supervision du réseau, la détection d’incidents, la
 protection des équipements ou ayant une fonction de sécurisation du système d’information.</p>
 <p>Les équipements de sécurité sont des systèmes de détection d'intrusion (ou IDS : Intrusion Detection System), des
@@ -6152,14 +5828,14 @@ systèmes de prévention d'intrusion (ou IPS : Intrusion Prevention System), des
 </tbody>
 </table>
 <p>Les champs "vendor", "product" et "version" ne sont pas utilisés pour le moment et sont donc
-absent de l'application.<br />
+absent de l'application.<br/>
 L'export du modèle de données référence les équipements de sécurité physiques et les applications
-rattachées à un équipement de sécurité logique.<br />
+rattachées à un équipement de sécurité logique.<br/>
 Dans l'application, un équipement de sécurité physique peut être rattaché à un équipement de sécurité
-logique depuis ces deux objets.<br />
+logique depuis ces deux objets.<br/>
 Une application peut être rattachée à un équipement de sécurité logique depuis ces deux objets.</p>
-<h3 id="serveurs-dhcp">Serveurs DHCP<a class="headerlink" href="#serveurs-dhcp" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>***NOTE***: Les serveurs dhcp sont conservés pour la rétrocompatibilité et la conformité au guide de l&#39;ANSSI  (cf.
+<h3 id="serveurs-dhcp">Serveurs DHCP<a class="headerlink" href="#serveurs-dhcp" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code>***NOTE***: Les serveurs dhcp sont conservés pour la rétrocompatibilité et la conformité au guide de l'ANSSI  (cf.
 Références), mais sont considérés comme non utiles et masqués par défaut.
 </code></pre></div>
 <p>Les serveurs DHCP sont des équipements physiques ou virtuels permettant la gestion des adresses IP d’un réseau.</p>
@@ -6228,8 +5904,8 @@ Références), mais sont considérés comme non utiles et masqués par défaut.
 </tr>
 </tbody>
 </table>
-<h3 id="serveurs-dns">Serveurs DNS<a class="headerlink" href="#serveurs-dns" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>***NOTE***: Les serveurs dns sont conservés pour la rétrocompatibilité et la conformité au guide de l&#39;ANSSI  (cf.
+<h3 id="serveurs-dns">Serveurs DNS<a class="headerlink" href="#serveurs-dns" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code>***NOTE***: Les serveurs dns sont conservés pour la rétrocompatibilité et la conformité au guide de l'ANSSI  (cf.
 Références), mais sont considérés comme non utiles et masqués par défaut.
 </code></pre></div>
 <p>Les serveurs de noms de domaine (Domain Name System) sont des équipements physiques ou virtuels permettant
@@ -6299,7 +5975,7 @@ la conversion d’un nom de domaine en adresse IP.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="clusters">Clusters<a class="headerlink" href="#clusters" title="Permanent link">&para;</a></h3>
+<h3 id="clusters">Clusters<a class="headerlink" href="#clusters" title="Permanent link">¶</a></h3>
 <p>Les clusters représentent un ensemble de serveurs logiques hébergés sur un ou plusieurs serveurs physiques</p>
 <table>
 <thead>
@@ -6382,11 +6058,11 @@ la conversion d’un nom de domaine en adresse IP.</p>
 </tbody>
 </table>
 <p>L'export du modèle de données référence les routeurs logiques, les serveurs logiques et physiques rattachés à un
-cluster.<br />
-Dans l'application, un routeur logique peut être rattaché à un cluster depuis un objet cluster.<br />
-Un serveur logique peut être rattaché à un cluster depuis ces deux objets.<br />
+cluster.<br/>
+Dans l'application, un routeur logique peut être rattaché à un cluster depuis un objet cluster.<br/>
+Un serveur logique peut être rattaché à un cluster depuis ces deux objets.<br/>
 Un serveur physique peut être rattaché à un cluster depuis ces deux objets.</p>
-<h3 id="serveurs-logiques">Serveurs logiques<a class="headerlink" href="#serveurs-logiques" title="Permanent link">&para;</a></h3>
+<h3 id="serveurs-logiques">Serveurs logiques<a class="headerlink" href="#serveurs-logiques" title="Permanent link">¶</a></h3>
 <p>Les serveurs logiques sont un découpage logique d’un serveur physique. Si le serveur physique n’est pas virtualisé, il
 est découpé en un seul serveur logique.</p>
 <table>
@@ -6565,7 +6241,7 @@ est découpé en un seul serveur logique.</p>
 </tbody>
 </table>
 <p>Les champs "patching_frequency" et "next_update" ne sont pas utilisés pour le moment et sont donc absents de
-l'application.<br />
+l'application.<br/>
 L'export du modèle de données référence :</p>
 <ul>
 <li>les applications,</li>
@@ -6577,19 +6253,19 @@ L'export du modèle de données référence :</p>
 <li>et les conteneurs</li>
 </ul>
 <p>rattachés à un serveur logique.</p>
-<p>Dans l'application, une application peut être rattachée à un serveur logique depuis ces deux objets.<br />
-Une base de données peut être rattachée à un serveur logique depuis ces deux objets.<br />
-Un cluster peut être rattaché à un serveur logique depuis ces deux objets.<br />
-Un serveur physique peut être rattaché à un serveur logique depuis ces deux objets.<br />
-Un certificat peut être rattaché à un serveur logique depuis un objet certificat.<br />
+<p>Dans l'application, une application peut être rattachée à un serveur logique depuis ces deux objets.<br/>
+Une base de données peut être rattachée à un serveur logique depuis ces deux objets.<br/>
+Un cluster peut être rattaché à un serveur logique depuis ces deux objets.<br/>
+Un serveur physique peut être rattaché à un serveur logique depuis ces deux objets.<br/>
+Un certificat peut être rattaché à un serveur logique depuis un objet certificat.<br/>
 Un conteneur peut être rattaché à un serveur logique depuis un objet conteneur.</p>
 <p>Le champ "documents" ne semble pas utilisé dans le modèle de données d'un serveur logique.</p>
-<h3 id="plans-de-sauvegarde">Plans de sauvegarde<a class="headerlink" href="#plans-de-sauvegarde" title="Permanent link">&para;</a></h3>
-<p>Les <strong>plans de sauvegarde</strong> permettent d’associer à chaque <strong>serveur logique</strong> les <strong>stratégies de sauvegarde réellement implémentées</strong>.<br />
-Ces stratégies décrivent :<br />
-- <strong>l’infrastructure de stockage</strong> utilisée pour recevoir les sauvegardes,<br />
-- <strong>la fréquence</strong> des sauvegardes (quotidienne, hebdomadaire, mensuelle…),<br />
-- <strong>le type</strong> de sauvegarde (complète, incrémentale…),<br />
+<h3 id="plans-de-sauvegarde">Plans de sauvegarde<a class="headerlink" href="#plans-de-sauvegarde" title="Permanent link">¶</a></h3>
+<p>Les <strong>plans de sauvegarde</strong> permettent d’associer à chaque <strong>serveur logique</strong> les <strong>stratégies de sauvegarde réellement implémentées</strong>.<br/>
+Ces stratégies décrivent :<br/>
+- <strong>l’infrastructure de stockage</strong> utilisée pour recevoir les sauvegardes,<br/>
+- <strong>la fréquence</strong> des sauvegardes (quotidienne, hebdomadaire, mensuelle…),<br/>
+- <strong>le type</strong> de sauvegarde (complète, incrémentale…),<br/>
 - <strong>la durée de rétention</strong>, exprimée en jours.</p>
 <p>Cette table constitue la base de référence permettant d’auditer la conformité des sauvegardes, d’identifier les serveurs non protégés, et de vérifier l’adéquation des stratégies avec les exigences de disponibilité et de restauration.</p>
 <table>
@@ -6743,7 +6419,7 @@ Ces stratégies décrivent :<br />
 </tr>
 </tbody>
 </table>
-<h3 id="conteneurs">Conteneurs<a class="headerlink" href="#conteneurs" title="Permanent link">&para;</a></h3>
+<h3 id="conteneurs">Conteneurs<a class="headerlink" href="#conteneurs" title="Permanent link">¶</a></h3>
 <p>Les conteneurs font partie des systèmes de virtualisation. Ils peuvent fonctionner en grappe ou isolément,
 sur des serveurs logiques internes ou externes (cloud).</p>
 <table>
@@ -6832,11 +6508,11 @@ sur des serveurs logiques internes ou externes (cloud).</p>
 </tbody>
 </table>
 <p>L'export du modèle de données référence les applications, les bases de données et les serveurs
-logiques rattachés à un conteneur.<br />
-Dans l'application, une application peut être rattachée à un conteneur depuis ces deux objets.<br />
-Une base de données peut être rattachée à un conteneur depuis ces deux objets.<br />
+logiques rattachés à un conteneur.<br/>
+Dans l'application, une application peut être rattachée à un conteneur depuis ces deux objets.<br/>
+Une base de données peut être rattachée à un conteneur depuis ces deux objets.<br/>
 Un serveur logique peut être rattaché à un conteneur depuis un objet conteneur.</p>
-<h3 id="flux-logiques">Flux logiques<a class="headerlink" href="#flux-logiques" title="Permanent link">&para;</a></h3>
+<h3 id="flux-logiques">Flux logiques<a class="headerlink" href="#flux-logiques" title="Permanent link">¶</a></h3>
 <p>Les flux logiques décrivent des relations au niveau des couches 3 et 4 du modèle OSI.</p>
 <table>
 <thead>
@@ -7056,7 +6732,7 @@ Un serveur logique peut être rattaché à un conteneur depuis un objet conteneu
 </tr>
 </tbody>
 </table>
-<h3 id="certificats">Certificats<a class="headerlink" href="#certificats" title="Permanent link">&para;</a></h3>
+<h3 id="certificats">Certificats<a class="headerlink" href="#certificats" title="Permanent link">¶</a></h3>
 <p>Les certificats électroniques sont utilisés pour identifier et authentifier des services, des personnes physiques ou
 morales, mais aussi pour chiffrer des échanges.</p>
 <p>Les certificats sont des clés SSL, des certificats HTTPS, … Ils sont associés à des serveurs logiques ou des
@@ -7164,9 +6840,9 @@ applications.</p>
 </ul>
 </li>
 </ul>
-<p>Le champ "last_notification" n'est pas utilisé pour le moment et est donc absent de l'application.<br />
+<p>Le champ "last_notification" n'est pas utilisé pour le moment et est donc absent de l'application.<br/>
 L'export du modèle de données référence les applications et les serveurs logiques rattachés à un certificat.</p>
-<h3 id="vlans">VLANs<a class="headerlink" href="#vlans" title="Permanent link">&para;</a></h3>
+<h3 id="vlans">VLANs<a class="headerlink" href="#vlans" title="Permanent link">¶</a></h3>
 <p>Un VLAN (Virtual Local Area Network) ou réseau local (LAN) virtuel permettant de regrouper logiquement des équipements
 en s’affranchissant des contraintes physiques.</p>
 <table>
@@ -7236,15 +6912,329 @@ en s’affranchissant des contraintes physiques.</p>
 </table>
 <p>L'export du modèle de données référence les routeurs physiques et les commutateurs logiques ("commutateurs réseau")
 rattachés à un VLAN.
-Dans l'application, un VLAN peut être rattaché à un routeur physique depuis un objet routeur physique.<br />
+Dans l'application, un VLAN peut être rattaché à un routeur physique depuis un objet routeur physique.<br/>
 Dans l'application, un VLAN peut être rattaché à un sous-réseau ou un commutateur logique depuis ces deux objets.</p>
-<hr />
-<h2 id="linfrastructure-physique">L’infrastructure physique<a class="headerlink" href="#linfrastructure-physique" title="Permanent link">&para;</a></h2>
+<hr/>
+<h2 id="linfrastructure-physique">L’infrastructure physique<a class="headerlink" href="#linfrastructure-physique" title="Permanent link">¶</a></h2>
 <p>La vue des infrastructures physiques décrit les équipements physiques qui composent le système d’information ou qui sont
 utilisés par celui-ci.</p>
-<p><a href="../../images/physical.png"><img src="/mercator/images/physical.png" width="700"></a></p>
 <p>Cette vue correspond à la répartition géographique des équipements réseaux au sein des différents sites.</p>
-<h3 id="sites">Sites<a class="headerlink" href="#sites" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>erDiagram
+    sites {
+        int id PK
+        string ext_refs
+        string name
+        string type
+        string attributes
+        int icon_id
+        text description
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    buildings {
+        int id PK
+        string ext_refs
+        string name
+        int icon_id
+        string type
+        string attributes
+        text description
+        int site_id FK
+        int building_id FK
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    bays {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        int building_id FK
+        int site_id FK
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    zones {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        string type
+        string attributes
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    physical_servers {
+        int id PK
+        string ext_refs
+        string name
+        int icon_id
+        text description
+        string type
+        string cpu
+        string memory
+        int disk
+        int disk_used
+        text configuration
+        string operating_system
+        string address_ip
+        datetime install_date
+        datetime update_date
+        string responsible
+        int site_id FK
+        int building_id FK
+        int bay_id FK
+        list clusters
+        list logical_servers
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    workstations {
+        int id PK
+        string ext_refs
+        string name
+        int icon_id
+        text description
+        string status
+        string type
+        int entity_id FK
+        int domain_id FK
+        int user_id FK
+        int other_user
+        string manufacturer
+        string model
+        string serial_number
+        string cpu
+        string memory
+        int disk
+        string operating_system
+        int network_id FK
+        string address_ip
+        string mac_address
+        string network_port_type
+        int site_id FK
+        int building_id FK
+        list applications
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    storage_devices {
+        int id PK
+        string ext_refs
+        string name
+        string type
+        text description
+        int site_id FK
+        int building_id FK
+        int bay_id FK
+        string address_ip
+        string vendor
+        string product
+        string version
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    peripherals {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        string type
+        int icon_id
+        int site_id FK
+        int building_id FK
+        int bay_id FK
+        string responsible
+        string address_ip
+        string domain
+        string vendor
+        string product
+        string version
+        int provider_id FK
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    phones {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        string type
+        string vendor
+        string product
+        string version
+        int site_id FK
+        int building_id FK
+        int physical_switch_id FK
+        string address_ip
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    physical_switches {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        string type
+        int site_id FK
+        int building_id FK
+        int bay_id FK
+        string vendor
+        string product
+        string version
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    physical_routers {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        string type
+        int site_id FK
+        int building_id FK
+        int bay_id FK
+        list vlans
+        list routers
+        string vendor
+        string product
+        string version
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    wifi_terminals {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        string type
+        int site_id FK
+        int building_id FK
+        string address_ip
+        string vendor
+        string product
+        string version
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    physical_security_devices {
+        int id PK
+        string ext_refs
+        string name
+        int icon_id
+        text description
+        string type
+        int site_id FK
+        int building_id FK
+        int bay_id FK
+        list security_devices
+        string address_ip
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    physical_links {
+        int id PK
+        string ext_refs
+        string type
+        string color
+        string attributes
+        text description
+        int device_src_id FK
+        string src_id
+        int device_dst_id FK
+        string dst_port
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    wans {
+        int id PK
+        string ext_refs
+        string name
+        list lans
+        list mans
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    mans {
+        int id PK
+        string ext_refs
+        string name
+        int parent_man_id FK
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    lans {
+        int id PK
+        string ext_refs
+        string name
+        text description
+        list mans
+        list wans
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+
+    sites ||--o{ buildings : "site_id"
+    buildings ||--o{ buildings : "building_id"
+    buildings ||--o{ bays : "building_id"
+    sites ||--o{ bays : "site_id"
+    sites ||--o{ physical_servers : "site_id"
+    buildings ||--o{ physical_servers : "building_id"
+    bays ||--o{ physical_servers : "bay_id"
+    sites ||--o{ workstations : "site_id"
+    buildings ||--o{ workstations : "building_id"
+    sites ||--o{ storage_devices : "site_id"
+    buildings ||--o{ storage_devices : "building_id"
+    bays ||--o{ storage_devices : "bay_id"
+    sites ||--o{ peripherals : "site_id"
+    buildings ||--o{ peripherals : "building_id"
+    bays ||--o{ peripherals : "bay_id"
+    sites ||--o{ phones : "site_id"
+    buildings ||--o{ phones : "building_id"
+    sites ||--o{ physical_switches : "site_id"
+    buildings ||--o{ physical_switches : "building_id"
+    bays ||--o{ physical_switches : "bay_id"
+    sites ||--o{ physical_routers : "site_id"
+    buildings ||--o{ physical_routers : "building_id"
+    bays ||--o{ physical_routers : "bay_id"
+    sites ||--o{ wifi_terminals : "site_id"
+    buildings ||--o{ wifi_terminals : "building_id"
+    sites ||--o{ physical_security_devices : "site_id"
+    buildings ||--o{ physical_security_devices : "building_id"
+    bays ||--o{ physical_security_devices : "bay_id"
+    physical_links }o--|| peripherals : "device (poly)"
+    physical_links }o--|| phones : "device (poly)"
+    physical_links }o--|| physical_routers : "device (poly)"
+    physical_links }o--|| physical_security_devices : "device (poly)"
+    physical_links }o--|| physical_servers : "device (poly)"
+    physical_links }o--|| physical_switches : "device (poly)"
+    physical_links }o--|| storage_devices : "device (poly)"
+    physical_links }o--|| wifi_terminals : "device (poly)"
+    physical_links }o--|| workstations : "device (poly)"
+    wans }o--o{ lans : "lans"
+    wans }o--o{ mans : "mans"
+    mans ||--o{ mans : "parent_man_id"
+</code></pre>
+<p><em>Remarque : les entités, domaines d'administration, réseaux, applications, clusters et serveurs logiques référencés
+ici appartiennent à d'autres vues et ne sont donc pas représentés dans ce schéma.</em></p>
+<h3 id="sites">Sites<a class="headerlink" href="#sites" title="Permanent link">¶</a></h3>
 <p>Les sites sont des emplacements géographiques rassemblant un ensemble de personnes et/ou de ressources.</p>
 <table>
 <thead>
@@ -7322,7 +7312,7 @@ utilisés par celui-ci.</p>
 </tbody>
 </table>
 <p>Dans l'application, un bâtiment / salle peut être rattaché à un site depuis un objet bâtiment / salle.</p>
-<h3 id="batiments-salles">Bâtiments / Salles<a class="headerlink" href="#batiments-salles" title="Permanent link">&para;</a></h3>
+<h3 id="batiments-salles">Bâtiments / Salles<a class="headerlink" href="#batiments-salles" title="Permanent link">¶</a></h3>
 <p>Les bâtiments ou salles représentent la localisation des personnes ou ressources à l’intérieur d’un site.</p>
 <table>
 <thead>
@@ -7411,7 +7401,7 @@ utilisés par celui-ci.</p>
 </table>
 <p>Dans l'application, un bâtiment / salle ou un site peut être rattaché à un bâtiment / salle depuis un objet bâtiment /
 salle.</p>
-<h3 id="baies">Baies<a class="headerlink" href="#baies" title="Permanent link">&para;</a></h3>
+<h3 id="baies">Baies<a class="headerlink" href="#baies" title="Permanent link">¶</a></h3>
 <p>Les baies sont des armoires techniques rassemblant des équipements de réseau informatique ou de téléphonie.</p>
 <table>
 <thead>
@@ -7484,7 +7474,7 @@ salle.</p>
 </tbody>
 </table>
 <p>Dans l'application, une baie peut être rattachée à un bâtiment / salle et à un site depuis un objet baie.</p>
-<h3 id="zones-de-securite">Zones de sécurité<a class="headerlink" href="#zones-de-securite" title="Permanent link">&para;</a></h3>
+<h3 id="zones-de-securite">Zones de sécurité<a class="headerlink" href="#zones-de-securite" title="Permanent link">¶</a></h3>
 <p>Une zone est un espace physiquement sécurisé, accessible uniquement avec une accréditation ou des autorisations spécifiques.</p>
 <table>
 <thead>
@@ -7557,7 +7547,7 @@ salle.</p>
 </tbody>
 </table>
 <p>In the app, a rack can be linked to a building / room from a rack objet.</p>
-<h3 id="serveurs-physiques">Serveurs physiques<a class="headerlink" href="#serveurs-physiques" title="Permanent link">&para;</a></h3>
+<h3 id="serveurs-physiques">Serveurs physiques<a class="headerlink" href="#serveurs-physiques" title="Permanent link">¶</a></h3>
 <p>Les serveurs physiques sont des machines physiques exécutant un ensemble de services informatiques.</p>
 <table>
 <thead>
@@ -7705,9 +7695,9 @@ salle.</p>
 </tbody>
 </table>
 <p>L'export du modèle de données référence les applications, les clusters (logiques) et les serveurs
-logiques rattachés à un serveur physique.<br />
-Dans l'application, une application peut être rattachée à un serveur physique depuis un objet serveur physique.<br />
-Un cluster peut être rattaché à un serveur physique depuis ces deux types d'objets.<br />
+logiques rattachés à un serveur physique.<br/>
+Dans l'application, une application peut être rattachée à un serveur physique depuis un objet serveur physique.<br/>
+Un cluster peut être rattaché à un serveur physique depuis ces deux types d'objets.<br/>
 Un serveur logique peut être rattaché à un serveur physique depuis ces deux types d'objets.</p>
 <p>Pour une question de lisibilité, les champs définis dans le modèle de données mais inutilisés pour le
 moment dans l'application pour la table <em>physical_servers</em> ont été regroupés dans le tableau suivant :</p>
@@ -7757,7 +7747,7 @@ moment dans l'application pour la table <em>physical_servers</em> ont été regr
 </tr>
 </tbody>
 </table>
-<h3 id="postes-de-travail">Postes de travail<a class="headerlink" href="#postes-de-travail" title="Permanent link">&para;</a></h3>
+<h3 id="postes-de-travail">Postes de travail<a class="headerlink" href="#postes-de-travail" title="Permanent link">¶</a></h3>
 <p>Les postes de travail sont des machines physiques permettant à un utilisateur d’accéder au système d’information.</p>
 <table>
 <thead>
@@ -7924,7 +7914,7 @@ moment dans l'application pour la table <em>physical_servers</em> ont été regr
 </tr>
 </tbody>
 </table>
-<p>L'export du modèle de données référence les applications rattachées à un poste de travail.<br />
+<p>L'export du modèle de données référence les applications rattachées à un poste de travail.<br/>
 Dans l'application, une application peut être rattachée à un poste de travail depuis un objet poste de travail.</p>
 <p>Pour une question de lisibilité, les champs définis dans le modèle de données mais inutilisés pour le moment
 dans l'application pour la table <em>workstations</em> ont été regroupés dans le tableau suivant :</p>
@@ -8004,8 +7994,8 @@ dans l'application pour la table <em>workstations</em> ont été regroupés dans
 </tr>
 </tbody>
 </table>
-<h3 id="infrastructures-de-stockage">Infrastructures de stockage<a class="headerlink" href="#infrastructures-de-stockage" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>***NOTE***: Les infrastructures de stockage sont conservées pour la rétrocompatibilité, mais cette table n&#39;est pas
+<h3 id="infrastructures-de-stockage">Infrastructures de stockage<a class="headerlink" href="#infrastructures-de-stockage" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code>***NOTE***: Les infrastructures de stockage sont conservées pour la rétrocompatibilité, mais cette table n'est pas
 maintenue.
 On peut remplacer cet asset par:
 
@@ -8115,7 +8105,7 @@ réseau (NAS), réseau de stockage (SAN), disque dur…</p>
 </tbody>
 </table>
 <p>Les champs "vendor", "product" et "version" ne sont pas utilisés pour le moment et sont donc absents de l'application.</p>
-<h3 id="peripheriques">Périphériques<a class="headerlink" href="#peripheriques" title="Permanent link">&para;</a></h3>
+<h3 id="peripheriques">Périphériques<a class="headerlink" href="#peripheriques" title="Permanent link">¶</a></h3>
 <p>Les périphériques sont des composants physiques connectés à un poste de travail afin d’ajouter de nouvelles
 fonctionnalités (ex. : clavier, souris, imprimante, scanner, etc.)</p>
 <table>
@@ -8238,9 +8228,9 @@ fonctionnalités (ex. : clavier, souris, imprimante, scanner, etc.)</p>
 </tr>
 </tbody>
 </table>
-<p>L'export du modèle de données référence les applications utilisant un périphérique.<br />
+<p>L'export du modèle de données référence les applications utilisant un périphérique.<br/>
 Dans l'application, un périphérique peut être rattaché à une application depuis un objet périphérique.</p>
-<h3 id="telephones">Téléphones<a class="headerlink" href="#telephones" title="Permanent link">&para;</a></h3>
+<h3 id="telephones">Téléphones<a class="headerlink" href="#telephones" title="Permanent link">¶</a></h3>
 <p>Les téléphones fixes ou portables appartenant à l’organisation.</p>
 <table>
 <thead>
@@ -8342,10 +8332,10 @@ Dans l'application, un périphérique peut être rattaché à une application de
 </tr>
 </tbody>
 </table>
-<p>Les champs "vendor", "product" et "version" ne sont pas utilisés pour le moment et sont donc absent de l'application.<br />
+<p>Les champs "vendor", "product" et "version" ne sont pas utilisés pour le moment et sont donc absent de l'application.<br/>
 Le champ "physical_switch_id" n'est pas utilisé pour le moment et est donc absent de l'application. Cependant, un
 téléphone peut être rattaché à un commutateur réseau en utilisant l'objet lien physique.</p>
-<h3 id="commutateurs-physiques">Commutateurs physiques<a class="headerlink" href="#commutateurs-physiques" title="Permanent link">&para;</a></h3>
+<h3 id="commutateurs-physiques">Commutateurs physiques<a class="headerlink" href="#commutateurs-physiques" title="Permanent link">¶</a></h3>
 <p>Les commutateurs physiques sont des composants physiques gérant les connexions entre les différents serveurs au sein
 d’un réseau.</p>
 <table>
@@ -8444,12 +8434,12 @@ d’un réseau.</p>
 </tbody>
 </table>
 <p>Les champs "vendor", "product" et "version" ne sont pas utilisés pour le moment et sont donc absent dans
-l'application.<br />
-L'export du modèle de données référence les commutateurs logiques rattachés à un commutateur physique.<br />
+l'application.<br/>
+L'export du modèle de données référence les commutateurs logiques rattachés à un commutateur physique.<br/>
 Dans l'application, un commutateur physique peut être rattaché à un commutateur logique (noté comme "Commutateurs
 réseau")
 depuis ces deux types d'objets.</p>
-<h3 id="routeurs-physiques">Routeurs physiques<a class="headerlink" href="#routeurs-physiques" title="Permanent link">&para;</a></h3>
+<h3 id="routeurs-physiques">Routeurs physiques<a class="headerlink" href="#routeurs-physiques" title="Permanent link">¶</a></h3>
 <p>Les routeurs physiques sont des composants physiques gérant les connexions entre différents réseaux.</p>
 <table>
 <thead>
@@ -8547,12 +8537,12 @@ depuis ces deux types d'objets.</p>
 </tbody>
 </table>
 <p>Les champs "vendor", "product" et "version" ne sont pas utilisés pour le moment et sont donc absent dans
-l'application.<br />
-L'export du modèle de données référence les routeurs logiques et les VLAN rattachés à un routeur physique.<br />
+l'application.<br/>
+L'export du modèle de données référence les routeurs logiques et les VLAN rattachés à un routeur physique.<br/>
 Dans l'application, un routeur physique peut être rattaché à un routeur logique (noté comme "Routeurs" depuis ces deux
-types d'objets.<br />
+types d'objets.<br/>
 Un VLAN peut être rattaché à un routeur physique depuis un objet routeur physique.</p>
-<h3 id="bornes-wifi">Bornes WiFi<a class="headerlink" href="#bornes-wifi" title="Permanent link">&para;</a></h3>
+<h3 id="bornes-wifi">Bornes WiFi<a class="headerlink" href="#bornes-wifi" title="Permanent link">¶</a></h3>
 <p>Les bornes WiFi sont des équipements matériel permettant l’accès au réseau sans fil WiFi.</p>
 <table>
 <thead>
@@ -8659,7 +8649,7 @@ Un VLAN peut être rattaché à un routeur physique depuis un objet routeur phys
 </tr>
 </tbody>
 </table>
-<h3 id="equipements-de-securite-physique">Équipements de sécurité physique<a class="headerlink" href="#equipements-de-securite-physique" title="Permanent link">&para;</a></h3>
+<h3 id="equipements-de-securite-physique">Équipements de sécurité physique<a class="headerlink" href="#equipements-de-securite-physique" title="Permanent link">¶</a></h3>
 <p>Les équipements de sécurité physique sont des composants permettant la supervision du réseau, la détection d’incidents,
 la protection des équipements ou ayant une fonction de sécurisation du système d’information</p>
 <p>Les équipements de sécurité physique sont des sondes de températures, des caméras, des portes sécurisées, ...</p>
@@ -8764,14 +8754,14 @@ la protection des équipements ou ayant une fonction de sécurisation du systèm
 </tbody>
 </table>
 <p>L'export du modèle de données référence les équipements de sécurité logiques rattachés aux équipements de sécurité
-physiques.<br />
+physiques.<br/>
 Dans l'application, un équipement de sécurité physique peut être rattaché à un équipement de sécurité logique depuis ces
 deux types d'objets.</p>
-<h3 id="liens-physiques">Liens physiques<a class="headerlink" href="#liens-physiques" title="Permanent link">&para;</a></h3>
-<p>Les liens physiques représentent les câbles entre les objets physiques ou logiques.<br />
-Les objets logiques peuvent disposer de liens physiques, par exemple au sein d'un réseau virtualisé.<br />
+<h3 id="liens-physiques">Liens physiques<a class="headerlink" href="#liens-physiques" title="Permanent link">¶</a></h3>
+<p>Les liens physiques représentent les câbles entre les objets physiques ou logiques.<br/>
+Les objets logiques peuvent disposer de liens physiques, par exemple au sein d'un réseau virtualisé.<br/>
 Un lien physique est différent d'un flux logique. Un lien physique décrit une relation au niveau des couches 1 ou 2 du
-modèle OSI.<br />
+modèle OSI.<br/>
 Un flux logique décrit une relation au niveau des couches 3 et 4 du modèle OSI.</p>
 <table>
 <thead>
@@ -8962,7 +8952,7 @@ Un flux logique décrit une relation au niveau des couches 3 et 4 du modèle OSI
 </tr>
 </tbody>
 </table>
-<h3 id="wans">WANs<a class="headerlink" href="#wans" title="Permanent link">&para;</a></h3>
+<h3 id="wans">WANs<a class="headerlink" href="#wans" title="Permanent link">¶</a></h3>
 <p>Les WAN (Wide Area Network) sont des réseaux informatiques reliant des équipements sur des distances importantes. Ils
 interconnectent généralement des MAN ou LAN entre eux.</p>
 <table>
@@ -9030,9 +9020,9 @@ interconnectent généralement des MAN ou LAN entre eux.</p>
 </tr>
 </tbody>
 </table>
-<p>L'export du modèle de données référence les MAN et LAN rattachés à un WAN.<br />
+<p>L'export du modèle de données référence les MAN et LAN rattachés à un WAN.<br/>
 Dans l'application, un WAN peut être rattaché à un MAN ou un LAN depuis les objets WAN.</p>
-<h3 id="mans">MANs<a class="headerlink" href="#mans" title="Permanent link">&para;</a></h3>
+<h3 id="mans">MANs<a class="headerlink" href="#mans" title="Permanent link">¶</a></h3>
 <p>Les MAN (Middle Area Network) sont des réseaux informatiques reliant des équipements sur des distances moyennement
 importantes. Ils interconnectent généralement des LAN entre eux.</p>
 <table>
@@ -9095,10 +9085,10 @@ importantes. Ils interconnectent généralement des LAN entre eux.</p>
 </tr>
 </tbody>
 </table>
-<p>L'export du modèle de données référence les WAN et LAN rattachés à un MAN.<br />
-Dans l'application, un MAN peut être rattaché à un WAN depuis les objets WAN.<br />
+<p>L'export du modèle de données référence les WAN et LAN rattachés à un MAN.<br/>
+Dans l'application, un MAN peut être rattaché à un WAN depuis les objets WAN.<br/>
 Un LAN peut être rattaché à un MAN depuis les objets MAN.</p>
-<h3 id="lans">LANs<a class="headerlink" href="#lans" title="Permanent link">&para;</a></h3>
+<h3 id="lans">LANs<a class="headerlink" href="#lans" title="Permanent link">¶</a></h3>
 <p>Les LAN (Local Area Network) sont des réseaux informatiques reliant des équipements sur une aire géographique réduite.</p>
 <table>
 <thead>
@@ -9170,11 +9160,71 @@ Un LAN peut être rattaché à un MAN depuis les objets MAN.</p>
 </tr>
 </tbody>
 </table>
-<p>L'export du modèle de données référence les MAN et les WAN rattachés à un LAN.<br />
+<p>L'export du modèle de données référence les MAN et les WAN rattachés à un LAN.<br/>
 Dans l'application, un LAN peut être rattaché à un MAN ou un WAN depuis les objets MAN et WAN.</p>
-<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">¶</a></h2>
 <p>Dans le menu configuration, on trouve la partie documents.</p>
-<h3 id="documents">documents<a class="headerlink" href="#documents" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>erDiagram
+    documents {
+        int id PK
+        string ext_refs
+        string filename
+        string mimetype
+        int size
+        text hash
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    users {
+        int id PK
+        string login
+        string name
+        string email
+        datetime email_verified_at
+        string password
+        string remember_token
+        int granularity
+        list roles
+        string language
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    roles {
+        int id PK
+        string title
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    cartographers {
+        int id PK
+        string cartographiable_type
+        int cartographiable_id
+        int user_id FK
+        int role_id FK
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    permissions {
+        int id PK
+        string ext_refs
+        string title
+        string module
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    users }o--o{ roles : "roles"
+    cartographers }o--|| users : "user_id"
+    cartographers }o--|| roles : "role_id"
+</code></pre>
+<p><em>Remarque : <code>documents</code> est référencé depuis la plupart des autres vues via des champs <code>icon_id</code>, et
+<code>cartographiable_id</code> est une référence polymorphique résolue par <code>cartographiable_type</code> — ces liens inter-vues ne
+sont pas représentés ici.</em></p>
+<h3 id="documents">documents<a class="headerlink" href="#documents" title="Permanent link">¶</a></h3>
 <p>Cette partie permet de voir les documents attachés, mais aussi les icônes personnalisées.</p>
 <table>
 <thead>
@@ -9250,18 +9300,18 @@ Dans l'application, un LAN peut être rattaché à un MAN ou un WAN depuis les o
 <li>Le document est créé dans le répertoire docs référencé par son id</li>
 <li>Le document n'est pas inséré dans la base de donnée.</li>
 </ul>
-<h4 id="exemple-dinformation-dun-document-pour-une-icone-de-firewall">Exemple d'information d'un document pour une icône de firewall:<a class="headerlink" href="#exemple-dinformation-dun-document-pour-une-icone-de-firewall" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-<span class="nt">&quot;filename&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fw.png&quot;</span><span class="p">,</span>
-<span class="nt">&quot;mimetype&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;image/png&quot;</span><span class="p">,</span>
-<span class="nt">&quot;size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5295</span><span class="p">,</span>
-<span class="nt">&quot;hash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;71ffcf1b3cfdbf2c0920abbbfcc472ae92d05a355967b0faed88c97e5c4187b0&quot;</span><span class="p">,</span>
-<span class="nt">&quot;deleted_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-30T08:05:46.000000Z&quot;</span><span class="p">,</span>
-<span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-30T08:05:46.000000Z&quot;</span>
+<h4 id="exemple-dinformation-dun-document-pour-une-icone-de-firewall">Exemple d'information d'un document pour une icône de firewall:<a class="headerlink" href="#exemple-dinformation-dun-document-pour-une-icone-de-firewall" title="Permanent link">¶</a></h4>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="nt">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fw.png"</span><span class="p">,</span>
+<span class="nt">"mimetype"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image/png"</span><span class="p">,</span>
+<span class="nt">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">5295</span><span class="p">,</span>
+<span class="nt">"hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"71ffcf1b3cfdbf2c0920abbbfcc472ae92d05a355967b0faed88c97e5c4187b0"</span><span class="p">,</span>
+<span class="nt">"deleted_at"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-03-30T08:05:46.000000Z"</span><span class="p">,</span>
+<span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-03-30T08:05:46.000000Z"</span>
 </code></pre></div>
 <p>⚠️ A partir de l'interface utilisateur, si un document d'icône personnalisé est créé, il peut être utilisé par un asset de même catégorie tant qu'il existe au moins un asset dans la catégorie.</p>
-<h3 id="utilisateurs_1">utilisateurs<a class="headerlink" href="#utilisateurs_1" title="Permanent link">&para;</a></h3>
+<h3 id="utilisateurs_1">utilisateurs<a class="headerlink" href="#utilisateurs_1" title="Permanent link">¶</a></h3>
 <p>Cette partie permet de voir la liste des utilisateurs de Mercator avec le lien sur leur rôle associé.</p>
 <table>
 <thead>
@@ -9353,7 +9403,7 @@ Dans l'application, un LAN peut être rattaché à un MAN ou un WAN depuis les o
 </tr>
 </tbody>
 </table>
-<h3 id="roles">Roles<a class="headerlink" href="#roles" title="Permanent link">&para;</a></h3>
+<h3 id="roles">Roles<a class="headerlink" href="#roles" title="Permanent link">¶</a></h3>
 <p>Cette partie permet de voir la liste des roles des users dans mercator.</p>
 <table>
 <thead>
@@ -9405,7 +9455,7 @@ Dans l'application, un LAN peut être rattaché à un MAN ou un WAN depuis les o
 </tr>
 </tbody>
 </table>
-<h3 id="cartographie">Cartographie<a class="headerlink" href="#cartographie" title="Permanent link">&para;</a></h3>
+<h3 id="cartographie">Cartographie<a class="headerlink" href="#cartographie" title="Permanent link">¶</a></h3>
 <p>Cette section permet de définir des règles d’accès sur des objets, applicables à des rôles ou à des utilisateurs.</p>
 <table>
 <thead>
@@ -9472,7 +9522,7 @@ Dans l'application, un LAN peut être rattaché à un MAN ou un WAN depuis les o
 </tr>
 </tbody>
 </table>
-<h3 id="permissions">Permissions<a class="headerlink" href="#permissions" title="Permanent link">&para;</a></h3>
+<h3 id="permissions">Permissions<a class="headerlink" href="#permissions" title="Permanent link">¶</a></h3>
 <p>Cette partie permet de voir la liste des permissions qui peuvent être affectées aux rôles.</p>
 <table>
 <thead>
@@ -9534,65 +9584,34 @@ Dans l'application, un LAN peut être rattaché à un MAN ou un WAN depuis les o
 </tr>
 </tbody>
 </table>
-
-
-
-
-
-
-
-
-
-
-
-
-                
-              </article>
-            </div>
-          
-          
+</article>
+</div>
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
-        </div>
-        
-          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
   Retour en haut de la page
 </button>
-        
-      </main>
-      
-        <footer class="md-footer">
-  
-  <div class="md-footer-meta md-typeset">
-    <div class="md-footer-meta__inner md-grid">
-      <div class="md-copyright">
-  
-    <div class="md-copyright__highlight">
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
       Copyright <a href="https://www.gnu.org/licenses/licenses.en.html">GPL</a>.
     </div>
-  
-  
 </div>
-      
-    </div>
-  </div>
+</div>
+</div>
 </footer>
-      
-    </div>
-    <div class="md-dialog" data-md-component="dialog">
-      <div class="md-dialog__inner md-typeset"></div>
-    </div>
-    
-    
-    
-      
-      
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.indexes", "navigation.expand", "navigation.top", "content.code.copy", "content.action.edit", "content.action.view", "palette.toggle"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}, "version": null}</script>
-    
-    
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
-      
-    
-  </body>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.indexes", "navigation.expand", "navigation.top", "content.code.copy", "content.action.edit", "content.action.view", "palette.toggle"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}, "version": null}</script>
+<script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+window.mermaidConfig = {default: {
+    startOnLoad: false
+}};</script></body>
 </html>
