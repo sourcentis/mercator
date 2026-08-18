@@ -2001,25 +2001,25 @@ The list of permissions and their corresponding {id} values is available via the
 <ul>
 <li>
 <p>Add a document in the database
-<div class="highlight"><pre><span></span><code><span class="nv">RESPONSE</span><span class="o">=</span><span class="k">$(</span>http_call<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$API</span><span class="s2">/api/documents&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-H<span class="w"> </span><span class="s2">&quot;Accept: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-F<span class="w"> </span><span class="s2">&quot;file=@./rapport.pdf&quot;</span><span class="k">)</span>
+<div class="highlight"><pre><span></span><code><span class="nv">RESPONSE</span><span class="o">=</span><span class="k">$(</span>http_call<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"</span><span class="nv">$API</span><span class="s2">/api/documents"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-H<span class="w"> </span><span class="s2">"Accept: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-F<span class="w"> </span><span class="s2">"file=@./rapport.pdf"</span><span class="k">)</span>
 
-<span class="c1"># Display clean JSON (jq uncode, but isn&#39;t yet in $() )</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$RESPONSE</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.
+<span class="c1"># Display clean JSON (jq uncode, but isn't yet in $() )</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="nv">$RESPONSE</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.
 
-<span class="nv">DOC_ID</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$RESPONSE</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.id // empty&#39;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="k">)</span>
+<span class="nv">DOC_ID</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="nv">$RESPONSE</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">'.id // empty'</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="k">)</span>
 </code></pre></div></p>
 </li>
 <li>
 <p>Example of downloading a document from mercator:
-<div class="highlight"><pre><span></span><code><span class="w"> </span><span class="nv">OUTFILE</span><span class="o">=</span><span class="s2">&quot;./downloaded_</span><span class="si">${</span><span class="nv">DOC_ID</span><span class="si">}</span><span class="s2">.pdf&quot;</span>
-<span class="w">    </span>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$API</span><span class="s2">/api/documents/</span><span class="nv">$DOC_ID</span><span class="s2">/download&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">        </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">        </span>-H<span class="w"> </span><span class="s2">&quot;Accept: application/octet-stream&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">        </span>-o<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$OUTFILE</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">        </span>-w<span class="w"> </span><span class="s2">&quot;HTTP %{http_code}\n&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="w"> </span><span class="nv">OUTFILE</span><span class="o">=</span><span class="s2">"./downloaded_</span><span class="si">${</span><span class="nv">DOC_ID</span><span class="si">}</span><span class="s2">.pdf"</span>
+<span class="w">    </span>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s2">"</span><span class="nv">$API</span><span class="s2">/api/documents/</span><span class="nv">$DOC_ID</span><span class="s2">/download"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>-H<span class="w"> </span><span class="s2">"Accept: application/octet-stream"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>-o<span class="w"> </span><span class="s2">"</span><span class="nv">$OUTFILE</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>-w<span class="w"> </span><span class="s2">"HTTP %{http_code}\n"</span>
 </code></pre></div></p>
 </li>
 </ul>
@@ -2077,15 +2077,15 @@ The list of permissions and their corresponding {id} values is available via the
 <ul>
 <li>Example for report extracted with excel format
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://localhost:8081/api/report/cve<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-H<span class="w"> </span><span class="s2">&quot;Accept: application/octet-stream&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-o<span class="w"> </span><span class="s2">&quot;rapport_cve_</span><span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span><span class="s2">.xlsx&quot;</span>
+<span class="w">    </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-H<span class="w"> </span><span class="s2">"Accept: application/octet-stream"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-o<span class="w"> </span><span class="s2">"rapport_cve_</span><span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span><span class="s2">.xlsx"</span>
 </code></pre></div></li>
 <li>Example for a report extracted with CSV format
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;http://localhost:8081/api/report/cve?format=csv&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Accept: text/csv&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-o<span class="w"> </span><span class="s2">&quot;rapport_cve_</span><span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span><span class="s2">.csv&quot;</span>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s2">"http://localhost:8081/api/report/cve?format=csv"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">"Accept: text/csv"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-o<span class="w"> </span><span class="s2">"rapport_cve_</span><span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span><span class="s2">.csv"</span>
 </code></pre></div></li>
 </ul>
 <h2 id="actions-managed-by-the-resource-controller">Actions managed by the resource controller<a class="headerlink" href="#actions-managed-by-the-resource-controller" title="Permanent link">&para;</a></h2>
@@ -2156,23 +2156,23 @@ objects accessed via the API.</p>
 <li>Step 1: Ensure you have the application_id for the applications you want to link.</li>
 </ul>
 <div class="highlight"><pre><span></span><code>{
-  &quot;id&quot;: 201,
-  &quot;name&quot;: &quot;app1&quot;,
-  &quot;description&quot;: &quot;desc1&quot;
+  "id": 201,
+  "name": "app1",
+  "description": "desc1"
 }
 {
-  &quot;id&quot;: 202,
-  &quot;name&quot;: &quot;app2&quot;,
-  &quot;description&quot;: &quot;desc2&quot;
+  "id": 202,
+  "name": "app2",
+  "description": "desc2"
 }
 </code></pre></div>
 <ul>
 <li>Step 2: Link the process to the applications. Either with an update or a store, we can add:</li>
 </ul>
 <div class="highlight"><pre><span></span><code>{
-  &quot;id&quot;: 101,
-  &quot;name&quot;: &quot;process&quot;,
-  &quot;applications[]&quot;: [201, 202]
+  "id": 101,
+  "name": "process",
+  "applications[]": [201, 202]
 }
 </code></pre></div>
 <p>The names of all extra fields
@@ -2186,18 +2186,18 @@ are: ['actors', 'tasks', 'activities', 'entities', 'applications', 'informations
     <span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">();</span>
 
     <span class="nb">curl_setopt_array</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
-        <span class="nx">CURLOPT_URL</span> <span class="o">=&gt;</span> <span class="s2">&quot;http://127.0.0.1:8000/api/login&quot;</span><span class="p">,</span>
+        <span class="nx">CURLOPT_URL</span> <span class="o">=&gt;</span> <span class="s2">"http://127.0.0.1:8000/api/login"</span><span class="p">,</span>
         <span class="nx">CURLOPT_RETURNTRANSFER</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span>
         <span class="nx">CURLOPT_MAXREDIRS</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">,</span>
         <span class="nx">CURLOPT_TIMEOUT</span> <span class="o">=&gt;</span> <span class="mi">30</span><span class="p">,</span>
         <span class="nx">CURLOPT_HTTP_VERSION</span> <span class="o">=&gt;</span> <span class="nx">CURL_HTTP_VERSION_1_1</span><span class="p">,</span>
-        <span class="nx">CURLOPT_CUSTOMREQUEST</span> <span class="o">=&gt;</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span>
+        <span class="nx">CURLOPT_CUSTOMREQUEST</span> <span class="o">=&gt;</span> <span class="s2">"POST"</span><span class="p">,</span>
         <span class="nx">CURLOPT_POSTFIELDS</span> <span class="o">=&gt;</span> <span class="nb">http_build_query</span><span class="p">(</span>
-            <span class="k">array</span><span class="p">(</span><span class="s2">&quot;login&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;admin@admin.com&quot;</span><span class="p">,</span>
-                  <span class="s2">&quot;password&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;password&quot;</span><span class="p">)),</span>
+            <span class="k">array</span><span class="p">(</span><span class="s2">"login"</span> <span class="o">=&gt;</span> <span class="s2">"admin@admin.com"</span><span class="p">,</span>
+                  <span class="s2">"password"</span> <span class="o">=&gt;</span> <span class="s2">"password"</span><span class="p">)),</span>
         <span class="nx">CURLOPT_HTTPHEADER</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-            <span class="s2">&quot;accept: application/json&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;content-type: application/x-www-form-urlencoded&quot;</span><span class="p">,</span>
+            <span class="s2">"accept: application/json"</span><span class="p">,</span>
+            <span class="s2">"content-type: application/x-www-form-urlencoded"</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">));</span>
 
@@ -2210,13 +2210,13 @@ are: ['actors', 'tasks', 'activities', 'entities', 'applications', 'informations
     <span class="k">if</span> <span class="p">(</span><span class="nv">$err</span><span class="p">)</span> <span class="p">{</span>
         <span class="nb">set_error_handler</span><span class="p">(</span><span class="nv">$err</span><span class="p">);</span>
     <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nv">$info</span><span class="p">[</span><span class="s1">&#39;http_code&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$info</span><span class="p">[</span><span class="s1">'http_code'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
             <span class="nv">$access_token</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$response</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">access_token</span><span class="p">;</span>
 
         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="nb">set_error_handler</span><span class="p">(</span><span class="s2">&quot;Login to API failed status 403&quot;</span><span class="p">);</span>
-            <span class="nb">error_log</span><span class="p">(</span><span class="nv">$responseInfo</span><span class="p">[</span><span class="s1">&#39;http_code&#39;</span><span class="p">]);</span>
-            <span class="nb">error_log</span><span class="p">(</span><span class="s2">&quot;No login API status 403&quot;</span><span class="p">);</span>
+            <span class="nb">set_error_handler</span><span class="p">(</span><span class="s2">"Login to API failed status 403"</span><span class="p">);</span>
+            <span class="nb">error_log</span><span class="p">(</span><span class="nv">$responseInfo</span><span class="p">[</span><span class="s1">'http_code'</span><span class="p">]);</span>
+            <span class="nb">error_log</span><span class="p">(</span><span class="s2">"No login API status 403"</span><span class="p">);</span>
 
         <span class="p">}</span>
     <span class="p">}</span>
@@ -2228,18 +2228,18 @@ are: ['actors', 'tasks', 'activities', 'entities', 'applications', 'informations
     <span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">();</span>
 
     <span class="nb">curl_setopt_array</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
-        <span class="nx">CURLOPT_URL</span> <span class="o">=&gt;</span> <span class="s2">&quot;http://127.0.0.1:8000/api/users&quot;</span><span class="p">,</span>
+        <span class="nx">CURLOPT_URL</span> <span class="o">=&gt;</span> <span class="s2">"http://127.0.0.1:8000/api/users"</span><span class="p">,</span>
         <span class="nx">CURLOPT_RETURNTRANSFER</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span>
         <span class="nx">CURLOPT_MAXREDIRS</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">,</span>
         <span class="nx">CURLOPT_TIMEOUT</span> <span class="o">=&gt;</span> <span class="mi">30</span><span class="p">,</span>
         <span class="nx">CURLOPT_HTTP_VERSION</span> <span class="o">=&gt;</span> <span class="nx">CURL_HTTP_VERSION_1_1</span><span class="p">,</span>
-        <span class="nx">CURLOPT_CUSTOMREQUEST</span> <span class="o">=&gt;</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span>
+        <span class="nx">CURLOPT_CUSTOMREQUEST</span> <span class="o">=&gt;</span> <span class="s2">"GET"</span><span class="p">,</span>
         <span class="nx">CURLOPT_POSTFIELDS</span> <span class="o">=&gt;</span> <span class="k">null</span><span class="p">,</span> <span class="c1">// here you can send parameters</span>
         <span class="nx">CURLOPT_HTTPHEADER</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-            <span class="s2">&quot;accept: application/json&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;Authorization: &quot;</span> <span class="o">.</span> <span class="s2">&quot;Bearer&quot;</span> <span class="o">.</span> <span class="s2">&quot; &quot;</span> <span class="o">.</span> <span class="nv">$access_token</span> <span class="o">.</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;cache-control: no-cache&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;content-type: application/json&quot;</span><span class="p">,</span>
+            <span class="s2">"accept: application/json"</span><span class="p">,</span>
+            <span class="s2">"Authorization: "</span> <span class="o">.</span> <span class="s2">"Bearer"</span> <span class="o">.</span> <span class="s2">" "</span> <span class="o">.</span> <span class="nv">$access_token</span> <span class="o">.</span> <span class="s2">""</span><span class="p">,</span>
+            <span class="s2">"cache-control: no-cache"</span><span class="p">,</span>
+            <span class="s2">"content-type: application/json"</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">));</span>
 
@@ -2255,18 +2255,18 @@ are: ['actors', 'tasks', 'activities', 'entities', 'applications', 'informations
     <span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">();</span>
 
     <span class="nb">curl_setopt_array</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
-        <span class="nx">CURLOPT_URL</span> <span class="o">=&gt;</span> <span class="s2">&quot;http://127.0.0.1:8000/api/users/1&quot;</span><span class="p">,</span>
+        <span class="nx">CURLOPT_URL</span> <span class="o">=&gt;</span> <span class="s2">"http://127.0.0.1:8000/api/users/1"</span><span class="p">,</span>
         <span class="nx">CURLOPT_RETURNTRANSFER</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span>
         <span class="nx">CURLOPT_MAXREDIRS</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">,</span>
         <span class="nx">CURLOPT_TIMEOUT</span> <span class="o">=&gt;</span> <span class="mi">30</span><span class="p">,</span>
         <span class="nx">CURLOPT_HTTP_VERSION</span> <span class="o">=&gt;</span> <span class="nx">CURL_HTTP_VERSION_1_1</span><span class="p">,</span>
-        <span class="nx">CURLOPT_CUSTOMREQUEST</span> <span class="o">=&gt;</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span>
+        <span class="nx">CURLOPT_CUSTOMREQUEST</span> <span class="o">=&gt;</span> <span class="s2">"GET"</span><span class="p">,</span>
         <span class="nx">CURLOPT_POSTFIELDS</span> <span class="o">=&gt;</span> <span class="k">null</span><span class="p">,</span> <span class="c1">// here you can send parameters</span>
         <span class="nx">CURLOPT_HTTPHEADER</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-            <span class="s2">&quot;accept: application/json&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;Authorization: &quot;</span> <span class="o">.</span> <span class="s2">&quot;Bearer&quot;</span> <span class="o">.</span> <span class="s2">&quot; &quot;</span> <span class="o">.</span> <span class="nv">$access_token</span> <span class="o">.</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;cache-control: no-cache&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;content-type: application/json&quot;</span><span class="p">,</span>
+            <span class="s2">"accept: application/json"</span><span class="p">,</span>
+            <span class="s2">"Authorization: "</span> <span class="o">.</span> <span class="s2">"Bearer"</span> <span class="o">.</span> <span class="s2">" "</span> <span class="o">.</span> <span class="nv">$access_token</span> <span class="o">.</span> <span class="s2">""</span><span class="p">,</span>
+            <span class="s2">"cache-control: no-cache"</span><span class="p">,</span>
+            <span class="s2">"content-type: application/json"</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">));</span>
 
@@ -2281,26 +2281,26 @@ are: ['actors', 'tasks', 'activities', 'entities', 'applications', 'informations
    <span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">();</span>
 
     <span class="nb">curl_setopt_array</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
-        <span class="nx">CURLOPT_URL</span> <span class="o">=&gt;</span> <span class="s2">&quot;http://127.0.0.1:8000/api/users/8&quot;</span><span class="p">,</span>
+        <span class="nx">CURLOPT_URL</span> <span class="o">=&gt;</span> <span class="s2">"http://127.0.0.1:8000/api/users/8"</span><span class="p">,</span>
         <span class="nx">CURLOPT_RETURNTRANSFER</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span>
         <span class="nx">CURLOPT_MAXREDIRS</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">,</span>
         <span class="nx">CURLOPT_TIMEOUT</span> <span class="o">=&gt;</span> <span class="mi">30</span><span class="p">,</span>
         <span class="nx">CURLOPT_HTTP_VERSION</span> <span class="o">=&gt;</span> <span class="nx">CURL_HTTP_VERSION_1_1</span><span class="p">,</span>
         <span class="nx">CURLOPT_POST</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span>
-        <span class="nx">CURLOPT_CUSTOMREQUEST</span> <span class="o">=&gt;</span> <span class="s2">&quot;PUT&quot;</span><span class="p">,</span>
+        <span class="nx">CURLOPT_CUSTOMREQUEST</span> <span class="o">=&gt;</span> <span class="s2">"PUT"</span><span class="p">,</span>
         <span class="nx">CURLOPT_POSTFIELDS</span> <span class="o">=&gt;</span> <span class="nb">http_build_query</span><span class="p">(</span>
             <span class="k">array</span><span class="p">(</span>
-                <span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Henri&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;login&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;henri@test.fr&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;language&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;fr&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;roles[0]&#39;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
-                <span class="s1">&#39;roles[1]&#39;</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">,</span>
-                <span class="s1">&#39;granularity&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;3&#39;</span><span class="p">)</span>
+                <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Henri'</span><span class="p">,</span>
+                <span class="s1">'login'</span> <span class="o">=&gt;</span> <span class="s1">'henri@test.fr'</span><span class="p">,</span>
+                <span class="s1">'language'</span> <span class="o">=&gt;</span> <span class="s1">'fr'</span><span class="p">,</span>
+                <span class="s1">'roles[0]'</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="s1">'roles[1]'</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="s1">'granularity'</span> <span class="o">=&gt;</span> <span class="s1">'3'</span><span class="p">)</span>
             <span class="p">),</span>
         <span class="nx">CURLOPT_HTTPHEADER</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-            <span class="s2">&quot;accept: application/json&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;Authorization: &quot;</span> <span class="o">.</span> <span class="s2">&quot;Bearer&quot;</span> <span class="o">.</span> <span class="s2">&quot; &quot;</span> <span class="o">.</span> <span class="nv">$access_token</span> <span class="o">.</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;cache-control: no-cache&quot;</span><span class="p">,</span>
+            <span class="s2">"accept: application/json"</span><span class="p">,</span>
+            <span class="s2">"Authorization: "</span> <span class="o">.</span> <span class="s2">"Bearer"</span> <span class="o">.</span> <span class="s2">" "</span> <span class="o">.</span> <span class="nv">$access_token</span> <span class="o">.</span> <span class="s2">""</span><span class="p">,</span>
+            <span class="s2">"cache-control: no-cache"</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">));</span>
 
@@ -2317,20 +2317,20 @@ are: ['actors', 'tasks', 'activities', 'entities', 'applications', 'informations
 <span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 
 <span class="n">vheaders</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">vheaders</span><span class="p">[</span><span class="s1">&#39;accept&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;application/json&#39;</span>
-<span class="n">vheaders</span><span class="p">[</span><span class="s1">&#39;content-type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;application/x-www-form-urlencoded&#39;</span>
-<span class="n">vheaders</span><span class="p">[</span><span class="s1">&#39;cache-control&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;no-cache&#39;</span>
+<span class="n">vheaders</span><span class="p">[</span><span class="s1">'accept'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'application/json'</span>
+<span class="n">vheaders</span><span class="p">[</span><span class="s1">'content-type'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'application/x-www-form-urlencoded'</span>
+<span class="n">vheaders</span><span class="p">[</span><span class="s1">'cache-control'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'no-cache'</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Login&quot;</span><span class="p">)</span>
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;http://127.0.0.1:8000/api/login&quot;</span><span class="p">,</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Login"</span><span class="p">)</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"http://127.0.0.1:8000/api/login"</span><span class="p">,</span>
     <span class="n">headers</span><span class="o">=</span><span class="n">vheaders</span><span class="p">,</span>
-    <span class="n">data</span><span class="o">=</span> <span class="p">{</span><span class="s1">&#39;login&#39;</span><span class="p">:</span><span class="s1">&#39;admin@admin.com&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">:</span><span class="s1">&#39;password&#39;</span><span class="p">}</span> <span class="p">)</span>
+    <span class="n">data</span><span class="o">=</span> <span class="p">{</span><span class="s1">'login'</span><span class="p">:</span><span class="s1">'admin@admin.com'</span><span class="p">,</span> <span class="s1">'password'</span><span class="p">:</span><span class="s1">'password'</span><span class="p">}</span> <span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span>
 
-<span class="n">vheaders</span><span class="p">[</span><span class="s1">&#39;Authorization&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Bearer &quot;</span> <span class="o">+</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;access_token&#39;</span><span class="p">]</span>
+<span class="n">vheaders</span><span class="p">[</span><span class="s1">'Authorization'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Bearer "</span> <span class="o">+</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">'access_token'</span><span class="p">]</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Get workstations&quot;</span><span class="p">)</span>
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://127.0.0.1:8000/api/workstations&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">vheaders</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Get workstations"</span><span class="p">)</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"http://127.0.0.1:8000/api/workstations"</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">vheaders</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span>
 </code></pre></div>
@@ -2338,13 +2338,13 @@ are: ['actors', 'tasks', 'activities', 'entities', 'applications', 'informations
 <p>Here's an example of using the API on the command line with <a href="https://curl.se/docs/manpage.html">CURL</a>
 and <a href="https://stedolan.github.io/jq/">JQ</a></p>
 <div class="highlight"><pre><span></span><code># valid login and password
-data=&#39;{&quot;login&quot;:&quot;admin@admin.com&quot;,&quot;password&quot;:&quot;password&quot;}&#39;
+data='{"login":"admin@admin.com","password":"password"}'
 
 # get a token after correct login
-token=$(curl -s -d ${data} -H &quot;Content-Type: application/json&quot; http://localhost:8000/api/login | jq -r .access_token)
+token=$(curl -s -d ${data} -H "Content-Type: application/json" http://localhost:8000/api/login | jq -r .access_token)
 
 # query users and decode JSON data with JQ.
-curl -s -H &quot;Content-Type: application/json&quot; -H &quot;Authorization: Bearer ${token}&quot; &quot;http://127.0.0.1:8000/api/users&quot; | jq .
+curl -s -H "Content-Type: application/json" -H "Authorization: Bearer ${token}" "http://127.0.0.1:8000/api/users" | jq .
 </code></pre></div>
 <p>Other Bash example</p>
 <div class="highlight"><pre><span></span><code>#!/usr/bin/bash
@@ -2353,71 +2353,71 @@ API_URL=http://127.0.0.1:8000/api
 
 # valid login and password
 
-data=&#39;{&quot;login&quot;:&quot;admin@admin.com&quot;,&quot;password&quot;:&quot;password&quot;}&#39;
+data='{"login":"admin@admin.com","password":"password"}'
 
 # Get a token after correct login
 
-TOKEN=$(curl -s -d ${data} -H &quot;Content-Type: application/json&quot; ${API_URL}/login | jq -r .access_token)
+TOKEN=$(curl -s -d ${data} -H "Content-Type: application/json" ${API_URL}/login | jq -r .access_token)
 
-# Récupération de l&#39;objet
+# Récupération de l'objet
 
 OBJECT_ID=10
 
-RESPONSE=$(curl -s -X GET &quot;${API_URL}/logical-servers/${OBJECT_ID}&quot; \
- -H &quot;Authorization: Bearer ${TOKEN}&quot; \
- -H &quot;Accept: application/json&quot;)
+RESPONSE=$(curl -s -X GET "${API_URL}/logical-servers/${OBJECT_ID}" \
+ -H "Authorization: Bearer ${TOKEN}" \
+ -H "Accept: application/json")
 
-echo &quot;Objet récupéré: ${RESPONSE}&quot;
+echo "Objet récupéré: ${RESPONSE}"
 
-# Mise à jour d&#39;une valeur avec une requête PUT
+# Mise à jour d'une valeur avec une requête PUT
 
-RESPONSE=$(echo &quot;$RESPONSE&quot; | jq -c &#39;.data&#39;)
-RESPONSE=$(echo &quot;$RESPONSE&quot; | jq -r &#39;.operating_system=&quot;Linux&quot;&#39;)
+RESPONSE=$(echo "$RESPONSE" | jq -c '.data')
+RESPONSE=$(echo "$RESPONSE" | jq -r '.operating_system="Linux"')
 
-echo &quot;Objet modifié: ${RESPONSE}&quot;
+echo "Objet modifié: ${RESPONSE}"
 
-curl -s -X PUT &quot;${API_URL}/logical-servers/${OBJECT_ID}&quot; \
-  -H &quot;Authorization: Bearer ${TOKEN}&quot; \
-  -H &quot;Content-Type: application/json&quot; \
-  -H &quot;cache-control: no-cache&quot; \
-  -d &quot;$RESPONSE&quot;
+curl -s -X PUT "${API_URL}/logical-servers/${OBJECT_ID}" \
+  -H "Authorization: Bearer ${TOKEN}" \
+  -H "Content-Type: application/json" \
+  -H "cache-control: no-cache" \
+  -d "$RESPONSE"
 
 # Vérification de la mise à jour
 
-UPDATED_OBJECT=$(curl -s -X GET &quot;${API_URL}/logical-servers/${OBJECT_ID}&quot; \
-  -H &quot;Authorization: Bearer ${TOKEN}&quot; \
-  -H &quot;Accept: application/json&quot;)
+UPDATED_OBJECT=$(curl -s -X GET "${API_URL}/logical-servers/${OBJECT_ID}" \
+  -H "Authorization: Bearer ${TOKEN}" \
+  -H "Accept: application/json")
 
-echo &quot;Objet mis à jour: ${UPDATED_OBJECT}&quot;
+echo "Objet mis à jour: ${UPDATED_OBJECT}"
 </code></pre></div>
 <h3 id="powershell">PowerShell<a class="headerlink" href="#powershell" title="Permanent link">&para;</a></h3>
 <p>The following <strong>PowerShell</strong> script demonstrates how to authenticate with the API and retrieve the list of logical
 servers.</p>
 <h4 id="step-1-authenticate-and-obtain-an-access-token">Step 1 — Authenticate and obtain an access token<a class="headerlink" href="#step-1-authenticate-and-obtain-an-access-token" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><span class="c"># Define the login endpoint and credentials</span>
-<span class="nv">$loginUri</span> <span class="p">=</span> <span class="s2">&quot;http://127.0.0.1:8000/api/login&quot;</span>
+<span class="nv">$loginUri</span> <span class="p">=</span> <span class="s2">"http://127.0.0.1:8000/api/login"</span>
 <span class="nv">$loginBody</span> <span class="p">=</span> <span class="p">@{</span>
-    <span class="n">login</span> <span class="p">=</span> <span class="s2">&quot;admin@admin.com&quot;</span>
-    <span class="n">password</span> <span class="p">=</span> <span class="s2">&quot;password&quot;</span>
+    <span class="n">login</span> <span class="p">=</span> <span class="s2">"admin@admin.com"</span>
+    <span class="n">password</span> <span class="p">=</span> <span class="s2">"password"</span>
 <span class="p">}</span>
 
 <span class="c"># Send the authentication request</span>
 <span class="k">try</span> <span class="p">{</span>
-    <span class="nv">$loginResponse</span> <span class="p">=</span> <span class="nb">Invoke-RestMethod</span> <span class="n">-Uri</span> <span class="nv">$loginUri</span> <span class="n">-Method</span> <span class="n">Post</span> <span class="n">-Body</span> <span class="nv">$loginBody</span> <span class="n">-ContentType</span> <span class="s2">&quot;application/x-www-form-urlencoded&quot;</span>
+    <span class="nv">$loginResponse</span> <span class="p">=</span> <span class="nb">Invoke-RestMethod</span> <span class="n">-Uri</span> <span class="nv">$loginUri</span> <span class="n">-Method</span> <span class="n">Post</span> <span class="n">-Body</span> <span class="nv">$loginBody</span> <span class="n">-ContentType</span> <span class="s2">"application/x-www-form-urlencoded"</span>
     <span class="nv">$token</span> <span class="p">=</span> <span class="nv">$loginResponse</span><span class="p">.</span><span class="n">access_token</span>
-    <span class="nb">Write-Host</span> <span class="s2">&quot;Access token successfully retrieved.&quot;</span>
+    <span class="nb">Write-Host</span> <span class="s2">"Access token successfully retrieved."</span>
 <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
-    <span class="nb">Write-Error</span> <span class="s2">&quot;Authentication failed: $_&quot;</span>
+    <span class="nb">Write-Error</span> <span class="s2">"Authentication failed: $_"</span>
     <span class="k">return</span>
 <span class="p">}</span>
 </code></pre></div>
 <h4 id="step-2-use-the-token-to-query-logical-servers">Step 2 — Use the token to query logical servers<a class="headerlink" href="#step-2-use-the-token-to-query-logical-servers" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><span class="c"># Define the endpoint and authorization headers</span>
-<span class="nv">$endPoint</span> <span class="p">=</span> <span class="s2">&quot;logical-servers&quot;</span>
-<span class="nv">$apiUri</span> <span class="p">=</span> <span class="s2">&quot;http://127.0.0.1:8000/api/$endPoint&quot;</span>
+<span class="nv">$endPoint</span> <span class="p">=</span> <span class="s2">"logical-servers"</span>
+<span class="nv">$apiUri</span> <span class="p">=</span> <span class="s2">"http://127.0.0.1:8000/api/$endPoint"</span>
 <span class="nv">$headers</span> <span class="p">=</span> <span class="p">@{</span>
-    <span class="s1">&#39;Authorization&#39;</span> <span class="p">=</span> <span class="s2">&quot;Bearer $token&quot;</span>
-    <span class="s1">&#39;Accept&#39;</span>        <span class="p">=</span> <span class="s1">&#39;application/json&#39;</span>
+    <span class="s1">'Authorization'</span> <span class="p">=</span> <span class="s2">"Bearer $token"</span>
+    <span class="s1">'Accept'</span>        <span class="p">=</span> <span class="s1">'application/json'</span>
 <span class="p">}</span>
 
 <span class="c"># Send the GET request</span>
@@ -2425,7 +2425,7 @@ servers.</p>
     <span class="nv">$servers</span> <span class="p">=</span> <span class="nb">Invoke-RestMethod</span> <span class="n">-Uri</span> <span class="nv">$apiUri</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Headers</span> <span class="nv">$headers</span>
     <span class="nv">$servers</span> <span class="p">|</span> <span class="nb">Format-Table</span> <span class="n">id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">operating_system</span><span class="p">,</span> <span class="n">description</span>
 <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
-    <span class="nb">Write-Error</span> <span class="s2">&quot;Request failed: $_&quot;</span>
+    <span class="nb">Write-Error</span> <span class="s2">"Request failed: $_"</span>
 <span class="p">}</span>
 </code></pre></div>
 

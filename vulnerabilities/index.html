@@ -2348,11 +2348,11 @@
 <code>Applications</code> → <code>Application modules</code> → same procedure.</p>
 <h3 id="import-via-the-api-json">Import via the API (JSON)<a class="headerlink" href="#import-via-the-api-json" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Apache Guacamole&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;technology&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;apache&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;vendor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;apache&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;product&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;guacamole&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.5.4&quot;</span>
+<span class="w">  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Apache Guacamole"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"technology"</span><span class="p">:</span><span class="w"> </span><span class="s2">"apache"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"vendor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"apache"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"guacamole"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.5.4"</span>
 <span class="p">}</span>
 </code></pre></div>
 <h3 id="search">Search<a class="headerlink" href="#search" title="Permanent link">&para;</a></h3>
@@ -2565,18 +2565,18 @@ docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </spa
 <p>After initialization, or whenever the sync status is uncertain, two methods are available to check the database contents.</p>
 <h3 id="via-mysql-mariadb">Via MySQL / MariaDB<a class="headerlink" href="#via-mysql-mariadb" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="c1">-- Row counts per table</span>
-<span class="k">SELECT</span><span class="w"> </span><span class="s1">&#39;vendors&#39;</span><span class="w">  </span><span class="k">AS</span><span class="w"> </span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">count</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">cpe_vendors</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="s1">'vendors'</span><span class="w">  </span><span class="k">AS</span><span class="w"> </span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">count</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">cpe_vendors</span>
 <span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span>
-<span class="k">SELECT</span><span class="w"> </span><span class="s1">&#39;products&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">cpe_products</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="s1">'products'</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">cpe_products</span>
 <span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span>
-<span class="k">SELECT</span><span class="w"> </span><span class="s1">&#39;versions&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">cpe_versions</span><span class="p">;</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="s1">'versions'</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">cpe_versions</span><span class="p">;</span>
 </code></pre></div>
 <p>Under Docker:</p>
 <div class="highlight"><pre><span></span><code>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>mercator-db<span class="w"> </span>mysql<span class="w"> </span>-u<span class="w"> </span>mercator_user<span class="w"> </span>-p<span class="w"> </span>mercator<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-e<span class="w"> </span><span class="s2">&quot;SELECT &#39;vendors&#39; AS type, COUNT(*) AS count FROM cpe_vendors</span>
-<span class="s2">      UNION ALL SELECT &#39;products&#39;, COUNT(*) FROM cpe_products</span>
-<span class="s2">      UNION ALL SELECT &#39;versions&#39;, COUNT(*) FROM cpe_versions</span>
-<span class="s2">      UNION ALL SELECT &#39;last_sync&#39;, MAX(updated_at) FROM cpe_versions;&quot;</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="s2">"SELECT 'vendors' AS type, COUNT(*) AS count FROM cpe_vendors</span>
+<span class="s2">      UNION ALL SELECT 'products', COUNT(*) FROM cpe_products</span>
+<span class="s2">      UNION ALL SELECT 'versions', COUNT(*) FROM cpe_versions</span>
+<span class="s2">      UNION ALL SELECT 'last_sync', MAX(updated_at) FROM cpe_versions;"</span>
 </code></pre></div>
 <h3 id="via-laravel-logs">Via Laravel logs<a class="headerlink" href="#via-laravel-logs" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="c1"># Standard installation</span>
@@ -2627,10 +2627,10 @@ docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </spa
 
 <span class="c1"># Check CPE database status</span>
 docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>mercator-db<span class="w"> </span>mysql<span class="w"> </span>-u<span class="w"> </span>mercator_user<span class="w"> </span>-p<span class="w"> </span>mercator<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-e<span class="w"> </span><span class="s2">&quot;SELECT &#39;vendors&#39; AS type, COUNT(*) AS count FROM cpe_vendors</span>
-<span class="s2">      UNION ALL SELECT &#39;products&#39;, COUNT(*) FROM cpe_products</span>
-<span class="s2">      UNION ALL SELECT &#39;versions&#39;, COUNT(*) FROM cpe_versions</span>
-<span class="s2">      UNION ALL SELECT &#39;last_sync&#39;, MAX(updated_at) FROM cpe_versions;&quot;</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="s2">"SELECT 'vendors' AS type, COUNT(*) AS count FROM cpe_vendors</span>
+<span class="s2">      UNION ALL SELECT 'products', COUNT(*) FROM cpe_products</span>
+<span class="s2">      UNION ALL SELECT 'versions', COUNT(*) FROM cpe_versions</span>
+<span class="s2">      UNION ALL SELECT 'last_sync', MAX(updated_at) FROM cpe_versions;"</span>
 </code></pre></div>
 <h2 id="appendix-b-minimal-env-example">Appendix B — Minimal <code>.env</code> example<a class="headerlink" href="#appendix-b-minimal-env-example" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="na">APP_NAME</span><span class="o">=</span><span class="s">Mercator</span>
@@ -2654,7 +2654,7 @@ docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </spa
 <span class="na">MAIL_PASSWORD</span><span class="o">=</span><span class="s">smtp_password</span>
 <span class="na">MAIL_ENCRYPTION</span><span class="o">=</span><span class="s">tls</span>
 <span class="na">MAIL_FROM_ADDRESS</span><span class="o">=</span><span class="s">noreply@yourdomain.com</span>
-<span class="na">MAIL_FROM_NAME</span><span class="o">=</span><span class="s">&quot;Mercator&quot;</span>
+<span class="na">MAIL_FROM_NAME</span><span class="o">=</span><span class="s">"Mercator"</span>
 
 <span class="c1"># API</span>
 <span class="na">API_RATE_LIMIT</span><span class="o">=</span><span class="s">60</span>

@@ -1954,8 +1954,8 @@ Local accounts always remain available for fallback if configured.</p>
 <hr />
 <h3 id="ldap-connection-settings">LDAP Connection Settings<a class="headerlink" href="#ldap-connection-settings" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code>LDAP_HOST=ldap.example.com
-LDAP_USERNAME=&quot;CN=ldap-reader,OU=Service Accounts,DC=example,DC=com&quot;
-LDAP_PASSWORD=&quot;secret&quot;
+LDAP_USERNAME="CN=ldap-reader,OU=Service Accounts,DC=example,DC=com"
+LDAP_PASSWORD="secret"
 LDAP_PORT=389
 LDAP_SSL=false
 LDAP_TLS=false
@@ -1964,7 +1964,7 @@ LDAP_TLS=false
 <hr />
 <h3 id="ldap-user-search-base">LDAP User Search Base<a class="headerlink" href="#ldap-user-search-base" title="Permanent link">&para;</a></h3>
 <p>Define where users should be searched:</p>
-<div class="highlight"><pre><span></span><code>LDAP_USERS_BASE_DN=&quot;OU=Users,DC=example,DC=com&quot;
+<div class="highlight"><pre><span></span><code>LDAP_USERS_BASE_DN="OU=Users,DC=example,DC=com"
 </code></pre></div>
 <p>If empty, Mercator searches the entire directory.</p>
 <hr />
@@ -1976,7 +1976,7 @@ LDAP_TLS=false
 <hr />
 <h3 id="ldap-group-restriction">LDAP Group Restriction<a class="headerlink" href="#ldap-group-restriction" title="Permanent link">&para;</a></h3>
 <p>You can restrict access to Mercator to members of a specific LDAP group.</p>
-<div class="highlight"><pre><span></span><code>LDAP_GROUP=&quot;CN=Mercator-Users,OU=Groups,DC=example,DC=com&quot;
+<div class="highlight"><pre><span></span><code>LDAP_GROUP="CN=Mercator-Users,OU=Groups,DC=example,DC=com"
 </code></pre></div>
 <p>If empty, all LDAP-authenticated users may log in.</p>
 <hr />
@@ -2015,7 +2015,7 @@ MAIL_USERNAME=mailer@example.com
 MAIL_PASSWORD=secret
 MAIL_ENCRYPTION=tls
 MAIL_FROM_ADDRESS=noreply@example.com
-MAIL_FROM_NAME=&quot;Mercator&quot;
+MAIL_FROM_NAME="Mercator"
 </code></pre></div>
 <hr />
 <h2 id="application-level-settings">Application-Level Settings<a class="headerlink" href="#application-level-settings" title="Permanent link">&para;</a></h2>

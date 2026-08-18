@@ -2348,11 +2348,11 @@
 <code>Applications</code> → <code>Modules applicatifs</code> → même procédure.</p>
 <h3 id="import-via-lapi-json">Import via l'API (JSON)<a class="headerlink" href="#import-via-lapi-json" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Apache Guacamole&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;technology&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;apache&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;vendor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;apache&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;product&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;guacamole&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.5.4&quot;</span>
+<span class="w">  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Apache Guacamole"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"technology"</span><span class="p">:</span><span class="w"> </span><span class="s2">"apache"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"vendor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"apache"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"guacamole"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.5.4"</span>
 <span class="p">}</span>
 </code></pre></div>
 <h3 id="recherche">Recherche<a class="headerlink" href="#recherche" title="Permanent link">&para;</a></h3>
@@ -2506,7 +2506,7 @@ docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </spa
 </ol>
 <h3 id="variables-denvironnement">Variables d'environnement<a class="headerlink" href="#variables-denvironnement" title="Permanent link">&para;</a></h3>
 <p>Ajouter les lignes suivantes au fichier <code>.env</code> :</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># URL de l&#39;API NVD (ne pas modifier)</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># URL de l'API NVD (ne pas modifier)</span>
 <span class="na">CPE_API_URL</span><span class="o">=</span><span class="s">https://services.nvd.nist.gov/rest/json/cpes/2.0</span>
 
 <span class="c1"># Clé API NVD — fortement recommandée</span>
@@ -2565,19 +2565,19 @@ docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </spa
 <h2 id="check">Vérification de la base CPE<a class="headerlink" href="#check" title="Permanent link">&para;</a></h2>
 <p>Après l'initialisation ou en cas de doute sur l'état de la synchronisation, deux méthodes permettent de contrôler le contenu de la base.</p>
 <h3 id="via-mysql-mariadb">Via MySQL / MariaDB<a class="headerlink" href="#via-mysql-mariadb" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="c1">-- Nombre d&#39;entrées par table</span>
-<span class="k">SELECT</span><span class="w"> </span><span class="s1">&#39;vendors&#39;</span><span class="w">  </span><span class="k">AS</span><span class="w"> </span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">nb</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">cpe_vendors</span>
+<div class="highlight"><pre><span></span><code><span class="c1">-- Nombre d'entrées par table</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="s1">'vendors'</span><span class="w">  </span><span class="k">AS</span><span class="w"> </span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">nb</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">cpe_vendors</span>
 <span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span>
-<span class="k">SELECT</span><span class="w"> </span><span class="s1">&#39;products&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">cpe_products</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="s1">'products'</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">cpe_products</span>
 <span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span>
-<span class="k">SELECT</span><span class="w"> </span><span class="s1">&#39;versions&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">cpe_versions</span><span class="p">;</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="s1">'versions'</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">cpe_versions</span><span class="p">;</span>
 </code></pre></div>
 <p>Sous Docker :</p>
 <div class="highlight"><pre><span></span><code>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>mercator-db<span class="w"> </span>mysql<span class="w"> </span>-u<span class="w"> </span>mercator_user<span class="w"> </span>-p<span class="w"> </span>mercator<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-e<span class="w"> </span><span class="s2">&quot;SELECT &#39;vendors&#39; AS type, COUNT(*) AS nb FROM cpe_vendors</span>
-<span class="s2">      UNION ALL SELECT &#39;products&#39;, COUNT(*) FROM cpe_products</span>
-<span class="s2">      UNION ALL SELECT &#39;versions&#39;, COUNT(*) FROM cpe_versions</span>
-<span class="s2">      UNION ALL SELECT &#39;last_sync&#39;, MAX(updated_at) FROM cpe_versions;&quot;</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="s2">"SELECT 'vendors' AS type, COUNT(*) AS nb FROM cpe_vendors</span>
+<span class="s2">      UNION ALL SELECT 'products', COUNT(*) FROM cpe_products</span>
+<span class="s2">      UNION ALL SELECT 'versions', COUNT(*) FROM cpe_versions</span>
+<span class="s2">      UNION ALL SELECT 'last_sync', MAX(updated_at) FROM cpe_versions;"</span>
 </code></pre></div>
 <h3 id="via-les-journaux-laravel">Via les journaux Laravel<a class="headerlink" href="#via-les-journaux-laravel" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="c1"># VM classique</span>
@@ -2626,12 +2626,12 @@ docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </spa
 docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>mercator-app<span class="w"> </span>php<span class="w"> </span>artisan<span class="w"> </span>config:clear
 docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>mercator-app<span class="w"> </span>php<span class="w"> </span>artisan<span class="w"> </span>config:cache
 
-<span class="c1"># Vérifier l&#39;état de la base CPE</span>
+<span class="c1"># Vérifier l'état de la base CPE</span>
 docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>mercator-db<span class="w"> </span>mysql<span class="w"> </span>-u<span class="w"> </span>mercator_user<span class="w"> </span>-p<span class="w"> </span>mercator<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-e<span class="w"> </span><span class="s2">&quot;SELECT &#39;vendors&#39; AS type, COUNT(*) AS nb FROM cpe_vendors</span>
-<span class="s2">      UNION ALL SELECT &#39;products&#39;, COUNT(*) FROM cpe_products</span>
-<span class="s2">      UNION ALL SELECT &#39;versions&#39;, COUNT(*) FROM cpe_versions</span>
-<span class="s2">      UNION ALL SELECT &#39;last_sync&#39;, MAX(updated_at) FROM cpe_versions;&quot;</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="s2">"SELECT 'vendors' AS type, COUNT(*) AS nb FROM cpe_vendors</span>
+<span class="s2">      UNION ALL SELECT 'products', COUNT(*) FROM cpe_products</span>
+<span class="s2">      UNION ALL SELECT 'versions', COUNT(*) FROM cpe_versions</span>
+<span class="s2">      UNION ALL SELECT 'last_sync', MAX(updated_at) FROM cpe_versions;"</span>
 </code></pre></div>
 <h2 id="annexe-b-exemple-de-fichier-env-minimal">Annexe B — Exemple de fichier <code>.env</code> minimal<a class="headerlink" href="#annexe-b-exemple-de-fichier-env-minimal" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="na">APP_NAME</span><span class="o">=</span><span class="s">Mercator</span>
@@ -2655,7 +2655,7 @@ docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </spa
 <span class="na">MAIL_PASSWORD</span><span class="o">=</span><span class="s">motdepasse_smtp</span>
 <span class="na">MAIL_ENCRYPTION</span><span class="o">=</span><span class="s">tls</span>
 <span class="na">MAIL_FROM_ADDRESS</span><span class="o">=</span><span class="s">noreply@mondomaine.com</span>
-<span class="na">MAIL_FROM_NAME</span><span class="o">=</span><span class="s">&quot;Mercator&quot;</span>
+<span class="na">MAIL_FROM_NAME</span><span class="o">=</span><span class="s">"Mercator"</span>
 
 <span class="c1"># API</span>
 <span class="na">API_RATE_LIMIT</span><span class="o">=</span><span class="s">60</span>
