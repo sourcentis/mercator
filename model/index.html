@@ -2157,12 +2157,11 @@ limited to the individual study of each entity.</p>
         string ext_refs
         string name
         int icon_id
-        string entity_type
+        string type
         string attributes
         text description
         string reference
         int parent_entity_id FK
-        boolean is_external
         text security_level
         text contact_point
         string external_ref_id
@@ -2249,14 +2248,14 @@ mapped.</p>
 <td style="text-align: left;">Reference to a specific image</td>
 </tr>
 <tr>
-<td style="text-align: left;">entity_type</td>
+<td style="text-align: left;">type</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Type of entity</td>
 </tr>
 <tr>
 <td style="text-align: left;">attributes</td>
 <td style="text-align: left;">varchar(255)</td>
-<td style="text-align: left;">Attributes (#tag...)</td>
+<td style="text-align: left;">Attributes (#tag...). An entity external to the organization carries the <code>extern</code> attribute</td>
 </tr>
 <tr>
 <td style="text-align: left;">description</td>
@@ -2272,11 +2271,6 @@ mapped.</p>
 <td style="text-align: left;">parent_entity_id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">Pointer to the parent entity</td>
-</tr>
-<tr>
-<td style="text-align: left;">is_external</td>
-<td style="text-align: left;">boolean</td>
-<td style="text-align: left;">External entity</td>
 </tr>
 <tr>
 <td style="text-align: left;">security_level</td>
@@ -3575,6 +3569,7 @@ field </em><em>informations</em>**</p>
         int database_dest_id FK
         boolean crypted
         boolean bidirectional
+        string type
         timestamp created_at
         timestamp updated_at
         timestamp deleted_at
@@ -4363,6 +4358,11 @@ important to avoid representing all firewall filtering rules in terms of flows.<
 <td style="text-align: left;">bidirectional</td>
 <td style="text-align: left;">tinyint(1)</td>
 <td style="text-align: left;">The flow is bidirectional (1=yes, O=no)</td>
+</tr>
+<tr>
+<td style="text-align: left;">type</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Type of the application flow</td>
 </tr>
 <tr>
 <td style="text-align: left;">created_at</td>

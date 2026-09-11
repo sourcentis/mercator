@@ -2164,12 +2164,11 @@ de l’écosystème sans se limiter à l’étude individuelle de chaque entité
         string ext_refs
         string name
         int icon_id
-        string entity_type
+        string type
         string attributes
         text description
         string reference
         int parent_entity_id FK
-        boolean is_external
         text security_level
         text contact_point
         string external_ref_id
@@ -2257,14 +2256,14 @@ travers de relations.</p>
 <td style="text-align: left;">Référence vers une image spécifique</td>
 </tr>
 <tr>
-<td style="text-align: left;">entity_type</td>
+<td style="text-align: left;">type</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Type d'entité</td>
 </tr>
 <tr>
 <td style="text-align: left;">attributes</td>
 <td style="text-align: left;">varchar(255)</td>
-<td style="text-align: left;">Attributs (#tag...)</td>
+<td style="text-align: left;">Attributs (#tag...). Une entité externe à l'organisme porte l'attribut <code>extern</code></td>
 </tr>
 <tr>
 <td style="text-align: left;">description</td>
@@ -2280,11 +2279,6 @@ travers de relations.</p>
 <td style="text-align: left;">parent_entity_id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">Entité parente</td>
-</tr>
-<tr>
-<td style="text-align: left;">is_external</td>
-<td style="text-align: left;">boolean</td>
-<td style="text-align: left;">Entité externe</td>
 </tr>
 <tr>
 <td style="text-align: left;">security_level</td>
@@ -3546,6 +3540,7 @@ champ </em><em>informations</em>**</p>
         int database_dest_id FK
         boolean crypted
         boolean bidirectional
+        string type
         timestamp created_at
         timestamp updated_at
         timestamp deleted_at
@@ -4346,9 +4341,9 @@ en termes de flux l’ensemble des règles de filtrage du firewall.</p>
 <td style="text-align: left;">Le flux est bidirectionnel (1=oui, O=non)</td>
 </tr>
 <tr>
-<td style="text-align: left;">nature</td>
+<td style="text-align: left;">type</td>
 <td style="text-align: left;">varchar(255)</td>
-<td style="text-align: left;">Nature du flux applicatif</td>
+<td style="text-align: left;">Type du flux applicatif</td>
 </tr>
 <tr>
 <td style="text-align: left;">created_at</td>
