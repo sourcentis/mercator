@@ -1,0 +1,1888 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Mapping the Information System !">
+      
+      
+      
+        <link rel="canonical" href="https://sourcentis.github.io/mercator/generate-test-data/">
+      
+      
+        <link rel="prev" href="../config/">
+      
+      
+        <link rel="next" href="../references/">
+      
+      
+        
+          <link rel="alternate" href="./" hreflang="en">
+        
+          <link rel="alternate" href="../fr/generate-test-data/" hreflang="fr">
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>-- Test Data Generation - Mercator</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/overrides.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#test-data-generation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Mercator" class="md-header__button md-logo" aria-label="Mercator" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Mercator
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              -- Test Data Generation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../fr/generate-test-data/" hreflang="fr" class="md-select__link">
+              Français
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sourcentis/mercator" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Mercator" class="md-nav__button md-logo" aria-label="Mercator" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Mercator
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sourcentis/mercator" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href=".." class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GETTING STARTED
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    GETTING STARTED
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cartography/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    -- Cartography
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../application/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    -- Application
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    -- Features
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cartographers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    -- Cartographers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usecases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    -- Use Cases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DATA MODEL
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    DATA MODEL
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    -- Data Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../maturity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    -- Maturity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PROCESS & ANALYSIS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    PROCESS & ANALYSIS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../maps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    -- Maps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bpmn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    -- BPMN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../queries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    -- Queries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    -- Reports
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API & INTEGRATION
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API & INTEGRATION
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    -- API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apifilters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    -- API Filters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../import/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    -- Import
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vulnerabilities/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    -- Vulnerabilities
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../monarc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    -- Monarc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OPERATIONS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    OPERATIONS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../admin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    -- Administration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    -- Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    -- Test Data Generation
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    -- Test Data Generation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick start
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#predefined-scenarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Predefined scenarios
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Options
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-gets-generated" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What gets generated
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multi-perimeter-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-perimeter access
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Safety
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example output
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../references/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    -- References
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick start
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#predefined-scenarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Predefined scenarios
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Options
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-gets-generated" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What gets generated
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multi-perimeter-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-perimeter access
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Safety
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example output
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/sourcentis/mercator/edit/master/docs/generate-test-data.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/sourcentis/mercator/raw/master/docs/generate-test-data.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="test-data-generation">Test Data Generation<a class="headerlink" href="#test-data-generation" title="Permanent link">&para;</a></h1>
+<p>Mercator ships an Artisan command that generates a realistic, internally consistent set of test data — perimeters, applications, databases, logical servers, application flows, and physical infrastructure (sites, buildings, floors, rooms, bays, physical servers/switches/routers, peripherals, workstations, phones, WiFi access points, security zones) — for demos, UI testing at scale, and load testing.</p>
+<div class="highlight"><pre><span></span><code>php<span class="w"> </span>artisan<span class="w"> </span>mercator:generate-test-data<span class="w"> </span><span class="o">[</span>options<span class="o">]</span>
+</code></pre></div>
+<p>It has no web UI: it is run from the server's command line by an administrator.</p>
+<hr />
+<h2 id="quick-start">Quick start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># Use a predefined profile</span>
+php<span class="w"> </span>artisan<span class="w"> </span>mercator:generate-test-data<span class="w"> </span>--scenario<span class="o">=</span>pme
+
+<span class="c1"># Preview what would be created, without writing anything</span>
+php<span class="w"> </span>artisan<span class="w"> </span>mercator:generate-test-data<span class="w"> </span>--scenario<span class="o">=</span>large_enterprise<span class="w"> </span>--dry-run
+
+<span class="c1"># Fully custom counts</span>
+php<span class="w"> </span>artisan<span class="w"> </span>mercator:generate-test-data<span class="w"> </span>--perimeters<span class="o">=</span><span class="m">3</span><span class="w"> </span>--applications<span class="o">=</span><span class="m">200</span><span class="w"> </span>--servers<span class="o">=</span><span class="m">100</span><span class="w"> </span>--databases<span class="o">=</span><span class="m">50</span><span class="w"> </span>--flows<span class="o">=</span><span class="m">500</span><span class="w"> </span>--sites<span class="o">=</span><span class="m">6</span><span class="w"> </span>--buildings<span class="o">=</span><span class="m">15</span><span class="w"> </span>--bays<span class="o">=</span><span class="m">40</span><span class="w"> </span>--physical-servers<span class="o">=</span><span class="m">80</span><span class="w"> </span>--peripherals<span class="o">=</span><span class="m">20</span><span class="w"> </span>--workstations<span class="o">=</span><span class="m">150</span>
+</code></pre></div>
+<p>Running the command with no options at all uses the <code>default_scenario</code> configured in <code>config/data-scenarios.php</code> (<code>pme</code> out of the box).</p>
+<hr />
+<h2 id="predefined-scenarios">Predefined scenarios<a class="headerlink" href="#predefined-scenarios" title="Permanent link">&para;</a></h2>
+<p>Pass <code>--scenario=&lt;name&gt;</code> to use one of the profiles defined in <code>config/data-scenarios.php</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th style="text-align: right;">Perimeters</th>
+<th style="text-align: right;">Applications</th>
+<th style="text-align: right;">Databases</th>
+<th style="text-align: right;">Servers</th>
+<th style="text-align: right;">Flows</th>
+<th style="text-align: right;">Sites</th>
+<th style="text-align: right;">Buildings</th>
+<th style="text-align: right;">Bays</th>
+<th style="text-align: right;">Physical servers</th>
+<th style="text-align: right;">Peripherals</th>
+<th style="text-align: right;">Workstations</th>
+<th style="text-align: right;">Security zones</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pme</code></td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td><code>mid_market</code></td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td><code>large_enterprise</code></td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">400</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">200</td>
+<td style="text-align: right;">400</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">300</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr>
+<td><code>load_test</code></td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">200</td>
+<td style="text-align: right;">2000</td>
+<td style="text-align: right;">1667</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">150</td>
+<td style="text-align: right;">6</td>
+</tr>
+</tbody>
+</table>
+<p>Flows are a third of what a plain applications-only count would suggest, since each one can now connect any of four endpoint types (application, service, module, database) rather than just two applications — see <strong>Application flows</strong> below.</p>
+<p>Floors, rooms, networks, subnetworks, VLANs, phones, WiFi access points, physical switches, physical routers, application blocks, application services/modules, admin zones and AD domains aren't in this table: floors and rooms are a direct per-site/per-floor draw (see <code>floors_per_site</code> / <code>locals_per_floor</code> in the config file, 1–8 and 5–10 by default), networks/subnetworks/VLANs are one network per site with a direct per-network draw of subnetworks (<code>subnetworks_per_network</code>, 4–16 by default), phones always match the number of workstations actually created, WiFi access points are a per-floor/per-room probability, switches/routers are a direct consequence of the number of bays/floors/sites (one switch per bay, one switch per floor, at most one router per site), application blocks are a direct per-perimeter draw (<code>application_blocks_per_perimeter</code>, 5–7 by default), application services/modules are a direct per-application/per-service draw (<code>application_services_per_application</code> 0–5, <code>application_modules_per_service</code> 0–3), and admin zones/AD domains are a direct per-site draw (<code>zone_admins_per_site</code> 1–3, <code>domains_per_site</code> 3–5) — see below for all of them.</p>
+<p>Any manual option (<code>--applications</code>, <code>--servers</code>, ...) overrides just that one value on top of the chosen scenario — you don't have to specify all of them.</p>
+<hr />
+<h2 id="options">Options<a class="headerlink" href="#options" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--scenario=&lt;name&gt;</code></td>
+<td>Predefined profile (see table above). Ignored for a counter that is also set manually.</td>
+</tr>
+<tr>
+<td><code>--perimeters=&lt;n&gt;</code></td>
+<td>Total number of perimeters to end up with (the default perimeter counts as 1 — only missing ones are created).</td>
+</tr>
+<tr>
+<td><code>--applications=&lt;n&gt;</code></td>
+<td>Number of applications to create.</td>
+</tr>
+<tr>
+<td><code>--databases=&lt;n&gt;</code></td>
+<td>Number of databases to create.</td>
+</tr>
+<tr>
+<td><code>--servers=&lt;n&gt;</code></td>
+<td>Number of logical servers to create.</td>
+</tr>
+<tr>
+<td><code>--flows=&lt;n&gt;</code></td>
+<td>Number of application flows to create (requires at least 2 applications).</td>
+</tr>
+<tr>
+<td><code>--sites=&lt;n&gt;</code></td>
+<td>Number of sites to create.</td>
+</tr>
+<tr>
+<td><code>--buildings=&lt;n&gt;</code></td>
+<td>Number of buildings to create.</td>
+</tr>
+<tr>
+<td><code>--bays=&lt;n&gt;</code></td>
+<td>Number of bays (racks) to create.</td>
+</tr>
+<tr>
+<td><code>--physical-servers=&lt;n&gt;</code></td>
+<td>Number of physical servers to create.</td>
+</tr>
+<tr>
+<td><code>--peripherals=&lt;n&gt;</code></td>
+<td>Number of peripherals (printers, badge readers, UPS, ...) to create.</td>
+</tr>
+<tr>
+<td><code>--workstations=&lt;n&gt;</code></td>
+<td>Number of workstations to create.</td>
+</tr>
+<tr>
+<td><code>--security-zones=&lt;n&gt;</code></td>
+<td>Number of security zones to create.</td>
+</tr>
+<tr>
+<td><code>--chunk=&lt;n&gt;</code></td>
+<td>Batch size for bulk inserts (default from <code>config/data-scenarios.php</code>, <code>500</code>).</td>
+</tr>
+<tr>
+<td><code>--seed=&lt;n&gt;</code></td>
+<td>Random seed, for reproducible output across runs.</td>
+</tr>
+<tr>
+<td><code>--dry-run</code></td>
+<td>Compute and display the plan, write nothing to the database.</td>
+</tr>
+<tr>
+<td><code>--force</code></td>
+<td>Skip the interactive confirmation prompt. Does <strong>not</strong> delete any existing data.</td>
+</tr>
+</tbody>
+</table>
+<p>There is no <code>--floors</code>, <code>--locals</code> (rooms), <code>--networks</code>, <code>--subnetworks</code>, <code>--vlans</code>, <code>--phones</code>, <code>--wifi-terminals</code>, <code>--physical-switches</code>, <code>--physical-routers</code>, <code>--application-blocks</code>, <code>--application-services</code>, <code>--application-modules</code>, <code>--zone-admins</code>, <code>--domains</code>, <code>--macro-processes</code>, <code>--processes</code>, <code>--activities</code>, <code>--operations</code>, <code>--tasks</code>, <code>--actors</code>, <code>--informations</code>, <code>--entities</code>, <code>--relations</code> or <code>--data-processing</code> option — see below for why.</p>
+<hr />
+<h2 id="what-gets-generated">What gets generated<a class="headerlink" href="#what-gets-generated" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Perimeters</strong> — picked from a pool of realistic organisation-style names (<code>Production</code>, <code>Filiale Nord</code>, <code>Donnees Sante</code>, ...), falling back to a generated name once the pool is exhausted. Existing perimeters are kept; only the missing count is created.</li>
+<li><strong>Applications / Databases / Logical servers</strong> — realistic names (<code>acme-billing-prod</code>, <code>db-crm-staging</code>, <code>web03-prod</code>, ...), plausible types and security-need levels, spread evenly across the available perimeters. Each logical server is also paired with a physical server from its own perimeter (<code>logical_server_physical_server</code>), and its IP address is drawn from a subnetwork on that physical server's site rather than being a generic address — unless no eligible physical server/subnetwork exists, in which case a generic IP is used instead.</li>
+<li><strong>Application blocks</strong> — every perimeter gets 5–7 application blocks (<code>application_blocks_per_perimeter</code>), and every application is assigned to one block <strong>from its own perimeter</strong>.</li>
+<li><strong>Application services and modules</strong> — not a target count either: every <em>application</em> gets 0–5 application services (<code>application_services_per_application</code>), each one dedicated to that single application (never shared), and every <em>application service</em> gets 0–3 application modules (<code>application_modules_per_service</code>), each dedicated to that single service. Both get realistic names/types/vendor/version.</li>
+<li><strong>Application ↔ Server</strong> links — each application is linked to 1, 2 or 3 logical servers <strong>from its own perimeter</strong>, never 0: 90% of applications get exactly one, the rest split between two and three (<code>APPLICATION_SERVER_COUNTS</code>, not a configurable min/max).</li>
+<li><strong>Application ↔ Database</strong> links — each application is linked to a random number of databases <strong>from its own perimeter</strong> (see <code>databases_per_application</code> in the config file).</li>
+<li><strong>Application flows</strong> — connect two <em>endpoints</em>, each independently an application, an application service, an application module, or a database (any combination — service-to-database, module-to-module, application-to-service, ...), never the exact same object on both ends. A configurable share of flows (<code>cross_perimeter_flow_probability</code>, default <code>10%</code>) deliberately link two endpoints from different perimeters, to exercise cross-perimeter flow visibility; the rest stay within a single perimeter. Predefined scenarios generate a third as many flows as before this endpoint diversification, to keep the total volume of generated links comparable.</li>
+<li><strong>Physical infrastructure (technical side)</strong> — sites, buildings, bays, physical servers and peripherals, chained coherently: a building references a site from its own perimeter, a bay references the same site as its building, and a physical server/peripheral references the same bay/building/site — never a mix of perimeters. A child object without an eligible parent in its own perimeter (e.g. <code>--buildings</code> requested but <code>--sites=0</code>) is still created, just without that particular link.</li>
+<li><strong>Networks, subnetworks and VLANs (logical side)</strong> — one <code>Network</code> per site, named exactly like that site (<code>Network</code> has no <code>site_id</code> column, so the association is by name rather than a foreign key). Each network gets 4–16 subnetworks (<code>subnetworks_per_network</code>), and each subnetwork is paired 1:1 with its own VLAN via <code>subnetworks.vlan_id</code>.</li>
+<li><strong>Floors and rooms (office side)</strong> — a second, parallel hierarchy, independent of <code>--buildings</code>/<code>--bays</code>: every site gets 1–8 floors named <code>ET1</code>, <code>ET2</code>, ... (<code>floors_per_site</code>), and every floor gets 5–10 rooms named <code>LOCAL042</code>-style (<code>locals_per_floor</code>). Both are stored the same way as buildings, just tagged with <code>type</code> = <code>Etage</code> / <code>Local</code>.</li>
+<li><strong>Physical switches and routers</strong> — not a target count either: every <em>bay</em> gets its own physical switch (rack/technical wiring), every <em>floor</em> also gets its own physical switch (office wiring — a second, independent switch, not shared with the bay's), and every <em>site</em> with at least one bay gets exactly one physical router, placed in one of that site's bays. A site with 0 bays gets no router (and none of its floor switches get linked to one either).</li>
+<li><strong>Physical links</strong> — a physical link connects each physical server to the switch of its own bay, and each switch — whether from a bay or a floor — to the router of its site, so the whole rack/site wiring is navigable, not just the equipment list.</li>
+<li><strong>Workstations and phones</strong> — always located in a <em>room</em>, never directly in a floor or a building. Phones are always exactly as many as the workstations actually created.</li>
+<li><strong>WiFi access points</strong> — unlike every other object above, not a target count: each <em>floor or room</em> independently has an 80% chance (<code>wifi_terminal_probability</code> in the config file) of getting its own access point. With 0 sites (hence 0 floors/rooms), there are 0 access points, whatever else is requested.</li>
+<li><strong>Workstation and WiFi links</strong> — each workstation and each WiFi access point is connected by a physical link to its <em>nearest</em> switch — the switch of its own floor, or, when it lives in a room, the switch of the floor that contains that room. Never a bay switch (a workstation isn't in a rack).</li>
+<li><strong>Security zones</strong> — each one is linked to 1–3 buildings from its own perimeter (see <code>buildings_per_zone</code> in the config file). Zones link to actual buildings, not to floors or rooms.</li>
+<li><strong>Directory / Active Directory infrastructure (per site)</strong> — not a target count either: every <em>site</em> gets 1–3 admin zones (<code>zone_admins_per_site</code>), exactly one directory service (<code>Annuaire</code>, linked to one of these admin zones and, when the site's perimeter has one, an application), and exactly one AD forest (<code>ForestAd</code>, linked to one of the same admin zones). Each site also gets 3–5 domains (<code>domains_per_site</code>), all attached to that site's AD forest (<code>domain_forest_ad</code>). None of <code>zone_admins</code>/<code>annuaires</code>/<code>forest_ads</code>/<code>domains</code> has a <code>site_id</code> column, so "per site" only structures the generation — not something queryable back from the database beyond the shared perimeter.</li>
+<li><strong>Admin users</strong> — every site gets exactly as many <code>admin_users</code> as workstations actually created on that site, split as evenly as possible across that site's domains: each domain's <code>user_count</code> is set to exactly the number of <code>admin_users</code> actually attached to it (<code>domain_id</code>), not a post-hoc estimate.</li>
+<li><strong>Business-process cartography (per perimeter)</strong> — not a target count either, and generated unconditionally for every perimeter (independent of any <code>--applications</code>/<code>--sites</code>/... option): every <em>perimeter</em> gets 3–5 macro-processes (<code>macro_processes_per_perimeter</code>), each with 3–10 processes (<code>processes_per_macro_process</code>, <code>macroprocess_id</code>); each <em>process</em> gets 5–10 dedicated activities (<code>activities_per_process</code>, via <code>activity_process</code>); each <em>activity</em> gets 1–3 dedicated operations (<code>operations_per_activity</code>, via <code>activity_operation</code>) — each operation also inherits the <em>same</em> <code>process_id</code> as its parent activity, since <code>Operation</code> has both a direct FK to <code>Process</code> and a many-to-many with <code>Activity</code>; and each <em>operation</em> gets 1–3 dedicated tasks (<code>tasks_per_operation</code>, via <code>operation_task</code>). Nothing at any level is shared between two parents — each activity/operation/task belongs to exactly one process/activity/operation.</li>
+<li><strong>Actors</strong> — every perimeter gets 5–20 actors (<code>actors_per_perimeter</code>), each one assigned to 1–5 operations (<code>actor_operations_per_actor</code>) <strong>from that same perimeter</strong> (<code>actor_operation</code>) — a genuine many-to-many, unlike the dedicated parent/child links above.</li>
+<li><strong>Informations</strong> — every perimeter gets 5–20 <code>Information</code> records (<code>informations_per_perimeter</code>). No relation is created with processes — see below for its links to databases and flows.</li>
+<li><strong>Information ↔ Database and Information ↔ Flow links</strong> — every database gets 1–5 informations (<code>informations_per_database</code>, <code>database_information</code>), and every application flow gets 0–2 informations (<code>informations_per_flow</code>, <code>application_flow_information</code>) — both drawn <strong>from that same perimeter</strong> as the database/flow.</li>
+<li><strong>Entities and relations</strong> — every perimeter gets a fixed 100 entities (<code>entities_per_perimeter</code>, a plain count rather than a range — "about a hundred" per the request, not a min/max). Each entity is then linked to 0–3 other entities <strong>from that same perimeter</strong> (<code>relations_per_entity</code>), never to itself — unlike <code>ApplicationFlow</code>, <code>Relation</code> has no cross-perimeter scope, so both ends of a relation always stay within one perimeter. An entity alone in its perimeter (shouldn't happen at 100 per perimeter, but handled defensively) simply gets no relation rather than a self-loop.</li>
+<li><strong>Data processing (GDPR register)</strong> — every perimeter gets 20–50 <code>DataProcessing</code> records (<code>data_processing_per_perimeter</code>), each one linked to 1–3 applications, 1–3 processes, and 1–3 informations (<code>data_processing_links_per_type</code>, three independent pivots) — all drawn <strong>from that same perimeter</strong>. Exactly one GDPR Art. 6 legal basis is picked per record, reflected consistently in both <code>legal_basis</code> and the matching <code>lawfulness_*</code> boolean column (the other five stay <code>false</code>).</li>
+<li><strong>Attribute tags</strong> — every generated cartography object (applications, servers, sites, networks, buildings, workstations, ...) gets 3–5 free-form tags in its <code>attributes</code> field, drawn from a fixed set: <code>OK</code>, <code>Checked</code>, <code>Dev</code>, <code>Test</code>, <code>T1</code>, <code>T2</code>, <code>T3</code>, <code>O1</code>, <code>Saved</code>, <code>A1</code>–<code>A5</code>, <code>Sec</code>, <code>Lab</code> (space-separated, matching the convention already used elsewhere in Mercator for this field).</li>
+</ul>
+<p>Every model already existing in Mercator (<code>app/Factories/*Factory.php</code>) provides the underlying fake attributes — this command adds the perimeter distribution and the relationships on top.</p>
+<hr />
+<h2 id="multi-perimeter-access">Multi-perimeter access<a class="headerlink" href="#multi-perimeter-access" title="Permanent link">&para;</a></h2>
+<p>As soon as the run ends up with <strong>more than one perimeter</strong> (existing + newly created), the command:</p>
+<ol>
+<li>Enables the perimeters feature itself (same flag as <strong>Admin → Configuration → Perimeters</strong>) — so the perimeter selector is immediately usable, with no separate manual step.</li>
+<li>Creates one administrator role per perimeter, titled <code>admin.perimeter.&lt;slug&gt;</code> (e.g. <code>admin.perimeter.filiale-nord</code>), holding <strong>every</strong> permission.</li>
+<li>If the canonical administrator account (<code>admin@admin.com</code>) exists, attaches it to every one of these new roles — without ever removing its existing roles — so it can immediately switch into any generated perimeter. If that account doesn't exist, this step is silently skipped (nothing else is affected).</li>
+</ol>
+<p>This whole step is skipped entirely when the run only ever has a single perimeter (e.g. the <code>pme</code> scenario) — there is nothing to switch between. It is idempotent: running the command again against the same perimeters reuses the existing roles (and refreshes their permissions) instead of duplicating them, and re-attaching the admin account is a no-op if it's already there.</p>
+<hr />
+<h2 id="safety">Safety<a class="headerlink" href="#safety" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Everything is written inside a single database transaction: if anything fails partway through, nothing is persisted.</li>
+<li><code>--dry-run</code> performs no write of any kind — it only reports what <em>would</em> be created (including whether the perimeters feature would be enabled).</li>
+<li><code>--force</code> only bypasses the confirmation prompt; it never deletes or overwrites existing records.</li>
+<li>Enabling the perimeters feature and attaching <code>admin@admin.com</code> to the new roles (see above) is the one case where this command changes application-wide behaviour, not just adds rows — it only happens when the resulting perimeter count is greater than one, and is announced before the confirmation prompt.</li>
+</ul>
+<hr />
+<h2 id="example-output">Example output<a class="headerlink" href="#example-output" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>+---------------------------------------------------------+-------------------+
+| Objet                                                   | Quantité demandée |
++---------------------------------------------------------+-------------------+
+| Périmètres (total)                                      | 4                 |
+| Applications                                            | 400               |
+| Groupes applicatifs par périmètre (~24 au total)        | 5-7               |
+| Services applicatifs par application (~1000 au total)   | 0-5               |
+| Modules applicatifs par service (~1500 au total)        | 0-3               |
+| Bases de données                                        | 100               |
+| Serveurs logiques                                       | 200               |
+| Flux applicatifs (application/service/module/BDD)       | 400               |
+| Sites                                                   | 6                 |
+| Réseaux (= sites)                                       | 6                 |
+| Sous-réseaux par réseau (~60 au total)                  | 4-16              |
+| VLANs (= sous-réseaux)                                  | 60                |
+| Bâtiments                                               | 15                |
+| Baies                                                   | 40                |
+| Étages par site (~27 au total)                          | 1-8               |
+| Locaux par étage (~203 au total)                        | 5-10              |
+| Switchs physiques (= baies)                             | 40                |
+| Switchs physiques (= étages)                            | 27                |
+| Routeurs physiques (&lt;= sites)                           | 6                 |
+| Serveurs physiques                                      | 80                |
+| Périphériques                                           | 40                |
+| Postes de travail (dans un local)                       | 300               |
+| Téléphones (= postes de travail, dans un local)         | 300               |
+| Bornes WiFi (~80% des étages/locaux)                    | 184               |
+| Zones de sécurité                                       | 8                 |
+| Zones d'administration par site (~12 au total)          | 1-3               |
+| Annuaires (= sites)                                     | 6                 |
+| Forêts Active Directory / LDAP (= sites)                | 6                 |
+| Domaines par site (~24 au total)                        | 3-5               |
+| Utilisateurs admin_users (= postes de travail)          | 300               |
+| Macro-processus par périmètre (~16 au total)            | 3-5               |
+| Processus par macro-processus (~104 au total)           | 3-10              |
+| Activités par processus (~780 au total)                 | 5-10              |
+| Opérations par activité (~1560 au total)                | 1-3               |
+| Tâches par opération (~3120 au total)                   | 1-3               |
+| Acteurs par périmètre (~50 au total)                    | 5-20              |
+| Informations par périmètre (~50 au total)               | 5-20              |
+| Entités par périmètre (400 au total)                    | 100               |
+| Relations par entité (~600 au total)                    | 0-3               |
+| Traitements de données par périmètre (~140 au total)    | 20-50             |
++---------------------------------------------------------+-------------------+
+Plus d'un périmètre : la fonctionnalité périmètres sera activée, un rôle admin.perimeter.&lt;nom&gt; sera créé pour chacun, et le compte admin@admin.com (s'il existe) y sera rattaché.
+
++-----------------------------------------------------+---------+
+| Résultat                                             | Valeur  |
++-----------------------------------------------------+---------+
+| Périmètres (total / créés)                           | 4 / 3   |
+| Fonctionnalité périmètres activée                    | Oui     |
+| Rôles admin.perimeter.* créés                        | 4       |
+| Compte admin@admin.com rattaché aux rôles            | Non     |
+| Applications créées                                  | 400     |
+| Groupes applicatifs créés                            | 22      |
+| Services applicatifs créés                           | 1010    |
+| Liens applications &lt;-&gt; services applicatifs          | 1010    |
+| Modules applicatifs créés                            | 1475    |
+| Liens services applicatifs &lt;-&gt; modules applicatifs   | 1475    |
+| Bases de données créées                              | 100     |
+| Serveurs logiques créés                              | 200     |
+| Liens serveurs logiques &lt;-&gt; serveurs physiques       | 200     |
+| Liens applications &lt;-&gt; serveurs                      | 470     |
+| Liens applications &lt;-&gt; bases de données              | 400     |
+| Flux applicatifs créés                               | 400     |
+| Sites créés                                          | 6       |
+| Réseaux créés                                        | 6       |
+| Sous-réseaux créés                                   | 67      |
+| VLANs créés                                          | 67      |
+| Bâtiments créés                                      | 15      |
+| Baies créées                                         | 40      |
+| Étages créés                                         | 33      |
+| Locaux créés                                         | 239     |
+| Switchs physiques créés (baies)                      | 40      |
+| Switchs physiques créés (étages)                     | 33      |
+| Routeurs physiques créés                             | 6       |
+| Serveurs physiques créés                             | 80      |
+| Liens serveurs &lt;-&gt; switchs                           | 80      |
+| Liens switchs de baie &lt;-&gt; routeurs                   | 40      |
+| Liens switchs d'étage &lt;-&gt; routeurs                   | 33      |
+| Périphériques créés                                  | 40      |
+| Postes de travail créés                              | 300     |
+| Liens postes de travail &lt;-&gt; switchs                  | 300     |
+| Téléphones créés                                     | 300     |
+| Bornes WiFi créées                                   | 215     |
+| Liens bornes WiFi &lt;-&gt; switchs                        | 215     |
+| Zones de sécurité créées                             | 8       |
+| Liens zones &lt;-&gt; bâtiments                            | 11      |
+| Zones d'administration créées                        | 12      |
+| Annuaires créés                                      | 6       |
+| Forêts Active Directory / LDAP créées                | 6       |
+| Domaines créés                                       | 26      |
+| Liens forêts AD &lt;-&gt; domaines                         | 26      |
+| Utilisateurs admin_users créés                       | 300     |
+| Macro-processus créés                                | 17      |
+| Processus créés                                      | 124     |
+| Liens processus &lt;-&gt; activités                        | 924     |
+| Activités créées                                     | 924     |
+| Liens activités &lt;-&gt; opérations                       | 1830    |
+| Opérations créées                                    | 1830    |
+| Liens opérations &lt;-&gt; tâches                          | 3643    |
+| Tâches créées                                        | 3643    |
+| Acteurs créés                                        | 65      |
+| Liens acteurs &lt;-&gt; opérations                         | 206     |
+| Informations créées                                  | 52      |
+| Liens bases de données &lt;-&gt; informations              | 299     |
+| Liens flux applicatifs &lt;-&gt; informations              | 390     |
+| Entités créées                                       | 400     |
+| Relations créées                                     | 611     |
+| Traitements de données créés                         | 166     |
+| Liens traitements de données &lt;-&gt; applications        | 342     |
+| Liens traitements de données &lt;-&gt; processus           | 320     |
+| Liens traitements de données &lt;-&gt; informations        | 338     |
++-----------------------------------------------------+---------+
+</code></pre></div>
+<p>All 200 logical servers got a physical server + a site-appropriate IP (200/200): with 80 physical servers spread across 4 perimeters, every perimeter had at least one to pick from.</p>
+<p>Note every workstation and every WiFi access point got a link (300/300 and 215/215): as long as every site has at least one bay (hence a router isn't even required here — floor switches always exist for every floor regardless of routers), workstations/WiFi always find their floor's switch. Also note every subnetwork has exactly one VLAN (67/67), every application got 1–3 logical servers with ~90% getting exactly one, every application block belongs to the same perimeter as the applications assigned to it (22 blocks across 4 perimeters, 5–7 each), every application service/module is dedicated to exactly one application/service (1010 services for 1010 links, 1475 modules for 1475 links), every flow's two endpoints resolve to an existing application/service/module/database with no self-loop, every admin zone/directory/AD forest/domain/admin_user chains coherently within its site's perimeter (12 admin zones and 26 domains across 6 sites, 300 admin_users exactly matching the 300 workstations created), and the whole business-process chain (924 activities for 924 process links, 1830 operations for 1830 activity links, 3643 tasks for 3643 operation links) stays within its perimeter end to end, with every operation inheriting the same process as its parent activity. Every perimeter also got exactly 100 entities (400/400 across 4 perimeters), and every one of the 611 relations created connects two entities of the same perimeter with no self-loop. Every database got 1–5 informations (299 links across 100 databases) and every flow got 0–2 (390 links across 400 flows), both always from the same perimeter. Every one of the 166 data processing records (a GDPR register) got 1–3 links each to applications, processes and informations (342/320/338 links respectively), all within the same perimeter, and each one's <code>legal_basis</code> matched exactly one true <code>lawfulness_*</code> flag.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright <a href="https://www.gnu.org/licenses/licenses.en.html">GPL</a>.
+    </div>
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.indexes", "navigation.expand", "navigation.top", "content.code.copy", "content.action.edit", "content.action.view", "palette.toggle"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
