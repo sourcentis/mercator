@@ -1,0 +1,2867 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Mapping the Information System !">
+      
+      
+      
+        <link rel="canonical" href="https://sourcentis.github.io/mercator/fr/perimeters/">
+      
+      
+        <link rel="prev" href="../usecases/">
+      
+      
+        <link rel="next" href="../roles/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.31">
+    
+    
+      
+        <title>-- Périmètres - Mercator</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.3cba04c6.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/overrides.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#les-perimetres-dans-mercator" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../" title="Mercator" class="md-header__button md-logo" aria-label="Mercator" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Mercator
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              -- Périmètres
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Sélectionner la langue">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.52 17.52 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04M18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12m-2.62 7 1.62-4.33L19.12 17h-3.24Z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../perimeters/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="fr" class="md-select__link">
+              Français
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sourcentis/mercator" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../" title="Mercator" class="md-nav__button md-logo" aria-label="Mercator" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Mercator
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sourcentis/mercator" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    DÉMARRAGE
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            DÉMARRAGE
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cartography/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    -- Cartographie
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../application/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    -- Application
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    -- Exploration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usecases/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    -- Cas d'usage
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    CONTROLE D'ACCES
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            CONTROLE D'ACCES
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    -- Périmètres
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    -- Périmètres
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction-quest-ce-quun-perimetre" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction — Qu'est-ce qu'un périmètre ?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fonctionnement-des-perimetres-avant-et-apres-activation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fonctionnement des périmètres : avant et après activation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fonctionnement des périmètres : avant et après activation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sans-gestion-des-perimetres-etat-par-defaut" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sans gestion des périmètres (état par défaut)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#avec-la-gestion-des-perimetres-apres-activation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Avec la gestion des périmètres (après activation)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#le-perimetre-par-defaut" class="md-nav__link">
+    <span class="md-ellipsis">
+      Le périmètre par défaut
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#activer-la-gestion-des-perimetres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Activer la gestion des périmètres
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Activer la gestion des périmètres">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#que-se-passe-t-il-a-lactivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Que se passe-t-il à l'activation ?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#que-se-passe-t-il-a-la-desactivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Que se passe-t-il à la désactivation ?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gerer-les-perimetres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gérer les périmètres
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gérer les périmètres">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ajouter-un-perimetre" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ajouter un périmètre
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#renommer-un-perimetre" class="md-nav__link">
+    <span class="md-ellipsis">
+      Renommer un périmètre
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supprimer-un-perimetre" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supprimer un périmètre
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#roles-et-perimetres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rôles et périmètres
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Rôles et périmètres">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#assigner-un-perimetre-a-un-role" class="md-nav__link">
+    <span class="md-ellipsis">
+      Assigner un périmètre à un rôle
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#acces-multi-perimetres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Accès multi-périmètres
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#acces-administrateur" class="md-nav__link">
+    <span class="md-ellipsis">
+      Accès administrateur
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#que-se-passe-t-il-quand-la-gestion-des-perimetres-est-desactivee" class="md-nav__link">
+    <span class="md-ellipsis">
+      Que se passe-t-il quand la gestion des périmètres est désactivée ?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#le-perimetre-de-travail-selecteur" class="md-nav__link">
+    <span class="md-ellipsis">
+      Le périmètre de travail (sélecteur)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Le périmètre de travail (sélecteur)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ce-que-fait-le-selecteur" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ce que fait le sélecteur
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comportement-du-selecteur" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comportement du sélecteur
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creer-et-deplacer-des-objets-entre-perimetres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Créer et déplacer des objets entre périmètres
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Créer et déplacer des objets entre périmètres">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-la-creation-dun-objet" class="md-nav__link">
+    <span class="md-ellipsis">
+      À la création d'un objet
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-la-modification-dun-objet" class="md-nav__link">
+    <span class="md-ellipsis">
+      À la modification d'un objet
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modifier-a-travers-vos-perimetres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modifier à travers vos périmètres
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#identite-de-lobjet-dans-linterface" class="md-nav__link">
+    <span class="md-ellipsis">
+      Identité de l'objet dans l'interface
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flux-applicatifs-et-liens-physiques-entre-etablissements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Flux applicatifs et liens physiques entre établissements
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Flux applicatifs et liens physiques entre établissements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#que-sont-les-flux-inter-perimetres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Que sont les flux inter-périmètres ?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qui-voit-un-flux-inter-perimetres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Qui voit un flux inter-périmètres ?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#objets-locaux-et-objets-distants" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objets locaux et objets distants
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creer-des-flux-entre-perimetres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Créer des flux entre périmètres
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#audit-et-propriete" class="md-nav__link">
+    <span class="md-ellipsis">
+      Audit et propriété
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#importer-des-donnees-avec-les-perimetres-glpi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Importer des données avec les périmètres (GLPI)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Importer des données avec les périmètres (GLPI)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reconciliation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Réconciliation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comportement-a-la-re-importation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comportement à la ré-importation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#securite-frontieres-des-perimetres-et-controle-dacces" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sécurité : frontières des périmètres et contrôle d'accès
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sécurité : frontières des périmètres et contrôle d'accès">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#principe-les-utilisateurs-voient-ce-dont-ils-sont-responsables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Principe : les utilisateurs voient ce dont ils sont responsables
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ce-que-les-utilisateurs-ne-peuvent-pas-faire" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ce que les utilisateurs ne peuvent pas faire
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#application-des-regles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Application des règles
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assignations-de-cartographes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Assignations de cartographes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#piste-daudit" class="md-nav__link">
+    <span class="md-ellipsis">
+      Piste d'audit
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bonnes-pratiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bonnes pratiques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bonnes pratiques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#avant-dactiver-la-gestion-des-perimetres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Avant d'activer la gestion des périmètres
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#activer-progressivement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Activer progressivement
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deplacer-des-objets-en-toute-securite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Déplacer des objets en toute sécurité
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supprimer-un-perimetre-en-toute-securite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supprimer un périmètre en toute sécurité
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quand-ne-pas-utiliser-les-perimetres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quand NE PAS utiliser les périmètres
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#depannage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dépannage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dépannage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jai-active-la-gestion-des-perimetres-mais-rien-na-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      « J'ai activé la gestion des périmètres mais rien n'a changé »
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#je-ne-peux-pas-deplacer-un-objet-vers-un-autre-perimetre" class="md-nav__link">
+    <span class="md-ellipsis">
+      « Je ne peux pas déplacer un objet vers un autre périmètre »
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#un-utilisateur-ne-voit-pas-des-objets-quil-devrait-voir" class="md-nav__link">
+    <span class="md-ellipsis">
+      « Un utilisateur ne voit pas des objets qu'il devrait voir »
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#un-flux-a-disparu-apres-que-jai-deplace-un-objet" class="md-nav__link">
+    <span class="md-ellipsis">
+      « Un flux a disparu après que j'ai déplacé un objet »
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jai-supprime-un-perimetre-et-je-nai-plus-acces-a-mes-objets" class="md-nav__link">
+    <span class="md-ellipsis">
+      « J'ai supprimé un périmètre et je n'ai plus accès à mes objets »
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../roles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    -- Rôles
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cartographers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    -- Cartographes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    MODÈLE DE DONNÉES
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            MODÈLE DE DONNÉES
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../model/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    -- Modèle de données
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../maturity/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    -- Maturité
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    PROCESSUS & ANALYSE
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            PROCESSUS & ANALYSE
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../maps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    -- Cartes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bpmn/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    -- BPMN
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../queries/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    -- Requêtes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reports/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    -- Rapports
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    API & INTÉGRATION
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            API & INTÉGRATION
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    -- API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apifilters/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    -- Filtres d'API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../import/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    -- Import
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vulnerabilities/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    -- Vulnérabilités
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../monarc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    -- Monarc
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    OPÉRATIONS
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            OPÉRATIONS
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../admin/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    -- Administration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../config/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    -- Configuration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../generate-test-data/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    -- Génération de données de test
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../references/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    -- Références
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction-quest-ce-quun-perimetre" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction — Qu'est-ce qu'un périmètre ?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fonctionnement-des-perimetres-avant-et-apres-activation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fonctionnement des périmètres : avant et après activation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fonctionnement des périmètres : avant et après activation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sans-gestion-des-perimetres-etat-par-defaut" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sans gestion des périmètres (état par défaut)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#avec-la-gestion-des-perimetres-apres-activation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Avec la gestion des périmètres (après activation)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#le-perimetre-par-defaut" class="md-nav__link">
+    <span class="md-ellipsis">
+      Le périmètre par défaut
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#activer-la-gestion-des-perimetres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Activer la gestion des périmètres
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Activer la gestion des périmètres">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#que-se-passe-t-il-a-lactivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Que se passe-t-il à l'activation ?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#que-se-passe-t-il-a-la-desactivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Que se passe-t-il à la désactivation ?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gerer-les-perimetres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gérer les périmètres
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gérer les périmètres">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ajouter-un-perimetre" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ajouter un périmètre
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#renommer-un-perimetre" class="md-nav__link">
+    <span class="md-ellipsis">
+      Renommer un périmètre
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supprimer-un-perimetre" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supprimer un périmètre
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#roles-et-perimetres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rôles et périmètres
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Rôles et périmètres">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#assigner-un-perimetre-a-un-role" class="md-nav__link">
+    <span class="md-ellipsis">
+      Assigner un périmètre à un rôle
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#acces-multi-perimetres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Accès multi-périmètres
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#acces-administrateur" class="md-nav__link">
+    <span class="md-ellipsis">
+      Accès administrateur
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#que-se-passe-t-il-quand-la-gestion-des-perimetres-est-desactivee" class="md-nav__link">
+    <span class="md-ellipsis">
+      Que se passe-t-il quand la gestion des périmètres est désactivée ?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#le-perimetre-de-travail-selecteur" class="md-nav__link">
+    <span class="md-ellipsis">
+      Le périmètre de travail (sélecteur)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Le périmètre de travail (sélecteur)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ce-que-fait-le-selecteur" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ce que fait le sélecteur
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comportement-du-selecteur" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comportement du sélecteur
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creer-et-deplacer-des-objets-entre-perimetres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Créer et déplacer des objets entre périmètres
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Créer et déplacer des objets entre périmètres">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-la-creation-dun-objet" class="md-nav__link">
+    <span class="md-ellipsis">
+      À la création d'un objet
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-la-modification-dun-objet" class="md-nav__link">
+    <span class="md-ellipsis">
+      À la modification d'un objet
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modifier-a-travers-vos-perimetres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modifier à travers vos périmètres
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#identite-de-lobjet-dans-linterface" class="md-nav__link">
+    <span class="md-ellipsis">
+      Identité de l'objet dans l'interface
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flux-applicatifs-et-liens-physiques-entre-etablissements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Flux applicatifs et liens physiques entre établissements
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Flux applicatifs et liens physiques entre établissements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#que-sont-les-flux-inter-perimetres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Que sont les flux inter-périmètres ?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qui-voit-un-flux-inter-perimetres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Qui voit un flux inter-périmètres ?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#objets-locaux-et-objets-distants" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objets locaux et objets distants
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creer-des-flux-entre-perimetres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Créer des flux entre périmètres
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#audit-et-propriete" class="md-nav__link">
+    <span class="md-ellipsis">
+      Audit et propriété
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#importer-des-donnees-avec-les-perimetres-glpi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Importer des données avec les périmètres (GLPI)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Importer des données avec les périmètres (GLPI)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reconciliation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Réconciliation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comportement-a-la-re-importation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comportement à la ré-importation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#securite-frontieres-des-perimetres-et-controle-dacces" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sécurité : frontières des périmètres et contrôle d'accès
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sécurité : frontières des périmètres et contrôle d'accès">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#principe-les-utilisateurs-voient-ce-dont-ils-sont-responsables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Principe : les utilisateurs voient ce dont ils sont responsables
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ce-que-les-utilisateurs-ne-peuvent-pas-faire" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ce que les utilisateurs ne peuvent pas faire
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#application-des-regles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Application des règles
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assignations-de-cartographes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Assignations de cartographes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#piste-daudit" class="md-nav__link">
+    <span class="md-ellipsis">
+      Piste d'audit
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bonnes-pratiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bonnes pratiques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bonnes pratiques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#avant-dactiver-la-gestion-des-perimetres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Avant d'activer la gestion des périmètres
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#activer-progressivement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Activer progressivement
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deplacer-des-objets-en-toute-securite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Déplacer des objets en toute sécurité
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supprimer-un-perimetre-en-toute-securite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supprimer un périmètre en toute sécurité
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quand-ne-pas-utiliser-les-perimetres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quand NE PAS utiliser les périmètres
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#depannage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dépannage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dépannage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jai-active-la-gestion-des-perimetres-mais-rien-na-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      « J'ai activé la gestion des périmètres mais rien n'a changé »
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#je-ne-peux-pas-deplacer-un-objet-vers-un-autre-perimetre" class="md-nav__link">
+    <span class="md-ellipsis">
+      « Je ne peux pas déplacer un objet vers un autre périmètre »
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#un-utilisateur-ne-voit-pas-des-objets-quil-devrait-voir" class="md-nav__link">
+    <span class="md-ellipsis">
+      « Un utilisateur ne voit pas des objets qu'il devrait voir »
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#un-flux-a-disparu-apres-que-jai-deplace-un-objet" class="md-nav__link">
+    <span class="md-ellipsis">
+      « Un flux a disparu après que j'ai déplacé un objet »
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jai-supprime-un-perimetre-et-je-nai-plus-acces-a-mes-objets" class="md-nav__link">
+    <span class="md-ellipsis">
+      « J'ai supprimé un périmètre et je n'ai plus accès à mes objets »
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+    <a href="https://github.com/sourcentis/mercator/edit/master/docs/perimeters.fr.md" title="Editer cette page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/sourcentis/mercator/raw/master/docs/perimeters.fr.md" title="Consulter la source de cette page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.15 8.15 0 0 1-1.23-2Z"/></svg>
+    </a>
+  
+
+
+<h1 id="les-perimetres-dans-mercator">Les périmètres dans Mercator<a class="headerlink" href="#les-perimetres-dans-mercator" title="Permanent link">&para;</a></h1>
+<p>Les périmètres sont le mécanisme principal pour partitionner la cartographie. Ils permettent de cartographier <strong>plusieurs établissements (ou entités, sites, unités métier) dans une seule instance de Mercator</strong>, tout en laissant chacun gérer ses propres objets et en conservant la possibilité de créer des liens entre des objets de périmètres différents. Cette documentation explique ce qu'est un périmètre, comment il se combine avec les rôles, et comment les utilisateurs travaillent au sein de leur périmètre.</p>
+<h2 id="introduction-quest-ce-quun-perimetre">Introduction — Qu'est-ce qu'un périmètre ?<a class="headerlink" href="#introduction-quest-ce-quun-perimetre" title="Permanent link">&para;</a></h2>
+<p>Un <strong>périmètre</strong> est une partition de la cartographie dans laquelle chaque objet nommé (serveur, application, réseau, site…) appartient à <strong>exactement un périmètre</strong>. Par défaut, tous les objets appartiennent au <strong>périmètre par défaut</strong> (id = 1).</p>
+<p>Les périmètres permettent de :</p>
+<ul>
+<li>Héberger la cartographie de <strong>plusieurs établissements</strong> dans une seule instance</li>
+<li>Laisser chaque établissement <strong>gérer ses propres objets</strong> de manière indépendante</li>
+<li>Continuer à <strong>identifier les flux et les liens</strong> qui traversent les établissements</li>
+<li>Partitionner la visibilité et le contrôle d'accès par établissement</li>
+</ul>
+<p><strong>Note :</strong> la gestion des périmètres est une <strong>fonctionnalité optionnelle</strong>. Tant que vous ne l'activez pas, tous les objets restent dans le périmètre par défaut et aucun filtrage n'est appliqué.</p>
+<div class="admonition info">
+<p class="admonition-title">Trois mécanismes de contrôle d'accès</p>
+<p>Mercator combine trois notions complémentaires :</p>
+<ul>
+<li>Le <strong>rôle</strong> définit <em>ce que</em> l'utilisateur peut faire (voir la documentation <em>Rôles</em>)</li>
+<li>Le <strong>périmètre</strong> définit <em>sur les objets de quel établissement</em> ces droits s'appliquent</li>
+<li>L'assignation d'un <strong>cartographe</strong> délègue la responsabilité d'<strong>objets individuels précis</strong>, indépendamment du périmètre (voir la documentation <em>Cartographes</em>)</li>
+</ul>
+<p>Les rôles et les périmètres fonctionnent ensemble : les permissions d'un utilisateur dans un périmètre sont déterminées par son rôle dans ce périmètre.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Modèle technique</p>
+<ul>
+<li>Chaque objet porte un entier <code>perimeter_id</code> (jamais NULL, toujours ≥ 1)</li>
+<li>Un périmètre par défaut existe toujours avec <code>id = 1</code> (créé par la migration d'initialisation de la base de données)</li>
+<li>Les noms d'objets sont <strong>uniques par (perimeter_id, name)</strong> — deux établissements peuvent chacun avoir un « Serveur DNS »</li>
+<li>Les périmètres sont gérés dans une table dédiée <code>perimeters</code></li>
+</ul>
+</div>
+<h2 id="fonctionnement-des-perimetres-avant-et-apres-activation">Fonctionnement des périmètres : avant et après activation<a class="headerlink" href="#fonctionnement-des-perimetres-avant-et-apres-activation" title="Permanent link">&para;</a></h2>
+<h3 id="sans-gestion-des-perimetres-etat-par-defaut">Sans gestion des périmètres (état par défaut)<a class="headerlink" href="#sans-gestion-des-perimetres-etat-par-defaut" title="Permanent link">&para;</a></h3>
+<p>Lorsque la gestion des périmètres est <strong>désactivée</strong> :</p>
+<ul>
+<li>Chaque objet a <code>perimeter_id = 1</code> (le périmètre par défaut)</li>
+<li><strong>Aucun filtrage n'est appliqué</strong> — tous les utilisateurs voient tous les objets</li>
+<li>Il n'y a pas de sélecteur de périmètre dans l'interface</li>
+<li>La fonctionnalité est totalement transparente</li>
+</ul>
+<p>C'est l'état par défaut de toutes les instances Mercator existantes.</p>
+<h3 id="avec-la-gestion-des-perimetres-apres-activation">Avec la gestion des périmètres (après activation)<a class="headerlink" href="#avec-la-gestion-des-perimetres-apres-activation" title="Permanent link">&para;</a></h3>
+<p>Lorsque vous <strong>activez</strong> la gestion des périmètres depuis <strong>Administration → Configuration → Périmètres</strong> :</p>
+<ul>
+<li>Le filtrage est <strong>activé</strong></li>
+<li>Les utilisateurs ne voient plus que les objets des périmètres auxquels leurs rôles donnent accès</li>
+<li>Un <strong>sélecteur de périmètre</strong> apparaît (si l'utilisateur a plusieurs périmètres)</li>
+<li>Les administrateurs peuvent <strong>créer de nouveaux périmètres</strong> (id &gt; 1)</li>
+<li>Les administrateurs peuvent <strong>déplacer des objets</strong> entre périmètres</li>
+</ul>
+<p><strong>Important :</strong> activer la fonctionnalité ne modifie pas les données existantes. Tous les objets restent assignés au périmètre par défaut (id = 1). Le partitionnement ne prend effet que lorsque vous créez de nouveaux périmètres et réassignez des objets.</p>
+<h3 id="le-perimetre-par-defaut">Le périmètre par défaut<a class="headerlink" href="#le-perimetre-par-defaut" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Existe toujours</strong> avec <code>id = 1</code> (créé par la migration d'initialisation de la base de données)</li>
+<li>Ne peut pas être supprimé</li>
+<li>Porte un nom que vous définissez (initialement « Default »)</li>
+<li>Ne peut pas être renommé avec une chaîne vide</li>
+<li>Est le périmètre de tous les objets tant que vous ne les déplacez pas explicitement</li>
+</ul>
+<hr />
+<h2 id="activer-la-gestion-des-perimetres">Activer la gestion des périmètres<a class="headerlink" href="#activer-la-gestion-des-perimetres" title="Permanent link">&para;</a></h2>
+<p>La gestion des périmètres est <strong>désactivée par défaut</strong>. Pour l'activer :</p>
+<ol>
+<li>Aller dans <strong>Administration → Configuration → Périmètres</strong></li>
+<li>Passer <strong>Activer la gestion des périmètres</strong> sur ON</li>
+<li>Éventuellement, renommer le périmètre par défaut (ex. : « Siège »)</li>
+<li>Enregistrer</li>
+</ol>
+<h3 id="que-se-passe-t-il-a-lactivation">Que se passe-t-il à l'activation ?<a class="headerlink" href="#que-se-passe-t-il-a-lactivation" title="Permanent link">&para;</a></h3>
+<p>✓ Le filtrage est activé (les utilisateurs ne voient plus que les périmètres qui leur sont assignés)<br />
+✓ Le sélecteur de périmètre apparaît pour les utilisateurs multi-périmètres<br />
+✓ Les outils d'administration pour créer/renommer/supprimer des périmètres deviennent disponibles<br />
+✓ L'interface d'assignation des objets reçoit une liste déroulante de périmètre<br />
+✓ Tous les objets existants restent dans le périmètre par défaut (id = 1)  </p>
+<p><strong>Rien n'est encore masqué</strong> — tant que vous n'avez pas créé de nouveaux périmètres et réassigné des objets, tous les utilisateurs voient toujours tout.</p>
+<h3 id="que-se-passe-t-il-a-la-desactivation">Que se passe-t-il à la désactivation ?<a class="headerlink" href="#que-se-passe-t-il-a-la-desactivation" title="Permanent link">&para;</a></h3>
+<p>✓ Le filtrage est désactivé<br />
+✓ Tous les utilisateurs voient tous les objets, quelle que soit leur assignation de périmètre<br />
+✓ Le sélecteur de périmètre disparaît de l'interface<br />
+✓ Les outils d'administration des périmètres sont masqués<br />
+✓ Tous les objets conservent leur <code>perimeter_id</code> (les données ne sont pas modifiées)  </p>
+<p>Vous pouvez activer et désactiver la fonctionnalité sans risque de perte de données.</p>
+<h2 id="gerer-les-perimetres">Gérer les périmètres<a class="headerlink" href="#gerer-les-perimetres" title="Permanent link">&para;</a></h2>
+<p>Depuis <strong>Administration → Configuration → Périmètres</strong>, un administrateur peut :</p>
+<h3 id="ajouter-un-perimetre">Ajouter un périmètre<a class="headerlink" href="#ajouter-un-perimetre" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Cliquer sur <strong>+ Ajouter un périmètre</strong></li>
+<li>Saisir un <strong>nom</strong> (2 à 32 caractères)</li>
+<li>Cliquer sur <strong>Créer</strong></li>
+</ol>
+<p>Le périmètre reçoit un <code>id</code> numérique (à partir de 2). Les noms d'objets étant uniques par périmètre, deux établissements peuvent chacun avoir un « Serveur DNS ».</p>
+<h3 id="renommer-un-perimetre">Renommer un périmètre<a class="headerlink" href="#renommer-un-perimetre" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Trouver le périmètre dans la liste</li>
+<li>Cliquer sur <strong>Modifier</strong></li>
+<li>Changer le nom</li>
+<li>Enregistrer</li>
+</ol>
+<p>Même le périmètre par défaut peut être renommé (ex. : « Siège »).</p>
+<h3 id="supprimer-un-perimetre">Supprimer un périmètre<a class="headerlink" href="#supprimer-un-perimetre" title="Permanent link">&para;</a></h3>
+<p>Un périmètre ne peut être supprimé que si :</p>
+<ul>
+<li>Il ne contient <strong>aucun objet</strong> (les réassigner d'abord)</li>
+<li>Il n'a <strong>aucun rôle</strong> (réassigner d'abord les utilisateurs à d'autres rôles)</li>
+<li>Ce n'est <strong>pas le périmètre par défaut</strong> (l'id = 1 ne peut pas être supprimé)</li>
+</ul>
+<p>Pour supprimer :</p>
+<ol>
+<li>Réassigner tous les objets à d'autres périmètres ou au périmètre par défaut</li>
+<li>Réassigner tous les rôles à d'autres périmètres ou au périmètre par défaut</li>
+<li>Cliquer sur <strong>Supprimer</strong> dans la liste des périmètres</li>
+<li>Confirmer</li>
+</ol>
+<p>La suppression est <strong>définitive</strong> et ne peut pas être annulée.</p>
+<div class="admonition warning">
+<p class="admonition-title">Avant de supprimer un périmètre</p>
+<ul>
+<li>Auditer : vérifier si des objets ou des rôles y sont encore assignés</li>
+<li>Prévenir les utilisateurs de ce périmètre</li>
+<li>Migrer les données vers un autre périmètre si nécessaire</li>
+</ul>
+</div>
+<h2 id="roles-et-perimetres">Rôles et périmètres<a class="headerlink" href="#roles-et-perimetres" title="Permanent link">&para;</a></h2>
+<p>Chaque <strong>rôle</strong> est assigné à <strong>exactement un périmètre</strong>. Les permissions du rôle ne s'appliquent qu'aux objets de ce périmètre. (Voir la documentation <em>Rôles</em> pour le détail complet de la gestion des rôles.)</p>
+<h3 id="assigner-un-perimetre-a-un-role">Assigner un périmètre à un rôle<a class="headerlink" href="#assigner-un-perimetre-a-un-role" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Administration → Rôles</strong> → Créer ou Modifier</li>
+<li>Sélectionner un <strong>Périmètre</strong> (liste déroulante)</li>
+<li>Sélectionner les permissions comme d'habitude</li>
+<li>Enregistrer</li>
+</ol>
+<h3 id="acces-multi-perimetres">Accès multi-périmètres<a class="headerlink" href="#acces-multi-perimetres" title="Permanent link">&para;</a></h3>
+<p>Un <strong>utilisateur</strong> peut détenir plusieurs rôles, chacun dans un périmètre différent. Les périmètres accessibles à l'utilisateur sont l'<strong>union des périmètres de tous ses rôles</strong>.</p>
+<h4 id="exemple-equipe-multi-etablissements">Exemple : équipe multi-établissements<a class="headerlink" href="#exemple-equipe-multi-etablissements" title="Permanent link">&para;</a></h4>
+<p>Alice est responsable de deux établissements :</p>
+<ul>
+<li>
+<p><strong>Rôle « Admin »</strong> dans le Périmètre <strong>1</strong> (« Siège »)
+  → Accès complet à tous les objets du Siège</p>
+</li>
+<li>
+<p><strong>Rôle « Lecteur »</strong> dans le Périmètre <strong>2</strong> (« Agence A »)
+  → Accès en lecture seule à tous les objets de l'Agence A</p>
+</li>
+</ul>
+<p><strong>Résultat :</strong> Alice voit les objets des deux périmètres. Elle peut modifier les objets du Siège mais seulement consulter ceux de l'Agence A. Si un flux relie les deux, elle le voit des deux côtés.</p>
+<h3 id="acces-administrateur">Accès administrateur<a class="headerlink" href="#acces-administrateur" title="Permanent link">&para;</a></h3>
+<p>Les <strong>administrateurs</strong> ne sont jamais filtrés par périmètre. Ils voient toujours l'ensemble de la cartographie, quels que soient les périmètres existants ou leur nombre.</p>
+<h3 id="que-se-passe-t-il-quand-la-gestion-des-perimetres-est-desactivee">Que se passe-t-il quand la gestion des périmètres est désactivée ?<a class="headerlink" href="#que-se-passe-t-il-quand-la-gestion-des-perimetres-est-desactivee" title="Permanent link">&para;</a></h3>
+<p>Lorsque vous <strong>désactivez</strong> la gestion des périmètres :</p>
+<ul>
+<li>Toutes les assignations de périmètre des rôles restent inchangées dans la base de données</li>
+<li>Mais <strong>aucun filtrage n'est appliqué</strong> — tous les utilisateurs voient tous les objets</li>
+<li>Vous pouvez réactiver la fonctionnalité plus tard, et le filtrage reprendra</li>
+</ul>
+<p>Cela permet d'activer et de désactiver la fonctionnalité sans perdre la configuration des rôles.</p>
+<div class="admonition tip">
+<p class="admonition-title">Travailler sur plusieurs établissements</p>
+<p>Comme un rôle porte un seul périmètre, un utilisateur qui doit travailler dans plusieurs établissements reçoit <strong>plusieurs rôles</strong>, un par périmètre. Cela permet aussi de combiner un rôle en <em>lecture seule</em> dans un périmètre avec un rôle en <em>lecture-écriture</em> dans un autre.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Tout voir est réservé aux administrateurs</p>
+<p>Il n'existe pas de périmètre « super » qui verrait tous les autres. Un utilisateur qui doit superviser <strong>l'ensemble</strong> de la cartographie de tous les établissements est soit <strong>administrateur</strong>, soit détenteur d'un rôle dans chaque périmètre.</p>
+</div>
+<h2 id="le-perimetre-de-travail-selecteur">Le périmètre de travail (sélecteur)<a class="headerlink" href="#le-perimetre-de-travail-selecteur" title="Permanent link">&para;</a></h2>
+<p>Lorsqu'un utilisateur est responsable de <strong>plus d'un périmètre</strong>, Mercator affiche un <strong>sélecteur de périmètre</strong> dans l'interface (juste au-dessus du champ de recherche).</p>
+<h3 id="ce-que-fait-le-selecteur">Ce que fait le sélecteur<a class="headerlink" href="#ce-que-fait-le-selecteur" title="Permanent link">&para;</a></h3>
+<p>Le sélecteur propose :</p>
+<ul>
+<li>Une entrée pour <strong>tous vos périmètres</strong> (sans filtrage)</li>
+<li>Chaque périmètre dans lequel vous avez un rôle</li>
+</ul>
+<p>Sélectionner un périmètre a deux effets :</p>
+<ol>
+<li><strong>Filtre</strong> la page courante pour n'afficher que les objets de ce périmètre</li>
+<li>Devient le <strong>périmètre par défaut</strong> de tout nouvel objet que vous créez</li>
+</ol>
+<h3 id="comportement-du-selecteur">Comportement du sélecteur<a class="headerlink" href="#comportement-du-selecteur" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Situation de l'utilisateur</th>
+<th>Ce qu'il voit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Un seul périmètre (1 rôle)</td>
+<td>Pas de sélecteur (nom du périmètre affiché en texte)</td>
+</tr>
+<tr>
+<td>Plusieurs périmètres (plusieurs rôles)</td>
+<td>Liste déroulante avec tous les périmètres accessibles</td>
+</tr>
+<tr>
+<td>Gestion des périmètres non activée</td>
+<td>Aucun sélecteur</td>
+</tr>
+<tr>
+<td>Administrateur</td>
+<td>Voit tous les objets (sans filtrage)</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition info">
+<p class="admonition-title">Changer de périmètre recharge la page</p>
+<p>Lorsque vous changez de périmètre de travail, la page courante est rechargée. Les données de formulaire non enregistrées sont perdues. Si l'enregistrement courant est en dehors du nouveau périmètre, la page affiche « introuvable » (403 Forbidden).</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Le choix courant est conservé pour la session</p>
+<p>Le périmètre sélectionné est conservé pendant toute la durée de votre session de connexion. À votre prochaine connexion, il revient à la valeur par défaut (tous les périmètres ou l'unique périmètre).</p>
+</div>
+<h2 id="creer-et-deplacer-des-objets-entre-perimetres">Créer et déplacer des objets entre périmètres<a class="headerlink" href="#creer-et-deplacer-des-objets-entre-perimetres" title="Permanent link">&para;</a></h2>
+<h3 id="a-la-creation-dun-objet">À la création d'un objet<a class="headerlink" href="#a-la-creation-dun-objet" title="Permanent link">&para;</a></h3>
+<p>Si vous avez <strong>plus d'un périmètre</strong>, une liste déroulante <strong>Périmètre</strong> apparaît dans le formulaire de création (avant le champ Nom).</p>
+<ul>
+<li>Elle est initialisée sur votre <strong>périmètre de travail courant</strong></li>
+<li>Vous ne pouvez sélectionner que les périmètres auxquels vous avez accès</li>
+<li>La validation vérifie que le périmètre sélectionné est accessible en écriture</li>
+</ul>
+<h3 id="a-la-modification-dun-objet">À la modification d'un objet<a class="headerlink" href="#a-la-modification-dun-objet" title="Permanent link">&para;</a></h3>
+<p>Si vous avez <strong>plus d'un périmètre</strong>, la liste déroulante <strong>Périmètre</strong> affiche le périmètre courant de l'objet.</p>
+<p>Vous pouvez :</p>
+<ul>
+<li><strong>Consulter</strong> l'assignation de périmètre de l'objet</li>
+<li>Le <strong>déplacer</strong> vers un autre périmètre (si vous avez un accès en écriture aux deux)</li>
+<li>Le nom doit rester unique dans le périmètre cible</li>
+</ul>
+<p>Après le déplacement, le journal d'audit de l'objet enregistre le changement.</p>
+<h3 id="modifier-a-travers-vos-perimetres">Modifier à travers vos périmètres<a class="headerlink" href="#modifier-a-travers-vos-perimetres" title="Permanent link">&para;</a></h3>
+<p>Vous ne pouvez modifier que les objets des périmètres pour lesquels vous avez un <strong>rôle avec permissions d'écriture</strong>. Les rôles en lecture seule ne permettent ni de déplacer ni de réassigner des objets.</p>
+<p>Exemple :</p>
+<ul>
+<li>Rôle « Admin » dans le périmètre 1 → peut déplacer les objets du périmètre 1</li>
+<li>Rôle « Lecteur » dans le périmètre 2 → ne peut pas déplacer les objets du périmètre 2 (lecture seule)</li>
+</ul>
+<h3 id="identite-de-lobjet-dans-linterface">Identité de l'objet dans l'interface<a class="headerlink" href="#identite-de-lobjet-dans-linterface" title="Permanent link">&para;</a></h3>
+<p>Lorsqu'un objet est déplacé vers un périmètre autre que celui par défaut, son identité est affichée sous la forme :</p>
+<div class="highlight"><pre><span></span><code>[Nom du périmètre] / Nom de l&#39;objet
+</code></pre></div>
+<p>Exemple : <code>[Agence A] / prod-db-01</code>, pour indiquer rapidement à quel périmètre il appartient.</p>
+<div class="admonition info">
+<p class="admonition-title">Vous ne pouvez utiliser que vos propres périmètres</p>
+<p>Un utilisateur ne peut assigner un objet qu'à un périmètre dont il est responsable. Cette règle est appliquée à l'enregistrement du formulaire, et pas seulement dans la liste déroulante.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Le même nom peut être réutilisé entre périmètres</p>
+<p>Les noms d'objets sont uniques <strong>au sein d'un périmètre</strong>. Deux établissements différents peuvent chacun avoir un objet nommé, par exemple, <em>« Serveur DNS »</em>, sans conflit.</p>
+</div>
+<h2 id="flux-applicatifs-et-liens-physiques-entre-etablissements">Flux applicatifs et liens physiques entre établissements<a class="headerlink" href="#flux-applicatifs-et-liens-physiques-entre-etablissements" title="Permanent link">&para;</a></h2>
+<h3 id="que-sont-les-flux-inter-perimetres">Que sont les flux inter-périmètres ?<a class="headerlink" href="#que-sont-les-flux-inter-perimetres" title="Permanent link">&para;</a></h3>
+<p>Un flux peut relier deux objets appartenant à des <strong>périmètres différents</strong>. Cela permet d'<strong>identifier les interactions entre établissements</strong> tout en gardant séparée la liste d'objets de chaque établissement.</p>
+<p>Exemple :</p>
+<div class="highlight"><pre><span></span><code>Serveur DNS du Siège (Périmètre 1)
+    ↓ résout pour ↓
+Serveur de messagerie de l&#39;Agence A (Périmètre 2)
+</code></pre></div>
+<h3 id="qui-voit-un-flux-inter-perimetres">Qui voit un flux inter-périmètres ?<a class="headerlink" href="#qui-voit-un-flux-inter-perimetres" title="Permanent link">&para;</a></h3>
+<p>Les flux applicatifs et les liens physiques <strong>relient deux objets qui peuvent appartenir à des périmètres différents</strong>. Plutôt que d'appartenir à un seul périmètre, un tel lien est <strong>visible depuis chaque périmètre qu'il touche</strong>.</p>
+<p>Un flux est <strong>visible</strong> des utilisateurs de <strong>tout périmètre qu'il touche</strong> :</p>
+<ul>
+<li>Les utilisateurs ayant des rôles dans le Périmètre 1 voient le flux (du point de vue du Siège)</li>
+<li>Les utilisateurs ayant des rôles dans le Périmètre 2 voient le flux (du point de vue de l'Agence A)</li>
+<li>Les utilisateurs des autres périmètres ne voient PAS le flux</li>
+</ul>
+<p>C'est ce qui permet d'<strong>identifier les flux entre applications d'établissements différents</strong> : le même flux apparaît aux équipes des deux établissements, chacune le voyant de son côté.</p>
+<h3 id="objets-locaux-et-objets-distants">Objets locaux et objets distants<a class="headerlink" href="#objets-locaux-et-objets-distants" title="Permanent link">&para;</a></h3>
+<p>Dans un flux reliant des périmètres, vous voyez :</p>
+<ul>
+<li>
+<p>Les <strong>objets locaux</strong> (dans votre périmètre de travail courant ou visibles via vos rôles)
+  → affichés en <strong>détail complet</strong> (nom, type, tous les attributs)</p>
+</li>
+<li>
+<p>Les <strong>objets distants</strong> (dans un périmètre que vous ne gérez pas)
+  → affichés sous forme de <strong>fiche de référence</strong> (nom + étiquette du périmètre)
+  → vous ne pouvez pas modifier directement les objets distants
+  → cliquer dessus ne mène PAS à la fiche complète (403 interdit)</p>
+</li>
+</ul>
+<p>Exemple (pour un administrateur du Siège) :</p>
+<div class="highlight"><pre><span></span><code>Mon serveur DNS (détail complet, modifiable)
+    ↓ résout pour ↓
+[Agence A] / Relais de messagerie (fiche de référence, lecture seule)
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Les enregistrements d'un autre périmètre apparaissent comme une référence</p>
+<p>Lorsqu'un flux pointe vers un objet situé dans un périmètre que vous ne gérez pas, cet objet distant est affiché sous forme de <strong>courte référence</strong> (son nom et son périmètre) plutôt que sa fiche complète, de sorte que le flux reste lisible sans exposer les détails de l'autre établissement.</p>
+</div>
+<h3 id="creer-des-flux-entre-perimetres">Créer des flux entre périmètres<a class="headerlink" href="#creer-des-flux-entre-perimetres" title="Permanent link">&para;</a></h3>
+<p>Vous pouvez créer un flux vers tout objet que vous pouvez <strong>voir</strong> :</p>
+<ul>
+<li>Les objets des périmètres que vous gérez</li>
+<li>Les objets dont vous êtes le <strong>cartographe</strong> désigné</li>
+<li>Les objets distants (uniquement si vous avez un rôle en lecture dans ce périmètre)</li>
+</ul>
+<p>Toutefois, <strong>au moins une extrémité doit se trouver dans un périmètre que vous pouvez modifier</strong>. Vous ne pouvez pas créer un flux orphelin entre deux périmètres auxquels vous n'avez qu'un accès en lecture.</p>
+<h3 id="audit-et-propriete">Audit et propriété<a class="headerlink" href="#audit-et-propriete" title="Permanent link">&para;</a></h3>
+<p>Le créateur du flux et sa date de création sont enregistrés. Le flux appartient au périmètre principal du créateur (le premier périmètre qu'il gère, ou celui où se trouve l'extrémité principale).</p>
+<div class="admonition info">
+<p class="admonition-title">Les flux ne sont pas supprimés lorsque vous supprimez un périmètre</p>
+<p>Si vous supprimez un périmètre, ses objets sont supprimés, mais les flux pointant vers ces objets subsistent (avec des références rompues). Planifiez soigneusement vos suppressions.</p>
+</div>
+<h2 id="importer-des-donnees-avec-les-perimetres-glpi">Importer des données avec les périmètres (GLPI)<a class="headerlink" href="#importer-des-donnees-avec-les-perimetres-glpi" title="Permanent link">&para;</a></h2>
+<p>Lorsque Mercator synchronise des données depuis GLPI, les objets importés sont automatiquement assignés à un <strong>périmètre cible</strong> défini dans la configuration du connecteur.</p>
+<h3 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h3>
+<p>Dans les paramètres du connecteur GLPI :</p>
+<ol>
+<li>Sélectionner un <strong>Périmètre cible</strong> (liste déroulante des périmètres disponibles)</li>
+<li>Laisser vide pour utiliser le <strong>périmètre par défaut</strong> (id = 1)</li>
+<li>Enregistrer</li>
+</ol>
+<p>Tous les objets importés ou mis à jour depuis cette instance GLPI auront le <code>perimeter_id</code> indiqué.</p>
+<h3 id="reconciliation">Réconciliation<a class="headerlink" href="#reconciliation" title="Permanent link">&para;</a></h3>
+<p>Le connecteur GLPI utilise <strong>deux clés</strong> pour faire correspondre les objets existants :</p>
+<ul>
+<li><strong>L'ID GLPI</strong> (stocké sous la forme <code>[glpi_id:NNN]</code> dans la description de l'objet)</li>
+<li><strong>Le périmètre</strong> (issu de la configuration du connecteur)</li>
+</ul>
+<p>Cela signifie que :</p>
+<ul>
+<li>Le même ID GLPI dans des périmètres différents = <strong>objets Mercator différents</strong></li>
+<li>Le même nom dans des périmètres différents = <strong>objets Mercator différents</strong> (les noms sont uniques par périmètre, pas globalement)</li>
+</ul>
+<h3 id="comportement-a-la-re-importation">Comportement à la ré-importation<a class="headerlink" href="#comportement-a-la-re-importation" title="Permanent link">&para;</a></h3>
+<p><strong>Lorsque vous relancez la synchronisation :</strong></p>
+<ol>
+<li><strong>Les objets existants sont mis à jour sur place</strong> (synchronisation non destructive)</li>
+<li>Même ID GLPI + même périmètre → mise à jour de l'enregistrement existant</li>
+<li>
+<p>Nouvel ID GLPI ou nouveau périmètre → création d'un nouvel enregistrement</p>
+</li>
+<li>
+<p><strong>Si vous changez le périmètre cible du connecteur :</strong></p>
+</li>
+<li>Les objets déjà importés restent dans leur périmètre d'origine</li>
+<li>Les objets nouvellement importés arrivent dans le nouveau périmètre</li>
+<li>
+<p>Résultat : les objets d'une même instance GLPI se répartissent sur plusieurs périmètres</p>
+</li>
+<li>
+<p><strong>Pour déplacer des objets importés vers un autre périmètre :</strong></p>
+</li>
+<li>Modifier manuellement chaque objet dans Mercator et réassigner le périmètre, OU</li>
+<li>Supprimer le connecteur, changer le périmètre cible et relancer la synchronisation (cela crée des doublons, donc déconseillé)</li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">Garder stable la correspondance de périmètres GLPI → Mercator</p>
+<p>Décidez de votre correspondance de périmètres GLPI → Mercator <strong>avant</strong> la première importation. Si vous devez la changer plus tard, planifiez soigneusement la migration pour éviter de répartir les objets sur des périmètres non voulus.</p>
+</div>
+<h2 id="securite-frontieres-des-perimetres-et-controle-dacces">Sécurité : frontières des périmètres et contrôle d'accès<a class="headerlink" href="#securite-frontieres-des-perimetres-et-controle-dacces" title="Permanent link">&para;</a></h2>
+<h3 id="principe-les-utilisateurs-voient-ce-dont-ils-sont-responsables">Principe : les utilisateurs voient ce dont ils sont responsables<a class="headerlink" href="#principe-les-utilisateurs-voient-ce-dont-ils-sont-responsables" title="Permanent link">&para;</a></h3>
+<p>Par défaut, les utilisateurs ne voient et ne peuvent modifier que les objets des périmètres pour lesquels un rôle leur est assigné. Les frontières des périmètres sont appliquées à chaque couche :</p>
+<ul>
+<li>Au niveau des requêtes (filtrage automatique par scope)</li>
+<li>Au niveau des politiques (gates d'autorisation)</li>
+<li>Dans la validation des formulaires (on ne peut assigner des objets qu'à ses propres périmètres)</li>
+</ul>
+<h3 id="ce-que-les-utilisateurs-ne-peuvent-pas-faire">Ce que les utilisateurs ne peuvent pas faire<a class="headerlink" href="#ce-que-les-utilisateurs-ne-peuvent-pas-faire" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Consulter</strong> des objets en dehors de leurs périmètres assignés (sauf les références distantes dans les flux)</li>
+<li><strong>Modifier, déplacer ou supprimer</strong> des objets en dehors de leurs périmètres assignés</li>
+<li><strong>Créer un flux</strong> vers un objet d'un périmètre auquel ils n'ont pas accès</li>
+<li><strong>Assigner</strong> un objet à un périmètre pour lequel ils n'ont pas d'accès en écriture</li>
+<li><strong>Accéder à la gestion des périmètres</strong> (réservée aux administrateurs)</li>
+</ul>
+<h3 id="application-des-regles">Application des règles<a class="headerlink" href="#application-des-regles" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="x">// Scope de requête : filtrage automatique à chaque lecture</span>
+<span class="x">Object::whereIn(&#39;perimeter_id&#39;, $user-&gt;rolePerimeters())</span>
+<span class="x">      -&gt;get();</span>
+
+<span class="x">// Gate de politique : avant toute écriture</span>
+<span class="x">Gate::denies(&#39;update&#39;, $object) </span>
+<span class="x">    // Vérifie : l&#39;objet est-il dans l&#39;un des périmètres de l&#39;utilisateur ?</span>
+<span class="x">    abort_if(..., 403);</span>
+
+<span class="x">// Validation de formulaire : à la création/modification</span>
+<span class="x">$request-&gt;validate([</span>
+<span class="x">    &#39;perimeter_id&#39; =&gt; &#39;in:&#39; . implode(&#39;,&#39;, $user-&gt;rolePerimeters())</span>
+<span class="x">]);</span>
+</code></pre></div>
+<h3 id="assignations-de-cartographes">Assignations de cartographes<a class="headerlink" href="#assignations-de-cartographes" title="Permanent link">&para;</a></h3>
+<p>Un <strong>cartographe</strong> est responsable d'un objet individuel précis, indépendamment du périmètre. Un cartographe :</p>
+<ul>
+<li><strong>Voit toujours</strong> l'objet qui lui est assigné (même s'il est dans un autre périmètre)</li>
+<li>Peut <strong>modifier</strong> l'objet si son rôle lui accorde des permissions d'écriture dans ce périmètre</li>
+<li>Ne peut pas déplacer l'objet vers un autre périmètre (sauf s'il y a aussi un rôle)</li>
+</ul>
+<h3 id="piste-daudit">Piste d'audit<a class="headerlink" href="#piste-daudit" title="Permanent link">&para;</a></h3>
+<p>Chaque déplacement d'objet entre périmètres est journalisé :</p>
+<ul>
+<li><strong>Qui</strong> l'a déplacé (utilisateur + rôle)</li>
+<li><strong>Quand</strong> (horodatage)</li>
+<li><strong>Quoi</strong> (nom de l'objet + ancien périmètre → nouveau périmètre)</li>
+</ul>
+<p>Les administrateurs peuvent consulter les changements dans le <strong>Journal d'audit</strong> (Administration → Logs).</p>
+<h2 id="bonnes-pratiques">Bonnes pratiques<a class="headerlink" href="#bonnes-pratiques" title="Permanent link">&para;</a></h2>
+<h3 id="avant-dactiver-la-gestion-des-perimetres">Avant d'activer la gestion des périmètres<a class="headerlink" href="#avant-dactiver-la-gestion-des-perimetres" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Identifier vos établissements/unités</strong></li>
+<li>Chaque unité autonome et auto-gérée = 1 périmètre</li>
+<li>Éviter de créer des périmètres par commodité organisationnelle (ex. : par équipe ou par fonction)</li>
+<li>
+<p>Ne pas créer de périmètres « vides » par anticipation</p>
+</li>
+<li>
+<p><strong>Planifier votre structure de rôles</strong></p>
+</li>
+<li>Associer chaque équipe/utilisateur aux périmètres qu'il gère</li>
+<li>Décider des niveaux de permission (Admin, Éditeur, Lecteur, etc.)</li>
+<li>Identifier les rôles partagés (ex. : « Lecture seule globale » pour les dirigeants)</li>
+<li>
+<p>Voir la documentation <em>Rôles</em> pour la configuration des rôles</p>
+</li>
+<li>
+<p><strong>Préparer le nom du périmètre par défaut</strong></p>
+</li>
+<li>Renommer le périmètre par défaut (id = 1) pour qu'il corresponde à votre établissement principal (ex. : « Siège »)</li>
+<li>C'est le seul périmètre qui ne peut pas être supprimé</li>
+</ol>
+<h3 id="activer-progressivement">Activer progressivement<a class="headerlink" href="#activer-progressivement" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Activer</strong> la fonctionnalité (Administration → Configuration → Périmètres)</li>
+<li><strong>Renommer</strong> le périmètre par défaut si besoin</li>
+<li><strong>Créer</strong> de nouveaux périmètres pour chaque établissement</li>
+<li><strong>Déplacer</strong> les objets existants vers leurs périmètres corrects</li>
+<li><strong>Créer</strong> ou mettre à jour les rôles et assigner les utilisateurs (voir la documentation <em>Rôles</em>)</li>
+<li><strong>Tester</strong> avec une équipe pilote avant le déploiement complet</li>
+</ol>
+<h3 id="deplacer-des-objets-en-toute-securite">Déplacer des objets en toute sécurité<a class="headerlink" href="#deplacer-des-objets-en-toute-securite" title="Permanent link">&para;</a></h3>
+<p>Avant de déplacer un objet vers un autre périmètre :</p>
+<ol>
+<li>Vérifier que le <strong>nom de l'objet n'existe pas déjà</strong> dans le périmètre cible</li>
+<li>Vérifier que les <strong>flux qui pointent vers lui</strong> restent valides (les flux s'adaptent automatiquement)</li>
+<li>Consulter la <strong>piste d'audit</strong> pour comprendre l'historique de l'objet</li>
+<li>Prévenir les équipes concernées (surtout si cela affecte leurs flux)</li>
+</ol>
+<h3 id="supprimer-un-perimetre-en-toute-securite">Supprimer un périmètre en toute sécurité<a class="headerlink" href="#supprimer-un-perimetre-en-toute-securite" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Auditer</strong> le contenu du périmètre</li>
+<li>Lister tous les objets (Administration → Périmètres → [périmètre] → Objets)</li>
+<li>
+<p>Lister tous les rôles (Administration → Périmètres → [périmètre] → Rôles)</p>
+</li>
+<li>
+<p><strong>Migrer les données</strong></p>
+</li>
+<li>Déplacer tous les objets vers un autre périmètre ou le périmètre par défaut</li>
+<li>
+<p>Réassigner tous les rôles à un autre périmètre ou au périmètre par défaut</p>
+</li>
+<li>
+<p><strong>Supprimer</strong> le périmètre</p>
+</li>
+<li>Administration → Configuration → Périmètres → Supprimer</li>
+<li>
+<p>Confirmer (la suppression est définitive)</p>
+</li>
+<li>
+<p><strong>Vérifier</strong> que la migration est terminée</p>
+</li>
+<li>Contrôler qu'aucun objet ni rôle ne référence encore le périmètre supprimé</li>
+</ol>
+<h3 id="quand-ne-pas-utiliser-les-perimetres">Quand NE PAS utiliser les périmètres<a class="headerlink" href="#quand-ne-pas-utiliser-les-perimetres" title="Permanent link">&para;</a></h3>
+<p>Les périmètres sont conçus pour la <strong>séparation organisationnelle</strong> (plusieurs établissements, filiales, unités métier). Ils ne sont <strong>pas</strong> adaptés à :</p>
+<ul>
+<li>Un <strong>regroupement temporaire</strong> (utiliser plutôt des étiquettes)</li>
+<li>Un <strong>filtrage au niveau d'une équipe</strong> (utiliser les rôles et permissions)</li>
+<li>La <strong>catégorisation d'objets</strong> (utiliser les types, étiquettes ou une taxonomie)</li>
+</ul>
+<p>Si vous n'avez pas plusieurs établissements autonomes, laissez la gestion des périmètres <strong>désactivée</strong>. Elle ajoute de la complexité sans aucun bénéfice.</p>
+<h2 id="depannage">Dépannage<a class="headerlink" href="#depannage" title="Permanent link">&para;</a></h2>
+<h3 id="jai-active-la-gestion-des-perimetres-mais-rien-na-change">« J'ai activé la gestion des périmètres mais rien n'a changé »<a class="headerlink" href="#jai-active-la-gestion-des-perimetres-mais-rien-na-change" title="Permanent link">&para;</a></h3>
+<p>✓ <strong>Comportement attendu.</strong> Tous les objets sont encore dans le périmètre par défaut (id = 1).<br />
+✓ Créez de nouveaux périmètres et déplacez des objets pour partitionner la cartographie.<br />
+✓ Assignez des rôles aux utilisateurs dans chaque périmètre (voir la documentation <em>Rôles</em>).  </p>
+<h3 id="je-ne-peux-pas-deplacer-un-objet-vers-un-autre-perimetre">« Je ne peux pas déplacer un objet vers un autre périmètre »<a class="headerlink" href="#je-ne-peux-pas-deplacer-un-objet-vers-un-autre-perimetre" title="Permanent link">&para;</a></h3>
+<p>Raisons possibles :</p>
+<ul>
+<li>Vous n'avez pas de <strong>rôle en écriture</strong> dans le périmètre cible (seuls des rôles en lecture)</li>
+<li>Le périmètre cible contient déjà un objet portant le même nom</li>
+<li>Vous essayez de déplacer un objet dont vous êtes <strong>cartographe</strong> (demandez à un administrateur)</li>
+</ul>
+<p><strong>Solution :</strong> créer ou demander d'abord un rôle avec accès en écriture dans le périmètre cible (voir la documentation <em>Rôles</em>).</p>
+<h3 id="un-utilisateur-ne-voit-pas-des-objets-quil-devrait-voir">« Un utilisateur ne voit pas des objets qu'il devrait voir »<a class="headerlink" href="#un-utilisateur-ne-voit-pas-des-objets-quil-devrait-voir" title="Permanent link">&para;</a></h3>
+<p>Vérifier :</p>
+<ol>
+<li>Les <strong>rôles de l'utilisateur</strong> (Administration → Utilisateurs → [utilisateur] → Rôles)</li>
+<li>Vérifier que les rôles sont assignés aux bons périmètres</li>
+<li>
+<p>Vérifier que les rôles ont des permissions de lecture ou d'écriture (voir la documentation <em>Rôles</em>)</p>
+</li>
+<li>
+<p>Le <strong>périmètre de l'objet</strong> (ouvrir l'objet, vérifier le champ Périmètre)</p>
+</li>
+<li>
+<p>Vérifier que l'objet est dans l'un des périmètres de l'utilisateur</p>
+</li>
+<li>
+<p>Les <strong>assignations de cartographes</strong> (si l'objet est isolé)</p>
+</li>
+<li>Vérifier si l'utilisateur est désigné comme cartographe</li>
+</ol>
+<h3 id="un-flux-a-disparu-apres-que-jai-deplace-un-objet">« Un flux a disparu après que j'ai déplacé un objet »<a class="headerlink" href="#un-flux-a-disparu-apres-que-jai-deplace-un-objet" title="Permanent link">&para;</a></h3>
+<p>Les flux ne sont <strong>pas supprimés</strong> lorsque vous déplacez un objet. Ils sont conservés et restent visibles pour les utilisateurs des périmètres concernés. Si le flux semble avoir disparu :</p>
+<ol>
+<li>Vérifier que vous avez toujours un rôle dans le périmètre d'où part le flux</li>
+<li>Recharger la page (le cache peut être périmé)</li>
+<li>Consulter le journal d'audit pour voir si le flux a été explicitement supprimé</li>
+</ol>
+<h3 id="jai-supprime-un-perimetre-et-je-nai-plus-acces-a-mes-objets">« J'ai supprimé un périmètre et je n'ai plus accès à mes objets »<a class="headerlink" href="#jai-supprime-un-perimetre-et-je-nai-plus-acces-a-mes-objets" title="Permanent link">&para;</a></h3>
+<p>Cela arrive si :</p>
+<ul>
+<li>Les objets n'ont <strong>pas été réassignés</strong> avant la suppression (ils ont été perdus)</li>
+<li>Vous aviez encore un <strong>rôle dans ce périmètre</strong> (désormais supprimé)</li>
+</ul>
+<p><strong>Solution :</strong></p>
+<ul>
+<li>Si les données sont perdues, restaurer depuis une sauvegarde</li>
+<li>Si seul le rôle manque, demander à un administrateur de vous réassigner à un autre périmètre (voir la documentation <em>Rôles</em>)</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Retour en haut de la page
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright <a href="https://www.gnu.org/licenses/licenses.en.html">GPL</a>.
+    </div>
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.indexes", "navigation.expand", "navigation.top", "content.code.copy", "content.action.edit", "content.action.view", "palette.toggle"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+    
+  </body>
+</html>
