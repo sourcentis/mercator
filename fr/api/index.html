@@ -2122,6 +2122,10 @@ Les routes sont définies dans : <code>/routes/api.php</code>.</p>
 <em>permission_roles</em> n'existe pas comme endpoint API. C'est une table pivot gérée en interne par Laravel. Pour récupérer les associations rôle↔permission, on doit passer par <strong>/api/roles/{id}?include=permissions</strong> — les permissions liées à chaque rôle seront imbriquées dans la réponse du rôle.
 La liste des permissions de de leurs {id} se trouve par l'api <strong>/api/permissions</strong></p>
 <ul>
+<li><img src="/mercator/images/get.png" width="30"> /api/perimeters</li>
+</ul>
+<p>Les périmètres (<code>name</code> : 2 à 32 caractères, unique) exigent la permission <strong>configure</strong> pour toute action, comme l'écran d'administration. Le périmètre par défaut (id 1) et tout périmètre encore référencé par un rôle ne peuvent pas être supprimés (<code>422</code>). <strong>/api/perimeters/{id}</strong> renvoie aussi les ids des rôles rattachés au périmètre (<code>roles</code>).</p>
+<ul>
 <li><a href="../model/#cartographie"><img src="/mercator/images/get.png" width="30"> /api/cartographers</a></li>
 <li><a href="../model/#permissions"><img src="/mercator/images/get.png" width="30"> /api/permissions</a> <code>LECTURE UNIQUEMENT</code></li>
 <li><a href="../model/#documents"><img src="/mercator/images/get.png" width="30"> /api/documents</a></li>

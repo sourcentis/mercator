@@ -2123,6 +2123,10 @@ Routes are defined in: <code>/routes/api.php</code>.</p>
 To retrieve the role↔permission associations, you must use <strong>/api/roles/{id}?include=permissions</strong> — the permissions linked to each role will be embedded in the role’s response.
 The list of permissions and their corresponding {id} values is available via the <strong>/api/permissions</strong> API.</p>
 <ul>
+<li><img src="/mercator/images/get.png" width="30"> /api/perimeters</li>
+</ul>
+<p>Perimeters (<code>name</code>: 2–32 characters, unique) require the <strong>configure</strong> permission for every action, like the administration screen. The default perimeter (id 1) and any perimeter still referenced by a role cannot be deleted (<code>422</code>). <strong>/api/perimeters/{id}</strong> also returns the ids of the roles attached to the perimeter (<code>roles</code>).</p>
+<ul>
 <li><a href="../model/#cartography"><img src="/mercator/images/get.png" width="30"> /api/cartographers</a></li>
 <li><a href="../model/#permissions"><img src="/mercator/images/get.png" width="30"> /api/permissions</a> <code>READ ONLY</code></li>
 <li><a href="../model/#documents"><img src="/mercator/images/get.png" width="30"> /api/documents</a></li>
