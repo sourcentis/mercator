@@ -108,7 +108,20 @@
                     @endif
                     <span class="help-block">{{ trans('cruds.applicationService.fields.description_helper') }}</span>
                 </div>
-
+		<div class="form-group">
+		    <label for="comments">{{ trans('cruds.applicationService.fields.comments') }}</label>
+		    <textarea
+		        class="form-control {{ $errors->has('comments') ? 'is-invalid' : '' }}"
+		        name="comments"
+		        id="comments"
+		        rows="5">{{ old('comments', $applicationService->comments ?? '') }}</textarea>
+		    @if($errors->has('comments'))
+		        <div class="invalid-feedback">
+		            {{ $errors->first('comments') }}
+		        </div>
+		    @endif
+		    <span class="help-block">{{ trans('cruds.applicationService.fields.comments_helper') }}</span>
+		</div>
                 <div class="form-group">
                     <label for="exposition">{{ trans('cruds.applicationService.fields.exposition') }}</label>
                     <select class="form-control select2-free {{ $errors->has('exposition') ? 'is-invalid' : '' }}"

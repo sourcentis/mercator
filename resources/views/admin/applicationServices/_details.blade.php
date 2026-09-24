@@ -47,6 +47,14 @@
                 {!! $applicationService->description !!}
             </td>
         </tr>
+	<tr>
+	    <th>
+	        {{ trans('cruds.applicationService.fields.comments') }}
+	    </th>
+	    <td colspan="5">
+	        {!! nl2br(e($applicationService->comments)) !!}
+	    </td>
+	</tr>
         <tr>
             <th>
                 {{ trans('cruds.applicationService.fields.exposition') }}

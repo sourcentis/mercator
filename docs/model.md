@@ -30,6 +30,7 @@ The register of processing activities contains the information required by artic
 | ext_refs | varchar(255) | External reference(s) to objects in other systems. Format: {ID_SOURCE}ID_OBJECT, multiple values separated by "\\|" |
 | name                           | varchar(255) | Processing Name                                                                   |
 | description                    | longtext     | Processing Description                                                            |
+| comments                       | longtext     | Informational commentary to support urban development                             |
 | legal_basis                    | varchar(255) | Legal Basis for Processing                                                        |
 | responsible                    | longtext     | Data Controller                                                                   |
 | purpose                        | longtext     | Purposes of Processing                                                            |

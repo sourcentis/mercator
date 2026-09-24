@@ -74,6 +74,7 @@ Le registre des activités de traitement contient les informations prévues à l
 | ext_refs | varchar(255) | Référence(s) externe(s) vers des objets d'autres systèmes. Format : {ID_SOURCE}ID_OBJET, valeurs multiples séparées par « \| » |
 | name                           | varchar(255) | Nom du traitement                                                                                               |
 | description                    | longtext     | Description du traitement                                                                                       |
+| comments                       | longtext     | Commentaire informationnel pour accomapgner l'urbanisation                                                       |
 | legal_basis                    | varchar(255) | Base légale du traitement                                                                                       |
 | responsible                    | longtext     | Responsable du traitement                                                                                       |
 | purpose                        | longtext     | Finalités du traitement                                                                                         |

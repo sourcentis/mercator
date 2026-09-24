@@ -31,7 +31,14 @@ class SubnetworkController extends Controller
                 $q->where(function ($q) use ($search) {
                     foreach (Subnetwork::$searchable as $field) {
                         $q->orWhereRaw('LOWER('.$field.') LIKE ?', ['%'.mb_strtolower($search).'%']);
-                    }
+		    }
+                        $q->orWhereHas('vlan', function ($v) use ($search) {
+                            if (ctype_digit($search)) {
+                                $v->where('vlans.vlan_id', (int) $search);
+                            } else {
+                                $v->whereRaw('1 = 0');
+			    }
+			});
                 });
             })
             ->orderBy('name')

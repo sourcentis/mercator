@@ -37,6 +37,7 @@ class ApplicationModule extends Model implements HasIconContract, HasPrefix, Has
     public static array $searchable = [
         'name',
         'description',
+        'comments',
     ];
 
     protected array $dates = [
@@ -52,6 +53,7 @@ class ApplicationModule extends Model implements HasIconContract, HasPrefix, Has
         'type',
         'attributes',
         'description',
+        'comments',
         'vendor',
         'product',
         'version',

@@ -48,6 +48,9 @@
                         <th>
                             {{ trans('cruds.applicationModule.fields.services') }}
                         </th>
+			<th data-column="comments">
+			    {{ trans('cruds.applicationModule.fields.comments') }}
+			</th>
                         <th>
                             &nbsp;
                         </th>
@@ -100,6 +103,9 @@
                                     @endif
                                 @endforeach
                             </td>
+			    <td>
+			        {!! nl2br(e($applicationModule->comments)) !!}
+			    </td>
                             <td nowrap>
                                 @can('application_module_show')
                                     <a class="btn btn-xs btn-primary"
@@ -146,7 +152,7 @@
             'URL' => route('admin.application-modules.massDestroy'),
             'canDelete' => auth()->user()->can('application_module_delete') ? true : false,
     'serverSidePagination' => true,
-    'hiddenColumns' => ['perimeter', 'type', 'attributes'],
+    'hiddenColumns' => ['perimeter', 'type', 'attributes', 'comments'],
 ));
     </script>
 @endsection

@@ -37,6 +37,7 @@ class ApplicationService extends Model implements HasIconContract, HasPrefix, Ha
     public static array $searchable = [
         'name',
         'description',
+        'comments',
         'exposition',
     ];
 
@@ -53,6 +54,7 @@ class ApplicationService extends Model implements HasIconContract, HasPrefix, Ha
         'type',
         'attributes',
         'description',
+        'comments',
         'exposition',
         'created_at',
         'updated_at',

@@ -97,11 +97,20 @@ the admin user :
 docker run -it --rm -e SEED_DATABASE=1 -p 8080:8080 --name mercator ghcr.io/sourcentis/mercator:latest
 ```
 
-To persist your data using SQLite:
+To persist your data:
 
 ```bash
-touch ./db.sqlite && chmod a+w ./db.sqlite
-docker run -it --rm -e APP_ENV=development -p 8080:8080 -v $PWD/db.sqlite:/var/www/mercator/sql/db.sqlite ghcr.io/sourcentis/mercator:latest
+touch ./db.sqlite
+mkdir -p ./docs ./app
+chmod go= ./db.sqlite ./docs ./app
+sudo chown -R 1000:1000 ./docs ./app ./db.sqlite
+docker run -it --rm \
+           -e APP_ENV=development \
+           -p 8080:8080 \
+           -v $PWD/db.sqlite:/var/www/mercator/sql/db.sqlite \
+           -v $PWD/docs:/var/www/mercator/storage/docs \
+           -v $PWD/app:/var/www/mercator/storage/app \
+           ghcr.io/sourcentis/mercator:latest
 ```
 
 Populate the database with demo data:
@@ -111,6 +120,8 @@ docker run -it --rm \
            -e APP_ENV=development \
            -p 8080:8080 \
            -v $PWD/db.sqlite:/var/www/mercator/sql/db.sqlite \
+           -v $PWD/docs:/var/www/mercator/storage/docs \
+           -v $PWD/app:/var/www/mercator/storage/app \
            -e USE_DEMO_DATA=1 \
            ghcr.io/sourcentis/mercator:latest
 ```

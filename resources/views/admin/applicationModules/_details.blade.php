@@ -47,6 +47,14 @@
                 {!! $applicationModule->description !!}
             </td>
         </tr>
+	<tr>
+	    <th>
+	        {{ trans('cruds.applicationModule.fields.comments') }}
+	    </th>
+	    <td colspan="5">
+	        {!! nl2br(e($applicationModule->comments)) !!}
+	    </td>
+	</tr>
         @canAccess(App\Models\Entity::class)
         <tr>
             <th>
