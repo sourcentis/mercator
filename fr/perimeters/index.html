@@ -2289,7 +2289,7 @@
 <p>Les périmètres permettent de cartographier plusieurs entités (établissements, sites, unités métier) dans une seule instance de Mercator. Chaque entité gère ses propres objets, tout en pouvant les relier à ceux des autres périmètres. </p>
 <p>Cette documentation explique ce qu'est un périmètre, comment il se combine avec les rôles, et comment les utilisateurs travaillent au sein de leur périmètre.</p>
 <h2 id="introduction-quest-ce-quun-perimetre">Introduction — Qu'est-ce qu'un périmètre ?<a class="headerlink" href="#introduction-quest-ce-quun-perimetre" title="Permanent link">&para;</a></h2>
-<p>Un <strong>périmètre</strong> est une partie de la cartographie. Chaque objet (serveur, application, réseau, site…) appartient à <strong>un seul et un seul</strong> périmètre. Par défaut, tous les objets appartiennent au <strong>périmètre par défaut</strong> (id = 1).</p>
+<p>Un <strong>périmètre</strong> regroupe un sous-ensemble des objets de la cartographie. Chaque objet (serveur, application, réseau, site…) n'appartient jamais qu'à un seul périmètre (par défaut le périmètre n° 1).</p>
 <p>Les périmètres permettent de :</p>
 <ul>
 <li>Héberger la cartographie de <strong>plusieurs entités</strong> dans une seule instance</li>
@@ -2297,7 +2297,7 @@
 <li>Identifier <strong>les flux et les liens physiques</strong> qui relient les entités</li>
 <li>Partitionner la visibilité et le contrôle d'accès par entité</li>
 </ul>
-<p><strong>Note :</strong> la gestion des périmètres est une <strong>fonctionnalité optionnelle</strong>. Tant que vous ne l'activez pas, tous les objets restent dans le périmètre par défaut et aucun filtrage n'est appliqué.</p>
+<p><strong>Note :</strong> la gestion des périmètres est une <strong>fonctionnalité optionnelle</strong>. Tant que vous ne l'activez pas, tous les objets restent dans le périmètre par défaut et aucun filtrage ou partitionnement de la cartographie n'est appliqué.</p>
 <div class="admonition info">
 <p class="admonition-title">Trois mécanismes de contrôle d'accès</p>
 <p>Mercator combine trois notions complémentaires :</p>
