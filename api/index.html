@@ -1005,13 +1005,37 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#queries-apis" class="md-nav__link">
+  <a href="#tools-apis" class="md-nav__link">
     <span class="md-ellipsis">
-      Queries APIs
+      Tools APIs
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Queries APIs">
+    <nav class="md-nav" aria-label="Tools APIs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#maps-and-bpmn-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Maps and BPMN API
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#queries-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Queries API
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Queries API">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1505,13 +1529,37 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#queries-apis" class="md-nav__link">
+  <a href="#tools-apis" class="md-nav__link">
     <span class="md-ellipsis">
-      Queries APIs
+      Tools APIs
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Queries APIs">
+    <nav class="md-nav" aria-label="Tools APIs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#maps-and-bpmn-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Maps and BPMN API
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#queries-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Queries API
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Queries API">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1788,7 +1836,7 @@ Routes are defined in: <code>/routes/api.php</code>.</p>
 To retrieve the role↔permission associations, you must use <strong>/api/roles/{id}?include=permissions</strong> — the permissions linked to each role will be embedded in the role’s response.
 The list of permissions and their corresponding {id} values is available via the <strong>/api/permissions</strong> API.</p>
 <ul>
-<li><img src="/mercator/images/get.png" width="30"> /api/perimeters</li>
+<li><a href="../model/#perimeters"><img src="/mercator/images/get.png" width="30"> /api/perimeters</a></li>
 </ul>
 <p>Perimeters (<code>name</code>: 2–32 characters, unique) require the <strong>configure</strong> permission for every action, like the administration screen. The default perimeter (id 1) and any perimeter still referenced by a role cannot be deleted (<code>422</code>). <strong>/api/perimeters/{id}</strong> also returns the ids of the roles attached to the perimeter (<code>roles</code>).</p>
 <ul>
@@ -1823,9 +1871,13 @@ The list of permissions and their corresponding {id} values is available via the
 </code></pre></div></p>
 </li>
 </ul>
-<h2 id="queries-apis">Queries APIs<a class="headerlink" href="#queries-apis" title="Permanent link">&para;</a></h2>
+<hr />
+<h2 id="tools-apis">Tools APIs<a class="headerlink" href="#tools-apis" title="Permanent link">&para;</a></h2>
+<h3 id="maps-and-bpmn-api">Maps and BPMN API<a class="headerlink" href="#maps-and-bpmn-api" title="Permanent link">&para;</a></h3>
+<p>TBD</p>
+<h2 id="queries-api">Queries API<a class="headerlink" href="#queries-api" title="Permanent link">&para;</a></h2>
 <ul>
-<li><img src="/mercator/images/get.png" width="30"> /api/queries</li>
+<li><a href="../model/#queries"><img src="/mercator/images/get.png" width="30"> /api/queries</a></li>
 <li><img src="/mercator/images/get.png" width="30"> /api/queries/<strong><em>id</em></strong></li>
 </ul>
 <h3 id="requests-can-also-be-executed-via-the-api">Requests can also be executed via the API<a class="headerlink" href="#requests-can-also-be-executed-via-the-api" title="Permanent link">&para;</a></h3>
@@ -1836,6 +1888,7 @@ The list of permissions and their corresponding {id} values is available via the
 </ul>
 </li>
 </ul>
+<hr />
 <h2 id="reports-apis">Reports APIs<a class="headerlink" href="#reports-apis" title="Permanent link">&para;</a></h2>
 <ul>
 <li><img src="/mercator/images/get.png" width="30"> /api/report/cartography</li>
@@ -1959,6 +2012,7 @@ objects accessed via the API.</p>
 </code></pre></div>
 <p>The names of all extra fields
 are: ['actors', 'tasks', 'activities', 'entities', 'applications', 'informations', 'processes', 'databases', 'logical_servers', 'modules', 'domainesForestAds', 'servers', 'vlans', 'lans', 'mans', 'wans', 'operations', 'domaines', 'applicationServices', 'certificates', 'peripherals', 'physicalServers', 'networkSwitches', 'physicalSwitches', 'physicalRouters']</p>
+<hr />
 <h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
 <p>Please find below few examples with different languages</p>
 <h3 id="php">PHP<a class="headerlink" href="#php" title="Permanent link">&para;</a></h3>
