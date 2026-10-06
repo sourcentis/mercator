@@ -1063,6 +1063,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="GROUP BY clause">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#grouping-on-a-relation-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grouping on a relation field
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1242,6 +1259,28 @@
     <span class="md-ellipsis">
       
         Applications without an associated logical server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#one-row-per-server-with-its-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        One row per server with its applications
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#applications-using-each-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Applications using each database
       
     </span>
   </a>
@@ -1850,6 +1889,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="GROUP BY clause">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#grouping-on-a-relation-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grouping on a relation field
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2029,6 +2085,28 @@
     <span class="md-ellipsis">
       
         Applications without an associated logical server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#one-row-per-server-with-its-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        One row per server with its applications
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#applications-using-each-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Applications using each database
       
     </span>
   </a>
@@ -2355,14 +2433,45 @@ If you also want to display fields from that relation in <code>FIELDS</code>, de
 <li>Empty values are skipped and duplicates removed; order of first appearance is kept.</li>
 <li>A relation with no linked object yields an empty cell.</li>
 <li>You can also group on a relation field, e.g. <code>GROUP BY databases.name</code> to list, per database, the applications that use it.</li>
+<li><code>LIMIT</code> applies to the objects of the <code>FROM</code> model, <strong>before</strong> grouping: <code>LIMIT 50</code> reads 50 applications, then groups their values.</li>
 </ul>
 <div class="admonition tip">
 <p class="admonition-title">Group on <code>id</code></p>
 <p>Include <code>id</code> in <code>GROUP BY</code> so two objects sharing the same name are not merged.</p>
 </div>
+<h3 id="grouping-on-a-relation-field">Grouping on a relation field<a class="headerlink" href="#grouping-on-a-relation-field" title="Permanent link">&para;</a></h3>
+<p>When the grouping field belongs to a relation, the table is "turned around": you get one row per related value, and the fields of the <code>FROM</code> model are concatenated.</p>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="n">applications</span>
+<span class="n">FIELDS</span><span class="w"> </span><span class="n">databases</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">logical_servers</span><span class="p">.</span><span class="n">name</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">databases</span><span class="p">.</span><span class="n">name</span>
+<span class="k">OUTPUT</span><span class="w"> </span><span class="n">list</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>databases.name</th>
+<th>name</th>
+<th>logical_servers.name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Oracle</td>
+<td>ERP</td>
+<td>srv-erp-01</td>
+</tr>
+<tr>
+<td>PostgreSQL</td>
+<td>ERP, Portal</td>
+<td>srv-erp-01, srv-web-01</td>
+</tr>
+</tbody>
+</table>
+<p>Applications with no database form a group with an empty <code>databases.name</code> cell.</p>
 <h2 id="output-format-output">Output format (OUTPUT)<a class="headerlink" href="#output-format-output" title="Permanent link">&para;</a></h2>
 <h3 id="output-list"><code>OUTPUT list</code><a class="headerlink" href="#output-list" title="Permanent link">&para;</a></h3>
 <p>Produces a <strong>table</strong> with one row per record. This format suits inventories, exports, and tabular views.</p>
+<p>When <code>FIELDS</code> contains several relation fields, a record can span several rows (one per combination); use <a href="#group-by"><code>GROUP BY</code></a> to get a single row per record.</p>
 <div class="highlight"><pre><span></span><code><span class="k">OUTPUT</span><span class="w"> </span><span class="n">list</span>
 </code></pre></div>
 <h3 id="output-graph"><code>OUTPUT graph</code><a class="headerlink" href="#output-graph" title="Permanent link">&para;</a></h3>
@@ -2452,12 +2561,29 @@ If you also want to display fields from that relation in <code>FIELDS</code>, de
 <span class="k">WITH</span><span class="w"> </span><span class="n">logical_servers</span>
 </code></pre></div>
 <p>Lists applications not attached to any logical server — a possible indicator of an incomplete cartography.</p>
+<h3 id="one-row-per-server-with-its-applications">One row per server with its applications<a class="headerlink" href="#one-row-per-server-with-its-applications" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="n">logical</span><span class="o">-</span><span class="n">servers</span>
+<span class="n">FIELDS</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">environment</span><span class="p">,</span><span class="w"> </span><span class="n">applications</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">certificates</span><span class="p">.</span><span class="n">name</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="p">(</span><span class="n">environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">"production"</span><span class="p">)</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">environment</span>
+<span class="k">OUTPUT</span><span class="w"> </span><span class="n">list</span>
+</code></pre></div>
+<p>Inventory of production servers with, on a single row, the hosted applications and the installed certificates. Ready to export as CSV.</p>
+<h3 id="applications-using-each-database">Applications using each database<a class="headerlink" href="#applications-using-each-database" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="n">applications</span>
+<span class="n">FIELDS</span><span class="w"> </span><span class="n">databases</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">responsible</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="p">(</span><span class="k">EXISTS</span><span class="w"> </span><span class="n">databases</span><span class="p">)</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">databases</span><span class="p">.</span><span class="n">name</span>
+<span class="k">OUTPUT</span><span class="w"> </span><span class="n">list</span>
+</code></pre></div>
+<p>Lists, for each database, the applications that use it and their owners. <code>EXISTS databases</code> excludes applications without a database, which would otherwise form an empty group.</p>
 <h2 id="best-practices">Best practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>Use <code>LIMIT</code></strong> to limit the number of results to the necessary value: overly broad queries can be slow on large repositories.</li>
 <li><strong>Use <code>OUTPUT graph</code></strong> only when relations are declared in <code>WITH</code>; a graph without relations will consist of isolated nodes only.</li>
 <li><strong>Check field names</strong> in the <a href="../api/">API reference</a> — a typo in a field name simply returns nothing, with no error message.</li>
 <li><strong>With <code>EXISTS</code></strong>, declare the relation in <code>WITH</code> only if you need to display its fields in <code>FIELDS</code>; otherwise, <code>EXISTS</code> alone is sufficient to filter without extra overhead.</li>
+<li><strong>Use <code>GROUP BY</code></strong> as soon as a list shows several relation fields: the Cartesian product quickly multiplies rows and makes the table hard to read.</li>
 <li><strong>Save recurring queries</strong> to facilitate teamwork and ensure the reproducibility of cartographies.</li>
 </ul>
 

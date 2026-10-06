@@ -1063,6 +1063,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Clause GROUP BY">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#regrouper-sur-un-champ-de-relation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Regrouper sur un champ de relation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1242,6 +1259,28 @@
     <span class="md-ellipsis">
       
         Applications sans serveur logique associé
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#une-ligne-par-serveur-avec-ses-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Une ligne par serveur avec ses applications
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#applications-utilisant-chaque-base-de-donnees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Applications utilisant chaque base de données
       
     </span>
   </a>
@@ -1850,6 +1889,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Clause GROUP BY">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#regrouper-sur-un-champ-de-relation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Regrouper sur un champ de relation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2029,6 +2085,28 @@
     <span class="md-ellipsis">
       
         Applications sans serveur logique associé
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#une-ligne-par-serveur-avec-ses-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Une ligne par serveur avec ses applications
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#applications-utilisant-chaque-base-de-donnees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Applications utilisant chaque base de données
       
     </span>
   </a>
@@ -2355,14 +2433,45 @@ Si vous souhaitez également afficher les champs de cette relation dans <code>FI
 <li>Les valeurs vides sont ignorées et les doublons supprimés ; l'ordre de première apparition est conservé.</li>
 <li>Une relation sans objet lié donne une cellule vide.</li>
 <li>On peut aussi regrouper sur un champ de relation, par exemple <code>GROUP BY databases.name</code> pour lister, par base de données, les applications qui l'utilisent.</li>
+<li><code>LIMIT</code> s'applique aux objets du modèle <code>FROM</code>, <strong>avant</strong> le regroupement : <code>LIMIT 50</code> lit 50 applications, puis regroupe leurs valeurs.</li>
 </ul>
 <div class="admonition tip">
 <p class="admonition-title">Grouper sur <code>id</code></p>
 <p>Incluez <code>id</code> dans <code>GROUP BY</code> pour ne pas fusionner deux objets qui porteraient le même nom.</p>
 </div>
+<h3 id="regrouper-sur-un-champ-de-relation">Regrouper sur un champ de relation<a class="headerlink" href="#regrouper-sur-un-champ-de-relation" title="Permanent link">&para;</a></h3>
+<p>Quand le champ de regroupement appartient à une relation, le tableau est « retourné » : on obtient une ligne par valeur liée, et ce sont les champs du modèle <code>FROM</code> qui sont concaténés.</p>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="n">applications</span>
+<span class="n">FIELDS</span><span class="w"> </span><span class="n">databases</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">logical_servers</span><span class="p">.</span><span class="n">name</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">databases</span><span class="p">.</span><span class="n">name</span>
+<span class="k">OUTPUT</span><span class="w"> </span><span class="n">list</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>databases.name</th>
+<th>name</th>
+<th>logical_servers.name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Oracle</td>
+<td>ERP</td>
+<td>srv-erp-01</td>
+</tr>
+<tr>
+<td>PostgreSQL</td>
+<td>ERP, Portail</td>
+<td>srv-erp-01, srv-web-01</td>
+</tr>
+</tbody>
+</table>
+<p>Les applications sans base de données forment un groupe dont la cellule <code>databases.name</code> est vide.</p>
 <h2 id="format-de-sortie-output">Format de sortie (OUTPUT)<a class="headerlink" href="#format-de-sortie-output" title="Permanent link">&para;</a></h2>
 <h3 id="output-list"><code>OUTPUT list</code><a class="headerlink" href="#output-list" title="Permanent link">&para;</a></h3>
 <p>Génère un <strong>tableau</strong> avec une ligne par enregistrement. C'est le format adapté pour les inventaires, les exports, ou les vues tabulaires.</p>
+<p>Quand <code>FIELDS</code> contient plusieurs champs de relations, un enregistrement peut occuper plusieurs lignes (une par combinaison) ; utilisez <a href="#group-by"><code>GROUP BY</code></a> pour n'obtenir qu'une ligne par enregistrement.</p>
 <div class="highlight"><pre><span></span><code><span class="k">OUTPUT</span><span class="w"> </span><span class="n">list</span>
 </code></pre></div>
 <h3 id="output-graph"><code>OUTPUT graph</code><a class="headerlink" href="#output-graph" title="Permanent link">&para;</a></h3>
@@ -2452,12 +2561,29 @@ Si vous souhaitez également afficher les champs de cette relation dans <code>FI
 <span class="k">WITH</span><span class="w"> </span><span class="n">logical_servers</span>
 </code></pre></div>
 <p>Liste les applications non rattachées à un serveur logique, symptôme possible d'une cartographie incomplète.</p>
+<h3 id="une-ligne-par-serveur-avec-ses-applications">Une ligne par serveur avec ses applications<a class="headerlink" href="#une-ligne-par-serveur-avec-ses-applications" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="n">logical</span><span class="o">-</span><span class="n">servers</span>
+<span class="n">FIELDS</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">environment</span><span class="p">,</span><span class="w"> </span><span class="n">applications</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">certificates</span><span class="p">.</span><span class="n">name</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="p">(</span><span class="n">environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">"production"</span><span class="p">)</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">environment</span>
+<span class="k">OUTPUT</span><span class="w"> </span><span class="n">list</span>
+</code></pre></div>
+<p>Inventaire des serveurs de production avec, sur une seule ligne, les applications hébergées et les certificats installés. Prêt à être exporté en CSV.</p>
+<h3 id="applications-utilisant-chaque-base-de-donnees">Applications utilisant chaque base de données<a class="headerlink" href="#applications-utilisant-chaque-base-de-donnees" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="n">applications</span>
+<span class="n">FIELDS</span><span class="w"> </span><span class="n">databases</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">responsible</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="p">(</span><span class="k">EXISTS</span><span class="w"> </span><span class="n">databases</span><span class="p">)</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">databases</span><span class="p">.</span><span class="n">name</span>
+<span class="k">OUTPUT</span><span class="w"> </span><span class="n">list</span>
+</code></pre></div>
+<p>Liste, pour chaque base de données, les applications qui l'utilisent et leurs responsables. <code>EXISTS databases</code> écarte les applications sans base de données, qui formeraient sinon un groupe vide.</p>
 <h2 id="bonnes-pratiques">Bonnes pratiques<a class="headerlink" href="#bonnes-pratiques" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>Utilisez <code>LIMIT</code></strong> pour limiter le nombre de résultats à la valeur nécessaire : des requêtes trop larges peuvent être lentes sur de grands référentiels.</li>
 <li><strong>Utilisez <code>OUTPUT graph</code></strong> uniquement lorsque les relations sont déclarées dans <code>WITH</code> ; un graphe sans relations ne sera composé que de nœuds isolés.</li>
 <li><strong>Vérifiez les noms de champs</strong> dans la <a href="../api/">référence API</a> — une faute de frappe dans un champ n'affiche simplement rien, sans message d'erreur.</li>
 <li><strong>Avec <code>EXISTS</code></strong>, déclarez la relation dans <code>WITH</code> uniquement si vous avez besoin d'afficher ses champs dans <code>FIELDS</code> ; sinon, <code>EXISTS</code> seul suffit à filtrer sans surcharge.</li>
+<li><strong>Utilisez <code>GROUP BY</code></strong> dès qu'une liste affiche plusieurs champs de relations : le produit cartésien multiplie vite les lignes et rend le tableau illisible.</li>
 <li><strong>Sauvegardez les requêtes récurrentes</strong> pour faciliter le travail en équipe et garantir la reproductibilité des cartographies.</li>
 </ul>
 
