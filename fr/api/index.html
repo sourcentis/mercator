@@ -1200,22 +1200,33 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#les-apis-des-requetes" class="md-nav__link">
+  <a href="#les-api-des-outils" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Les APIs des requêtes
+        Les API des Outils
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Les APIs des requêtes">
+    <nav class="md-nav" aria-label="Les API des Outils">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#les-requetes-peuvent-aussi-etre-executees-par-api" class="md-nav__link">
+  <a href="#cartes-et-bpmn" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Les requêtes peuvent aussi être exécutées par api
+        Cartes et BPMN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        requêtes
       
     </span>
   </a>
@@ -1814,22 +1825,33 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#les-apis-des-requetes" class="md-nav__link">
+  <a href="#les-api-des-outils" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Les APIs des requêtes
+        Les API des Outils
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Les APIs des requêtes">
+    <nav class="md-nav" aria-label="Les API des Outils">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#les-requetes-peuvent-aussi-etre-executees-par-api" class="md-nav__link">
+  <a href="#cartes-et-bpmn" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Les requêtes peuvent aussi être exécutées par api
+        Cartes et BPMN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        requêtes
       
     </span>
   </a>
@@ -2122,7 +2144,7 @@ Les routes sont définies dans : <code>/routes/api.php</code>.</p>
 <em>permission_roles</em> n'existe pas comme endpoint API. C'est une table pivot gérée en interne par Laravel. Pour récupérer les associations rôle↔permission, on doit passer par <strong>/api/roles/{id}?include=permissions</strong> — les permissions liées à chaque rôle seront imbriquées dans la réponse du rôle.
 La liste des permissions de de leurs {id} se trouve par l'api <strong>/api/permissions</strong></p>
 <ul>
-<li><img src="/mercator/images/get.png" width="30"> /api/perimeters</li>
+<li><a href="../model/#perimetres"><img src="/mercator/images/get.png" width="30"> /api/perimeters</a></li>
 </ul>
 <p>Les périmètres (<code>name</code> : 2 à 32 caractères, unique) exigent la permission <strong>configure</strong> pour toute action, comme l'écran d'administration. Le périmètre par défaut (id 1) et tout périmètre encore référencé par un rôle ne peuvent pas être supprimés (<code>422</code>). <strong>/api/perimeters/{id}</strong> renvoie aussi les ids des rôles rattachés au périmètre (<code>roles</code>).</p>
 <ul>
@@ -2157,12 +2179,16 @@ La liste des permissions de de leurs {id} se trouve par l'api <strong>/api/permi
 </code></pre></div></p>
 </li>
 </ul>
-<h2 id="les-apis-des-requetes">Les APIs des requêtes<a class="headerlink" href="#les-apis-des-requetes" title="Permanent link">&para;</a></h2>
+<hr />
+<h2 id="les-api-des-outils">Les API des Outils<a class="headerlink" href="#les-api-des-outils" title="Permanent link">&para;</a></h2>
+<h3 id="cartes-et-bpmn">Cartes et BPMN<a class="headerlink" href="#cartes-et-bpmn" title="Permanent link">&para;</a></h3>
+<p>N/C</p>
+<h3 id="requetes">requêtes<a class="headerlink" href="#requetes" title="Permanent link">&para;</a></h3>
 <ul>
-<li><img src="/mercator/images/get.png" width="30"> /api/queries</li>
+<li><a href="./model.fr#requetes"><img src="/mercator/images/get.png" width="30"> /api/queries</a></li>
 <li><img src="/mercator/images/get.png" width="30"> /api/queries/<strong><em>id</em></strong></li>
 </ul>
-<h3 id="les-requetes-peuvent-aussi-etre-executees-par-api">Les requêtes peuvent aussi être exécutées par api<a class="headerlink" href="#les-requetes-peuvent-aussi-etre-executees-par-api" title="Permanent link">&para;</a></h3>
+<h4 id="les-requetes-peuvent-aussi-etre-executees-par-api">Les requêtes peuvent aussi être exécutées par api<a class="headerlink" href="#les-requetes-peuvent-aussi-etre-executees-par-api" title="Permanent link">&para;</a></h4>
 <ul>
 <li><img src="/mercator/images/get.png" width="30"> /api/queries/execute/1<ul>
 <li>l'id de la requête doit être fourni.</li>
@@ -2170,6 +2196,7 @@ La liste des permissions de de leurs {id} se trouve par l'api <strong>/api/permi
 </ul>
 </li>
 </ul>
+<hr />
 <h2 id="les-apis-des-rapports">Les APIs des rapports<a class="headerlink" href="#les-apis-des-rapports" title="Permanent link">&para;</a></h2>
 <ul>
 <li><img src="/mercator/images/get.png" width="30"> /api/report/cartography</li>

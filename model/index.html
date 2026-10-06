@@ -943,6 +943,37 @@
 </nav>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="#tools">
+<span class="md-ellipsis">
+      
+        Tools
+      
+    </span>
+</a>
+<nav aria-label="Tools" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#bpmn-or-mapsinside-tools-we-find-bpmn-and-maps-thses-2-objets-grousp-are-stored-in-the-same-table">
+<span class="md-ellipsis">
+      
+        BPMN or MapsInside Tools we find BPMN and Maps. Thses 2 objets grousp are stored in the same table
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#queries">
+<span class="md-ellipsis">
+      
+        Queries
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="#configuration">
 <span class="md-ellipsis">
       
@@ -993,6 +1024,15 @@
 <span class="md-ellipsis">
       
         Cartography
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#perimeters">
+<span class="md-ellipsis">
+      
+        Perimeters
       
     </span>
 </a>
@@ -1871,6 +1911,37 @@
 </nav>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="#tools">
+<span class="md-ellipsis">
+      
+        Tools
+      
+    </span>
+</a>
+<nav aria-label="Tools" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#bpmn-or-mapsinside-tools-we-find-bpmn-and-maps-thses-2-objets-grousp-are-stored-in-the-same-table">
+<span class="md-ellipsis">
+      
+        BPMN or MapsInside Tools we find BPMN and Maps. Thses 2 objets grousp are stored in the same table
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#queries">
+<span class="md-ellipsis">
+      
+        Queries
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="#configuration">
 <span class="md-ellipsis">
       
@@ -1921,6 +1992,15 @@
 <span class="md-ellipsis">
       
         Cartography
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#perimeters">
+<span class="md-ellipsis">
+      
+        Perimeters
       
     </span>
 </a>
@@ -9232,6 +9312,146 @@ A LAN can be linked to a MAN from a MAN object.</p>
 <p>The data model export lists MANs and WANs linked to a LAN.</p>
 <p>In the app, a MAN can be linked to a LAN from a MAN object.<br/>
 A WAN can be linked to a LAN from a WAN object.</p>
+<hr/>
+<h2 id="tools">Tools<a class="headerlink" href="#tools" title="Permanent link">¶</a></h2>
+<h3 id="bpmn-or-mapsinside-tools-we-find-bpmn-and-maps-thses-2-objets-grousp-are-stored-in-the-same-table">BPMN or MapsInside Tools we find BPMN and Maps. Thses 2 objets grousp are stored in the same table<a class="headerlink" href="#bpmn-or-mapsinside-tools-we-find-bpmn-and-maps-thses-2-objets-grousp-are-stored-in-the-same-table" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Table</th>
+<th style="text-align: left;">api</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><span style="color: blue;"><em>graphs</em></span></td>
+<td style="text-align: left;">N/C</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Champ</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">id</td>
+<td style="text-align: left;">int unsigned</td>
+<td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">class</td>
+<td style="text-align: left;">int</td>
+<td style="text-align: left;"><strong>1</strong> for <strong>Maps</strong> <br/> <strong>2</strong> for  <strong>BPMN</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">name</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">MAP or BPMN Name</td>
+</tr>
+<tr>
+<td style="text-align: left;">type</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Object Type</td>
+</tr>
+<tr>
+<td style="text-align: left;">content</td>
+<td style="text-align: left;">longtext</td>
+<td style="text-align: left;">Content</td>
+</tr>
+<tr>
+<td style="text-align: left;">created_at</td>
+<td style="text-align: left;">timestamp</td>
+<td style="text-align: left;">Date of creation</td>
+</tr>
+<tr>
+<td style="text-align: left;">updated_at</td>
+<td style="text-align: left;">timestamp</td>
+<td style="text-align: left;">Date of update</td>
+</tr>
+<tr>
+<td style="text-align: left;">deleted_at</td>
+<td style="text-align: left;">timestamp</td>
+<td style="text-align: left;">Date of deletion</td>
+</tr>
+</tbody>
+</table>
+<h3 id="queries">Queries<a class="headerlink" href="#queries" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Table</th>
+<th style="text-align: left;">api</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><span style="color: blue;"><em>saved_queries</em></span></td>
+<td style="text-align: left;"><code>/api/queries</code></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Champ</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">id</td>
+<td style="text-align: left;">int unsigned</td>
+<td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">name</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Query name</td>
+</tr>
+<tr>
+<td style="text-align: left;">description</td>
+<td style="text-align: left;">text</td>
+<td style="text-align: left;">Query description</td>
+</tr>
+<tr>
+<td style="text-align: left;">query</td>
+<td style="text-align: left;">longtext</td>
+<td style="text-align: left;">Query</td>
+</tr>
+<tr>
+<td style="text-align: left;">is_public</td>
+<td style="text-align: left;">tinyint</td>
+<td style="text-align: left;">Set personal or public query</td>
+</tr>
+<tr>
+<td style="text-align: left;">user_id</td>
+<td style="text-align: left;">int unsigned</td>
+<td style="text-align: left;">id of query owner</td>
+</tr>
+<tr>
+<td style="text-align: left;">created_at</td>
+<td style="text-align: left;">timestamp</td>
+<td style="text-align: left;">Date of creation</td>
+</tr>
+<tr>
+<td style="text-align: left;">updated_at</td>
+<td style="text-align: left;">timestamp</td>
+<td style="text-align: left;">Date of update</td>
+</tr>
+<tr>
+<td style="text-align: left;">deleted_at</td>
+<td style="text-align: left;">timestamp</td>
+<td style="text-align: left;">Date of deletion</td>
+</tr>
+</tbody>
+</table>
+<hr/>
 <h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">¶</a></h2>
 <p>The "documents" section can be found in the configuration menu.</p>
 <pre class="mermaid"><code>erDiagram
@@ -9370,7 +9590,7 @@ is a polymorphic reference resolved by <code>cartographiable_type</code> — the
 <li>The document is not inserted in the database.</li>
 </ul>
 <h3 id="example-of-a-document-fields-for-a-specific-image-of-firewall">Example of a document fields for a specific image of firewall:<a class="headerlink" href="#example-of-a-document-fields-for-a-specific-image-of-firewall" title="Permanent link">¶</a></h3>
-<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<div class="highlight"><pre><span></span><code><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
 <span class="nt">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fw.png"</span><span class="p">,</span>
 <span class="nt">"mimetype"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image/png"</span><span class="p">,</span>
 <span class="nt">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">5295</span><span class="p">,</span>
@@ -9588,6 +9808,43 @@ is a polymorphic reference resolved by <code>cartographiable_type</code> — the
 <td>deleted_at</td>
 <td>timestamp</td>
 <td>Date of deletion</td>
+</tr>
+</tbody>
+</table>
+<h3 id="perimeters">Perimeters<a class="headerlink" href="#perimeters" title="Permanent link">¶</a></h3>
+<p>This sections allows you te create perimeters</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Table</th>
+<th style="text-align: left;">api</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><span style="color: blue;"><em>perimeters</em></span></td>
+<td style="text-align: left;"><code>/api/perimeters</code></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Champ</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>int(10) unsigned</td>
+<td>auto_increment</td>
+</tr>
+<tr>
+<td>name</td>
+<td>varchar(32)</td>
+<td>nom du périmètre</td>
 </tr>
 </tbody>
 </table>

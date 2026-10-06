@@ -934,6 +934,37 @@
 </nav>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="#outils">
+<span class="md-ellipsis">
+      
+        Outils
+      
+    </span>
+</a>
+<nav aria-label="Outils" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#bpmn-ou-carte">
+<span class="md-ellipsis">
+      
+        BPMN ou Carte
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#requetes">
+<span class="md-ellipsis">
+      
+        Requêtes
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="#configuration">
 <span class="md-ellipsis">
       
@@ -975,6 +1006,15 @@
 <span class="md-ellipsis">
       
         Cartographie
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#perimetres">
+<span class="md-ellipsis">
+      
+        Périmètres
       
     </span>
 </a>
@@ -1844,6 +1884,37 @@
 </nav>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="#outils">
+<span class="md-ellipsis">
+      
+        Outils
+      
+    </span>
+</a>
+<nav aria-label="Outils" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#bpmn-ou-carte">
+<span class="md-ellipsis">
+      
+        BPMN ou Carte
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#requetes">
+<span class="md-ellipsis">
+      
+        Requêtes
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="#configuration">
 <span class="md-ellipsis">
       
@@ -1885,6 +1956,15 @@
 <span class="md-ellipsis">
       
         Cartographie
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#perimetres">
+<span class="md-ellipsis">
+      
+        Périmètres
       
     </span>
 </a>
@@ -9255,6 +9335,147 @@ Un LAN peut être rattaché à un MAN depuis les objets MAN.</p>
 </table>
 <p>L'export du modèle de données référence les MAN et les WAN rattachés à un LAN.<br/>
 Dans l'application, un LAN peut être rattaché à un MAN ou un WAN depuis les objets MAN et WAN.</p>
+<hr/>
+<h2 id="outils">Outils<a class="headerlink" href="#outils" title="Permanent link">¶</a></h2>
+<h3 id="bpmn-ou-carte">BPMN ou Carte<a class="headerlink" href="#bpmn-ou-carte" title="Permanent link">¶</a></h3>
+<p>Dans outils on trouve BPMN et Cartes.Ces 2 groupes d'objets sont dans la même table:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Table</th>
+<th style="text-align: left;">api</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><span style="color: blue;"><em>graphs</em></span></td>
+<td style="text-align: left;">N/C</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Champ</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">id</td>
+<td style="text-align: left;">int unsigned</td>
+<td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">class</td>
+<td style="text-align: left;">int</td>
+<td style="text-align: left;"><strong>1</strong> pour <strong>Cartes</strong> <br/> <strong>2</strong> pour  <strong>BPMN</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">name</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Nom de la carte ou du process BPMN</td>
+</tr>
+<tr>
+<td style="text-align: left;">type</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Type de l'objet</td>
+</tr>
+<tr>
+<td style="text-align: left;">content</td>
+<td style="text-align: left;">longtext</td>
+<td style="text-align: left;">Contenu</td>
+</tr>
+<tr>
+<td style="text-align: left;">created_at</td>
+<td style="text-align: left;">timestamp</td>
+<td style="text-align: left;">Date de création</td>
+</tr>
+<tr>
+<td style="text-align: left;">updated_at</td>
+<td style="text-align: left;">timestamp</td>
+<td style="text-align: left;">Date de mise à jour</td>
+</tr>
+<tr>
+<td style="text-align: left;">deleted_at</td>
+<td style="text-align: left;">timestamp</td>
+<td style="text-align: left;">Date de suppression</td>
+</tr>
+</tbody>
+</table>
+<h3 id="requetes">Requêtes<a class="headerlink" href="#requetes" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Table</th>
+<th style="text-align: left;">api</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><span style="color: blue;"><em>saved_queries</em></span></td>
+<td style="text-align: left;"><code>/api/queries</code></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Champ</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">id</td>
+<td style="text-align: left;">int unsigned</td>
+<td style="text-align: left;">auto_increment</td>
+</tr>
+<tr>
+<td style="text-align: left;">name</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Nom de la requête</td>
+</tr>
+<tr>
+<td style="text-align: left;">description</td>
+<td style="text-align: left;">text</td>
+<td style="text-align: left;">Description de la requête</td>
+</tr>
+<tr>
+<td style="text-align: left;">query</td>
+<td style="text-align: left;">longtext</td>
+<td style="text-align: left;">Requête sql</td>
+</tr>
+<tr>
+<td style="text-align: left;">is_public</td>
+<td style="text-align: left;">tinyint</td>
+<td style="text-align: left;">requête personnelle ou accessible à tous</td>
+</tr>
+<tr>
+<td style="text-align: left;">user_id</td>
+<td style="text-align: left;">int unsigned</td>
+<td style="text-align: left;">id du propriétaire de la requête</td>
+</tr>
+<tr>
+<td style="text-align: left;">created_at</td>
+<td style="text-align: left;">timestamp</td>
+<td style="text-align: left;">Date de création</td>
+</tr>
+<tr>
+<td style="text-align: left;">updated_at</td>
+<td style="text-align: left;">timestamp</td>
+<td style="text-align: left;">Date de mise à jour</td>
+</tr>
+<tr>
+<td style="text-align: left;">deleted_at</td>
+<td style="text-align: left;">timestamp</td>
+<td style="text-align: left;">Date de suppression</td>
+</tr>
+</tbody>
+</table>
+<hr/>
 <h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">¶</a></h2>
 <p>Dans le menu configuration, on trouve la partie documents.</p>
 <pre class="mermaid"><code>erDiagram
@@ -9394,7 +9615,7 @@ sont pas représentés ici.</em></p>
 <li>Le document n'est pas inséré dans la base de donnée.</li>
 </ul>
 <h4 id="exemple-dinformation-dun-document-pour-une-icone-de-firewall">Exemple d'information d'un document pour une icône de firewall:<a class="headerlink" href="#exemple-dinformation-dun-document-pour-une-icone-de-firewall" title="Permanent link">¶</a></h4>
-<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<div class="highlight"><pre><span></span><code><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
 <span class="nt">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fw.png"</span><span class="p">,</span>
 <span class="nt">"mimetype"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image/png"</span><span class="p">,</span>
 <span class="nt">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">5295</span><span class="p">,</span>
@@ -9612,6 +9833,43 @@ sont pas représentés ici.</em></p>
 <td>deleted_at</td>
 <td>timestamp</td>
 <td>Date de suppression</td>
+</tr>
+</tbody>
+</table>
+<h3 id="perimetres">Périmètres<a class="headerlink" href="#perimetres" title="Permanent link">¶</a></h3>
+<p>Cette section permet de créer des périmètres</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Table</th>
+<th style="text-align: left;">api</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><span style="color: blue;"><em>perimeters</em></span></td>
+<td style="text-align: left;"><code>/api/perimeters</code></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Champ</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>int(10) unsigned</td>
+<td>auto_increment</td>
+</tr>
+<tr>
+<td>name</td>
+<td>varchar(32)</td>
+<td>nom du périmètre</td>
 </tr>
 </tbody>
 </table>
