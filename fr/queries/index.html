@@ -1055,6 +1055,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#group-by" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clause GROUP BY
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#format-de-sortie-output" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1831,6 +1842,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#group-by" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clause GROUP BY
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#format-de-sortie-output" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2070,6 +2092,7 @@
 <span class="n">FIELDS</span><span class="w">  </span><span class="o">&lt;</span><span class="n">champ1</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="o">&lt;</span><span class="n">champ2</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="o">&lt;</span><span class="n">relation</span><span class="p">.</span><span class="n">champ</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="p">...</span>
 <span class="k">WHERE</span><span class="w">   </span><span class="p">(</span><span class="o">&lt;</span><span class="n">condition1</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="k">AND</span><span class="o">|</span><span class="k">OR</span><span class="w"> </span><span class="p">(</span><span class="o">&lt;</span><span class="n">condition2</span><span class="o">&gt;</span><span class="p">)</span>
 <span class="k">WITH</span><span class="w">    </span><span class="o">&lt;</span><span class="n">relation1</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="o">&lt;</span><span class="n">relation2</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="p">...</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="o">&lt;</span><span class="n">champ1</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="o">&lt;</span><span class="n">champ2</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="p">...</span>
 <span class="k">OUTPUT</span><span class="w">  </span><span class="n">list</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">graph</span>
 <span class="k">LIMIT</span><span class="w">   </span><span class="o">&lt;</span><span class="n">n</span><span class="o">&gt;</span>
 </code></pre></div>
@@ -2101,6 +2124,11 @@
 <td><code>WITH</code></td>
 <td>➖</td>
 <td>Relations à afficher dans le graphe</td>
+</tr>
+<tr>
+<td><code>GROUP BY</code></td>
+<td>➖</td>
+<td>Regroupe les lignes et concatène les autres valeurs (voir <a href="#group-by">GROUP BY</a>)</td>
 </tr>
 <tr>
 <td><code>OUTPUT</code></td>
@@ -2284,6 +2312,53 @@ Si vous souhaitez également afficher les champs de cette relation dans <code>FI
 <div class="admonition tip">
 <p class="admonition-title">Quand masquer un niveau ?</p>
 <p>Masquez un intermédiaire lorsque la relation pivot n'a pas de valeur sémantique dans la visualisation — par exemple, les sous-réseaux entre un réseau et ses VLANs, ou les interfaces entre un serveur et ses VLANs.</p>
+</div>
+<h2 id="group-by">Clause GROUP BY<a class="headerlink" href="#group-by" title="Permanent link">&para;</a></h2>
+<p>Par défaut, une requête <code>OUTPUT list</code> qui affiche plusieurs champs de relations produit <strong>une ligne par combinaison</strong> (produit cartésien) : une application liée à 3 processus et 2 bases de données apparaît sur 6 lignes.</p>
+<p>La clause <code>GROUP BY</code> produit à la place <strong>une ligne par valeur distincte</strong> des champs de regroupement. Chaque autre colonne contient la liste des valeurs distinctes, séparées par une virgule.</p>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="n">applications</span>
+<span class="n">FIELDS</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">processes</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">activities</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">databases</span><span class="p">.</span><span class="n">name</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">name</span>
+<span class="k">OUTPUT</span><span class="w"> </span><span class="n">list</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>processes.name</th>
+<th>activities.name</th>
+<th>databases.name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>ERP</td>
+<td>Achats, Ventes</td>
+<td>Facturation</td>
+<td>Oracle, PostgreSQL</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Portail</td>
+<td></td>
+<td>Accueil</td>
+<td>PostgreSQL</td>
+</tr>
+</tbody>
+</table>
+<p>Règles :</p>
+<ul>
+<li>Chaque champ de <code>GROUP BY</code> doit figurer dans <code>FIELDS</code>.</li>
+<li><code>GROUP BY</code> n'est disponible qu'avec <code>OUTPUT list</code> (y compris pour l'export CSV).</li>
+<li>Les valeurs vides sont ignorées et les doublons supprimés ; l'ordre de première apparition est conservé.</li>
+<li>Une relation sans objet lié donne une cellule vide.</li>
+<li>On peut aussi regrouper sur un champ de relation, par exemple <code>GROUP BY databases.name</code> pour lister, par base de données, les applications qui l'utilisent.</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Grouper sur <code>id</code></p>
+<p>Incluez <code>id</code> dans <code>GROUP BY</code> pour ne pas fusionner deux objets qui porteraient le même nom.</p>
 </div>
 <h2 id="format-de-sortie-output">Format de sortie (OUTPUT)<a class="headerlink" href="#format-de-sortie-output" title="Permanent link">&para;</a></h2>
 <h3 id="output-list"><code>OUTPUT list</code><a class="headerlink" href="#output-list" title="Permanent link">&para;</a></h3>

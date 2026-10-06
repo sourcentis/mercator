@@ -1055,6 +1055,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#group-by" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GROUP BY clause
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#output-format-output" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1831,6 +1842,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#group-by" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GROUP BY clause
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#output-format-output" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2070,6 +2092,7 @@
 <span class="n">FIELDS</span><span class="w">  </span><span class="o">&lt;</span><span class="n">field1</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="o">&lt;</span><span class="n">field2</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="o">&lt;</span><span class="n">relation</span><span class="p">.</span><span class="n">field</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="p">...</span>
 <span class="k">WHERE</span><span class="w">   </span><span class="p">(</span><span class="o">&lt;</span><span class="n">condition1</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="k">AND</span><span class="o">|</span><span class="k">OR</span><span class="w"> </span><span class="p">(</span><span class="o">&lt;</span><span class="n">condition2</span><span class="o">&gt;</span><span class="p">)</span>
 <span class="k">WITH</span><span class="w">    </span><span class="o">&lt;</span><span class="n">relation1</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="o">&lt;</span><span class="n">relation2</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="p">...</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="o">&lt;</span><span class="n">field1</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="o">&lt;</span><span class="n">field2</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="p">...</span>
 <span class="k">OUTPUT</span><span class="w">  </span><span class="n">list</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">graph</span>
 <span class="k">LIMIT</span><span class="w">   </span><span class="o">&lt;</span><span class="n">n</span><span class="o">&gt;</span>
 </code></pre></div>
@@ -2101,6 +2124,11 @@
 <td><code>WITH</code></td>
 <td>➖</td>
 <td>Relations to display on the graph</td>
+</tr>
+<tr>
+<td><code>GROUP BY</code></td>
+<td>➖</td>
+<td>Groups rows and concatenates the other values (see <a href="#group-by">GROUP BY</a>)</td>
 </tr>
 <tr>
 <td><code>OUTPUT</code></td>
@@ -2284,6 +2312,53 @@ If you also want to display fields from that relation in <code>FIELDS</code>, de
 <div class="admonition tip">
 <p class="admonition-title">When to hide a level?</p>
 <p>Hide an intermediate node when the pivot relation has no semantic value in the visualisation — for example, subnetworks between a network and its VLANs, or interfaces between a server and its VLANs.</p>
+</div>
+<h2 id="group-by">GROUP BY clause<a class="headerlink" href="#group-by" title="Permanent link">&para;</a></h2>
+<p>By default, an <code>OUTPUT list</code> query that displays several relation fields produces <strong>one row per combination</strong> (Cartesian product): an application linked to 3 processes and 2 databases appears on 6 rows.</p>
+<p>The <code>GROUP BY</code> clause instead produces <strong>one row per distinct value</strong> of the grouping fields. Every other column contains the list of distinct values, separated by commas.</p>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="n">applications</span>
+<span class="n">FIELDS</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">processes</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">activities</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">databases</span><span class="p">.</span><span class="n">name</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">name</span>
+<span class="k">OUTPUT</span><span class="w"> </span><span class="n">list</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>processes.name</th>
+<th>activities.name</th>
+<th>databases.name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>ERP</td>
+<td>Purchasing, Sales</td>
+<td>Invoicing</td>
+<td>Oracle, PostgreSQL</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Portal</td>
+<td></td>
+<td>Reception</td>
+<td>PostgreSQL</td>
+</tr>
+</tbody>
+</table>
+<p>Rules:</p>
+<ul>
+<li>Every <code>GROUP BY</code> field must also appear in <code>FIELDS</code>.</li>
+<li><code>GROUP BY</code> is only available with <code>OUTPUT list</code> (including CSV export).</li>
+<li>Empty values are skipped and duplicates removed; order of first appearance is kept.</li>
+<li>A relation with no linked object yields an empty cell.</li>
+<li>You can also group on a relation field, e.g. <code>GROUP BY databases.name</code> to list, per database, the applications that use it.</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Group on <code>id</code></p>
+<p>Include <code>id</code> in <code>GROUP BY</code> so two objects sharing the same name are not merged.</p>
 </div>
 <h2 id="output-format-output">Output format (OUTPUT)<a class="headerlink" href="#output-format-output" title="Permanent link">&para;</a></h2>
 <h3 id="output-list"><code>OUTPUT list</code><a class="headerlink" href="#output-list" title="Permanent link">&para;</a></h3>
