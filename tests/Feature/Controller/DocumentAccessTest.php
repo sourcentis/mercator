@@ -95,6 +95,27 @@ test('an orphan document is only accessible from the session that uploaded it', 
         ->assertOk();
 });
 
+// Issue #2748 : les icônes personnalisées ne s'affichaient sur les cartes qu'avec la permission « configure ».
+test('a custom icon is visible without the configure permission', function () {
+    $icon = Document::factory()->create(['filename' => 'icon.png', 'mimetype' => 'image/png']);
+    file_put_contents(storage_path('docs/'.$icon->id), 'png');
+    Application::factory()->create(['icon_id' => $icon->id]);
+
+    $this->actingAs(documentAccessUser(['entity_access', 'entity_show']))
+        ->get(route('admin.documents.show', $icon->id))
+        ->assertOk();
+});
+
+test('a non-image document referenced as icon stays protected', function () {
+    $fake = Document::factory()->create(['filename' => 'secret.pdf', 'mimetype' => 'application/pdf']);
+    file_put_contents(storage_path('docs/'.$fake->id), 'pdf');
+    Application::factory()->create(['icon_id' => $fake->id]);
+
+    $this->actingAs(documentAccessUser(['entity_access', 'entity_show']))
+        ->get(route('admin.documents.show', $fake->id))
+        ->assertForbidden();
+});
+
 test('a user cannot delete a document outside of the object being edited', function () {
     $this->actingAs(documentAccessUser(['application_access', 'application_show']))
         ->get(route('admin.documents.delete', $this->document->id))

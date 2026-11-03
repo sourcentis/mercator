@@ -37,6 +37,8 @@ class NetworkSwitch extends Model implements HasIconContract, HasPrefix, HasUniq
         'name',
         'description',
         'ip',
+        'type',
+        'attributes',
     ];
 
     protected array $dates = [

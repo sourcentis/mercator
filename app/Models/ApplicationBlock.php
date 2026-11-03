@@ -37,6 +37,8 @@ class ApplicationBlock extends Model implements HasIconContract, HasPrefix, HasU
         'name',
         'description',
         'responsible',
+        'type',
+        'attributes',
     ];
 
     protected array $dates = [

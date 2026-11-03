@@ -37,6 +37,7 @@ class AdminUser extends Model implements HasIconContract, HasPrefix, HasUniqueId
         'lastname',
         'type',
         'description',
+        'attributes',
     ];
 
     protected $dates = [

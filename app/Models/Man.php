@@ -37,6 +37,8 @@ class Man extends Model implements HasIconContract, HasPrefix, HasUniqueIdentifi
     public static array $searchable = [
         'name',
         'description',
+        'type',
+        'attributes',
     ];
 
     protected array $dates = [

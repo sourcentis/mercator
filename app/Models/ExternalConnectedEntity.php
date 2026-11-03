@@ -40,6 +40,8 @@ class ExternalConnectedEntity extends Model implements HasIconContract, HasPrefi
         'contacts',
         'src_desc',
         'dest_desc',
+        'type',
+        'attributes',
     ];
 
     protected array $dates = [

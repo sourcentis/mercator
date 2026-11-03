@@ -153,12 +153,14 @@ class DocumentController extends Controller
 
     /**
      * A document is accessible when it has just been uploaded or is being edited
-     * in this session, or when the user may see one of the objects it is attached to.
+     * in this session, when it is a custom icon (shown on the maps), or when the user
+     * may see one of the objects it is attached to.
      */
     private function canAccess(Document $document): bool
     {
         return in_array($document->id, session('documents', []))
             || Gate::allows('configure')
+            || $document->isIcon()
             || $document->isVisibleBy(auth()->user());
     }
 }

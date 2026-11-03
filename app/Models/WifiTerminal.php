@@ -37,6 +37,8 @@ class WifiTerminal extends Model implements HasIconContract, HasPrefix, HasUniqu
         'name',
         'description',
         'address_ip',
+        'type',
+        'attributes',
     ];
 
     protected array $dates = [

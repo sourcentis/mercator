@@ -36,6 +36,8 @@ class Dnsserver extends Model implements HasIconContract, HasPrefix, HasUniqueId
         'name',
         'description',
         'address_ip',
+        'type',
+        'attributes',
     ];
 
     protected array $dates = [

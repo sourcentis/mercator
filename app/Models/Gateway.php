@@ -37,6 +37,8 @@ class Gateway extends Model implements HasIconContract, HasPrefix, HasUniqueIden
         'name',
         'description',
         'ip',
+        'type',
+        'attributes',
     ];
 
     protected $fillable = [

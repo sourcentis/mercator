@@ -83,6 +83,8 @@ class Subnetwork extends Model implements HasIconContract, HasPrefix, HasUniqueI
         'description',
         'responsible_exp',
         'address',
+        'type',
+        'attributes',
     ];
 
     protected array $dates = [

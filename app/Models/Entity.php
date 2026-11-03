@@ -41,6 +41,7 @@ class Entity extends Model implements HasIconContract, HasPrefix, HasUniqueIdent
         'security_level',
         'contact_point',
         'type',
+        'attributes',
     ];
 
     protected array $dates = [

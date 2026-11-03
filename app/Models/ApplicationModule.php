@@ -38,6 +38,8 @@ class ApplicationModule extends Model implements HasIconContract, HasPrefix, Has
         'name',
         'description',
         'comments',
+        'type',
+        'attributes',
     ];
 
     protected array $dates = [

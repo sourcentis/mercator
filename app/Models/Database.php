@@ -40,6 +40,7 @@ class Database extends Model implements HasIconContract, HasPrefix, HasUniqueIde
         'description',
         'responsible',
         'type',
+        'attributes',
     ];
 
     protected array $dates = [

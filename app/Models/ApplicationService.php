@@ -39,6 +39,8 @@ class ApplicationService extends Model implements HasIconContract, HasPrefix, Ha
         'description',
         'comments',
         'exposition',
+        'type',
+        'attributes',
     ];
 
     protected array $dates = [

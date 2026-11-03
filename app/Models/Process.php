@@ -65,6 +65,8 @@ class Process extends Model implements HasIconContract, HasPrefix, HasUniqueIden
         'description',
         'in_out',
         'owner',
+        'type',
+        'attributes',
     ];
 
     protected array $dates = [

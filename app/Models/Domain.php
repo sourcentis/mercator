@@ -37,6 +37,8 @@ class Domain extends Model implements HasIconContract, HasPrefix, HasUniqueIdent
     public static array $searchable = [
         'name',
         'description',
+        'type',
+        'attributes',
     ];
 
     protected array $dates = [

@@ -72,6 +72,8 @@ class LogicalFlow extends Model implements HasPrefix, HasUniqueIdentifierContrac
     public static array $searchable = [
         'name',
         'description',
+        'type',
+        'attributes',
     ];
 
     protected array $dates = [

@@ -37,6 +37,8 @@ class ForestAd extends Model implements HasIconContract, HasPrefix, HasUniqueIde
     public static array $searchable = [
         'name',
         'description',
+        'type',
+        'attributes',
     ];
 
     protected array $dates = [

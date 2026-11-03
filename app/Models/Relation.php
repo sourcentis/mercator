@@ -65,6 +65,7 @@ class Relation extends Model implements HasIconContract, HasPrefix, HasUniqueIde
         'order_number',
         'reference',
         'comments',
+        'attributes',
     ];
 
     protected array $dates = [
