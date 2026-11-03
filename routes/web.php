@@ -432,6 +432,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['web.prote
     Route::get('/cpe/search/guess', [Admin\CPEController::class, 'guess']);
 
     // Patching
+    Route::get('/patching', [Admin\PatchingController::class, 'index']);
     Route::get('/patching/index', [Admin\PatchingController::class, 'index'])->name('patching.index');
     Route::get('/patching/edit/server/{id}', [Admin\PatchingController::class, 'editServer'])->name('patching.edit.server');
     Route::put('/patching/server', [Admin\PatchingController::class, 'updateServer'])->name('patching.server');

@@ -325,7 +325,7 @@ function searchCVE() {
 
     const form  = document.createElement('form');
     form.method = 'POST';
-    form.action = "{{ route('admin.cve.search', '') }}/" + encodeURIComponent(cpe);
+    form.action = "{{ route('admin.cve.search', '__CPE__') }}".replace('__CPE__', encodeURIComponent(cpe));
 
     const token   = document.createElement('input');
     token.type    = 'hidden';
