@@ -93,11 +93,7 @@
                             <td>
                             </td>
                             <td>
-                            @if ($patch->type === "SRV")
                                 <x-show-link :model="$patch" />
-                            @else
-                            <x-show-link :model="$patch" />
-                            @endif
                             </td>
                             <td>
                                 @if ($patch->type === "SRV")
