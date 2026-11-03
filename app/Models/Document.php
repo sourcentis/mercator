@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Number;
 use Illuminate\Support\Str;
@@ -96,6 +97,49 @@ class Document extends Model
         'logicalServers',
         'externalConnectedEntities',
     ];
+
+    /**
+     * Tables whose `icon_id` column references a document used as a custom icon.
+     */
+    public const ICON_TABLES = [
+        'admin_users',
+        'applications',
+        'buildings',
+        'clusters',
+        'containers',
+        'databases',
+        'entities',
+        'information',
+        'logical_servers',
+        'peripherals',
+        'physical_security_devices',
+        'physical_servers',
+        'physical_switches',
+        'processes',
+        'security_devices',
+        'sites',
+        'storage_devices',
+        'workstations',
+    ];
+
+    /**
+     * Is this document an image used as the custom icon of at least one object?
+     * Icons are shown on the maps and in the icon pickers, so they are not sensitive.
+     */
+    public function isIcon(): bool
+    {
+        if (! str_starts_with((string) $this->mimetype, 'image/')) {
+            return false;
+        }
+
+        foreach (self::ICON_TABLES as $table) {
+            if (DB::table($table)->where('icon_id', $this->id)->exists()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     /**
      * Is this document attached to at least one object, whatever the user's perimeter?
