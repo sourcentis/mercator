@@ -39,6 +39,8 @@ class StorageDevice extends Model implements HasIconContract, HasPrefix, HasUniq
         'name',
         'description',
         'address_ip',
+        'type',
+        'attributes',
     ];
 
     protected array $dates = [

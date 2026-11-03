@@ -73,6 +73,7 @@ class PhysicalServer extends Model implements HasIconContract, HasPrefix, HasUni
         'configuration',
         'responsible',
         'address_ip',
+        'attributes',
     ];
 
     protected static function newFactory(): Factory

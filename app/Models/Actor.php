@@ -53,6 +53,8 @@ class Actor extends Model implements HasIconContract, HasPrefix, HasUniqueIdenti
     public static array $searchable = [
         'name',
         'nature',
+        'type',
+        'attributes',
     ];
 
     protected array $dates = [

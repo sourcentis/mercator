@@ -36,6 +36,8 @@ class Phone extends Model implements HasPrefix, HasUniqueIdentifierContract
         'name',
         'description',
         'address_ip',
+        'type',
+        'attributes',
     ];
 
     protected array $dates = [

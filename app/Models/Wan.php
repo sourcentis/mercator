@@ -45,6 +45,8 @@ class Wan extends Model implements HasIconContract, HasPrefix, HasUniqueIdentifi
 
     public static array $searchable = [
         'name',
+        'type',
+        'attributes',
     ];
 
     protected array $dates = [

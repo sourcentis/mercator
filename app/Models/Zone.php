@@ -43,6 +43,8 @@ class Zone extends Model implements HasIconContract, HasPrefix, HasUniqueIdentif
     public static array $searchable = [
         'name',
         'description',
+        'type',
+        'attributes',
     ];
 
     protected array $dates = [

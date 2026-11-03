@@ -41,6 +41,8 @@ class Operation extends Model implements HasIconContract, HasPrefix, HasUniqueId
     public static array $searchable = [
         'name',
         'description',
+        'type',
+        'attributes',
     ];
 
     protected array $dates = [

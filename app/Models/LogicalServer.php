@@ -42,6 +42,7 @@ class LogicalServer extends Model implements HasIconContract, HasPrefix, HasUniq
         'configuration',
         'net_services',
         'address_ip',
+        'attributes',
     ];
 
     protected array $dates = [

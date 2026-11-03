@@ -54,6 +54,8 @@ class ApplicationFlow extends Model implements HasPrefix, HasUniqueIdentifierCon
     public static array $searchable = [
         'name',
         'description',
+        'type',
+        'attributes',
     ];
 
     protected array $dates = [

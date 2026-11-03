@@ -40,6 +40,7 @@ class Peripheral extends Model implements HasIconContract, HasPrefix, HasUniqueI
         'description',
         'responsible',
         'address_ip',
+        'attributes',
     ];
 
     protected array $dates = [

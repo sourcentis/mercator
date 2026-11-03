@@ -61,6 +61,8 @@ class Information extends Model implements HasIconContract, HasPrefix, HasUnique
         'description',
         'owner',
         'constraints',
+        'type',
+        'attributes',
     ];
 
     protected array $dates = [

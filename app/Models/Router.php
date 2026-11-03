@@ -37,6 +37,7 @@ class Router extends Model implements HasIconContract, HasPrefix, HasUniqueIdent
         'name',
         'type',
         'description',
+        'attributes',
     ];
 
     protected array $dates = [

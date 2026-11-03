@@ -54,6 +54,7 @@ class PhysicalSwitch extends Model implements HasIconContract, HasPrefix, HasUni
         'name',
         'description',
         'type',
+        'attributes',
     ];
 
     protected array $dates = [

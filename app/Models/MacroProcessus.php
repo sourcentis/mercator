@@ -60,6 +60,8 @@ class MacroProcessus extends Model implements HasIconContract, HasPrefix, HasUni
         'description',
         'io_elements',
         'owner',
+        'type',
+        'attributes',
     ];
 
     protected array $dates = [

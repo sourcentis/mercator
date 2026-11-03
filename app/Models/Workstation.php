@@ -100,6 +100,7 @@ class Workstation extends Model implements HasIconContract, HasPrefix, HasUnique
         'manufacturer',
         'model',
         'address_ip',
+        'attributes',
     ];
 
     protected array $dates = [

@@ -37,6 +37,8 @@ class Annuaire extends Model implements HasIconContract, HasPrefix, HasUniqueIde
         'name',
         'description',
         'solution',
+        'type',
+        'attributes',
     ];
 
     protected array $dates = [

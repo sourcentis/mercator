@@ -34,6 +34,7 @@ class Certificate extends Model implements HasIconContract, HasPrefix, HasUnique
         'name',
         'description',
         'type',
+        'attributes',
     ];
 
     protected array $dates = [

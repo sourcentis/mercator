@@ -57,6 +57,8 @@ class Network extends Model implements HasIconContract, HasPrefix, HasUniqueIden
         'protocol_type',
         'responsible',
         'responsible_sec',
+        'type',
+        'attributes',
     ];
 
     protected array $dates = [

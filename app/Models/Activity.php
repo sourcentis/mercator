@@ -67,6 +67,8 @@ class Activity extends Model implements HasIconContract, HasPrefix, HasUniqueIde
         'name',
         'description',
         'drp',
+        'type',
+        'attributes',
     ];
 
     protected array $dates = [

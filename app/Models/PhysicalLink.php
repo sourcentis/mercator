@@ -40,6 +40,7 @@ class PhysicalLink extends Model
     public static $searchable = [
         'type',
         'description',
+        'attributes',
     ];
 
     protected array $dates = [
