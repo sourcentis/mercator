@@ -32,6 +32,7 @@
     "yajra/laravel-datatables-html": "^13.0"
   },
   "require-dev": {
+    "baer-software/larabeacon": "^3.3",
     "larastan/larastan": "^3.8",
     "laravel/dusk": "^8.2",
     "laravel/pint": "^1.25",
