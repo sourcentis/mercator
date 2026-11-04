@@ -128,7 +128,10 @@ class Cartographer extends Model
      */
     private static function userHasRolePermission(User $user, string $permission): bool
     {
-        if (self::hasWebSession()) {
+        // Ne se fier à la session que si elle porte réellement les permissions de rôle :
+        // `cartographer_permissions_at` seul (session ouverte sans passer par le login web)
+        // ne suffit pas, sinon toutes les listes reviendraient vides (#2754).
+        if (session()->has('auth_permissions')) {
             return in_array($permission, session('auth_permissions', []), true);
         }
         // Contexte API : requête DB (cachée par requête)
