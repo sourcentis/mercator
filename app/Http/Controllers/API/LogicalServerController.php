@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreLogicalServerRequest;
 use App\Http\Requests\MassUpdateLogicalServerRequest;
 use App\Http\Requests\StoreLogicalServerRequest;
 use App\Http\Requests\UpdateLogicalServerRequest;
+use App\Models\LogicalServer;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\LogicalServer;
 use Symfony\Component\HttpFoundation\Response;
 
 class LogicalServerController extends APIController
@@ -99,14 +99,14 @@ class LogicalServerController extends APIController
     {
         // L’authorize() du FormRequest gère déjà le Gate::denies('logical_server_create')
 
-        $createdIds         = [];
-        $logicalServerModel = new LogicalServer();
-        $fillable           = $logicalServerModel->getFillable();
+        $createdIds = [];
+        $logicalServerModel = new LogicalServer;
+        $fillable = $logicalServerModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             $physicalServers = $item['physicalServers'] ?? null;
-            $applications    = $item['applications'] ?? null;
-            $databases       = $item['databases'] ?? null;
+            $applications = $item['applications'] ?? null;
+            $databases = $item['databases'] ?? null;
 
             // Colonnes du modèle uniquement (sans les relations)
             $attributes = collect($item)
@@ -134,22 +134,22 @@ class LogicalServerController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateLogicalServerRequest $request)
     {
         // L’authorize() du FormRequest gère déjà le Gate::denies('logical_server_edit')
-        $logicalServerModel = new LogicalServer();
-        $fillable           = $logicalServerModel->getFillable();
+        $logicalServerModel = new LogicalServer;
+        $fillable = $logicalServerModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
-            $id              = $rawItem['id'];
+            $id = $rawItem['id'];
             $physicalServers = $rawItem['physicalServers'] ?? null;
-            $applications    = $rawItem['applications'] ?? null;
-            $databases       = $rawItem['databases'] ?? null;
+            $applications = $rawItem['applications'] ?? null;
+            $databases = $rawItem['databases'] ?? null;
 
             /** @var LogicalServer $logicalServer */
             $logicalServer = LogicalServer::query()->findOrFail($id);

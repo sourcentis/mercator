@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\BaseFormRequest;
-use Illuminate\Http\Response;
 use Illuminate\Validation\Rules\Password;
 
 class UpdatePasswordRequest extends BaseFormRequest

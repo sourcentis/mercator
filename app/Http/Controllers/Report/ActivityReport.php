@@ -4,9 +4,13 @@ namespace App\Http\Controllers\Report;
 
 // GDPR
 // ecosystem
+use App\Models\DataProcessing;
 use Carbon\Carbon;
 use Gate;
-use App\Models\DataProcessing;
+use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\SimpleType\Jc;
 use Symfony\Component\HttpFoundation\Response;
 
 // information system
@@ -25,8 +29,8 @@ class ActivityReport extends ReportController
         abort_if(Gate::denies('reports_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         // get template
-        $phpWord = new \PhpOffice\PhpWord\PhpWord;
-        \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true);
+        $phpWord = new PhpWord;
+        Settings::setOutputEscapingEnabled(true);
         $phpWord->getSettings()->setHideGrammaticalErrors(true);
         $phpWord->getSettings()->setHideSpellingErrors(true);
         $section = $phpWord->addSection();
@@ -77,7 +81,7 @@ class ActivityReport extends ReportController
 
         // Add footer
         $footer = $section->addFooter();
-        $footer->addPreserveText('{PAGE} / {NUMPAGES}', ['size' => 8], ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER]);
+        $footer->addPreserveText('{PAGE} / {NUMPAGES}', ['size' => 8], ['alignment' => Jc::CENTER]);
 
         $register = DataProcessing::query()
             ->orderBy('name')
@@ -125,7 +129,7 @@ class ActivityReport extends ReportController
 
             $section->addTitle(trans('cruds.dataProcessing.fields.data_collection_obligation'), 2);
             self::addText($section, $dataProcessing->data_collection_obligation);
-            
+
             $section->addTitle(trans('cruds.dataProcessing.fields.recipients'), 2);
             self::addText($section, $dataProcessing->recipients);
 
@@ -198,7 +202,7 @@ class ActivityReport extends ReportController
         $filepath = storage_path('app/reports/register-'.Carbon::today()->format('Ymd').'.docx');
 
         // Saving the document as Word2007 file.
-        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
 
         $objWriter->save($filepath);
 

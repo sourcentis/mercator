@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\PhysicalSwitch;
 use Gate;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\PhysicalSwitch;
 
 class MassUpdatePhysicalSwitchRequest extends BaseMassFormRequest
 {
@@ -18,14 +18,14 @@ class MassUpdatePhysicalSwitchRequest extends BaseMassFormRequest
     public function rules()
     {
         // Règles du UpdatePhysicalSwitchRequest classique
-        $updateRules = (new UpdatePhysicalSwitchRequest())->rules();
+        $updateRules = (new UpdatePhysicalSwitchRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new PhysicalSwitch();
+        $model = new PhysicalSwitch;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdatePhysicalSwitchRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -39,4 +39,3 @@ class MassUpdatePhysicalSwitchRequest extends BaseMassFormRequest
         return $rules;
     }
 }
-

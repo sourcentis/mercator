@@ -4,6 +4,7 @@ use App\Events\CartographerModifiedObject;
 use App\Listeners\NotifyCartographerModification;
 use App\Models\Application;
 use App\Models\Cartographer;
+use App\Models\Role;
 use App\Models\User;
 use App\Services\MailerService;
 use Database\Seeders\PermissionRoleTableSeeder;
@@ -36,16 +37,16 @@ it('dispatches CartographerModifiedObject when a cartographer updates their obje
     Event::fake([CartographerModifiedObject::class]);
 
     $user = User::factory()->create();
-    $app  = Application::factory()->create();
+    $app = Application::factory()->create();
 
     Cartographer::create([
         'cartographiable_type' => Application::class,
-        'cartographiable_id'   => $app->id,
-        'user_id'              => $user->id,
+        'cartographiable_id' => $app->id,
+        'user_id' => $user->id,
     ]);
 
     session([
-        'cartographer_permissions'    => [Application::class => [$app->id]],
+        'cartographer_permissions' => [Application::class => [$app->id]],
         'cartographer_permissions_at' => now()->timestamp,
     ]);
 
@@ -65,16 +66,16 @@ it('does not dispatch the event when notifier_enabled is false', function (): vo
     Event::fake([CartographerModifiedObject::class]);
 
     $user = User::factory()->create();
-    $app  = Application::factory()->create();
+    $app = Application::factory()->create();
 
     Cartographer::create([
         'cartographiable_type' => Application::class,
-        'cartographiable_id'   => $app->id,
-        'user_id'              => $user->id,
+        'cartographiable_id' => $app->id,
+        'user_id' => $user->id,
     ]);
 
     session([
-        'cartographer_permissions'    => [Application::class => [$app->id]],
+        'cartographer_permissions' => [Application::class => [$app->id]],
         'cartographer_permissions_at' => now()->timestamp,
     ]);
 
@@ -89,11 +90,11 @@ it('does not dispatch when the user is not a cartographer of the object', functi
     Event::fake([CartographerModifiedObject::class]);
 
     $user = User::factory()->create();
-    $app  = Application::factory()->create();
+    $app = Application::factory()->create();
 
     // No Cartographer entry for this user+object
     session([
-        'cartographer_permissions'    => [],
+        'cartographer_permissions' => [],
         'cartographer_permissions_at' => now()->timestamp,
     ]);
 
@@ -108,8 +109,8 @@ it('does not dispatch when an admin (non-cartographer) modifies an object', func
     Event::fake([CartographerModifiedObject::class]);
 
     // Create an admin user (role id=1 is the admin role)
-    $adminRole = \App\Models\Role::find(1);
-    $admin     = User::factory()->create();
+    $adminRole = Role::find(1);
+    $admin = User::factory()->create();
     $admin->roles()->attach($adminRole);
 
     $app = Application::factory()->create();
@@ -125,16 +126,16 @@ it('captures the dirty fields in the dispatched event', function (): void {
     Event::fake([CartographerModifiedObject::class]);
 
     $user = User::factory()->create();
-    $app  = Application::factory()->create(['name' => 'Original']);
+    $app = Application::factory()->create(['name' => 'Original']);
 
     Cartographer::create([
         'cartographiable_type' => Application::class,
-        'cartographiable_id'   => $app->id,
-        'user_id'              => $user->id,
+        'cartographiable_id' => $app->id,
+        'user_id' => $user->id,
     ]);
 
     session([
-        'cartographer_permissions'    => [Application::class => [$app->id]],
+        'cartographer_permissions' => [Application::class => [$app->id]],
         'cartographer_permissions_at' => now()->timestamp,
     ]);
 
@@ -156,8 +157,8 @@ it('does not send mail when notifier_enabled is false', function (): void {
     $mailer->shouldNotReceive('send');
     $this->app->instance(MailerService::class, $mailer);
 
-    $user  = User::factory()->create(['name' => 'Alice', 'email' => 'alice@test.com']);
-    $app   = Application::factory()->create(['name' => 'MyApp']);
+    $user = User::factory()->create(['name' => 'Alice', 'email' => 'alice@test.com']);
+    $app = Application::factory()->create(['name' => 'MyApp']);
     $event = new CartographerModifiedObject($user, $app, ['name' => 'Changed'], 'Application');
 
     app(NotifyCartographerModification::class)->handle($event);
@@ -168,8 +169,8 @@ it('sends mail when notifier_enabled is true', function (): void {
     $mailer->shouldReceive('send')->once();
     $this->app->instance(MailerService::class, $mailer);
 
-    $user  = User::factory()->create(['name' => 'Alice', 'email' => 'alice@test.com']);
-    $app   = Application::factory()->create(['name' => 'MyApp']);
+    $user = User::factory()->create(['name' => 'Alice', 'email' => 'alice@test.com']);
+    $app = Application::factory()->create(['name' => 'MyApp']);
     $event = new CartographerModifiedObject($user, $app, ['name' => 'Changed'], 'Application');
 
     app(NotifyCartographerModification::class)->handle($event);
@@ -188,12 +189,13 @@ it('passes correct from, to, subject and body to the mailer', function (): void 
         ->once()
         ->withArgs(function (string $from, string $to, string $subject, string $body) use (&$captured) {
             $captured = compact('from', 'to', 'subject', 'body');
+
             return true;
         });
     $this->app->instance(MailerService::class, $mailer);
 
-    $user  = User::factory()->create(['name' => 'Alice Dupont', 'email' => 'alice@example.com']);
-    $app   = Application::factory()->create(['name' => 'TestApp']);
+    $user = User::factory()->create(['name' => 'Alice Dupont', 'email' => 'alice@example.com']);
+    $app = Application::factory()->create(['name' => 'TestApp']);
     $event = new CartographerModifiedObject($user, $app, ['name' => 'New', 'description' => 'Desc'], 'Application');
 
     app(NotifyCartographerModification::class)->handle($event);
@@ -210,7 +212,7 @@ it('passes correct from, to, subject and body to the mailer', function (): void 
     expect($captured['body'])->toContain('description');
     expect($captured['body'])->toContain(now()->format('d/m/Y'));
     // URL placeholders
-    expect($captured['body'])->toContain('/admin/applications/' . $app->id);
+    expect($captured['body'])->toContain('/admin/applications/'.$app->id);
     expect($captured['body'])->toContain('audit-logs/history');
 });
 
@@ -224,20 +226,21 @@ it('inserts object show URL and history URL as placeholders', function (): void 
         ->once()
         ->withArgs(function (string $from, string $to, string $subject, string $body) use (&$captured) {
             $captured['body'] = $body;
+
             return true;
         });
     $this->app->instance(MailerService::class, $mailer);
 
-    $user  = User::factory()->create();
-    $app   = Application::factory()->create(['name' => 'MyApp']);
+    $user = User::factory()->create();
+    $app = Application::factory()->create(['name' => 'MyApp']);
     $event = new CartographerModifiedObject($user, $app, [], 'Application');
 
     app(NotifyCartographerModification::class)->handle($event);
 
-    expect($captured['body'])->toContain('/admin/applications/' . $app->id);
+    expect($captured['body'])->toContain('/admin/applications/'.$app->id);
     expect($captured['body'])->toContain('audit-logs/history');
     // Class name is URL-encoded in the history route path segment
-    expect($captured['body'])->toContain(urlencode(\App\Models\Application::class));
+    expect($captured['body'])->toContain(urlencode(Application::class));
 });
 
 it('substitutes :name with #id when the object has no name attribute', function (): void {
@@ -250,12 +253,13 @@ it('substitutes :name with #id when the object has no name attribute', function 
         ->once()
         ->withArgs(function (string $from, string $to, string $subject, string $body) use (&$captured) {
             $captured['body'] = $body;
+
             return true;
         });
     $this->app->instance(MailerService::class, $mailer);
 
     $user = User::factory()->create();
-    $app  = Application::factory()->create();
+    $app = Application::factory()->create();
     $app->offsetUnset('name'); // remove name from attributes to simulate no-name
 
     // Rebuild a model-like object without 'name'
@@ -266,7 +270,7 @@ it('substitutes :name with #id when the object has no name attribute', function 
 
     app(NotifyCartographerModification::class)->handle($event);
 
-    expect($captured['body'])->toContain('#' . $anonymousApp->id);
+    expect($captured['body'])->toContain('#'.$anonymousApp->id);
 });
 
 it('sends to each address in a CSV notifier_to', function (): void {
@@ -279,12 +283,13 @@ it('sends to each address in a CSV notifier_to', function (): void {
         ->once()
         ->withArgs(function (string $from, string $to) use (&$capturedTo) {
             $capturedTo = $to;
+
             return true;
         });
     $this->app->instance(MailerService::class, $mailer);
 
-    $user  = User::factory()->create();
-    $app   = Application::factory()->create();
+    $user = User::factory()->create();
+    $app = Application::factory()->create();
     $event = new CartographerModifiedObject($user, $app, [], 'Application');
 
     app(NotifyCartographerModification::class)->handle($event);

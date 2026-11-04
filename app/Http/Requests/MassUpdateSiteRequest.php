@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Site;
 use Gate;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\Site;
 
 class MassUpdateSiteRequest extends BaseMassFormRequest
 {
@@ -18,14 +18,14 @@ class MassUpdateSiteRequest extends BaseMassFormRequest
     public function rules()
     {
         // Règles du UpdateSiteRequest classique
-        $updateRules = (new UpdateSiteRequest())->rules();
+        $updateRules = (new UpdateSiteRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new Site();
+        $model = new Site;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdateSiteRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -39,4 +39,3 @@ class MassUpdateSiteRequest extends BaseMassFormRequest
         return $rules;
     }
 }
-

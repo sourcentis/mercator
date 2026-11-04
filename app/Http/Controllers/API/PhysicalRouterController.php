@@ -7,10 +7,10 @@ use App\Http\Requests\MassStorePhysicalRouterRequest;
 use App\Http\Requests\MassUpdatePhysicalRouterRequest;
 use App\Http\Requests\StorePhysicalRouterRequest;
 use App\Http\Requests\UpdatePhysicalRouterRequest;
+use App\Models\PhysicalRouter;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\PhysicalRouter;
 use Symfony\Component\HttpFoundation\Response;
 
 class PhysicalRouterController extends APIController
@@ -85,9 +85,9 @@ class PhysicalRouterController extends APIController
     {
         // authorize() in the FormRequest already checks `physical_router_create`
 
-        $createdIds          = [];
-        $physicalRouterModel = new PhysicalRouter();
-        $fillable            = $physicalRouterModel->getFillable();
+        $createdIds = [];
+        $physicalRouterModel = new PhysicalRouter;
+        $fillable = $physicalRouterModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             $vlans = $item['vlans'] ?? null;
@@ -110,19 +110,19 @@ class PhysicalRouterController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdatePhysicalRouterRequest $request)
     {
         // authorize() in the FormRequest already checks `physical_router_edit`
-        $physicalRouterModel = new PhysicalRouter();
-        $fillable            = $physicalRouterModel->getFillable();
+        $physicalRouterModel = new PhysicalRouter;
+        $fillable = $physicalRouterModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
-            $id    = $rawItem['id'];
+            $id = $rawItem['id'];
             $vlans = $rawItem['vlans'] ?? null;
 
             /** @var PhysicalRouter $physicalRouter */

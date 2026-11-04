@@ -7,10 +7,9 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    
     public function up(): void
     {
-        if (!$this->isUuidColumn()) {
+        if (! $this->isUuidColumn()) {
             DB::table('oauth_refresh_tokens')->delete();
             DB::table('oauth_access_tokens')->delete();
             DB::table('oauth_auth_codes')->delete();
@@ -100,9 +99,9 @@ return new class extends Migration
 
         return match ($driver) {
             'mysql', 'mariadb' => $this->isUuidMySQL($table),
-            'pgsql'            => $this->isUuidPostgreSQL($table),
-            'sqlite'           => $this->isUuidSQLite($table),
-            default            => false,
+            'pgsql' => $this->isUuidPostgreSQL($table),
+            'sqlite' => $this->isUuidSQLite($table),
+            default => false,
         };
     }
 
@@ -137,7 +136,7 @@ return new class extends Migration
                 return in_array(strtoupper($col->type), ['VARCHAR', 'TEXT', 'UUID', 'CHAR']);
             }
         }
+
         return false;
     }
 };
-

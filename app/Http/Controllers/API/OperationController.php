@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreOperationRequest;
 use App\Http\Requests\MassUpdateOperationRequest;
 use App\Http\Requests\StoreOperationRequest;
 use App\Http\Requests\UpdateOperationRequest;
+use App\Models\Operation;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Operation;
 use Symfony\Component\HttpFoundation\Response;
 
 class OperationController extends APIController
@@ -92,13 +92,13 @@ class OperationController extends APIController
     {
         // authorize() in the FormRequest already checks `operation_create`
 
-        $createdIds   = [];
-        $operationModel = new Operation();
-        $fillable       = $operationModel->getFillable();
+        $createdIds = [];
+        $operationModel = new Operation;
+        $fillable = $operationModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
-            $actors     = $item['actors'] ?? null;
-            $tasks      = $item['tasks'] ?? null;
+            $actors = $item['actors'] ?? null;
+            $tasks = $item['tasks'] ?? null;
             $activities = $item['activities'] ?? null;
 
             // Only model columns, relations are excluded
@@ -127,21 +127,21 @@ class OperationController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateOperationRequest $request)
     {
         // authorize() in the FormRequest already checks `operation_edit`
-        $operationModel = new Operation();
-        $fillable       = $operationModel->getFillable();
+        $operationModel = new Operation;
+        $fillable = $operationModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
-            $id         = $rawItem['id'];
-            $actors     = $rawItem['actors'] ?? null;
-            $tasks      = $rawItem['tasks'] ?? null;
+            $id = $rawItem['id'];
+            $actors = $rawItem['actors'] ?? null;
+            $tasks = $rawItem['tasks'] ?? null;
             $activities = $rawItem['activities'] ?? null;
 
             /** @var Operation $operation */

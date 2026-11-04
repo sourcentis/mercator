@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreDnsserverRequest;
 use App\Http\Requests\MassUpdateDnsserverRequest;
 use App\Http\Requests\StoreDnsserverRequest;
 use App\Http\Requests\UpdateDnsserverRequest;
+use App\Models\Dnsserver;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Dnsserver;
 use Symfony\Component\HttpFoundation\Response;
 
 class DnsserverController extends APIController
@@ -75,7 +75,7 @@ class DnsserverController extends APIController
         // L’authorize() du FormRequest gère déjà dnsserver_create
         $createdIds = [];
 
-        $model    = new Dnsserver();
+        $model = new Dnsserver;
         $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $item) {
@@ -101,15 +101,15 @@ class DnsserverController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateDnsserverRequest $request)
     {
         // L’authorize() du FormRequest gère déjà dnsserver_edit
-        $model    = new Dnsserver();
+        $model = new Dnsserver;
         $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {

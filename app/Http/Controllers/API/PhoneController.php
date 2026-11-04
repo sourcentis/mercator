@@ -7,10 +7,10 @@ use App\Http\Requests\MassStorePhoneRequest;
 use App\Http\Requests\MassUpdatePhoneRequest;
 use App\Http\Requests\StorePhoneRequest;
 use App\Http\Requests\UpdatePhoneRequest;
+use App\Models\Phone;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Phone;
 use Symfony\Component\HttpFoundation\Response;
 
 class PhoneController extends APIController
@@ -73,8 +73,8 @@ class PhoneController extends APIController
         // L’authorize() du FormRequest gère déjà la permission `phone_create`
 
         $createdIds = [];
-        $phoneModel = new Phone();
-        $fillable   = $phoneModel->getFillable();
+        $phoneModel = new Phone;
+        $fillable = $phoneModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             // Colonnes du modèle uniquement
@@ -90,16 +90,16 @@ class PhoneController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdatePhoneRequest $request)
     {
         // L’authorize() du FormRequest gère déjà la permission `phone_edit`
-        $phoneModel = new Phone();
-        $fillable   = $phoneModel->getFillable();
+        $phoneModel = new Phone;
+        $fillable = $phoneModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
             $id = $rawItem['id'];

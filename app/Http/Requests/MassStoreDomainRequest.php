@@ -17,10 +17,10 @@ class MassStoreDomainRequest extends BaseMassFormRequest
     public function rules()
     {
         // On récupère les règles du StoreDomainRequest classique
-        $storeRules = (new StoreDomainRequest())->rules();
+        $storeRules = (new StoreDomainRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -29,10 +29,9 @@ class MassStoreDomainRequest extends BaseMassFormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.forestAds']   = ['sometimes', 'array'];
+        $rules['items.*.forestAds'] = ['sometimes', 'array'];
         $rules['items.*.forestAds.*'] = ['integer'];
 
         return $rules;
     }
 }
-

@@ -15,8 +15,10 @@ use Gate;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class QueryController extends APIController
 {
@@ -90,12 +92,12 @@ class QueryController extends APIController
 
         try {
             $result = $this->resolver->execute($dsl);
-        } catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (ValidationException $e) {
             return response()->json(
                 ['message' => 'DSL invalide.', 'errors' => $e->errors()],
                 Response::HTTP_UNPROCESSABLE_ENTITY
             );
-        } catch (\Symfony\Component\HttpKernel\Exception\HttpException $e) {
+        } catch (HttpException $e) {
             return response()->json(
                 ['message' => $e->getMessage()],
                 $e->getStatusCode()
@@ -146,7 +148,7 @@ class QueryController extends APIController
 
             fclose($handle);
         }, $filename, [
-            'Content-Type'        => 'text/csv; charset=UTF-8',
+            'Content-Type' => 'text/csv; charset=UTF-8',
             'Content-Disposition' => "attachment; filename=\"{$filename}\"",
         ]);
     }
@@ -175,8 +177,8 @@ class QueryController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
@@ -189,4 +191,3 @@ class QueryController extends APIController
         ]);
     }
 }
-

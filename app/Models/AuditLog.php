@@ -44,17 +44,18 @@ class AuditLog extends Model
 
     public function subjectURL(): string
     {
-        return AuditLog::url($this->subject_type, (string)$this->subject_id);
+        return AuditLog::url($this->subject_type, (string) $this->subject_id);
     }
 
-    public static function URL(string $subject_type, string $subject_id): string {
+    public static function URL(string $subject_type, string $subject_id): string
+    {
         // For non regression
-        if ($subject_type === 'App\Models\MApplication')
+        if ($subject_type === 'App\Models\MApplication') {
             $subject_type = 'App\Models\Application';
+        }
 
         return '/admin/'.
             Str::plural(Str::snake(Str::afterLast($subject_type, '\\'), '-')).
-            '/' . $subject_id;
+            '/'.$subject_id;
     }
-
 }

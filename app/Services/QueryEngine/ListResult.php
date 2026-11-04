@@ -15,7 +15,7 @@ class ListResult
     {
         return [
             'columns' => $this->columns,
-            'rows'    => $this->rows->values()->toArray(),
+            'rows' => $this->rows->values()->toArray(),
         ];
     }
 

@@ -37,19 +37,19 @@ return new class extends Migration
         // ── 3. Migrate existing FK data into pivot tables ─────────────────────
         DB::table('backups')->orderBy('id')->get()->each(function (object $row) {
             DB::table('backups')->where('id', $row->id)->update([
-                'name' => 'Backup #' . $row->id,
+                'name' => 'Backup #'.$row->id,
             ]);
 
             if ($row->logical_server_id) {
                 DB::table('backup_logical_server')->insertOrIgnore([
-                    'backup_id'         => $row->id,
+                    'backup_id' => $row->id,
                     'logical_server_id' => $row->logical_server_id,
                 ]);
             }
 
             if ($row->storage_device_id) {
                 DB::table('backup_storage_device')->insertOrIgnore([
-                    'backup_id'         => $row->id,
+                    'backup_id' => $row->id,
                     'storage_device_id' => $row->storage_device_id,
                 ]);
             }

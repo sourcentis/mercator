@@ -20,7 +20,7 @@ class MassStoreSavedQueryRequest extends BaseMassFormRequest
         $storeRules = new StoreSavedQueryRequest()->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -32,4 +32,3 @@ class MassStoreSavedQueryRequest extends BaseMassFormRequest
         return $rules;
     }
 }
-

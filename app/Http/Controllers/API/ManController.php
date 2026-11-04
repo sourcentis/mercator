@@ -7,17 +7,17 @@ use App\Http\Requests\MassStoreManRequest;
 use App\Http\Requests\MassUpdateManRequest;
 use App\Http\Requests\StoreManRequest;
 use App\Http\Requests\UpdateManRequest;
+use App\Models\Man;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Man;
 use Symfony\Component\HttpFoundation\Response;
 
 class ManController extends APIController
 {
     protected string $modelClass = Man::class;
 
-   public function index(Request $request)
+    public function index(Request $request)
     {
         abort_if(Gate::denies('man_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -73,8 +73,8 @@ class ManController extends APIController
         // L’authorize() du FormRequest gère déjà le Gate::denies('man_create')
 
         $createdIds = [];
-        $manModel   = new Man();
-        $fillable   = $manModel->getFillable();
+        $manModel = new Man;
+        $fillable = $manModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             // Colonnes du modèle uniquement
@@ -90,15 +90,15 @@ class ManController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateManRequest $request)
     {
         // L’authorize() du FormRequest gère déjà le Gate::denies('man_edit')
-        $manModel = new Man();
+        $manModel = new Man;
         $fillable = $manModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {

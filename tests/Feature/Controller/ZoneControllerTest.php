@@ -69,9 +69,9 @@ describe('create', function () {
 describe('store', function () {
     test('can create a zone with scalar fields', function () {
         $data = [
-            'name'        => 'Zone DMZ',
-            'type'        => 'DMZ',
-            'attributes'  => ['firewall=true', 'vlan=10'],
+            'name' => 'Zone DMZ',
+            'type' => 'DMZ',
+            'attributes' => ['firewall=true', 'vlan=10'],
             'description' => 'Zone démilitarisée.',
         ];
 
@@ -82,17 +82,17 @@ describe('store', function () {
     });
 
     test('can create a zone with relations', function () {
-        $parent   = Zone::factory()->create(['name' => 'Parent Zone']);
-        $child    = Zone::factory()->create(['name' => 'Child Zone']);
+        $parent = Zone::factory()->create(['name' => 'Parent Zone']);
+        $child = Zone::factory()->create(['name' => 'Child Zone']);
         $building = Building::factory()->create();
-        $admin    = AdminUser::factory()->create();
+        $admin = AdminUser::factory()->create();
 
         $data = [
-            'name'        => 'Zone Secure',
+            'name' => 'Zone Secure',
             'parentZones' => [$parent->id],
-            'childZones'  => [$child->id],
-            'buildings'   => [$building->id],
-            'adminUsers'  => [$admin->id],
+            'childZones' => [$child->id],
+            'buildings' => [$building->id],
+            'adminUsers' => [$admin->id],
         ];
 
         $response = $this->post(route('admin.zones.store'), $data);
@@ -192,13 +192,13 @@ describe('update', function () {
     });
 
     test('can update relations', function () {
-        $zone     = Zone::factory()->create();
+        $zone = Zone::factory()->create();
         $building = Building::factory()->create();
-        $admin    = AdminUser::factory()->create();
+        $admin = AdminUser::factory()->create();
 
         $this->put(route('admin.zones.update', $zone), [
-            'name'       => $zone->name,
-            'buildings'  => [$building->id],
+            'name' => $zone->name,
+            'buildings' => [$building->id],
             'adminUsers' => [$admin->id],
         ]);
 
@@ -245,7 +245,7 @@ describe('destroy', function () {
 describe('massDestroy', function () {
     test('can delete multiple zones', function () {
         $zones = Zone::factory()->count(3)->create();
-        $ids   = $zones->pluck('id')->toArray();
+        $ids = $zones->pluck('id')->toArray();
 
         $response = $this->delete(route('admin.zones.massDestroy'), ['ids' => $ids]);
 

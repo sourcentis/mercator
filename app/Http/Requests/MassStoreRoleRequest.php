@@ -17,10 +17,10 @@ class MassStoreRoleRequest extends BaseMassFormRequest
     public function rules()
     {
         // On récupère les règles du StoreRoleRequest classique
-        $storeRules = (new StoreRoleRequest())->rules();
+        $storeRules = (new StoreRoleRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -32,4 +32,3 @@ class MassStoreRoleRequest extends BaseMassFormRequest
         return $rules;
     }
 }
-

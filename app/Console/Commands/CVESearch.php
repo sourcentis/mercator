@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Application;
+use App\Models\ApplicationModule;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Http\Client\Factory;
@@ -10,8 +12,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use App\Models\ApplicationModule;
-use App\Models\Application;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 use Random\RandomException;

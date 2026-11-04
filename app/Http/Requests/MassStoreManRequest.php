@@ -17,10 +17,10 @@ class MassStoreManRequest extends BaseMassFormRequest
     public function rules()
     {
         // On récupère les règles du StoreManRequest classique
-        $storeRules = (new StoreManRequest())->rules();
+        $storeRules = (new StoreManRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -32,4 +32,3 @@ class MassStoreManRequest extends BaseMassFormRequest
         return $rules;
     }
 }
-

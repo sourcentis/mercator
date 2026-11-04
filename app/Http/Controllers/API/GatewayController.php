@@ -7,11 +7,11 @@ use App\Http\Requests\MassStoreGatewayRequest;
 use App\Http\Requests\MassUpdateGatewayRequest;
 use App\Http\Requests\StoreGatewayRequest;
 use App\Http\Requests\UpdateGatewayRequest;
+use App\Models\Gateway;
+use App\Models\Subnetwork;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Gateway;
-use App\Models\Subnetwork;
 use Symfony\Component\HttpFoundation\Response;
 
 class GatewayController extends APIController
@@ -84,9 +84,9 @@ class GatewayController extends APIController
     {
         // L’authorize() du FormRequest gère déjà le Gate::denies('gateway_create')
 
-        $createdIds  = [];
-        $gatewayModel = new Gateway();
-        $fillable     = $gatewayModel->getFillable();
+        $createdIds = [];
+        $gatewayModel = new Gateway;
+        $fillable = $gatewayModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             $subnetworks = $item['subnetworks'] ?? null;
@@ -110,19 +110,19 @@ class GatewayController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateGatewayRequest $request)
     {
         // L’authorize() du FormRequest gère déjà le Gate::denies('gateway_edit')
-        $gatewayModel = new Gateway();
-        $fillable     = $gatewayModel->getFillable();
+        $gatewayModel = new Gateway;
+        $fillable = $gatewayModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
-            $id          = $rawItem['id'];
+            $id = $rawItem['id'];
             $subnetworks = $rawItem['subnetworks'] ?? null;
 
             /** @var Gateway $gateway */

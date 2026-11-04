@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Activity;
 use App\Models\User;
 use Database\Seeders\PermissionRoleTableSeeder;
 use Database\Seeders\PermissionsTableSeeder;
@@ -8,7 +9,6 @@ use Database\Seeders\RoleUserTableSeeder;
 use Database\Seeders\UsersTableSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
-use App\Models\Activity;
 
 uses(RefreshDatabase::class);
 
@@ -20,7 +20,7 @@ beforeEach(function () {
         UsersTableSeeder::class,
         RoleUserTableSeeder::class,
     ]);
-    $this->user = User::query()->where('login','admin@admin.com')->first();
+    $this->user = User::query()->where('login', 'admin@admin.com')->first();
     Passport::actingAs($this->user);
 });
 
@@ -28,7 +28,7 @@ beforeEach(function () {
 function validActivityPayload(): array
 {
     return [
-        'name'        => 'Test Activity',
+        'name' => 'Test Activity',
         'description' => 'Test Description',
     ];
 }
@@ -58,88 +58,88 @@ function ensureDemoActivities(): void
 
     Activity::query()->insert([
         [
-            'id'                             => 5,
-            'name'                           => 'Helpdesk',
-            'description'                    => '<p>User support</p>',
-            'recovery_time_objective'        => 1,
-            'maximum_tolerable_downtime'     => 1,
-            'recovery_point_objective'       => 1,
-            'maximum_tolerable_data_loss'    => 1,
-            'drp'                            => null,
-            'drp_link'                       => null,
-            'created_at'                     => '2020-08-13 05:49:05',
-            'updated_at'                     => '2020-08-13 05:49:05',
-            'deleted_at'                     => null,
+            'id' => 5,
+            'name' => 'Helpdesk',
+            'description' => '<p>User support</p>',
+            'recovery_time_objective' => 1,
+            'maximum_tolerable_downtime' => 1,
+            'recovery_point_objective' => 1,
+            'maximum_tolerable_data_loss' => 1,
+            'drp' => null,
+            'drp_link' => null,
+            'created_at' => '2020-08-13 05:49:05',
+            'updated_at' => '2020-08-13 05:49:05',
+            'deleted_at' => null,
         ],
         [
-            'id'                             => 6,
-            'name'                           => 'Development',
-            'description'                    => '<p>Application development</p>',
-            'recovery_time_objective'        => null,
-            'maximum_tolerable_downtime'     => null,
-            'recovery_point_objective'       => null,
-            'maximum_tolerable_data_loss'    => null,
-            'drp'                            => null,
-            'drp_link'                       => null,
-            'created_at'                     => '2020-08-13 05:49:47',
-            'updated_at'                     => '2020-08-13 05:49:47',
-            'deleted_at'                     => null,
+            'id' => 6,
+            'name' => 'Development',
+            'description' => '<p>Application development</p>',
+            'recovery_time_objective' => null,
+            'maximum_tolerable_downtime' => null,
+            'recovery_point_objective' => null,
+            'maximum_tolerable_data_loss' => null,
+            'drp' => null,
+            'drp_link' => null,
+            'created_at' => '2020-08-13 05:49:47',
+            'updated_at' => '2020-08-13 05:49:47',
+            'deleted_at' => null,
         ],
         [
-            'id'                             => 7,
-            'name'                           => 'IT monitoring',
-            'description'                    => '<p>Check the proper functioning of IT equipment</p>',
-            'recovery_time_objective'        => null,
-            'maximum_tolerable_downtime'     => null,
-            'recovery_point_objective'       => null,
-            'maximum_tolerable_data_loss'    => null,
-            'drp'                            => null,
-            'drp_link'                       => null,
-            'created_at'                     => '2020-08-13 05:52:47',
-            'updated_at'                     => '2020-08-13 05:52:47',
-            'deleted_at'                     => null,
+            'id' => 7,
+            'name' => 'IT monitoring',
+            'description' => '<p>Check the proper functioning of IT equipment</p>',
+            'recovery_time_objective' => null,
+            'maximum_tolerable_downtime' => null,
+            'recovery_point_objective' => null,
+            'maximum_tolerable_data_loss' => null,
+            'drp' => null,
+            'drp_link' => null,
+            'created_at' => '2020-08-13 05:52:47',
+            'updated_at' => '2020-08-13 05:52:47',
+            'deleted_at' => null,
         ],
         [
-            'id'                             => 8,
-            'name'                           => 'Application monitoring',
-            'description'                    => '<p>Check the correct functioning of computer applications</p>',
-            'recovery_time_objective'        => null,
-            'maximum_tolerable_downtime'     => null,
-            'recovery_point_objective'       => null,
-            'maximum_tolerable_data_loss'    => null,
-            'drp'                            => null,
-            'drp_link'                       => null,
-            'created_at'                     => '2020-08-13 05:53:19',
-            'updated_at'                     => '2020-08-13 05:53:19',
-            'deleted_at'                     => null,
+            'id' => 8,
+            'name' => 'Application monitoring',
+            'description' => '<p>Check the correct functioning of computer applications</p>',
+            'recovery_time_objective' => null,
+            'maximum_tolerable_downtime' => null,
+            'recovery_point_objective' => null,
+            'maximum_tolerable_data_loss' => null,
+            'drp' => null,
+            'drp_link' => null,
+            'created_at' => '2020-08-13 05:53:19',
+            'updated_at' => '2020-08-13 05:53:19',
+            'deleted_at' => null,
         ],
         [
-            'id'                             => 9,
-            'name'                           => 'Admission',
-            'description'                    => '<p>Admission of patients to the hospital</p>',
-            'recovery_time_objective'        => null,
-            'maximum_tolerable_downtime'     => null,
-            'recovery_point_objective'       => null,
-            'maximum_tolerable_data_loss'    => null,
-            'drp'                            => null,
-            'drp_link'                       => null,
-            'created_at'                     => '2020-09-07 07:54:20',
-            'updated_at'                     => '2024-10-14 08:01:04',
-            'deleted_at'                     => null,
+            'id' => 9,
+            'name' => 'Admission',
+            'description' => '<p>Admission of patients to the hospital</p>',
+            'recovery_time_objective' => null,
+            'maximum_tolerable_downtime' => null,
+            'recovery_point_objective' => null,
+            'maximum_tolerable_data_loss' => null,
+            'drp' => null,
+            'drp_link' => null,
+            'created_at' => '2020-09-07 07:54:20',
+            'updated_at' => '2024-10-14 08:01:04',
+            'deleted_at' => null,
         ],
         [
-            'id'                             => 10,
-            'name'                           => 'Complaint management',
-            'description'                    => '<p>Complaints management process</p>',
-            'recovery_time_objective'        => null,
-            'maximum_tolerable_downtime'     => null,
-            'recovery_point_objective'       => null,
-            'maximum_tolerable_data_loss'    => null,
-            'drp'                            => null,
-            'drp_link'                       => null,
-            'created_at'                     => '2023-04-12 07:39:25',
-            'updated_at'                     => '2024-10-14 08:00:35',
-            'deleted_at'                     => null,
+            'id' => 10,
+            'name' => 'Complaint management',
+            'description' => '<p>Complaints management process</p>',
+            'recovery_time_objective' => null,
+            'maximum_tolerable_downtime' => null,
+            'recovery_point_objective' => null,
+            'maximum_tolerable_data_loss' => null,
+            'drp' => null,
+            'drp_link' => null,
+            'created_at' => '2023-04-12 07:39:25',
+            'updated_at' => '2024-10-14 08:00:35',
+            'deleted_at' => null,
         ],
     ]);
 }
@@ -223,7 +223,7 @@ it('updates an activity when permitted', function () {
         ->assertOk();
 
     $this->assertDatabaseHas('activities', [
-        'id'   => $activity->id,
+        'id' => $activity->id,
         'name' => 'Helpdesk – updated',
     ]);
 });
@@ -240,7 +240,7 @@ it('forbids updating an activity without permission', function () {
         ->assertForbidden();
 
     $this->assertDatabaseHas('activities', [
-        'id'   => $activity->id,
+        'id' => $activity->id,
         'name' => 'Helpdesk',
     ]);
 });
@@ -270,8 +270,8 @@ it('forbids deleting an activity without permission', function () {
         ->assertForbidden();
 
     $this->assertDatabaseHas('activities', [
-        'id'        => $activity->id,
-        'deleted_at'=> null,
+        'id' => $activity->id,
+        'deleted_at' => null,
     ]);
 });
 
@@ -315,8 +315,8 @@ it('forbids mass destroy without permission', function () {
 
     foreach ($ids as $id) {
         $this->assertDatabaseHas('activities', [
-            'id'        => $id,
-            'deleted_at'=> null,
+            'id' => $id,
+            'deleted_at' => null,
         ]);
     }
 });
@@ -334,7 +334,7 @@ it('filters activities by name contains', function () {
     $response = $this->getJson('/api/activities?name__contains=monitoring')
         ->assertOk();
 
-    $data  = activitiesFromResponse($response);
+    $data = activitiesFromResponse($response);
     $names = collect($data)->pluck('name');
 
     expect($names)->toContain('Application monitoring');
@@ -349,7 +349,7 @@ it('filters activities by exact name', function () {
     $response = $this->getJson('/api/activities?filter[name]=Complaint%20management')
         ->assertOk();
 
-    $data  = activitiesFromResponse($response);
+    $data = activitiesFromResponse($response);
     $names = collect($data)->pluck('name');
 
     expect($names)->toHaveCount(1);
@@ -379,7 +379,7 @@ it('filters activities by partial name with the _like operator', function () {
     $response = $this->getJson('/api/activities?filter[name_like]=monitoring')
         ->assertOk();
 
-    $data  = activitiesFromResponse($response);
+    $data = activitiesFromResponse($response);
     $names = collect($data)->pluck('name');
 
     expect($names)->toContain('Application monitoring');
@@ -392,7 +392,7 @@ it('escapes LIKE meta-characters in the _like operator', function () {
 
     ensureDemoActivities();
 
-    $response = $this->getJson('/api/activities?' . http_build_query([
+    $response = $this->getJson('/api/activities?'.http_build_query([
         'filter' => ['name_like' => '%'],
     ]))->assertOk();
 
@@ -407,17 +407,16 @@ it('filters activities by numeric gte on recovery_time_objective', function () {
 
     ensureDemoActivities();
 
-    $helpdesk    = Activity::query()->where('name', 'Helpdesk')->firstOrFail();
+    $helpdesk = Activity::query()->where('name', 'Helpdesk')->firstOrFail();
     $development = Activity::query()->where('name', 'Development')->firstOrFail();
 
     $helpdesk->update(['recovery_time_objective' => 4]);
     $development->update(['recovery_time_objective' => 24]);
 
-
     $response = $this->getJson('/api/activities?filter[recovery_time_objective_gte]=8')
         ->assertOk();
 
-    $data  = activitiesFromResponse($response);
+    $data = activitiesFromResponse($response);
     $names = collect($data)->pluck('name');
 
     expect($names)->toContain('Development');
@@ -450,7 +449,7 @@ it('mass stores activities when permitted', function () {
         'items' => [
             validActivityPayload(),
             [
-                'name'        => 'Another Activity',
+                'name' => 'Another Activity',
                 'description' => 'Another Description',
             ],
         ],
@@ -460,7 +459,7 @@ it('mass stores activities when permitted', function () {
         ->assertCreated()
         ->assertJson([
             'status' => 'ok',
-            'count'  => 2,
+            'count' => 2,
         ]);
 
     $ids = $response->json('ids');
@@ -493,7 +492,7 @@ it('mass updates activities when permitted', function () {
 
     ensureDemoActivities();
 
-    $helpdesk    = Activity::query()->where('name', 'Helpdesk')->firstOrFail();
+    $helpdesk = Activity::query()->where('name', 'Helpdesk')->firstOrFail();
     $development = Activity::query()->where('name', 'Development')->firstOrFail();
 
     $payload = [
@@ -508,11 +507,11 @@ it('mass updates activities when permitted', function () {
         ->assertJson(['status' => 'ok']);
 
     $this->assertDatabaseHas('activities', [
-        'id'   => $helpdesk->id,
+        'id' => $helpdesk->id,
         'name' => 'Helpdesk – updated',
     ]);
     $this->assertDatabaseHas('activities', [
-        'id'   => $development->id,
+        'id' => $development->id,
         'name' => 'Development – updated',
     ]);
 });
@@ -523,7 +522,7 @@ it('forbids mass update without permission', function () {
 
     ensureDemoActivities();
 
-    $helpdesk    = Activity::query()->where('name', 'Helpdesk')->firstOrFail();
+    $helpdesk = Activity::query()->where('name', 'Helpdesk')->firstOrFail();
     $development = Activity::query()->where('name', 'Development')->firstOrFail();
 
     $payload = [
@@ -537,12 +536,11 @@ it('forbids mass update without permission', function () {
         ->assertForbidden();
 
     $this->assertDatabaseHas('activities', [
-        'id'   => $helpdesk->id,
+        'id' => $helpdesk->id,
         'name' => 'Helpdesk',
     ]);
     $this->assertDatabaseHas('activities', [
-        'id'   => $development->id,
+        'id' => $development->id,
         'name' => 'Development',
     ]);
 });
-

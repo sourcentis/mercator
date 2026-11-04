@@ -22,7 +22,7 @@ beforeEach(function () {
     ]);
 
     // Create user
-    $this->user = User::query()->where('login','admin@admin.com')->first();
+    $this->user = User::query()->where('login', 'admin@admin.com')->first();
 
     // Add missing roles (deprecatd)
     DB::table('permission_role')->insert([

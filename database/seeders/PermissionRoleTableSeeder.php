@@ -17,7 +17,7 @@ class PermissionRoleTableSeeder extends Seeder
             $adminRoleId = DB::table('roles')
                 ->where('title', 'Admin')
                 ->value('id');
-            
+
             DB::table('permission_role')->insert([
                 ['role_id' => $adminRoleId, 'permission_id' => 7],
                 ['role_id' => $adminRoleId, 'permission_id' => 8],
@@ -338,7 +338,7 @@ class PermissionRoleTableSeeder extends Seeder
                 ['role_id' => $adminRoleId, 'permission_id' => 333],
                 ['role_id' => $adminRoleId, 'permission_id' => 334],
                 ['role_id' => $adminRoleId, 'permission_id' => 335],
-                ]
+            ]
             );
 
             $userRoleId = DB::table('roles')
@@ -640,8 +640,8 @@ class PermissionRoleTableSeeder extends Seeder
                 ['role_id' => $userRoleId, 'permission_id' => 323],
                 ['role_id' => $userRoleId, 'permission_id' => 324],
             ]
-        );
-            
+            );
+
             $auditorRoleId = DB::table('roles')
                 ->where('title', 'Auditor')
                 ->value('id');
@@ -771,7 +771,7 @@ class PermissionRoleTableSeeder extends Seeder
                 ['role_id' => $auditorRoleId, 'permission_id' => 319],
                 // Queries
                 ['role_id' => $auditorRoleId, 'permission_id' => 322],
-                ['role_id' => $auditorRoleId, 'permission_id' => 324]
+                ['role_id' => $auditorRoleId, 'permission_id' => 324],
             ]);
 
             $cartographerId = DB::table('roles')

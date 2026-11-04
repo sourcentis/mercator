@@ -74,7 +74,7 @@ class CartographerController extends APIController
     public function massStore(MassStoreCartographerRequest $request): JsonResponse
     {
         // L'authorize() du FormRequest gère déjà la permission `cartographer_create`
-        $ids  = [];
+        $ids = [];
 
         foreach ($request->input('items', []) as $item) {
             $cartographer = Cartographer::firstOrCreate(
@@ -89,8 +89,8 @@ class CartographerController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($ids),
-            'ids'    => $ids,
+            'count' => count($ids),
+            'ids' => $ids,
         ], Response::HTTP_CREATED);
     }
 

@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\ApplicationFlow;
 use Gate;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\ApplicationFlow;
 
 class MassUpdateApplicationFlowRequest extends BaseMassFormRequest
 {
@@ -18,14 +18,14 @@ class MassUpdateApplicationFlowRequest extends BaseMassFormRequest
     public function rules()
     {
         // Règles du UpdateApplicationFlowRequest classique
-        $updateRules = (new UpdateApplicationFlowRequest())->rules();
+        $updateRules = (new UpdateApplicationFlowRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new ApplicationFlow();
+        $model = new ApplicationFlow;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdateApplicationFlowRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -39,4 +39,3 @@ class MassUpdateApplicationFlowRequest extends BaseMassFormRequest
         return $rules;
     }
 }
-

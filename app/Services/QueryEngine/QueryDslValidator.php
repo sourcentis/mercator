@@ -35,7 +35,8 @@ final class QueryDslValidator
      */
     public static function validate(array $data): array
     {
-        $instance = new static();
+        $instance = new self;
+
         return $instance->doValidate($data);
     }
 
@@ -43,26 +44,26 @@ final class QueryDslValidator
     {
         // ── Validation des champs de premier niveau ───────────────
         $validator = Validator::make($data, [
-            'from'       => ['required', 'string', 'regex:/^[a-zA-Z][a-zA-Z0-9_-]*$/'],
-            'select'     => ['nullable', 'array'],
-            'select.*'   => ['string',   'regex:/^[a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*$/'],
-            'fields'     => ['nullable', 'array'],
-            'fields.*'   => ['string',   'regex:/^[a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*$/'],
-            'group_by'   => ['nullable', 'array'],
+            'from' => ['required', 'string', 'regex:/^[a-zA-Z][a-zA-Z0-9_-]*$/'],
+            'select' => ['nullable', 'array'],
+            'select.*' => ['string',   'regex:/^[a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*$/'],
+            'fields' => ['nullable', 'array'],
+            'fields.*' => ['string',   'regex:/^[a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*$/'],
+            'group_by' => ['nullable', 'array'],
             'group_by.*' => ['string',   'regex:/^[a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*$/'],
-            'filters'    => ['nullable', 'array'],
-            'traverse'   => ['nullable', 'array'],
+            'filters' => ['nullable', 'array'],
+            'traverse' => ['nullable', 'array'],
             // traverse.* validé manuellement (format mixte : string ou {segments:[...]})
-            'depth'      => ['prohibited'],
-            'output'     => ['nullable', 'string',  'in:graph,list'],
-            'limit'      => ['nullable', 'integer', 'min:1', 'max:1000'],
+            'depth' => ['prohibited'],
+            'output' => ['nullable', 'string',  'in:graph,list'],
+            'limit' => ['nullable', 'integer', 'min:1', 'max:1000'],
         ], [
             'from.required' => 'Le champ "from" est obligatoire.',
-            'from.regex'    => 'Le modèle "from" ne doit contenir que des lettres, chiffres et underscores.',
-            'output.in'     => 'Le champ "output" doit être "graph" ou "list".',
-            'depth.min'     => 'La profondeur doit être entre 1 et 5.',
-            'depth.max'     => 'La profondeur doit être entre 1 et 5.',
-            'limit.max'     => 'La limite ne peut pas dépasser 1000.',
+            'from.regex' => 'Le modèle "from" ne doit contenir que des lettres, chiffres et underscores.',
+            'output.in' => 'Le champ "output" doit être "graph" ou "list".',
+            'depth.min' => 'La profondeur doit être entre 1 et 5.',
+            'depth.max' => 'La profondeur doit être entre 1 et 5.',
+            'limit.max' => 'La limite ne peut pas dépasser 1000.',
         ]);
 
         if ($validator->fails()) {
@@ -110,6 +111,7 @@ final class QueryDslValidator
         $fields = $data['fields'] ?? [];
         if (empty($fields)) {
             $this->errors['group_by'][] = 'GROUP BY requiert une clause FIELDS.';
+
             return;
         }
 
@@ -134,11 +136,13 @@ final class QueryDslValidator
                 if (! preg_match('/^[a-zA-Z][a-zA-Z0-9_]*(\.[a-zA-Z][a-zA-Z0-9_]*)*$/', $item)) {
                     $this->errors[$path][] = 'Le chemin de traversée doit être un identifiant valide (ex: subnetworks.vlan).';
                 }
+
                 continue;
             }
 
             if (! is_array($item)) {
                 $this->errors[$path][] = 'Chaque élément de traverse doit être une chaîne ou un objet structuré.';
+
                 continue;
             }
 
@@ -151,6 +155,7 @@ final class QueryDslValidator
     {
         if (! array_key_exists('segments', $item) || ! is_array($item['segments']) || empty($item['segments'])) {
             $this->errors["{$path}.segments"][] = 'Un objet traverse doit contenir une clé "segments" tableau non vide.';
+
             return;
         }
 
@@ -179,6 +184,7 @@ final class QueryDslValidator
     {
         if (! is_array($segment)) {
             $this->errors[$path][] = 'Chaque segment doit être un objet {name, hidden}.';
+
             return;
         }
 
@@ -205,19 +211,22 @@ final class QueryDslValidator
     protected function validateFilter(mixed $filter, string $path): void
     {
         if (! is_array($filter)) {
-            $this->errors["{$path}"] = ["Le filtre doit être un objet."];
+            $this->errors["{$path}"] = ['Le filtre doit être un objet.'];
+
             return;
         }
 
         // EXISTS / NOT EXISTS
         if (array_key_exists('exists', $filter) || array_key_exists('not_exists', $filter)) {
             $this->validateExistsFilter($filter, $path);
+
             return;
         }
 
         // Groupe
         if (array_key_exists('group', $filter)) {
             $this->validateGroup($filter, $path);
+
             return;
         }
 
@@ -227,12 +236,12 @@ final class QueryDslValidator
 
     protected function validateExistsFilter(array $filter, string $path): void
     {
-        $key      = array_key_exists('exists', $filter) ? 'exists' : 'not_exists';
+        $key = array_key_exists('exists', $filter) ? 'exists' : 'not_exists';
         $relation = $filter[$key] ?? null;
 
         if (empty($relation) || ! preg_match('/^[a-zA-Z][a-zA-Z0-9_]*$/', $relation)) {
             $this->errors["{$path}.{$key}"] = [
-                'Le nom de la relation doit être un identifiant valide.'
+                'Le nom de la relation doit être un identifiant valide.',
             ];
         }
 
@@ -256,13 +265,14 @@ final class QueryDslValidator
         if (isset($filter['boolean'])) {
             if (! in_array(strtolower($filter['boolean']), self::ALLOWED_BOOLEANS, true)) {
                 $this->errors["{$path}.boolean"] = [
-                    'Le boolean doit être "and", "or" ou "not". Obtenu : "' . $filter['boolean'] . '"'
+                    'Le boolean doit être "and", "or" ou "not". Obtenu : "'.$filter['boolean'].'"',
                 ];
             }
         }
 
         if (empty($filter['group']) || ! is_array($filter['group'])) {
             $this->errors["{$path}.group"] = ['Le groupe doit contenir au moins un filtre.'];
+
             return;
         }
 
@@ -277,7 +287,7 @@ final class QueryDslValidator
             $this->errors["{$path}.field"] = ['Le champ "field" est obligatoire.'];
         } elseif (! preg_match('/^[a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*$/', $filter['field'])) {
             $this->errors["{$path}.field"] = [
-                'Le champ "' . $filter['field'] . '" contient des caractères invalides.'
+                'Le champ "'.$filter['field'].'" contient des caractères invalides.',
             ];
         }
 
@@ -286,8 +296,8 @@ final class QueryDslValidator
             $this->errors["{$path}.operator"] = ['L\'opérateur est obligatoire.'];
         } elseif (! in_array(strtolower($filter['operator']), self::ALLOWED_OPERATORS, true)) {
             $this->errors["{$path}.operator"] = [
-                'Opérateur interdit : "' . $filter['operator'] . '". '
-                . 'Autorisés : ' . implode(', ', self::ALLOWED_OPERATORS)
+                'Opérateur interdit : "'.$filter['operator'].'". '
+                .'Autorisés : '.implode(', ', self::ALLOWED_OPERATORS),
             ];
         }
 
@@ -302,23 +312,24 @@ final class QueryDslValidator
         if (isset($filter['boolean'])
             && ! in_array(strtolower($filter['boolean']), self::ALLOWED_BOOLEANS, true)) {
             $this->errors["{$path}.boolean"] = [
-                'Le boolean doit être "and", "or" ou "not".'
+                'Le boolean doit être "and", "or" ou "not".',
             ];
         }
     }
 
     protected function validateValue(array $filter, string $path): void
     {
-        $op    = strtolower($filter['operator'] ?? '');
+        $op = strtolower($filter['operator'] ?? '');
         $value = $filter['value'];
 
         // IS NULL / IS NOT NULL → value doit être null
         if ($value === null) {
             if (! in_array($op, ['=', '!='], true)) {
                 $this->errors["{$path}.value"] = [
-                    'Une valeur null n\'est valide qu\'avec les opérateurs "=" et "!=".'
+                    'Une valeur null n\'est valide qu\'avec les opérateurs "=" et "!=".',
                 ];
             }
+
             return;
         }
 
@@ -326,24 +337,26 @@ final class QueryDslValidator
         if (in_array($op, ['in', 'not in'], true)) {
             if (! is_array($value) || empty($value)) {
                 $this->errors["{$path}.value"] = [
-                    'L\'opérateur "' . $op . '" requiert un tableau de valeurs non vide.'
+                    'L\'opérateur "'.$op.'" requiert un tableau de valeurs non vide.',
                 ];
             }
+
             return;
         }
 
         // Opérateurs scalaires → pas de tableau
         if (is_array($value)) {
             $this->errors["{$path}.value"] = [
-                'L\'opérateur "' . $op . '" ne supporte pas un tableau de valeurs.'
+                'L\'opérateur "'.$op.'" ne supporte pas un tableau de valeurs.',
             ];
+
             return;
         }
 
         // LIKE → doit être une chaîne
         if (in_array($op, ['like', 'not like'], true) && ! is_string($value)) {
             $this->errors["{$path}.value"] = [
-                'L\'opérateur "' . $op . '" requiert une chaîne de caractères.'
+                'L\'opérateur "'.$op.'" requiert une chaîne de caractères.',
             ];
         }
     }

@@ -8,13 +8,13 @@ return new class extends Migration
 {
     public function up(): void
     {
-        if (!Schema::hasColumn('external_connected_entities', 'security')) {
+        if (! Schema::hasColumn('external_connected_entities', 'security')) {
             Schema::table('external_connected_entities', function (Blueprint $table) {
                 $table->text('security')->nullable()->after('description');
             });
         }
 
-        if (!Schema::hasTable('document_external_connected_entity'))
+        if (! Schema::hasTable('document_external_connected_entity')) {
             Schema::create('document_external_connected_entity', function (Blueprint $table) {
                 $table->unsignedInteger('external_connected_entity_id');
                 $table->unsignedInteger('document_id');
@@ -34,8 +34,9 @@ return new class extends Migration
                     ->on('documents')
                     ->onDelete('cascade');
             });
+        }
 
-        if (!Schema::hasTable('external_connected_entity_subnetwork'))
+        if (! Schema::hasTable('external_connected_entity_subnetwork')) {
             Schema::create('external_connected_entity_subnetwork', function (Blueprint $table) {
                 $table->unsignedInteger('external_connected_entity_id');
                 $table->unsignedInteger('subnetwork_id');
@@ -53,6 +54,7 @@ return new class extends Migration
                     ->on('subnetworks')
                     ->onDelete('cascade');
             });
+        }
     }
 
     public function down(): void

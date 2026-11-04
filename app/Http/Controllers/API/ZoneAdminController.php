@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreZoneAdminRequest;
 use App\Http\Requests\MassUpdateZoneAdminRequest;
 use App\Http\Requests\StoreZoneAdminRequest;
 use App\Http\Requests\UpdateZoneAdminRequest;
+use App\Models\ZoneAdmin;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\ZoneAdmin;
 use Symfony\Component\HttpFoundation\Response;
 
 class ZoneAdminController extends APIController
@@ -72,7 +72,7 @@ class ZoneAdminController extends APIController
         // L’authorize() du FormRequest protège déjà l’accès
 
         $createdIds = [];
-        $fillable   = (new ZoneAdmin())->getFillable();
+        $fillable = (new ZoneAdmin)->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             $attributes = collect($item)
@@ -80,21 +80,21 @@ class ZoneAdminController extends APIController
                 ->toArray();
 
             /** @var ZoneAdmin $zoneAdmin */
-            $zoneAdmin   = ZoneAdmin::create($attributes);
+            $zoneAdmin = ZoneAdmin::create($attributes);
             $createdIds[] = $zoneAdmin->id;
         }
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateZoneAdminRequest $request)
     {
         // L’authorize() du FormRequest protège déjà l’accès
-        $fillable = (new ZoneAdmin())->getFillable();
+        $fillable = (new ZoneAdmin)->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
             $id = $rawItem['id'];

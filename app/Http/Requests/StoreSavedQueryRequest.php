@@ -16,12 +16,12 @@ class StoreSavedQueryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'        => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:1000',
-            'is_public'   => 'boolean',
+            'is_public' => 'boolean',
             // 'present' accepte un array même vide, contrairement à 'required'
             // La présence de 'from' est vérifiée dans withValidator via QueryDslValidator
-            'query'       => 'present|array',
+            'query' => 'present|array',
         ];
     }
 
@@ -31,6 +31,7 @@ class StoreSavedQueryRequest extends FormRequest
             $query = $this->input('query');
             if (! is_array($query) || empty($query)) {
                 $validator->errors()->add('query', 'Le DSL de la requête est invalide ou vide.');
+
                 return;
             }
             try {
@@ -47,7 +48,7 @@ class StoreSavedQueryRequest extends FormRequest
     {
         $this->merge([
             'is_public' => $this->boolean('is_public'),
-            'user_id'   => auth()->id(),
+            'user_id' => auth()->id(),
         ]);
 
         // Priorité 1 : query envoyé directement comme tableau (objet JSON natif)
@@ -56,7 +57,7 @@ class StoreSavedQueryRequest extends FormRequest
         }
 
         // Priorité 2 : query_json (string JSON sérialisée) — rétrocompatibilité
-        $raw     = $this->input('query_json', '');
+        $raw = $this->input('query_json', '');
         $decoded = json_decode($raw, true);
 
         $this->merge([

@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreDomainRequest;
 use App\Http\Requests\MassUpdateDomainRequest;
 use App\Http\Requests\StoreDomainRequest;
 use App\Http\Requests\UpdateDomainRequest;
+use App\Models\Domain;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Domain;
 use Symfony\Component\HttpFoundation\Response;
 
 class DomainController extends APIController
@@ -81,7 +81,7 @@ class DomainController extends APIController
         // L’authorize() du FormRequest gère déjà domain_create
         $createdIds = [];
 
-        $model    = new Domain();
+        $model = new Domain;
         $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $item) {
@@ -105,19 +105,19 @@ class DomainController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateDomainRequest $request)
     {
         // L’authorize() du FormRequest gère déjà domain_edit
-        $model    = new Domain();
+        $model = new Domain;
         $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
-            $id        = $rawItem['id'];
+            $id = $rawItem['id'];
             $forestAds = $rawItem['forestAds'] ?? null;
 
             /** @var Domain $domain */

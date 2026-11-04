@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Wan;
 use Gate;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\Wan;
 
 class MassUpdateWanRequest extends BaseMassFormRequest
 {
@@ -18,14 +18,14 @@ class MassUpdateWanRequest extends BaseMassFormRequest
     public function rules()
     {
         // Règles du UpdateWanRequest classique
-        $updateRules = (new UpdateWanRequest())->rules();
+        $updateRules = (new UpdateWanRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new Wan();
+        $model = new Wan;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdateWanRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -39,4 +39,3 @@ class MassUpdateWanRequest extends BaseMassFormRequest
         return $rules;
     }
 }
-

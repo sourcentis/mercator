@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreNetworkRequest;
 use App\Http\Requests\MassUpdateNetworkRequest;
 use App\Http\Requests\StoreNetworkRequest;
 use App\Http\Requests\UpdateNetworkRequest;
+use App\Models\Network;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Network;
 use Symfony\Component\HttpFoundation\Response;
 
 class NetworkController extends APIController
@@ -30,7 +30,7 @@ class NetworkController extends APIController
 
         /** @var Network $network */
         $network = Network::query()->create($request->all());
-        
+
         return response()->json($network, 201);
     }
 
@@ -75,8 +75,8 @@ class NetworkController extends APIController
         // L’authorize() du FormRequest gère déjà le Gate::denies('network_create')
 
         $createdIds = [];
-        $model      = new Network();
-        $fillable   = $model->getFillable();
+        $model = new Network;
+        $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             // Colonnes du modèle uniquement
@@ -92,15 +92,15 @@ class NetworkController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateNetworkRequest $request)
     {
         // L’authorize() du FormRequest gère déjà le Gate::denies('network_edit')
-        $model   = new Network();
+        $model = new Network;
         $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {

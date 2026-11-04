@@ -7,10 +7,10 @@ use App\Http\Requests\MassStorePhysicalSwitchRequest;
 use App\Http\Requests\MassUpdatePhysicalSwitchRequest;
 use App\Http\Requests\StorePhysicalSwitchRequest;
 use App\Http\Requests\UpdatePhysicalSwitchRequest;
+use App\Models\PhysicalSwitch;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\PhysicalSwitch;
 use Symfony\Component\HttpFoundation\Response;
 
 class PhysicalSwitchController extends APIController
@@ -50,8 +50,9 @@ class PhysicalSwitchController extends APIController
 
         $physicalSwitch->update($request->all());
 
-        if ($request->has('network_switches'))
+        if ($request->has('network_switches')) {
             $physicalSwitch->networkSwitches()->sync($request->input('network_switches', []));
+        }
 
         return response()->json();
     }
@@ -78,9 +79,9 @@ class PhysicalSwitchController extends APIController
     {
         // L’authorize() du FormRequest gère déjà la permission `physical_switch_create`
 
-        $createdIds            = [];
-        $physicalSwitchModel   = new PhysicalSwitch();
-        $fillable              = $physicalSwitchModel->getFillable();
+        $createdIds = [];
+        $physicalSwitchModel = new PhysicalSwitch;
+        $fillable = $physicalSwitchModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             $attributes = collect($item)
@@ -95,16 +96,16 @@ class PhysicalSwitchController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdatePhysicalSwitchRequest $request)
     {
         // L’authorize() du FormRequest gère déjà la permission `physical_switch_edit`
-        $physicalSwitchModel = new PhysicalSwitch();
-        $fillable            = $physicalSwitchModel->getFillable();
+        $physicalSwitchModel = new PhysicalSwitch;
+        $fillable = $physicalSwitchModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
             $id = $rawItem['id'];

@@ -17,10 +17,10 @@ class MassStoreVlanRequest extends BaseMassFormRequest
     public function rules()
     {
         // On récupère les règles du StoreVlanRequest classique
-        $storeRules = (new StoreVlanRequest())->rules();
+        $storeRules = (new StoreVlanRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -29,10 +29,9 @@ class MassStoreVlanRequest extends BaseMassFormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.subnetworks']   = ['sometimes', 'array'];
+        $rules['items.*.subnetworks'] = ['sometimes', 'array'];
         $rules['items.*.subnetworks.*'] = ['integer'];
 
         return $rules;
     }
 }
-

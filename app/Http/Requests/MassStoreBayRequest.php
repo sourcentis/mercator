@@ -17,10 +17,10 @@ class MassStoreBayRequest extends BaseMassFormRequest
     public function rules()
     {
         // On récupère les règles du StoreBayRequest classique
-        $storeRules = (new StoreBayRequest())->rules();
+        $storeRules = (new StoreBayRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -32,4 +32,3 @@ class MassStoreBayRequest extends BaseMassFormRequest
         return $rules;
     }
 }
-

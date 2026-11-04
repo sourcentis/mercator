@@ -21,7 +21,7 @@ return new class extends Migration
     public function up(): void
     {
         // 1) Table pivot
-        if (!Schema::hasTable("cluster_physical_server")) {
+        if (! Schema::hasTable('cluster_physical_server')) {
             Schema::create('cluster_physical_server', function (Blueprint $table) {
                 $table->unsignedInteger('cluster_id');
                 $table->unsignedInteger('physical_server_id');
@@ -59,8 +59,7 @@ return new class extends Migration
         if (Schema::hasColumn('physical_servers', 'cluster_id')) {
             if (DB::getDriverName() === 'pgsql') {
                 DB::statement('ALTER TABLE physical_servers DROP COLUMN IF EXISTS cluster_id CASCADE');
-            }
-            else {
+            } else {
 
                 Schema::disableForeignKeyConstraints();
 
@@ -69,13 +68,13 @@ return new class extends Migration
                     Schema::table('physical_servers', function (Blueprint $table) {
                         $table->dropForeign(['cluster_id']); // portable
                     });
-                } catch (\Throwable $e) {
+                } catch (Throwable $e) {
                 }
                 try {
                     Schema::table('physical_servers', function (Blueprint $table) {
                         $table->dropForeign('cluster_id_fk_5438543'); // ancien nom custom éventuel
                     });
-                } catch (\Throwable $e) {
+                } catch (Throwable $e) {
                 }
 
                 // 3.2 Drop index (IMPORTANT: par NOM d'index quand on le connaît)
@@ -83,7 +82,7 @@ return new class extends Migration
                     Schema::table('physical_servers', function (Blueprint $table) {
                         $table->dropIndex('cluster_id_fk_5438543'); // l'index qui casse chez toi
                     });
-                } catch (\Throwable $e) {
+                } catch (Throwable $e) {
                 }
 
                 // essayer aussi les conventions courantes
@@ -91,13 +90,13 @@ return new class extends Migration
                     Schema::table('physical_servers', function (Blueprint $table) {
                         $table->dropIndex(['cluster_id']); // ex: physical_servers_cluster_id_index
                     });
-                } catch (\Throwable $e) {
+                } catch (Throwable $e) {
                 }
                 try {
                     Schema::table('physical_servers', function (Blueprint $table) {
                         $table->dropIndex('physical_servers_cluster_id_index');
                     });
-                } catch (\Throwable $e) {
+                } catch (Throwable $e) {
                 }
 
                 // 3.3 SQLite: purge défensive de tout index contenant "cluster_id"

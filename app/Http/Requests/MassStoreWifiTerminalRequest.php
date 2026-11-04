@@ -17,10 +17,10 @@ class MassStoreWifiTerminalRequest extends BaseMassFormRequest
     public function rules()
     {
         // On récupère les règles du StoreWifiTerminalRequest classique
-        $storeRules = (new StoreWifiTerminalRequest())->rules();
+        $storeRules = (new StoreWifiTerminalRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -32,4 +32,3 @@ class MassStoreWifiTerminalRequest extends BaseMassFormRequest
         return $rules;
     }
 }
-

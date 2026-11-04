@@ -7,18 +7,18 @@ use App\Http\Requests\MassStoreActivityRequest;
 use App\Http\Requests\MassUpdateActivityRequest;
 use App\Http\Requests\StoreActivityRequest;
 use App\Http\Requests\UpdateActivityRequest;
+use App\Models\Activity;
 use Gate;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Activity;
 use Symfony\Component\HttpFoundation\Response;
 
 class ActivityController extends APIController
 {
     protected string $modelClass = Activity::class;
 
-    public function index(Request $request) : JsonResponse
+    public function index(Request $request): JsonResponse
     {
         abort_if(Gate::denies('activity_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -30,11 +30,11 @@ class ActivityController extends APIController
         abort_if(Gate::denies('activity_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $activity = Activity::query()->create($request->all());
-        
+
         return response()->json($activity, Response::HTTP_CREATED);
     }
 
-    public function show(Activity $activity) : JsonResource
+    public function show(Activity $activity): JsonResource
     {
         abort_if(Gate::denies('show-object', $activity), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -76,8 +76,8 @@ class ActivityController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 

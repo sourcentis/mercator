@@ -2,6 +2,8 @@
 
 namespace App\Traits;
 
+use App\Contracts\HasPrefix;
+
 trait HasUniqueIdentifier
 {
     public static function getPrefix(): string
@@ -11,13 +13,13 @@ trait HasUniqueIdentifier
 
     public function getUID(): string
     {
-        return self::$prefix . $this->id;
+        return self::$prefix.$this->id;
     }
 
     /**
      * Récupère l'UID d'une entité liée via un mapping field => relationName
      *
-     * @param array<string, string> $relations
+     * @param  array<string, string>  $relations
      */
     protected function getEntityUID(array $relations): ?string
     {
@@ -25,8 +27,8 @@ trait HasUniqueIdentifier
             if ($this->$field !== null) {
                 $related = $this->$relationName()->getRelated();
 
-                if ($related instanceof \App\Contracts\HasPrefix) {
-                    return $related::getPrefix() . $this->$field;
+                if ($related instanceof HasPrefix) {
+                    return $related::getPrefix().$this->$field;
                 }
 
                 throw new \LogicException(

@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreApplicationFlowRequest;
 use App\Http\Requests\MassUpdateApplicationFlowRequest;
 use App\Http\Requests\StoreApplicationFlowRequest;
 use App\Http\Requests\UpdateApplicationFlowRequest;
+use App\Models\ApplicationFlow;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\ApplicationFlow;
 use Symfony\Component\HttpFoundation\Response;
 
 class ApplicationFlowController extends APIController
@@ -71,8 +71,8 @@ class ApplicationFlowController extends APIController
     {
 
         $createdIds = [];
-        $model      = new ApplicationFlow();
-        $fillable   = $model->getFillable();
+        $model = new ApplicationFlow;
+        $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             // Filtrer uniquement les colonnes du modèle
@@ -86,14 +86,14 @@ class ApplicationFlowController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateApplicationFlowRequest $request)
     {
-        $model    = new ApplicationFlow();
+        $model = new ApplicationFlow;
         $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {

@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreWorkstationRequest;
 use App\Http\Requests\MassUpdateWorkstationRequest;
 use App\Http\Requests\StoreWorkstationRequest;
 use App\Http\Requests\UpdateWorkstationRequest;
+use App\Models\Workstation;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Workstation;
 use Symfony\Component\HttpFoundation\Response;
 
 class WorkstationController extends APIController
@@ -50,8 +50,9 @@ class WorkstationController extends APIController
 
         $workstation->update($request->all());
 
-        if($request->has('applications'))
+        if ($request->has('applications')) {
             $workstation->applications()->sync($request->input('applications', []));
+        }
 
         return response()->json();
     }
@@ -79,7 +80,7 @@ class WorkstationController extends APIController
         // L’authorize() du FormRequest protège déjà l’accès
 
         $createdIds = [];
-        $fillable   = (new Workstation())->getFillable();
+        $fillable = (new Workstation)->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             $attributes = collect($item)
@@ -93,15 +94,15 @@ class WorkstationController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateWorkstationRequest $request)
     {
         // L’authorize() du FormRequest protège déjà l’accès
-        $fillable = (new Workstation())->getFillable();
+        $fillable = (new Workstation)->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
             $id = $rawItem['id'];

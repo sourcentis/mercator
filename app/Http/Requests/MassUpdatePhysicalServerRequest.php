@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\PhysicalServer;
 use Gate;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\PhysicalServer;
 
 class MassUpdatePhysicalServerRequest extends BaseMassFormRequest
 {
@@ -18,14 +18,14 @@ class MassUpdatePhysicalServerRequest extends BaseMassFormRequest
     public function rules()
     {
         // Règles du UpdatePhysicalServerRequest classique
-        $updateRules = (new UpdatePhysicalServerRequest())->rules();
+        $updateRules = (new UpdatePhysicalServerRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new PhysicalServer();
+        $model = new PhysicalServer;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdatePhysicalServerRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -36,13 +36,12 @@ class MassUpdatePhysicalServerRequest extends BaseMassFormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.applications']   = ['sometimes', 'array'];
+        $rules['items.*.applications'] = ['sometimes', 'array'];
         $rules['items.*.applications.*'] = ['integer'];
 
-        $rules['items.*.logicalServers']   = ['sometimes', 'array'];
+        $rules['items.*.logicalServers'] = ['sometimes', 'array'];
         $rules['items.*.logicalServers.*'] = ['integer'];
 
         return $rules;
     }
 }
-

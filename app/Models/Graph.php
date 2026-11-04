@@ -14,7 +14,7 @@ use Illuminate\Support\Collection;
 
 class Graph extends Model implements HasPrefix
 {
-    use Auditable, HasUniqueIdentifier, HasFactory, SoftDeletes;
+    use Auditable, HasFactory, HasUniqueIdentifier, SoftDeletes;
 
     public $table = 'graphs';
 

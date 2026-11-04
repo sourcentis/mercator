@@ -7,7 +7,11 @@ use App\Models\ExternalConnectedEntity;
 use Carbon\Carbon;
 use Gate;
 use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\Helper\Html;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Csv;
 use PhpOffice\PhpSpreadsheet\Writer\Exception;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\Response;
 
 class ExternalAccess extends Controller
@@ -37,7 +41,7 @@ class ExternalAccess extends Controller
             trans('cruds.externalConnectedEntity.fields.dest'),
         ];
 
-        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet;
+        $spreadsheet = new Spreadsheet;
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->fromArray([$header], null, 'A1');
 
@@ -59,7 +63,7 @@ class ExternalAccess extends Controller
         $sheet->getColumnDimension('L')->setAutoSize(true);
 
         // converter
-        $html = new \PhpOffice\PhpSpreadsheet\Helper\Html;
+        $html = new Html;
 
         // Populate the Timesheet
         $row = 2;
@@ -80,11 +84,11 @@ class ExternalAccess extends Controller
             $row++;
         }
 
-        if ($request->get("format") == "csv") {
-            $writer = new \PhpOffice\PhpSpreadsheet\Writer\Csv($spreadsheet);
+        if ($request->get('format') == 'csv') {
+            $writer = new Csv($spreadsheet);
             $path = storage_path('app/externalAccess-'.Carbon::today()->format('Ymd').'.csv');
         } else {
-            $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+            $writer = new Xlsx($spreadsheet);
             $path = storage_path('app/externalAccess-'.Carbon::today()->format('Ymd').'.xlsx');
         }
 

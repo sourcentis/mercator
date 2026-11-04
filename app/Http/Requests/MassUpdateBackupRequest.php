@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Gate;
 use App\Models\Backup;
+use Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class MassUpdateBackupRequest extends BaseMassFormRequest
@@ -17,14 +17,14 @@ class MassUpdateBackupRequest extends BaseMassFormRequest
 
     public function rules()
     {
-        $updateRules = (new UpdateBackupRequest())->rules();
+        $updateRules = (new UpdateBackupRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new Backup();
+        $model = new Backup;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
         ];
@@ -37,4 +37,3 @@ class MassUpdateBackupRequest extends BaseMassFormRequest
         return $rules;
     }
 }
-

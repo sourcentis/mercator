@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreApplicationRequest;
 use App\Http\Requests\MassUpdateApplicationRequest;
 use App\Http\Requests\StoreApplicationRequest;
 use App\Http\Requests\UpdateApplicationRequest;
+use App\Models\Application;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Application;
 use Symfony\Component\HttpFoundation\Response;
 
 class ApplicationController extends APIController
@@ -45,10 +45,10 @@ class ApplicationController extends APIController
     {
         abort_if(Gate::denies('show-object', $application), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $application['entities']       = $application->entities()->pluck('id');
-        $application['processes']      = $application->processes()->pluck('id');
-        $application['services']       = $application->services()->pluck('id');
-        $application['databases']      = $application->databases()->pluck('id');
+        $application['entities'] = $application->entities()->pluck('id');
+        $application['processes'] = $application->processes()->pluck('id');
+        $application['services'] = $application->services()->pluck('id');
+        $application['databases'] = $application->databases()->pluck('id');
         $application['logical_servers'] = $application->logicalServers()->pluck('id');
         $application['activities'] = $application->activities()->pluck('id');
         $application['containers'] = $application->containers()->pluck('id');
@@ -110,15 +110,15 @@ class ApplicationController extends APIController
         // L’authorize() du FormRequest gère déjà le Gate::denies('application_create')
         $createdIds = [];
 
-        $model    = new Application();
+        $model = new Application;
         $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $item) {
-            $entities            = $item['entities'] ?? null;
-            $processes           = $item['processes'] ?? null;
-            $activities          = $item['activities'] ?? null;
-            $databases           = $item['databases'] ?? null;
-            $logicalServersIds   = $item['logical_servers'] ?? null;
+            $entities = $item['entities'] ?? null;
+            $processes = $item['processes'] ?? null;
+            $activities = $item['activities'] ?? null;
+            $databases = $item['databases'] ?? null;
+            $logicalServersIds = $item['logical_servers'] ?? null;
             $applicationServices = $item['application_services'] ?? null;
 
             // Ne garde que les colonnes du modèle, sans les relations
@@ -162,24 +162,24 @@ class ApplicationController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateApplicationRequest $request)
     {
         // L’authorize() du FormRequest gère déjà le Gate::denies('application_edit')
-        $model   = new Application();
+        $model = new Application;
         $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
-            $id                 = $rawItem['id'];
-            $entities           = $rawItem['entities'] ?? null;
-            $processes          = $rawItem['processes'] ?? null;
-            $activities         = $rawItem['activities'] ?? null;
-            $databases          = $rawItem['databases'] ?? null;
-            $logicalServersIds  = $rawItem['logical_servers'] ?? null;
+            $id = $rawItem['id'];
+            $entities = $rawItem['entities'] ?? null;
+            $processes = $rawItem['processes'] ?? null;
+            $activities = $rawItem['activities'] ?? null;
+            $databases = $rawItem['databases'] ?? null;
+            $logicalServersIds = $rawItem['logical_servers'] ?? null;
             $applicationServices = $rawItem['application_services'] ?? null;
 
             /** @var Application $application */

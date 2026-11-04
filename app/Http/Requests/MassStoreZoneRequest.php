@@ -16,10 +16,10 @@ class MassStoreZoneRequest extends BaseMassFormRequest
 
     public function rules(): array
     {
-        $storeRules = (new StoreZoneRequest())->rules();
+        $storeRules = (new StoreZoneRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 

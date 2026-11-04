@@ -61,9 +61,9 @@ it('forbids creating a zone without permission', function () {
 
 it('creates a zone with scalar fields', function () {
     $this->postJson('/api/zones', [
-        'name'        => 'Zone DMZ',
-        'type'        => 'DMZ',
-        'attributes'  => ['firewall=true', 'vlan=10'],
+        'name' => 'Zone DMZ',
+        'type' => 'DMZ',
+        'attributes' => ['firewall=true', 'vlan=10'],
         'description' => 'Zone démilitarisée.',
     ])
         ->assertCreated()
@@ -74,7 +74,7 @@ it('creates a zone with scalar fields', function () {
 
 it('creates a zone with attributes as a plain string', function () {
     $this->postJson('/api/zones', [
-        'name'       => 'Zone String Attr',
+        'name' => 'Zone String Attr',
         'attributes' => 'ovni',
     ])->assertCreated();
 
@@ -82,17 +82,17 @@ it('creates a zone with attributes as a plain string', function () {
 });
 
 it('creates a zone with relations', function () {
-    $parent   = Zone::factory()->create(['name' => 'Parent Zone']);
-    $child    = Zone::factory()->create(['name' => 'Child Zone']);
+    $parent = Zone::factory()->create(['name' => 'Parent Zone']);
+    $child = Zone::factory()->create(['name' => 'Child Zone']);
     $building = Building::factory()->create();
-    $admin    = AdminUser::factory()->create();
+    $admin = AdminUser::factory()->create();
 
     $response = $this->postJson('/api/zones', [
-        'name'        => 'Zone Secure',
+        'name' => 'Zone Secure',
         'parentZones' => [$parent->id],
-        'childZones'  => [$child->id],
-        'buildings'   => [$building->id],
-        'adminUsers'  => [$admin->id],
+        'childZones' => [$child->id],
+        'buildings' => [$building->id],
+        'adminUsers' => [$admin->id],
     ])->assertCreated();
 
     $zone = Zone::where('name', 'Zone Secure')->first();
@@ -139,10 +139,10 @@ it('shows a zone when permitted', function () {
 });
 
 it('show includes relations', function () {
-    $parent   = Zone::factory()->create(['name' => 'Parent Zone']);
-    $child    = Zone::factory()->create(['name' => 'Child Zone']);
+    $parent = Zone::factory()->create(['name' => 'Parent Zone']);
+    $child = Zone::factory()->create(['name' => 'Child Zone']);
     $building = Building::factory()->create();
-    $admin    = AdminUser::factory()->create();
+    $admin = AdminUser::factory()->create();
 
     $zone = Zone::factory()->create(['name' => 'Zone With Relations']);
     $zone->parentZones()->sync([$parent->id]);
@@ -183,13 +183,13 @@ it('updates scalar fields', function () {
 });
 
 it('updates relations', function () {
-    $zone     = Zone::factory()->create();
+    $zone = Zone::factory()->create();
     $building = Building::factory()->create();
-    $admin    = AdminUser::factory()->create();
+    $admin = AdminUser::factory()->create();
 
     $this->putJson("/api/zones/{$zone->id}", [
-        'name'       => $zone->name,
-        'buildings'  => [$building->id],
+        'name' => $zone->name,
+        'buildings' => [$building->id],
         'adminUsers' => [$admin->id],
     ])->assertOk();
 
@@ -234,7 +234,7 @@ it('forbids mass destroy without permission', function () {
 
 it('mass destroys zones when permitted', function () {
     $zones = Zone::factory()->count(3)->create();
-    $ids   = $zones->pluck('id')->toArray();
+    $ids = $zones->pluck('id')->toArray();
 
     $this->deleteJson('/api/zones/mass-destroy', ['ids' => $ids])->assertNoContent();
 
@@ -275,12 +275,12 @@ it('mass stores zones when permitted', function () {
 
 it('mass stores zones with relations', function () {
     $building = Building::factory()->create();
-    $admin    = AdminUser::factory()->create();
+    $admin = AdminUser::factory()->create();
 
     $response = $this->postJson('/api/zones/mass-store', [
         'items' => [[
-            'name'       => 'Zone With Relations',
-            'buildings'  => [$building->id],
+            'name' => 'Zone With Relations',
+            'buildings' => [$building->id],
             'adminUsers' => [$admin->id],
         ]],
     ])->assertCreated();
@@ -323,13 +323,13 @@ it('mass updates zones when permitted', function () {
 });
 
 it('mass updates zones relations', function () {
-    $zone     = Zone::factory()->create();
+    $zone = Zone::factory()->create();
     $building = Building::factory()->create();
 
     $this->putJson('/api/zones/mass-update', [
         'items' => [[
-            'id'        => $zone->id,
-            'name'      => $zone->name,
+            'id' => $zone->id,
+            'name' => $zone->name,
             'buildings' => [$building->id],
         ]],
     ])->assertOk();

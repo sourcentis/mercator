@@ -15,8 +15,8 @@ readonly class GraphResult
     public function toArray(): array
     {
         return [
-            'nodes'     => $this->nodes->values()->toArray(),
-            'edges'     => $this->edges->values()->toArray(),
+            'nodes' => $this->nodes->values()->toArray(),
+            'edges' => $this->edges->values()->toArray(),
             'truncated' => $this->truncated,
         ];
     }

@@ -1,11 +1,11 @@
 <?php
+
 // ============================================================
 // MassStoreDocumentRequest.php
 // App\Http\Requests\MassStoreDocumentRequest
 // ============================================================
 
 namespace App\Http\Requests;
-
 
 class MassStoreDocumentRequest extends BaseMassFormRequest
 {
@@ -20,11 +20,10 @@ class MassStoreDocumentRequest extends BaseMassFormRequest
         $maxBase64 = config('mercator.max_upload_size', 51200) * 1.4;
 
         return [
-            'items'            => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*.filename' => ['required', 'string', 'max:255'],
             'items.*.mimetype' => ['required', 'string', 'max:127'],
-            'items.*.content'  => ['required', 'string', 'max:' . (int) $maxBase64],
+            'items.*.content' => ['required', 'string', 'max:'.(int) $maxBase64],
         ];
     }
 }
- 

@@ -21,7 +21,7 @@ beforeEach(function () {
         RoleUserTableSeeder::class,
     ]);
 
-    $this->user = User::query()->where('login','admin@admin.com')->first();
+    $this->user = User::query()->where('login', 'admin@admin.com')->first();
     $this->actingAs($this->user);
 });
 
@@ -65,8 +65,8 @@ describe('ApplicationEventController', function () {
 
         $this->assertDatabaseHas('application_events', [
             'application_id' => $app->id,
-            'user_id'          => $this->user->id, 
-            'message'          => 'New event message',
+            'user_id' => $this->user->id,
+            'message' => 'New event message',
         ]);
     });
 

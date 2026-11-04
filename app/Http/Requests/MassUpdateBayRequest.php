@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Bay;
 use Gate;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\Bay;
 
 class MassUpdateBayRequest extends BaseMassFormRequest
 {
@@ -18,14 +18,14 @@ class MassUpdateBayRequest extends BaseMassFormRequest
     public function rules()
     {
         // Règles du UpdateBayRequest classique
-        $updateRules = (new UpdateBayRequest())->rules();
+        $updateRules = (new UpdateBayRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new Bay();
+        $model = new Bay;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdateBayRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -39,4 +39,3 @@ class MassUpdateBayRequest extends BaseMassFormRequest
         return $rules;
     }
 }
-

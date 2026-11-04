@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreWanRequest;
 use App\Http\Requests\MassUpdateWanRequest;
 use App\Http\Requests\StoreWanRequest;
 use App\Http\Requests\UpdateWanRequest;
+use App\Models\Wan;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Wan;
 use Symfony\Component\HttpFoundation\Response;
 
 class WanController extends APIController
@@ -85,7 +85,7 @@ class WanController extends APIController
         // L’authorize() du FormRequest protège déjà l’accès
 
         $createdIds = [];
-        $fillable   = (new Wan())->getFillable();
+        $fillable = (new Wan)->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             $attributes = collect($item)
@@ -99,15 +99,15 @@ class WanController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateWanRequest $request)
     {
         // L’authorize() du FormRequest protège déjà l’accès
-        $fillable = (new Wan())->getFillable();
+        $fillable = (new Wan)->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
             $id = $rawItem['id'];
@@ -120,7 +120,7 @@ class WanController extends APIController
                 ->only($fillable)
                 ->toArray();
 
-            if (!empty($attributes)) {
+            if (! empty($attributes)) {
                 $wan->update($attributes);
             }
         }

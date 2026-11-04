@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Information;
 use Gate;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\Information;
 
 class MassUpdateInformationRequest extends BaseMassFormRequest
 {
@@ -18,14 +18,14 @@ class MassUpdateInformationRequest extends BaseMassFormRequest
     public function rules()
     {
         // Règles du UpdateInformationRequest classique
-        $updateRules = (new UpdateInformationRequest())->rules();
+        $updateRules = (new UpdateInformationRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new Information();
+        $model = new Information;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdateInformationRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -36,10 +36,9 @@ class MassUpdateInformationRequest extends BaseMassFormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.processes']   = ['sometimes', 'array'];
+        $rules['items.*.processes'] = ['sometimes', 'array'];
         $rules['items.*.processes.*'] = ['integer'];
 
         return $rules;
     }
 }
-

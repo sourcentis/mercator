@@ -17,10 +17,10 @@ class MassStoreNetworkRequest extends BaseMassFormRequest
     public function rules()
     {
         // On récupère les règles du StoreNetworkRequest classique
-        $storeRules = (new StoreNetworkRequest())->rules();
+        $storeRules = (new StoreNetworkRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -29,10 +29,9 @@ class MassStoreNetworkRequest extends BaseMassFormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.roles']   = ['sometimes', 'array'];
+        $rules['items.*.roles'] = ['sometimes', 'array'];
         $rules['items.*.roles.*'] = ['integer'];
 
         return $rules;
     }
 }
-

@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreSubnetworkRequest;
 use App\Http\Requests\MassUpdateSubnetworkRequest;
 use App\Http\Requests\StoreSubnetworkRequest;
 use App\Http\Requests\UpdateSubnetworkRequest;
+use App\Models\Subnetwork;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Subnetwork;
 use Symfony\Component\HttpFoundation\Response;
 
 class SubnetworkController extends APIController
@@ -72,9 +72,9 @@ class SubnetworkController extends APIController
     {
         // L’authorize() du FormRequest gère déjà la permission `subnetwork_create`
 
-        $createdIds      = [];
-        $subnetworkModel = new Subnetwork();
-        $fillable        = $subnetworkModel->getFillable();
+        $createdIds = [];
+        $subnetworkModel = new Subnetwork;
+        $fillable = $subnetworkModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             // Colonnes du modèle uniquement
@@ -90,16 +90,16 @@ class SubnetworkController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateSubnetworkRequest $request)
     {
         // L’authorize() du FormRequest gère déjà la permission `subnetwork_edit`
-        $subnetworkModel = new Subnetwork();
-        $fillable        = $subnetworkModel->getFillable();
+        $subnetworkModel = new Subnetwork;
+        $fillable = $subnetworkModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
             $id = $rawItem['id'];

@@ -51,10 +51,12 @@ class CertificateController extends APIController
 
         $certificate->update($request->all());
 
-        if ($request->has('logical_servers'))
+        if ($request->has('logical_servers')) {
             $certificate->logicalServers()->sync($request->input('logical_servers', []));
-        if ($request->has('applications'))
+        }
+        if ($request->has('applications')) {
             $certificate->applications()->sync($request->input('applications', []));
+        }
 
         return response()->json();
     }
@@ -81,13 +83,13 @@ class CertificateController extends APIController
     {
         // L’authorize() du FormRequest protège déjà l’accès
 
-        $createdIds      = [];
-        $certificateModel = new Certificate();
-        $fillable        = $certificateModel->getFillable();
+        $createdIds = [];
+        $certificateModel = new Certificate;
+        $fillable = $certificateModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             $logicalServers = $item['logical_servers'] ?? null;
-            $applications   = $item['applications'] ?? null;
+            $applications = $item['applications'] ?? null;
 
             // On garde uniquement les colonnes du modèle, sans les relations
             $attributes = collect($item)
@@ -112,21 +114,21 @@ class CertificateController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateCertificateRequest $request)
     {
         // L’authorize() du FormRequest protège déjà l’accès
-        $certificateModel = new Certificate();
-        $fillable        = $certificateModel->getFillable();
+        $certificateModel = new Certificate;
+        $fillable = $certificateModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
-            $id             = $rawItem['id'];
+            $id = $rawItem['id'];
             $logicalServers = $rawItem['logical_servers'] ?? null;
-            $applications   = $rawItem['applications'] ?? null;
+            $applications = $rawItem['applications'] ?? null;
 
             /** @var Certificate $certificate */
             $certificate = Certificate::query()->findOrFail($id);

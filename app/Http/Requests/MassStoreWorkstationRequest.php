@@ -17,10 +17,10 @@ class MassStoreWorkstationRequest extends BaseMassFormRequest
     public function rules()
     {
         // On récupère les règles du StoreWorkstationRequest classique
-        $storeRules = (new StoreWorkstationRequest())->rules();
+        $storeRules = (new StoreWorkstationRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -32,4 +32,3 @@ class MassStoreWorkstationRequest extends BaseMassFormRequest
         return $rules;
     }
 }
-

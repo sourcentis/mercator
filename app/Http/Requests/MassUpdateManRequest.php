@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Man;
 use Gate;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\Man;
 
 class MassUpdateManRequest extends BaseMassFormRequest
 {
@@ -18,14 +18,14 @@ class MassUpdateManRequest extends BaseMassFormRequest
     public function rules()
     {
         // Règles du UpdateManRequest classique
-        $updateRules = (new UpdateManRequest())->rules();
+        $updateRules = (new UpdateManRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new Man();
+        $model = new Man;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdateManRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -39,4 +39,3 @@ class MassUpdateManRequest extends BaseMassFormRequest
         return $rules;
     }
 }
-

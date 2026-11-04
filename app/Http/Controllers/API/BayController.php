@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreBayRequest;
 use App\Http\Requests\MassUpdateBayRequest;
 use App\Http\Requests\StoreBayRequest;
 use App\Http\Requests\UpdateBayRequest;
+use App\Models\Bay;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Bay;
 use Symfony\Component\HttpFoundation\Response;
 
 class BayController extends APIController
@@ -72,7 +72,7 @@ class BayController extends APIController
         // L’authorize() du FormRequest protège déjà l’accès
 
         $createdIds = [];
-        $fillable   = (new Bay())->getFillable();
+        $fillable = (new Bay)->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             $attributes = collect($item)
@@ -86,15 +86,15 @@ class BayController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateBayRequest $request)
     {
         // L’authorize() du FormRequest protège déjà l’accès
-        $fillable = (new Bay())->getFillable();
+        $fillable = (new Bay)->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
             $id = $rawItem['id'];

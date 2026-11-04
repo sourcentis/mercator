@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('logical_flows', function (Blueprint $table) {
-             $table->string('chain')->after('description')->nullable();
+            $table->string('chain')->after('description')->nullable();
 
-             $table->unsignedInteger('subnetwork_source_id')
+            $table->unsignedInteger('subnetwork_source_id')
                 ->nullable()
                 ->after('physical_security_device_source_id');
 
@@ -42,10 +42,10 @@ return new class extends Migration
     {
         Schema::table('logical_flows', function (Blueprint $table) {
             if (DB::getDriverName() !== 'sqlite') {
-               $table->dropForeign(['subnetwork_source_id']);
-               $table->dropIndex(['subnetwork_source_id']);
-               $table->dropForeign(['subnetwork_dest_id']);
-               $table->dropIndex(['subnetwork_dest_id']);
+                $table->dropForeign(['subnetwork_source_id']);
+                $table->dropIndex(['subnetwork_source_id']);
+                $table->dropForeign(['subnetwork_dest_id']);
+                $table->dropIndex(['subnetwork_dest_id']);
 
             }
             $table->dropColumn('subnetwork_source_id');

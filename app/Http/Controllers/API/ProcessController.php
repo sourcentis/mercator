@@ -7,11 +7,11 @@ use App\Http\Requests\MassStoreProcessRequest;
 use App\Http\Requests\MassUpdateProcessRequest;
 use App\Http\Requests\StoreProcessRequest;
 use App\Http\Requests\UpdateProcessRequest;
+use App\Models\Operation;
+use App\Models\Process;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Operation;
-use App\Models\Process;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProcessController extends APIController
@@ -52,7 +52,7 @@ class ProcessController extends APIController
         $process['informations'] = $process->information()->pluck('id');
         $process['applications'] = $process->applications()->pluck('id');
         $process['operations'] = $process->operations()->pluck('id');
-        
+
         return new JsonResource($process);
     }
 
@@ -108,16 +108,16 @@ class ProcessController extends APIController
     {
         // L’authorize() du FormRequest gère déjà la permission `process_create`
 
-        $createdIds    = [];
-        $processModel  = new Process();
-        $fillable      = $processModel->getFillable();
+        $createdIds = [];
+        $processModel = new Process;
+        $fillable = $processModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
-            $activities   = $item['activities'] ?? null;
-            $entities     = $item['entities'] ?? null;
+            $activities = $item['activities'] ?? null;
+            $entities = $item['entities'] ?? null;
             $informations = $item['informations'] ?? null;
             $applications = $item['applications'] ?? null;
-            $operations   = $item['operations'] ?? null;
+            $operations = $item['operations'] ?? null;
 
             // Colonnes du modèle uniquement (sans les relations)
             $attributes = collect($item)
@@ -154,24 +154,24 @@ class ProcessController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateProcessRequest $request)
     {
         // L’authorize() du FormRequest gère déjà la permission `process_edit`
-        $processModel = new Process();
-        $fillable     = $processModel->getFillable();
+        $processModel = new Process;
+        $fillable = $processModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
-            $id           = $rawItem['id'];
-            $activities   = $rawItem['activities'] ?? null;
-            $entities     = $rawItem['entities'] ?? null;
+            $id = $rawItem['id'];
+            $activities = $rawItem['activities'] ?? null;
+            $entities = $rawItem['entities'] ?? null;
             $informations = $rawItem['informations'] ?? null;
             $applications = $rawItem['applications'] ?? null;
-            $operations   = $rawItem['operations'] ?? null;
+            $operations = $rawItem['operations'] ?? null;
 
             /** @var Process $process */
             $process = Process::query()->findOrFail($id);

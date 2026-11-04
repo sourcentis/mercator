@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Phone;
 use Gate;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\Phone;
 
 class MassUpdatePhoneRequest extends BaseMassFormRequest
 {
@@ -18,14 +18,14 @@ class MassUpdatePhoneRequest extends BaseMassFormRequest
     public function rules()
     {
         // Règles du UpdatePhoneRequest classique
-        $updateRules = (new UpdatePhoneRequest())->rules();
+        $updateRules = (new UpdatePhoneRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new Phone();
+        $model = new Phone;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdatePhoneRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -39,4 +39,3 @@ class MassUpdatePhoneRequest extends BaseMassFormRequest
         return $rules;
     }
 }
-

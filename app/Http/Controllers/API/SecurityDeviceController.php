@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreSecurityDeviceRequest;
 use App\Http\Requests\MassUpdateSecurityDeviceRequest;
 use App\Http\Requests\StoreSecurityDeviceRequest;
 use App\Http\Requests\UpdateSecurityDeviceRequest;
+use App\Models\SecurityDevice;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\SecurityDevice;
 use Symfony\Component\HttpFoundation\Response;
 
 class SecurityDeviceController extends APIController
@@ -78,9 +78,9 @@ class SecurityDeviceController extends APIController
     {
         // L’authorize() du FormRequest gère déjà la permission `security_device_create`
 
-        $createdIds          = [];
-        $securityDeviceModel = new SecurityDevice();
-        $fillable            = $securityDeviceModel->getFillable();
+        $createdIds = [];
+        $securityDeviceModel = new SecurityDevice;
+        $fillable = $securityDeviceModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             // Colonnes du modèle uniquement (sans relations)
@@ -101,16 +101,16 @@ class SecurityDeviceController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateSecurityDeviceRequest $request)
     {
         // L’authorize() du FormRequest gère déjà la permission `security_device_edit`
-        $securityDeviceModel = new SecurityDevice();
-        $fillable            = $securityDeviceModel->getFillable();
+        $securityDeviceModel = new SecurityDevice;
+        $fillable = $securityDeviceModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
             $id = $rawItem['id'];

@@ -29,7 +29,8 @@ beforeEach(function () {
  */
 function modelHasField(string $modelClass, string $field): bool
 {
-    $model = new $modelClass();
+    $model = new $modelClass;
+
     return in_array($field, $model->getFillable());
 }
 
@@ -43,7 +44,7 @@ it('allows access to index with proper permissions', function (array $config) {
     $response = $this->getJson("/api/{$config['route']}")
         ->assertOk()
         ->assertJsonStructure([
-            '*' => ['id'] // Au minimum id
+            '*' => ['id'], // Au minimum id
         ]);
 
     $data = $response->json();
@@ -70,7 +71,7 @@ it('filters index by name', function (array $config) {
     $modelClass = $config['model'];
 
     // Skip si pas de champ 'name'
-    if (!modelHasField($modelClass, 'name')) {
+    if (! modelHasField($modelClass, 'name')) {
         $this->markTestSkipped("Model {$modelClass} does not have 'name' field");
     }
 
@@ -98,7 +99,7 @@ it('returns empty array when filtering with non-existent name', function (array 
     $modelClass = $config['model'];
 
     // Skip si pas de champ 'name'
-    if (!modelHasField($modelClass, 'name')) {
+    if (! modelHasField($modelClass, 'name')) {
         $this->markTestSkipped("Model {$modelClass} does not have 'name' field");
     }
 
@@ -121,7 +122,7 @@ it('sorts index by name ascending', function (array $config) {
     $modelClass = $config['model'];
 
     // Skip si pas de champ 'name'
-    if (!modelHasField($modelClass, 'name')) {
+    if (! modelHasField($modelClass, 'name')) {
         $this->markTestSkipped("Model {$modelClass} does not have 'name' field");
     }
 
@@ -147,7 +148,7 @@ it('sorts index by name descending', function (array $config) {
     $modelClass = $config['model'];
 
     // Skip si pas de champ 'name'
-    if (!modelHasField($modelClass, 'name')) {
+    if (! modelHasField($modelClass, 'name')) {
         $this->markTestSkipped("Model {$modelClass} does not have 'name' field");
     }
 

@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Subnetwork;
 use Gate;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\Subnetwork;
 
 class MassUpdateSubnetworkRequest extends BaseMassFormRequest
 {
@@ -18,14 +18,14 @@ class MassUpdateSubnetworkRequest extends BaseMassFormRequest
     public function rules()
     {
         // Règles du UpdateSubnetworkRequest classique
-        $updateRules = (new UpdateSubnetworkRequest())->rules();
+        $updateRules = (new UpdateSubnetworkRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new Subnetwork();
+        $model = new Subnetwork;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdateSubnetworkRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -39,4 +39,3 @@ class MassUpdateSubnetworkRequest extends BaseMassFormRequest
         return $rules;
     }
 }
-

@@ -28,7 +28,7 @@ class ZoneController extends APIController
     {
         abort_if(Gate::denies('zone_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $data               = $request->except(['parentZones', 'childZones', 'buildings', 'adminUsers']);
+        $data = $request->except(['parentZones', 'childZones', 'buildings', 'adminUsers']);
         $data['attributes'] = implode(' ', (array) ($data['attributes'] ?? []));
 
         /** @var Zone $zone */
@@ -55,9 +55,9 @@ class ZoneController extends APIController
         abort_if(Gate::denies('show-object', $zone), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $zone['parentZones'] = $zone->parentZones()->pluck('id');
-        $zone['childZones']  = $zone->childZones()->pluck('id');
-        $zone['buildings']   = $zone->buildings()->pluck('id');
-        $zone['adminUsers']  = $zone->adminUsers()->pluck('id');
+        $zone['childZones'] = $zone->childZones()->pluck('id');
+        $zone['buildings'] = $zone->buildings()->pluck('id');
+        $zone['adminUsers'] = $zone->adminUsers()->pluck('id');
 
         return new JsonResource($zone);
     }
@@ -66,7 +66,7 @@ class ZoneController extends APIController
     {
         abort_if(Gate::denies('edit-object', $zone), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $data               = $request->except(['parentZones', 'childZones', 'buildings', 'adminUsers']);
+        $data = $request->except(['parentZones', 'childZones', 'buildings', 'adminUsers']);
         $data['attributes'] = implode(' ', (array) ($data['attributes'] ?? []));
 
         $zone->update($data);
@@ -108,15 +108,15 @@ class ZoneController extends APIController
     public function massStore(MassStoreZoneRequest $request)
     {
         $createdIds = [];
-        $fillable   = (new Zone())->getFillable();
+        $fillable = (new Zone)->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             $parentZones = $item['parentZones'] ?? null;
-            $childZones  = $item['childZones']  ?? null;
-            $buildings   = $item['buildings']   ?? null;
-            $adminUsers  = $item['adminUsers']  ?? null;
+            $childZones = $item['childZones'] ?? null;
+            $buildings = $item['buildings'] ?? null;
+            $adminUsers = $item['adminUsers'] ?? null;
 
-            $attributes               = collect($item)
+            $attributes = collect($item)
                 ->except(['parentZones', 'childZones', 'buildings', 'adminUsers'])
                 ->only($fillable)
                 ->toArray();
@@ -143,26 +143,26 @@ class ZoneController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateZoneRequest $request)
     {
-        $fillable = (new Zone())->getFillable();
+        $fillable = (new Zone)->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
-            $id          = $rawItem['id'];
+            $id = $rawItem['id'];
             $parentZones = $rawItem['parentZones'] ?? null;
-            $childZones  = $rawItem['childZones']  ?? null;
-            $buildings   = $rawItem['buildings']   ?? null;
-            $adminUsers  = $rawItem['adminUsers']  ?? null;
+            $childZones = $rawItem['childZones'] ?? null;
+            $buildings = $rawItem['buildings'] ?? null;
+            $adminUsers = $rawItem['adminUsers'] ?? null;
 
             /** @var Zone $zone */
             $zone = Zone::findOrFail($id);
 
-            $attributes               = collect($rawItem)
+            $attributes = collect($rawItem)
                 ->except(['id', 'parentZones', 'childZones', 'buildings', 'adminUsers'])
                 ->only($fillable)
                 ->toArray();

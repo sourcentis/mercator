@@ -17,10 +17,10 @@ class MassStoreStorageDeviceRequest extends BaseMassFormRequest
     public function rules()
     {
         // On récupère les règles du StoreStorageDeviceRequest classique
-        $storeRules = (new StoreStorageDeviceRequest())->rules();
+        $storeRules = (new StoreStorageDeviceRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -32,4 +32,3 @@ class MassStoreStorageDeviceRequest extends BaseMassFormRequest
         return $rules;
     }
 }
-

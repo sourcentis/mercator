@@ -17,10 +17,10 @@ class MassStorePhysicalSecurityDeviceRequest extends BaseMassFormRequest
     public function rules()
     {
         // On récupère les règles du StorePhysicalSecurityDeviceRequest classique
-        $storeRules = (new StorePhysicalSecurityDeviceRequest())->rules();
+        $storeRules = (new StorePhysicalSecurityDeviceRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -32,4 +32,3 @@ class MassStorePhysicalSecurityDeviceRequest extends BaseMassFormRequest
         return $rules;
     }
 }
-

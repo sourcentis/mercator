@@ -17,10 +17,10 @@ class MassStoreCertificateRequest extends BaseMassFormRequest
     public function rules()
     {
         // On récupère les règles du StoreCertificateRequest classique
-        $storeRules = (new StoreCertificateRequest())->rules();
+        $storeRules = (new StoreCertificateRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -29,13 +29,12 @@ class MassStoreCertificateRequest extends BaseMassFormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.applications']   = ['sometimes', 'array'];
+        $rules['items.*.applications'] = ['sometimes', 'array'];
         $rules['items.*.applications.*'] = ['integer'];
 
-        $rules['items.*.logical_servers']   = ['sometimes', 'array'];
+        $rules['items.*.logical_servers'] = ['sometimes', 'array'];
         $rules['items.*.logical_servers.*'] = ['integer'];
 
         return $rules;
     }
 }
-

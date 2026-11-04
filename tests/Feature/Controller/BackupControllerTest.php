@@ -71,11 +71,11 @@ describe('store', function () {
         $device = StorageDevice::factory()->create();
 
         $response = $this->post(route('admin.backups.store'), [
-            'name'               => 'Daily backup plan',
-            'type'               => 'Full',
-            'backup_frequency'   => 2,
-            'backup_cycle'       => 1,
-            'backup_retention'   => 30,
+            'name' => 'Daily backup plan',
+            'type' => 'Full',
+            'backup_frequency' => 2,
+            'backup_cycle' => 1,
+            'backup_retention' => 30,
             'logical_server_ids' => [$server->id],
             'storage_device_ids' => [$device->id],
         ]);
@@ -158,10 +158,10 @@ describe('update', function () {
         $server = LogicalServer::factory()->create();
 
         $response = $this->put(route('admin.backups.update', $backup), [
-            'name'               => 'New name',
-            'backup_frequency'   => 1,
-            'backup_cycle'       => 2,
-            'backup_retention'   => 90,
+            'name' => 'New name',
+            'backup_frequency' => 1,
+            'backup_cycle' => 2,
+            'backup_retention' => 90,
             'logical_server_ids' => [$server->id],
         ]);
 
@@ -171,14 +171,14 @@ describe('update', function () {
     });
 
     test('syncs storage devices on update', function () {
-        $backup  = Backup::factory()->create();
+        $backup = Backup::factory()->create();
         $device1 = StorageDevice::factory()->create();
         $device2 = StorageDevice::factory()->create();
 
         $backup->storageDevices()->attach($device1->id);
 
         $this->put(route('admin.backups.update', $backup), [
-            'name'               => $backup->name,
+            'name' => $backup->name,
             'storage_device_ids' => [$device2->id],
         ]);
 
@@ -214,7 +214,7 @@ describe('destroy', function () {
 describe('massDestroy', function () {
     test('can delete multiple backups', function () {
         $backups = Backup::factory()->count(3)->create();
-        $ids     = $backups->pluck('id')->toArray();
+        $ids = $backups->pluck('id')->toArray();
 
         $this->delete(route('admin.backups.massDestroy'), ['ids' => $ids])
             ->assertNoContent();

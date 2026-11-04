@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Lan;
 use Gate;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\Lan;
 
 class MassUpdateLanRequest extends BaseMassFormRequest
 {
@@ -18,14 +18,14 @@ class MassUpdateLanRequest extends BaseMassFormRequest
     public function rules()
     {
         // Règles du UpdateLanRequest classique
-        $updateRules = (new UpdateLanRequest())->rules();
+        $updateRules = (new UpdateLanRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new Lan();
+        $model = new Lan;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdateLanRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -36,13 +36,12 @@ class MassUpdateLanRequest extends BaseMassFormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.mans']   = ['sometimes', 'array'];
+        $rules['items.*.mans'] = ['sometimes', 'array'];
         $rules['items.*.mans.*'] = ['integer'];
 
-        $rules['items.*.wans']   = ['sometimes', 'array'];
+        $rules['items.*.wans'] = ['sometimes', 'array'];
         $rules['items.*.wans.*'] = ['integer'];
 
         return $rules;
     }
 }
-

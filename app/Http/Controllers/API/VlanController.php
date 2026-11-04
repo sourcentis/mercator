@@ -7,11 +7,11 @@ use App\Http\Requests\MassStoreVlanRequest;
 use App\Http\Requests\MassUpdateVlanRequest;
 use App\Http\Requests\StoreVlanRequest;
 use App\Http\Requests\UpdateVlanRequest;
+use App\Models\Vlan;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
-use App\Models\Vlan;
 use Symfony\Component\HttpFoundation\Response;
 
 class VlanController extends APIController
@@ -93,8 +93,8 @@ class VlanController extends APIController
         // L’authorize() du FormRequest gère déjà la permission `vlan_create`
 
         $createdIds = [];
-        $vlanModel  = new Vlan();
-        $fillable   = $vlanModel->getFillable();
+        $vlanModel = new Vlan;
+        $fillable = $vlanModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             $subnetworks = $item['subnetworks'] ?? null;
@@ -123,19 +123,19 @@ class VlanController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateVlanRequest $request)
     {
         // L’authorize() du FormRequest gère déjà la permission `vlan_edit`
-        $vlanModel = new Vlan();
-        $fillable  = $vlanModel->getFillable();
+        $vlanModel = new Vlan;
+        $fillable = $vlanModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
-            $id          = $rawItem['id'];
+            $id = $rawItem['id'];
             $subnetworks = $rawItem['subnetworks'] ?? null;
 
             /** @var Vlan $vlan */

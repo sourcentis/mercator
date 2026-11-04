@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\ApplicationBlock;
 use Gate;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\ApplicationBlock;
 
 class MassUpdateApplicationBlockRequest extends BaseMassFormRequest
 {
@@ -18,14 +18,14 @@ class MassUpdateApplicationBlockRequest extends BaseMassFormRequest
     public function rules()
     {
         // Règles du UpdateApplicationBlockRequest classique
-        $updateRules = (new UpdateApplicationBlockRequest())->rules();
+        $updateRules = (new UpdateApplicationBlockRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new ApplicationBlock();
+        $model = new ApplicationBlock;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdateApplicationBlockRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -36,10 +36,9 @@ class MassUpdateApplicationBlockRequest extends BaseMassFormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.applications']   = ['sometimes', 'array'];
+        $rules['items.*.applications'] = ['sometimes', 'array'];
         $rules['items.*.applications.*'] = ['integer'];
 
         return $rules;
     }
 }
-

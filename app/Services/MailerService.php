@@ -18,13 +18,13 @@ class MailerService
 
         try {
             $mail->isSMTP();
-            $mail->Host        = config('mail.mailers.smtp.host');
-            $mail->SMTPAuth    = config('mail.mailers.smtp.username') !== null;
-            $mail->Username    = config('mail.mailers.smtp.username');
-            $mail->Password    = config('mail.mailers.smtp.password');
-            $mail->SMTPSecure  = config('mail.mailers.smtp.encryption');
+            $mail->Host = config('mail.mailers.smtp.host');
+            $mail->SMTPAuth = config('mail.mailers.smtp.username') !== null;
+            $mail->Username = config('mail.mailers.smtp.username');
+            $mail->Password = config('mail.mailers.smtp.password');
+            $mail->SMTPSecure = config('mail.mailers.smtp.encryption');
             $mail->SMTPAutoTLS = config('mail.mailers.smtp.auto_tls');
-            $mail->Port        = (int) config('mail.mailers.smtp.port');
+            $mail->Port = (int) config('mail.mailers.smtp.port');
 
             if ($from) {
                 $mail->setFrom($from);
@@ -38,11 +38,11 @@ class MailerService
                 $mail->addBCC($address);
             }
 
-            $mail->CharSet  = PHPMailer::CHARSET_UTF8;
+            $mail->CharSet = PHPMailer::CHARSET_UTF8;
             $mail->Encoding = PHPMailer::ENCODING_BASE64;
             $mail->isHTML(true);
             $mail->Subject = $subject;
-            $mail->Body    = $body;
+            $mail->Body = $body;
 
             $mail->send();
             Log::info('[mailer] Mail sent', ['to' => $to, 'subject' => $subject]);

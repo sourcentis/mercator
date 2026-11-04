@@ -17,10 +17,10 @@ class MassStorePhysicalSwitchRequest extends BaseMassFormRequest
     public function rules()
     {
         // On récupère les règles du StorePhysicalSwitchRequest classique
-        $storeRules = (new StorePhysicalSwitchRequest())->rules();
+        $storeRules = (new StorePhysicalSwitchRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -32,4 +32,3 @@ class MassStorePhysicalSwitchRequest extends BaseMassFormRequest
         return $rules;
     }
 }
-

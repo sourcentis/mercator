@@ -17,10 +17,10 @@ class MassStoreSecurityControlRequest extends BaseMassFormRequest
     public function rules()
     {
         // On récupère les règles du StoreSecurityControlRequest classique
-        $storeRules = (new StoreSecurityControlRequest())->rules();
+        $storeRules = (new StoreSecurityControlRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -32,4 +32,3 @@ class MassStoreSecurityControlRequest extends BaseMassFormRequest
         return $rules;
     }
 }
-

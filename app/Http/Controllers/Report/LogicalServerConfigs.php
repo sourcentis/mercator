@@ -7,7 +7,12 @@ use App\Models\LogicalServer;
 use Carbon\Carbon;
 use Gate;
 use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\Helper\Html;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Writer\Csv;
 use PhpOffice\PhpSpreadsheet\Writer\Exception;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\Response;
 
 class LogicalServerConfigs extends Controller
@@ -40,7 +45,7 @@ class LogicalServerConfigs extends Controller
             trans('cruds.logicalServer.fields.servers'),            // O
         ];
 
-        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet;
+        $spreadsheet = new Spreadsheet;
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->fromArray([$header], null, 'A1');
 
@@ -65,12 +70,12 @@ class LogicalServerConfigs extends Controller
         $sheet->getColumnDimension('O')->setAutoSize(true);
 
         // center (CPU, Men, Disk)
-        $sheet->getStyle('F')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-        $sheet->getStyle('G')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-        $sheet->getStyle('H')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('F')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('G')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('H')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
         // converter
-        $html = new \PhpOffice\PhpSpreadsheet\Helper\Html;
+        $html = new Html;
 
         // Populate the Timesheet
         $row = 2;
@@ -96,11 +101,10 @@ class LogicalServerConfigs extends Controller
         }
 
         if ($request->get('format') == 'csv') {
-            $writer = new \PhpOffice\PhpSpreadsheet\Writer\Csv($spreadsheet);
+            $writer = new Csv($spreadsheet);
             $path = storage_path('app/logicalServers-'.Carbon::today()->format('Ymd').'.csv');
-        }
-        else {
-            $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+        } else {
+            $writer = new Xlsx($spreadsheet);
             $path = storage_path('app/logicalServers-'.Carbon::today()->format('Ymd').'.xlsx');
         }
 

@@ -22,7 +22,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class QueryController extends Controller
 {
-
     public function __construct(protected QueryResolver $resolver) {}
 
     /**
@@ -46,12 +45,12 @@ class QueryController extends Controller
         // Pré-remplissage depuis le query engine (DSL passé en session)
         $query = new SavedQuery([
             'query' => $request->old('query', session('qe_last_query', [
-                'from'     => '',
-                'select'   => [],
-                'filters'  => [],
+                'from' => '',
+                'select' => [],
+                'filters' => [],
                 'traverse' => [],
-                'output'   => 'list',
-                'limit'    => 100,
+                'output' => 'list',
+                'limit' => 100,
             ])),
         ]);
 
@@ -125,7 +124,6 @@ class QueryController extends Controller
             ->route('admin.queries.edit', $copy);
     }
 
-
     public function show(SavedQuery $query): View
     {
         $exportUrl = URL::temporarySignedRoute(
@@ -150,7 +148,7 @@ class QueryController extends Controller
         $denied = $this->collectDeniedModels($dsl);
         if (! empty($denied)) {
             return response()->json([
-                'message' => 'Accès refusé. Vous n\'avez pas le droit de consulter : ' . implode(', ', $denied) . '.',
+                'message' => 'Accès refusé. Vous n\'avez pas le droit de consulter : '.implode(', ', $denied).'.',
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
@@ -161,8 +159,8 @@ class QueryController extends Controller
         // Métadonnées pour l'UI
         $response['meta'] = [
             'output' => $dsl['output'] ?? 'list',
-            'from'   => $dsl['from'],
-            'count'  => $result instanceof GraphResult
+            'from' => $dsl['from'],
+            'count' => $result instanceof GraphResult
                 ? $result->nodeCount()
                 : $result->rowCount(),
             'truncated' => $result instanceof GraphResult && $result->truncated,
@@ -227,7 +225,7 @@ class QueryController extends Controller
      * Collecte toutes les classes de modèles référencées par le DSL
      * (clause FROM + chaque segment des chemins traverse).
      *
-     * @return array<class-string, string>  FQCN → nom court affiché
+     * @return array<class-string, string> FQCN → nom court affiché
      */
     private function resolveInvolvedModelClasses(array $dsl): array
     {
@@ -241,13 +239,13 @@ class QueryController extends Controller
         }
 
         foreach ($dsl['traverse'] ?? [] as $traverseItem) {
-            $segments     = QueryResolver::normalizeSegments($traverseItem);
+            $segments = QueryResolver::normalizeSegments($traverseItem);
             $currentClass = $fromClass;
 
             foreach ($segments as $segment) {
                 try {
                     $relations = QueryEngineIntrospector::getRelations($currentClass);
-                    $relDef    = collect($relations)->firstWhere('name', Str::snake($segment['name']));
+                    $relDef = collect($relations)->firstWhere('name', Str::snake($segment['name']));
 
                     if (! $relDef) {
                         break;
@@ -271,7 +269,7 @@ class QueryController extends Controller
      */
     private function canShowModel(string $modelClass): bool
     {
-        $permission = Str::snake(class_basename($modelClass)) . '_show';
+        $permission = Str::snake(class_basename($modelClass)).'_show';
 
         if (Gate::allows($permission)) {
             return true;

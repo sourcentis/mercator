@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreBackupRequest;
 use App\Http\Requests\MassUpdateBackupRequest;
 use App\Http\Requests\StoreBackupRequest;
 use App\Http\Requests\UpdateBackupRequest;
+use App\Models\Backup;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Backup;
 use Symfony\Component\HttpFoundation\Response;
 
 class BackupController extends APIController
@@ -86,22 +86,22 @@ class BackupController extends APIController
         $createdIds = [];
 
         foreach ($request->input('items', []) as $item) {
-            $backup       = Backup::query()->create(
-                collect($item)->only((new Backup())->getFillable())->all()
+            $backup = Backup::query()->create(
+                collect($item)->only((new Backup)->getFillable())->all()
             );
             $createdIds[] = $backup->id;
         }
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateBackupRequest $request)
     {
-        $fillable   = (new Backup())->getFillable();
+        $fillable = (new Backup)->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
             $backup = Backup::query()->findOrFail($rawItem['id']);

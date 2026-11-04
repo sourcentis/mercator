@@ -36,8 +36,8 @@ return [
 
     'channels' => [
         'stack' => [
-            'driver'            => 'stack',
-            'channels'          => explode(',', env('LOG_STACK', 'single')),
+            'driver' => 'stack',
+            'channels' => explode(',', env('LOG_STACK', 'single')),
             'ignore_exceptions' => true,
         ],
 
@@ -52,7 +52,7 @@ return [
             'path' => storage_path('logs/ldap.log'),
             'level' => 'debug',
         ],
-        
+
         'daily' => [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),

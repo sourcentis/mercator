@@ -17,10 +17,10 @@ class MassStoreGatewayRequest extends BaseMassFormRequest
     public function rules()
     {
         // On récupère les règles du StoreGatewayRequest classique
-        $storeRules = (new StoreGatewayRequest())->rules();
+        $storeRules = (new StoreGatewayRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -29,10 +29,9 @@ class MassStoreGatewayRequest extends BaseMassFormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.subnetworks']   = ['sometimes', 'array'];
+        $rules['items.*.subnetworks'] = ['sometimes', 'array'];
         $rules['items.*.subnetworks.*'] = ['integer'];
 
         return $rules;
     }
 }
-

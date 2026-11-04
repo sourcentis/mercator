@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreExternalConnectedEntityRequest;
 use App\Http\Requests\MassUpdateExternalConnectedEntityRequest;
 use App\Http\Requests\StoreExternalConnectedEntityRequest;
 use App\Http\Requests\UpdateExternalConnectedEntityRequest;
+use App\Models\ExternalConnectedEntity;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\ExternalConnectedEntity;
 use Symfony\Component\HttpFoundation\Response;
 
 class ExternalConnectedEntityController extends APIController
@@ -81,7 +81,7 @@ class ExternalConnectedEntityController extends APIController
         // L’authorize() du FormRequest gère déjà external_connected_entity_create
         $createdIds = [];
 
-        $model    = new ExternalConnectedEntity();
+        $model = new ExternalConnectedEntity;
         $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $item) {
@@ -107,15 +107,15 @@ class ExternalConnectedEntityController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateExternalConnectedEntityRequest $request)
     {
         // L’authorize() du FormRequest gère déjà external_connected_entity_edit
-        $model    = new ExternalConnectedEntity();
+        $model = new ExternalConnectedEntity;
         $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {

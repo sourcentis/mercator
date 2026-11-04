@@ -12,9 +12,9 @@ it('test mercator:cpe-sync --now --max=10', function () {
     // Force un last_run très ancien pour garantir la présence des filtres
 
     $exit = Artisan::call('mercator:cpe-sync', [
-        '--now'  => true,
+        '--now' => true,
         '--full' => true,
-        '--max'  => 100,
+        '--max' => 100,
     ]);
 
     expect($exit)->toBe(0);

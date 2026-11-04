@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Domain;
 use Gate;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\Domain;
 
 class MassUpdateDomainRequest extends BaseMassFormRequest
 {
@@ -18,14 +18,14 @@ class MassUpdateDomainRequest extends BaseMassFormRequest
     public function rules()
     {
         // Règles du UpdateDomainRequest classique
-        $updateRules = (new UpdateDomainRequest())->rules();
+        $updateRules = (new UpdateDomainRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new Domain();
+        $model = new Domain;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdateDomainRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -36,10 +36,9 @@ class MassUpdateDomainRequest extends BaseMassFormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.forestAds']   = ['sometimes', 'array'];
+        $rules['items.*.forestAds'] = ['sometimes', 'array'];
         $rules['items.*.forestAds.*'] = ['integer'];
 
         return $rules;
     }
 }
-

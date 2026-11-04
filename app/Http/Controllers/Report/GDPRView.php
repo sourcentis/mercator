@@ -4,16 +4,16 @@ namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Report\Concerns\AutoloadsRelations;
+use App\Models\Application;
 use App\Models\Cartographer;
-use Gate;
-use Illuminate\Http\Request;
 use App\Models\DataProcessing;
 use App\Models\MacroProcessus;
-use App\Models\Application;
 use App\Models\Process;
 use App\Models\SecurityControl;
 use App\Services\Graph\GdprGraphBuilder;
 use App\Services\Graph\GraphSize;
+use Gate;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class GDPRView extends Controller
@@ -25,8 +25,8 @@ class GDPRView extends Controller
     */
     public function generate(Request $request)
     {
-        $allowed = Gate::allows('explore_access') || Cartographer::canAccessAny([\App\Models\DataProcessing::class, \App\Models\MacroProcessus::class, \App\Models\Process::class, SecurityControl::class]);
-        abort_if(!$allowed, Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $allowed = Gate::allows('explore_access') || Cartographer::canAccessAny([DataProcessing::class, MacroProcessus::class, Process::class, SecurityControl::class]);
+        abort_if(! $allowed, Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->macroprocess == null) {
             $request->session()->put('macroprocess', null);
@@ -139,13 +139,13 @@ class GDPRView extends Controller
         }
 
         // Select applications
-        $allowedAppIds = Cartographer::allowedIdsFor(auth()->user(), \App\Models\Application::class);
+        $allowedAppIds = Cartographer::allowedIdsFor(auth()->user(), Application::class);
         $appQuery = Application::query()
             ->join('application_data_processing', 'application_id', 'applications.id')
             ->whereIn('data_processing_id', $dataProcessings->pluck('id')->all());
-        if ($allowedAppIds && !Gate::allows('application_access')) {
+        if ($allowedAppIds && ! Gate::allows('application_access')) {
             $appQuery->whereIn('applications.id', $allowedAppIds);
-        } elseif (!Gate::allows('application_access') && !$allowedAppIds) {
+        } elseif (! Gate::allows('application_access') && ! $allowedAppIds) {
             $appQuery->whereRaw('0 = 1');
         }
         $applications = $appQuery->get();

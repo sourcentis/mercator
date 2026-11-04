@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,7 +20,7 @@ final class SavedQuery extends Model
     ];
 
     protected $casts = [
-        'query'     => 'array',
+        'query' => 'array',
         'is_public' => 'boolean',
     ];
 
@@ -27,7 +28,7 @@ final class SavedQuery extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\User::class);
+        return $this->belongsTo(User::class);
     }
 
     // ─── Scopes ────────────────────────────────────────────────
@@ -36,7 +37,7 @@ final class SavedQuery extends Model
      * Requêtes visibles par l'utilisateur courant :
      * les siennes + toutes les publiques.
      */
-    public function scopeVisibleBy($query, int $userId): \Illuminate\Database\Eloquent\Builder
+    public function scopeVisibleBy($query, int $userId): Builder
     {
         return $query->where(function ($q) use ($userId) {
             $q->where('user_id', $userId)
@@ -52,12 +53,12 @@ final class SavedQuery extends Model
      */
     public function duplicate(): static
     {
-        return new static()->fill([
-            'name'        => $this->name . ' (copie)',
+        return new self()->fill([
+            'name' => $this->name.' (copie)',
             'description' => $this->description,
-            'query'       => $this->query,
-            'is_public'   => false,
-            'user_id'     => auth()->id(),
+            'query' => $this->query,
+            'is_public' => false,
+            'user_id' => auth()->id(),
         ]);
     }
 

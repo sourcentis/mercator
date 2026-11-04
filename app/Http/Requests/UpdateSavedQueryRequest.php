@@ -24,7 +24,7 @@ class UpdateSavedQueryRequest extends FormRequest
             'is_public' => $this->boolean('is_public'),
         ]);
 
-        $raw     = $this->input('query_json', '');
+        $raw = $this->input('query_json', '');
         $decoded = json_decode($raw, true);
 
         $this->merge([

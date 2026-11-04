@@ -25,6 +25,6 @@ class AuditLogFactory extends Factory
             // Sélectionne un user aléatoire, ou en crée un si la table est vide
             'user_id' => User::query()->inRandomOrder()->value('id')
                 ?? User::factory(),
-            ];
+        ];
     }
 }

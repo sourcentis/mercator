@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreSiteRequest;
 use App\Http\Requests\MassUpdateSiteRequest;
 use App\Http\Requests\StoreSiteRequest;
 use App\Http\Requests\UpdateSiteRequest;
+use App\Models\Site;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Site;
 use Symfony\Component\HttpFoundation\Response;
 
 class SiteController extends APIController
@@ -73,8 +73,8 @@ class SiteController extends APIController
         // L’authorize() du FormRequest gère déjà la permission `site_create`
 
         $createdIds = [];
-        $siteModel  = new Site();
-        $fillable   = $siteModel->getFillable();
+        $siteModel = new Site;
+        $fillable = $siteModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             // Colonnes du modèle uniquement
@@ -90,16 +90,16 @@ class SiteController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateSiteRequest $request)
     {
         // L’authorize() du FormRequest gère déjà la permission `site_edit`
-        $siteModel = new Site();
-        $fillable  = $siteModel->getFillable();
+        $siteModel = new Site;
+        $fillable = $siteModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
             $id = $rawItem['id'];

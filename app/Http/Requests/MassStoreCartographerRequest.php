@@ -16,10 +16,10 @@ class MassStoreCartographerRequest extends BaseMassFormRequest
 
     public function rules(): array
     {
-        $storeRules = (new StoreCartographerRequest())->rules();
+        $storeRules = (new StoreCartographerRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 

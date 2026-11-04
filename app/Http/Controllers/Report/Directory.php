@@ -8,6 +8,8 @@ use Gate;
 use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\SimpleType\Jc;
 use Symfony\Component\HttpFoundation\Response;
 
 class Directory extends ReportController
@@ -73,7 +75,7 @@ class Directory extends ReportController
 
         // --- Styles de base
         $phpWord = new PhpWord;
-        \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true); // !!!!
+        Settings::setOutputEscapingEnabled(true); // !!!!
         $phpWord->getSettings()->setHideGrammaticalErrors(true);
         $phpWord->getSettings()->setHideSpellingErrors(true);
 
@@ -146,7 +148,7 @@ class Directory extends ReportController
 
         // Add footer
         $footer = $section->addFooter();
-        $footer->addPreserveText('{PAGE} / {NUMPAGES}', ['size' => 8], ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER]);
+        $footer->addPreserveText('{PAGE} / {NUMPAGES}', ['size' => 8], ['alignment' => Jc::CENTER]);
 
         // --- Regrouper: une page par application, relations listées
         $grouped = $applications->groupBy('name');

@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreWifiTerminalRequest;
 use App\Http\Requests\MassUpdateWifiTerminalRequest;
 use App\Http\Requests\StoreWifiTerminalRequest;
 use App\Http\Requests\UpdateWifiTerminalRequest;
+use App\Models\WifiTerminal;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\WifiTerminal;
 use Symfony\Component\HttpFoundation\Response;
 
 class WifiTerminalController extends APIController
@@ -72,7 +72,7 @@ class WifiTerminalController extends APIController
         // L’authorize() du FormRequest protège déjà l’accès
 
         $createdIds = [];
-        $fillable   = (new WifiTerminal())->getFillable();
+        $fillable = (new WifiTerminal)->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             $attributes = collect($item)
@@ -80,21 +80,21 @@ class WifiTerminalController extends APIController
                 ->toArray();
 
             /** @var WifiTerminal $wifiTerminal */
-            $wifiTerminal   = WifiTerminal::create($attributes);
-            $createdIds[]   = $wifiTerminal->id;
+            $wifiTerminal = WifiTerminal::create($attributes);
+            $createdIds[] = $wifiTerminal->id;
         }
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateWifiTerminalRequest $request)
     {
         // L’authorize() du FormRequest protège déjà l’accès
-        $fillable = (new WifiTerminal())->getFillable();
+        $fillable = (new WifiTerminal)->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
             $id = $rawItem['id'];

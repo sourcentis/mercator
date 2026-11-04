@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreDhcpServerRequest;
 use App\Http\Requests\MassUpdateDhcpServerRequest;
 use App\Http\Requests\StoreDhcpServerRequest;
 use App\Http\Requests\UpdateDhcpServerRequest;
+use App\Models\DhcpServer;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\DhcpServer;
 use Symfony\Component\HttpFoundation\Response;
 
 class DhcpServerController extends APIController
@@ -75,7 +75,7 @@ class DhcpServerController extends APIController
         // L’authorize() du FormRequest gère déjà dhcp_server_create
         $createdIds = [];
 
-        $model    = new DhcpServer();
+        $model = new DhcpServer;
         $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $item) {
@@ -101,15 +101,15 @@ class DhcpServerController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateDhcpServerRequest $request)
     {
         // L’authorize() du FormRequest gère déjà dhcp_server_edit
-        $model    = new DhcpServer();
+        $model = new DhcpServer;
         $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {

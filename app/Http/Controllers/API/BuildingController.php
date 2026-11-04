@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreBuildingRequest;
 use App\Http\Requests\MassUpdateBuildingRequest;
 use App\Http\Requests\StoreBuildingRequest;
 use App\Http\Requests\UpdateBuildingRequest;
+use App\Models\Building;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Building;
 use Symfony\Component\HttpFoundation\Response;
 
 class BuildingController extends APIController
@@ -72,7 +72,7 @@ class BuildingController extends APIController
         // L’authorize() du FormRequest protège déjà l’accès
 
         $createdIds = [];
-        $fillable   = (new Building())->getFillable();
+        $fillable = (new Building)->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             $attributes = collect($item)
@@ -86,15 +86,15 @@ class BuildingController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateBuildingRequest $request)
     {
         // L’authorize() du FormRequest protège déjà l’accès
-        $fillable = (new Building())->getFillable();
+        $fillable = (new Building)->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
             $id = $rawItem['id'];

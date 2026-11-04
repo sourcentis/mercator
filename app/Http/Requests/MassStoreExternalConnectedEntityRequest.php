@@ -17,10 +17,10 @@ class MassStoreExternalConnectedEntityRequest extends BaseMassFormRequest
     public function rules()
     {
         // On récupère les règles du StoreExternalConnectedEntityRequest classique
-        $storeRules = (new StoreExternalConnectedEntityRequest())->rules();
+        $storeRules = (new StoreExternalConnectedEntityRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -29,10 +29,9 @@ class MassStoreExternalConnectedEntityRequest extends BaseMassFormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.roles']   = ['sometimes', 'array'];
+        $rules['items.*.roles'] = ['sometimes', 'array'];
         $rules['items.*.roles.*'] = ['integer'];
 
         return $rules;
     }
 }
-

@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreInformationRequest;
 use App\Http\Requests\MassUpdateInformationRequest;
 use App\Http\Requests\StoreInformationRequest;
 use App\Http\Requests\UpdateInformationRequest;
+use App\Models\Information;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Information;
 use Symfony\Component\HttpFoundation\Response;
 
 class InformationController extends APIController
@@ -43,8 +43,8 @@ class InformationController extends APIController
         abort_if(Gate::denies('show-object', $information), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $information['processes'] = $information->processes()->pluck('id');
-        $information['parents'] =$information->parents()->pluck('id');
-        $information['children'] =$information->children()->pluck('id');
+        $information['parents'] = $information->parents()->pluck('id');
+        $information['children'] = $information->children()->pluck('id');
 
         return new JsonResource($information);
     }
@@ -55,12 +55,15 @@ class InformationController extends APIController
 
         $information->update($request->all());
 
-        if ($request->has('processes'))
+        if ($request->has('processes')) {
             $information->processes()->sync($request->input('processes', []));
-        if ($request->has('parents'))
+        }
+        if ($request->has('parents')) {
             $information->parents()->sync($request->input('parents', []));
-        if ($request->has('children'))
+        }
+        if ($request->has('children')) {
             $information->children()->sync($request->input('children', []));
+        }
 
         return response()->json();
     }
@@ -87,9 +90,9 @@ class InformationController extends APIController
     {
         // L’authorize() du FormRequest gère déjà le Gate::denies('information_create')
 
-        $createdIds      = [];
-        $informationModel = new Information();
-        $fillable         = $informationModel->getFillable();
+        $createdIds = [];
+        $informationModel = new Information;
+        $fillable = $informationModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             $processes = $item['processes'] ?? null;
@@ -112,19 +115,19 @@ class InformationController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateInformationRequest $request)
     {
         // L’authorize() du FormRequest gère déjà le Gate::denies('information_edit')
-        $informationModel = new Information();
-        $fillable         = $informationModel->getFillable();
+        $informationModel = new Information;
+        $fillable = $informationModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
-            $id        = $rawItem['id'];
+            $id = $rawItem['id'];
             $processes = $rawItem['processes'] ?? null;
 
             /** @var Information $information */

@@ -17,10 +17,10 @@ class MassStoreAnnuaireRequest extends BaseMassFormRequest
     public function rules()
     {
         // On récupère les règles du StoreAnnuaireRequest classique
-        $storeRules = (new StoreAnnuaireRequest())->rules();
+        $storeRules = (new StoreAnnuaireRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -32,4 +32,3 @@ class MassStoreAnnuaireRequest extends BaseMassFormRequest
         return $rules;
     }
 }
-

@@ -21,9 +21,9 @@ class StoreCartographerRequest extends BaseFormRequest
 
         return [
             'cartographiable_type' => ['required', 'string', "in:{$allowedTypes}"],
-            'cartographiable_id'   => ['required', 'integer', 'min:1'],
-            'user_id'              => ['nullable', 'integer', 'exists:users,id'],
-            'role_id'              => ['nullable', 'integer', 'exists:roles,id'],
+            'cartographiable_id' => ['required', 'integer', 'min:1'],
+            'user_id' => ['nullable', 'integer', 'exists:users,id'],
+            'role_id' => ['nullable', 'integer', 'exists:roles,id'],
         ];
     }
 

@@ -33,7 +33,7 @@ abstract class APIController extends Controller
 
     protected function newModelInstance(): Model
     {
-        return new $this->modelClass();
+        return new $this->modelClass;
     }
 
     /**
@@ -57,7 +57,7 @@ abstract class APIController extends Controller
                 }
 
                 $returnType = $method->getReturnType();
-                if (!$returnType instanceof ReflectionNamedType) {
+                if (! $returnType instanceof ReflectionNamedType) {
                     continue;
                 }
 
@@ -68,7 +68,7 @@ abstract class APIController extends Controller
                 }
             }
         } catch (\Throwable $e) {
-            Log::warning("Failed to auto-detect relations for {$model}: " . $e->getMessage());
+            Log::warning("Failed to auto-detect relations for {$model}: ".$e->getMessage());
         }
 
         return $relations;
@@ -120,6 +120,7 @@ abstract class APIController extends Controller
 
         return $filters;
     }
+
     protected function indexResource(Request $request)
     {
         $model = $this->newModelInstance();
@@ -133,7 +134,7 @@ abstract class APIController extends Controller
 
             // 2. Filtre "_like" : recherche partielle (LIKE) sur le champ
             $allowedFilters[] = AllowedFilter::callback(
-                $field . '_like',
+                $field.'_like',
                 function (Builder $query, $value) use ($field) {
                     $escapedValue = $this->escapeLikeValue((string) $value);
                     $pattern = "%{$escapedValue}%";
@@ -144,7 +145,7 @@ abstract class APIController extends Controller
 
             // 3. Filtre de négation (NOT)
             $allowedFilters[] = AllowedFilter::callback(
-                $field . '_not',
+                $field.'_not',
                 function (Builder $query, $value) use ($field) {
                     $query->where($field, '!=', $value);
                 }
@@ -152,28 +153,28 @@ abstract class APIController extends Controller
 
             // 4. Filtres numériques
             $allowedFilters[] = AllowedFilter::callback(
-                $field . '_lt',
+                $field.'_lt',
                 function (Builder $query, $value) use ($field) {
                     $query->where($field, '<', $value);
                 }
             );
 
             $allowedFilters[] = AllowedFilter::callback(
-                $field . '_lte',
+                $field.'_lte',
                 function (Builder $query, $value) use ($field) {
                     $query->where($field, '<=', $value);
                 }
             );
 
             $allowedFilters[] = AllowedFilter::callback(
-                $field . '_gt',
+                $field.'_gt',
                 function (Builder $query, $value) use ($field) {
                     $query->where($field, '>', $value);
                 }
             );
 
             $allowedFilters[] = AllowedFilter::callback(
-                $field . '_gte',
+                $field.'_gte',
                 function (Builder $query, $value) use ($field) {
                     $query->where($field, '>=', $value);
                 }
@@ -181,7 +182,7 @@ abstract class APIController extends Controller
 
             // 5. WHERE IN
             $allowedFilters[] = AllowedFilter::callback(
-                $field . '_in',
+                $field.'_in',
                 function (Builder $query, $value) use ($field) {
                     $values = is_array($value) ? $value : explode(',', $value);
                     $query->whereIn($field, $values);
@@ -190,7 +191,7 @@ abstract class APIController extends Controller
 
             // 6. BETWEEN
             $allowedFilters[] = AllowedFilter::callback(
-                $field . '_between',
+                $field.'_between',
                 function (Builder $query, $value) use ($field) {
                     $values = is_array($value) ? $value : explode(',', $value);
                     if (count($values) === 2) {
@@ -201,7 +202,7 @@ abstract class APIController extends Controller
 
             // 7. IS NULL / IS NOT NULL
             $allowedFilters[] = AllowedFilter::callback(
-                $field . '_null',
+                $field.'_null',
                 function (Builder $query, $value) use ($field) {
                     if (filter_var($value, FILTER_VALIDATE_BOOLEAN)) {
                         $query->whereNull($field);
@@ -214,14 +215,14 @@ abstract class APIController extends Controller
             // 8. Filtres de dates
             if (str_contains($field, 'date') || str_contains($field, 'at')) {
                 $allowedFilters[] = AllowedFilter::callback(
-                    $field . '_after',
+                    $field.'_after',
                     function (Builder $query, $value) use ($field) {
                         $query->where($field, '>=', $value);
                     }
                 );
 
                 $allowedFilters[] = AllowedFilter::callback(
-                    $field . '_before',
+                    $field.'_before',
                     function (Builder $query, $value) use ($field) {
                         $query->where($field, '<=', $value);
                     }
@@ -236,7 +237,7 @@ abstract class APIController extends Controller
 
         // 9. Recherche globale (OR sur plusieurs champs)
         $searchableFields = $this->getPartialFilterFields();
-        if (!empty($searchableFields)) {
+        if (! empty($searchableFields)) {
             $allowedFilters[] = AllowedFilter::callback(
                 'search',
                 function (Builder $query, $value) use ($searchableFields) {
@@ -271,7 +272,7 @@ abstract class APIController extends Controller
             ->allowedFilters($allowedFilters)
             ->allowedSorts($allowedSorts);
 
-        if (!empty($allowedIncludes)) {
+        if (! empty($allowedIncludes)) {
             $queryBuilder->allowedIncludes($allowedIncludes);
         }
 
@@ -325,7 +326,7 @@ abstract class APIController extends Controller
         $fillable = $this->newModelInstance()->getFillable();
 
         foreach ($items as $rawItem) {
-            if (!isset($rawItem['id'])) {
+            if (! isset($rawItem['id'])) {
                 continue;
             }
 
@@ -336,7 +337,7 @@ abstract class APIController extends Controller
                 ->only($fillable)
                 ->toArray();
 
-            if (!empty($attributes)) {
+            if (! empty($attributes)) {
                 $instance->update($attributes);
             }
         }

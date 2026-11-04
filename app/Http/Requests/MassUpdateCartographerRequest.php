@@ -16,11 +16,11 @@ class MassUpdateCartographerRequest extends BaseMassFormRequest
 
     public function rules(): array
     {
-        $updateRules = (new UpdateCartographerRequest())->rules();
+        $updateRules = (new UpdateCartographerRequest)->rules();
 
         $rules = [
-            'items'      => ['required', 'array', 'min:1'],
-            'items.*'    => ['required', 'array'],
+            'items' => ['required', 'array', 'min:1'],
+            'items.*' => ['required', 'array'],
             'items.*.id' => ['required', 'integer', 'exists:cartographers,id'],
         ];
 

@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\PhysicalLink;
 use Gate;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\PhysicalLink;
 
 class MassUpdatePhysicalLinkRequest extends BaseMassFormRequest
 {
@@ -18,14 +18,14 @@ class MassUpdatePhysicalLinkRequest extends BaseMassFormRequest
     public function rules()
     {
         // Règles du UpdatePhysicalLinkRequest classique
-        $updateRules = (new UpdatePhysicalLinkRequest())->rules();
+        $updateRules = (new UpdatePhysicalLinkRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new PhysicalLink();
+        $model = new PhysicalLink;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdatePhysicalLinkRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -39,4 +39,3 @@ class MassUpdatePhysicalLinkRequest extends BaseMassFormRequest
         return $rules;
     }
 }
-

@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreAnnuaireRequest;
 use App\Http\Requests\MassUpdateAnnuaireRequest;
 use App\Http\Requests\StoreAnnuaireRequest;
 use App\Http\Requests\UpdateAnnuaireRequest;
+use App\Models\Annuaire;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Annuaire;
 use Symfony\Component\HttpFoundation\Response;
 
 class AnnuaireController extends APIController
@@ -72,7 +72,7 @@ class AnnuaireController extends APIController
         // L’authorize() du FormRequest gère déjà le Gate::denies('annuaire_create')
         $createdIds = [];
 
-        $model    = new Annuaire();
+        $model = new Annuaire;
         $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $item) {
@@ -89,15 +89,15 @@ class AnnuaireController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateAnnuaireRequest $request)
     {
         // L’authorize() du FormRequest gère déjà le Gate::denies('annuaire_edit')
-        $model   = new Annuaire();
+        $model = new Annuaire;
         $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {

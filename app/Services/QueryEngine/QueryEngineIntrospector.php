@@ -65,7 +65,7 @@ class QueryEngineIntrospector
     public static function flushCache(): void
     {
         self::$relationsCache = [];
-        self::$fillableCache  = [];
+        self::$fillableCache = [];
     }
 
     /**

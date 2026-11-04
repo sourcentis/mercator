@@ -7,11 +7,11 @@ use App\Http\Requests\MassStoreMacroProcessusRequest;
 use App\Http\Requests\MassUpdateMacroProcessusRequest;
 use App\Http\Requests\StoreMacroProcessusRequest;
 use App\Http\Requests\UpdateMacroProcessusRequest;
+use App\Models\MacroProcessus;
+use App\Models\Process;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\MacroProcessus;
-use App\Models\Process;
 use Symfony\Component\HttpFoundation\Response;
 
 class MacroProcessusController extends APIController
@@ -55,6 +55,7 @@ class MacroProcessusController extends APIController
             Process::whereIn('id', $request->input('processes', []))
                 ->update(['macroprocess_id' => $macroProcessus->id]);
         }
+
         return response()->json();
     }
 
@@ -80,9 +81,9 @@ class MacroProcessusController extends APIController
     {
         // L’authorize() du FormRequest gère déjà le Gate::denies('macro_processus_create')
 
-        $createdIds         = [];
-        $macroProcessusModel = new MacroProcessus();
-        $fillable            = $macroProcessusModel->getFillable();
+        $createdIds = [];
+        $macroProcessusModel = new MacroProcessus;
+        $fillable = $macroProcessusModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             $processes = $item['processes'] ?? null;
@@ -106,19 +107,19 @@ class MacroProcessusController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateMacroProcessusRequest $request)
     {
         // L’authorize() du FormRequest gère déjà le Gate::denies('macro_processus_edit')
-        $macroProcessusModel = new MacroProcessus();
-        $fillable            = $macroProcessusModel->getFillable();
+        $macroProcessusModel = new MacroProcessus;
+        $fillable = $macroProcessusModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
-            $id        = $rawItem['id'];
+            $id = $rawItem['id'];
             $processes = $rawItem['processes'] ?? null;
 
             /** @var MacroProcessus $macroProcessus */

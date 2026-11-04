@@ -17,10 +17,10 @@ class MassStoreApplicationFlowRequest extends BaseMassFormRequest
     public function rules()
     {
         // On récupère les règles du StoreApplicationFlowRequest classique
-        $storeRules = (new StoreApplicationFlowRequest())->rules();
+        $storeRules = (new StoreApplicationFlowRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -32,4 +32,3 @@ class MassStoreApplicationFlowRequest extends BaseMassFormRequest
         return $rules;
     }
 }
-

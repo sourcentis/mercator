@@ -52,4 +52,3 @@ Schedule::command('mercator:remind-cartographers')
     ->daily()
     ->withoutOverlapping()
     ->runInBackground();
-

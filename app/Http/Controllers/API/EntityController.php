@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreEntityRequest;
 use App\Http\Requests\MassUpdateEntityRequest;
 use App\Http\Requests\StoreEntityRequest;
 use App\Http\Requests\UpdateEntityRequest;
+use App\Models\Entity;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Entity;
 use Symfony\Component\HttpFoundation\Response;
 
 class EntityController extends APIController
@@ -80,7 +80,7 @@ class EntityController extends APIController
         // L’authorize() du FormRequest gère déjà entity_create
         $createdIds = [];
 
-        $model    = new Entity();
+        $model = new Entity;
         $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $item) {
@@ -104,19 +104,19 @@ class EntityController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateEntityRequest $request)
     {
         // L’authorize() du FormRequest gère déjà entity_edit
-        $model    = new Entity();
+        $model = new Entity;
         $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
-            $id        = $rawItem['id'];
+            $id = $rawItem['id'];
             $processes = $rawItem['processes'] ?? null;
 
             /** @var Entity $entity */

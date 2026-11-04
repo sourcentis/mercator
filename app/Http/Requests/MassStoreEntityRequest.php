@@ -17,10 +17,10 @@ class MassStoreEntityRequest extends BaseMassFormRequest
     public function rules()
     {
         // On récupère les règles du StoreEntityRequest classique
-        $storeRules = (new StoreEntityRequest())->rules();
+        $storeRules = (new StoreEntityRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -29,10 +29,9 @@ class MassStoreEntityRequest extends BaseMassFormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.processes']   = ['sometimes', 'array'];
+        $rules['items.*.processes'] = ['sometimes', 'array'];
         $rules['items.*.processes.*'] = ['integer'];
 
         return $rules;
     }
 }
-

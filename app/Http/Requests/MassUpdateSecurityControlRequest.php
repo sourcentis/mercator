@@ -21,11 +21,11 @@ class MassUpdateSecurityControlRequest extends BaseMassFormRequest
         $updateRules = new UpdateSecurityControlRequest()->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new SecurityControl();
+        $model = new SecurityControl;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdateSecurityControlRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -39,4 +39,3 @@ class MassUpdateSecurityControlRequest extends BaseMassFormRequest
         return $rules;
     }
 }
-

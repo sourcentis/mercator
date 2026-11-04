@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreTaskRequest;
 use App\Http\Requests\MassUpdateTaskRequest;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Models\Task;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Task;
 use Symfony\Component\HttpFoundation\Response;
 
 class TaskController extends APIController
@@ -73,8 +73,8 @@ class TaskController extends APIController
         // L’authorize() du FormRequest gère déjà la permission `task_create`
 
         $createdIds = [];
-        $taskModel  = new Task();
-        $fillable   = $taskModel->getFillable();
+        $taskModel = new Task;
+        $fillable = $taskModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             // Colonnes du modèle uniquement (pas de relations ici)
@@ -90,16 +90,16 @@ class TaskController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateTaskRequest $request)
     {
         // L’authorize() du FormRequest gère déjà la permission `task_edit`
-        $taskModel = new Task();
-        $fillable  = $taskModel->getFillable();
+        $taskModel = new Task;
+        $fillable = $taskModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
             $id = $rawItem['id'];

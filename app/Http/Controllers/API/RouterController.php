@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreRouterRequest;
 use App\Http\Requests\MassUpdateRouterRequest;
 use App\Http\Requests\StoreRouterRequest;
 use App\Http\Requests\UpdateRouterRequest;
+use App\Models\Router;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Router;
 use Symfony\Component\HttpFoundation\Response;
 
 class RouterController extends APIController
@@ -77,9 +77,9 @@ class RouterController extends APIController
     {
         // L’authorize() du FormRequest gère déjà la permission `router_create`
 
-        $createdIds  = [];
-        $routerModel = new Router();
-        $fillable    = $routerModel->getFillable();
+        $createdIds = [];
+        $routerModel = new Router;
+        $fillable = $routerModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             $physicalRouters = $item['physicalRouters'] ?? null;
@@ -102,19 +102,19 @@ class RouterController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateRouterRequest $request)
     {
         // L’authorize() du FormRequest gère déjà la permission `router_edit`
-        $routerModel = new Router();
-        $fillable    = $routerModel->getFillable();
+        $routerModel = new Router;
+        $fillable = $routerModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
-            $id              = $rawItem['id'];
+            $id = $rawItem['id'];
             $physicalRouters = $rawItem['physicalRouters'] ?? null;
 
             /** @var Router $router */

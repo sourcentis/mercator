@@ -17,10 +17,10 @@ class MassStoreForestAdRequest extends BaseMassFormRequest
     public function rules()
     {
         // On récupère les règles du StoreForestAdRequest classique
-        $storeRules = (new StoreForestAdRequest())->rules();
+        $storeRules = (new StoreForestAdRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -32,4 +32,3 @@ class MassStoreForestAdRequest extends BaseMassFormRequest
         return $rules;
     }
 }
-

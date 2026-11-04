@@ -17,10 +17,10 @@ class MassStoreApplicationBlockRequest extends BaseMassFormRequest
     public function rules()
     {
         // On récupère les règles du StoreApplicationBlockRequest classique
-        $storeRules = (new StoreApplicationBlockRequest())->rules();
+        $storeRules = (new StoreApplicationBlockRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -29,10 +29,9 @@ class MassStoreApplicationBlockRequest extends BaseMassFormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.applications']   = ['sometimes', 'array'];
+        $rules['items.*.applications'] = ['sometimes', 'array'];
         $rules['items.*.applications.*'] = ['integer'];
 
         return $rules;
     }
 }
-

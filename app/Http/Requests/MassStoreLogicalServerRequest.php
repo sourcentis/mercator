@@ -17,10 +17,10 @@ class MassStoreLogicalServerRequest extends BaseMassFormRequest
     public function rules()
     {
         // On récupère les règles du StoreLogicalServerRequest classique
-        $storeRules = (new StoreLogicalServerRequest())->rules();
+        $storeRules = (new StoreLogicalServerRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -29,16 +29,15 @@ class MassStoreLogicalServerRequest extends BaseMassFormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.applications']   = ['sometimes', 'array'];
+        $rules['items.*.applications'] = ['sometimes', 'array'];
         $rules['items.*.applications.*'] = ['integer'];
 
-        $rules['items.*.databases']   = ['sometimes', 'array'];
+        $rules['items.*.databases'] = ['sometimes', 'array'];
         $rules['items.*.databases.*'] = ['integer'];
 
-        $rules['items.*.physicalServers']   = ['sometimes', 'array'];
+        $rules['items.*.physicalServers'] = ['sometimes', 'array'];
         $rules['items.*.physicalServers.*'] = ['integer'];
 
         return $rules;
     }
 }
-

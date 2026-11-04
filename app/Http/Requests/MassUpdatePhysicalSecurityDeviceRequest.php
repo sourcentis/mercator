@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\PhysicalSecurityDevice;
 use Gate;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\PhysicalSecurityDevice;
 
 class MassUpdatePhysicalSecurityDeviceRequest extends BaseMassFormRequest
 {
@@ -18,14 +18,14 @@ class MassUpdatePhysicalSecurityDeviceRequest extends BaseMassFormRequest
     public function rules()
     {
         // Règles du UpdatePhysicalSecurityDeviceRequest classique
-        $updateRules = (new UpdatePhysicalSecurityDeviceRequest())->rules();
+        $updateRules = (new UpdatePhysicalSecurityDeviceRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new PhysicalSecurityDevice();
+        $model = new PhysicalSecurityDevice;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdatePhysicalSecurityDeviceRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -39,4 +39,3 @@ class MassUpdatePhysicalSecurityDeviceRequest extends BaseMassFormRequest
         return $rules;
     }
 }
-

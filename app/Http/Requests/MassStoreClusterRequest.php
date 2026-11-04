@@ -17,10 +17,10 @@ class MassStoreClusterRequest extends BaseMassFormRequest
     public function rules()
     {
         // On récupère les règles du StoreClusterRequest classique
-        $storeRules = (new StoreClusterRequest())->rules();
+        $storeRules = (new StoreClusterRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -29,13 +29,12 @@ class MassStoreClusterRequest extends BaseMassFormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.applications']   = ['sometimes', 'array'];
+        $rules['items.*.applications'] = ['sometimes', 'array'];
         $rules['items.*.applications.*'] = ['integer'];
 
-        $rules['items.*.servers']   = ['sometimes', 'array'];
+        $rules['items.*.servers'] = ['sometimes', 'array'];
         $rules['items.*.servers.*'] = ['integer'];
 
         return $rules;
     }
 }
-

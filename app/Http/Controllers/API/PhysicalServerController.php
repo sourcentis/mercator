@@ -7,10 +7,10 @@ use App\Http\Requests\MassStorePhysicalServerRequest;
 use App\Http\Requests\MassUpdatePhysicalServerRequest;
 use App\Http\Requests\StorePhysicalServerRequest;
 use App\Http\Requests\UpdatePhysicalServerRequest;
+use App\Models\PhysicalServer;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\PhysicalServer;
 use Symfony\Component\HttpFoundation\Response;
 
 class PhysicalServerController extends APIController
@@ -58,15 +58,18 @@ class PhysicalServerController extends APIController
 
         $physicalServer->update($request->all());
 
-        if ($request->has('logical_servers'))
+        if ($request->has('logical_servers')) {
             $physicalServer->logicalServers()->sync($request->input('logical_servers', []));
+        }
 
-        if ($request->has('applications'))
+        if ($request->has('applications')) {
             $physicalServer->applications()->sync($request->input('applications', []));
+        }
 
-        if ($request->has('clusters'))
+        if ($request->has('clusters')) {
             $physicalServer->clusters()->sync($request->input('clusters', []));
-        
+        }
+
         return response()->json();
     }
 
@@ -92,13 +95,13 @@ class PhysicalServerController extends APIController
     {
         // L’authorize() du FormRequest gère déjà la permission `physical_server_create`
 
-        $createdIds          = [];
-        $physicalServerModel = new PhysicalServer();
-        $fillable            = $physicalServerModel->getFillable();
+        $createdIds = [];
+        $physicalServerModel = new PhysicalServer;
+        $fillable = $physicalServerModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
-            $applications    = $item['applications'] ?? null;
-            $logicalServers  = $item['logicalServers'] ?? null;
+            $applications = $item['applications'] ?? null;
+            $logicalServers = $item['logicalServers'] ?? null;
 
             // Colonnes du modèle uniquement (sans les relations)
             $attributes = collect($item)
@@ -122,20 +125,20 @@ class PhysicalServerController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdatePhysicalServerRequest $request)
     {
         // L’authorize() du FormRequest gère déjà la permission `physical_server_edit`
-        $physicalServerModel = new PhysicalServer();
-        $fillable            = $physicalServerModel->getFillable();
+        $physicalServerModel = new PhysicalServer;
+        $fillable = $physicalServerModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
-            $id             = $rawItem['id'];
-            $applications   = $rawItem['applications'] ?? null;
+            $id = $rawItem['id'];
+            $applications = $rawItem['applications'] ?? null;
             $logicalServers = $rawItem['logicalServers'] ?? null;
 
             /** @var PhysicalServer $physicalServer */

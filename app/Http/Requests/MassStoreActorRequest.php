@@ -17,10 +17,10 @@ class MassStoreActorRequest extends BaseMassFormRequest
     public function rules()
     {
         // On récupère les règles du StoreActorRequest classique
-        $storeRules = (new StoreActorRequest())->rules();
+        $storeRules = (new StoreActorRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -32,4 +32,3 @@ class MassStoreActorRequest extends BaseMassFormRequest
         return $rules;
     }
 }
-

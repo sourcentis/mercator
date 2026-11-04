@@ -15,7 +15,7 @@ class StoreDocumentRequest extends FormRequest
     {
         return [
             // Taille max configurable via php.ini / upload_max_filesize
-            'file' => ['required', 'file', 'max:' . (config('mercator.max_upload_size', 51200))],
+            'file' => ['required', 'file', 'max:'.(config('mercator.max_upload_size', 51200))],
         ];
     }
 }

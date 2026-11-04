@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use Gate;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\User;
 
 class MassUpdateUserRequest extends BaseMassFormRequest
 {
@@ -18,14 +18,14 @@ class MassUpdateUserRequest extends BaseMassFormRequest
     public function rules()
     {
         // Règles du UpdateUserRequest classique
-        $updateRules = (new UpdateUserRequest())->rules();
+        $updateRules = (new UpdateUserRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new User();
+        $model = new User;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdateUserRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -36,10 +36,9 @@ class MassUpdateUserRequest extends BaseMassFormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.roles']   = ['sometimes', 'array'];
+        $rules['items.*.roles'] = ['sometimes', 'array'];
         $rules['items.*.roles.*'] = ['integer'];
 
         return $rules;
     }
 }
-

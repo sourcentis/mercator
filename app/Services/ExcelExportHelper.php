@@ -11,10 +11,10 @@ class ExcelExportHelper
 
     public function __construct()
     {
-        $this->html = new Html();
+        $this->html = new Html;
     }
 
-    public function prepareRichText(?string $value): string | RichText
+    public function prepareRichText(?string $value): string|RichText
     {
         if (empty($value)) {
             return '';

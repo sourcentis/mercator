@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreAdminUserRequest;
 use App\Http\Requests\MassUpdateAdminUserRequest;
 use App\Http\Requests\StoreAdminUserRequest;
 use App\Http\Requests\UpdateAdminUserRequest;
+use App\Models\AdminUser;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\AdminUser;
 use Symfony\Component\HttpFoundation\Response;
 
 class AdminUserController extends APIController
@@ -72,8 +72,8 @@ class AdminUserController extends APIController
         // L’authorize() du FormRequest gère déjà le Gate::denies('admin_user_create')
         $createdIds = [];
 
-        $userModel = new AdminUser();
-        $fillable  = $userModel->getFillable();
+        $userModel = new AdminUser;
+        $fillable = $userModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             // Ne garde que les colonnes du modèle (ignore les champs inconnus)
@@ -89,16 +89,16 @@ class AdminUserController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateAdminUserRequest $request)
     {
         // L’authorize() du FormRequest gère déjà le Gate::denies('admin_user_edit')
-        $userModel = new AdminUser();
-        $fillable  = $userModel->getFillable();
+        $userModel = new AdminUser;
+        $fillable = $userModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
             $id = $rawItem['id'];

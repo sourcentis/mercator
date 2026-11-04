@@ -17,12 +17,12 @@ class MassUpdateZoneRequest extends BaseMassFormRequest
 
     public function rules(): array
     {
-        $updateRules = (new UpdateZoneRequest())->rules();
+        $updateRules = (new UpdateZoneRequest)->rules();
 
         $rules = [
-            'items'      => ['required', 'array', 'min:1'],
-            'items.*'    => ['required', 'array'],
-            'items.*.id' => ['required', 'integer', "exists:zones,id"],
+            'items' => ['required', 'array', 'min:1'],
+            'items.*' => ['required', 'array'],
+            'items.*.id' => ['required', 'integer', 'exists:zones,id'],
         ];
 
         foreach ($updateRules as $field => $rule) {
@@ -39,7 +39,7 @@ class MassUpdateZoneRequest extends BaseMassFormRequest
     {
         $validator->after(function ($validator) {
             foreach ($this->input('items', []) as $index => $item) {
-                $id   = $item['id'] ?? null;
+                $id = $item['id'] ?? null;
                 $name = $item['name'] ?? null;
                 if ($name === null) {
                     continue;

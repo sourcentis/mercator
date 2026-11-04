@@ -17,10 +17,10 @@ class MassStoreLanRequest extends BaseMassFormRequest
     public function rules()
     {
         // On récupère les règles du StoreLanRequest classique
-        $storeRules = (new StoreLanRequest())->rules();
+        $storeRules = (new StoreLanRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -29,13 +29,12 @@ class MassStoreLanRequest extends BaseMassFormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.mans']   = ['sometimes', 'array'];
+        $rules['items.*.mans'] = ['sometimes', 'array'];
         $rules['items.*.mans.*'] = ['integer'];
 
-        $rules['items.*.wans']   = ['sometimes', 'array'];
+        $rules['items.*.wans'] = ['sometimes', 'array'];
         $rules['items.*.wans.*'] = ['integer'];
 
         return $rules;
     }
 }
-

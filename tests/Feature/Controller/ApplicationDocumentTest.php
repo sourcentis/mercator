@@ -2,6 +2,7 @@
 
 use App\Models\Application;
 use App\Models\Document;
+use App\Models\Parameter;
 use App\Models\User;
 use Database\Seeders\PermissionRoleTableSeeder;
 use Database\Seeders\PermissionsTableSeeder;
@@ -109,16 +110,16 @@ describe('show view documents section', function () {
 describe('configuration parameter save', function () {
     test('handleGeneral saves application_documents parameter', function () {
         $response = $this->put(route('admin.config.parameters'), [
-            'active_tab'            => 'general',
+            'active_tab' => 'general',
             'application_documents' => '1',
-            'max_nodes'             => 500,
+            'max_nodes' => 500,
         ]);
 
         $response->assertRedirect();
 
         expect(config('mercator.parameters.application_documents'))->toBeTrue();
 
-        $stored = json_decode(\App\Models\Parameter::getValue('mercator_config'), true);
+        $stored = json_decode(Parameter::getValue('mercator_config'), true);
         expect($stored['parameters']['application_documents'])->toBeTrue();
     });
 });

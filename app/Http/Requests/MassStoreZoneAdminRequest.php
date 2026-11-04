@@ -17,10 +17,10 @@ class MassStoreZoneAdminRequest extends BaseMassFormRequest
     public function rules()
     {
         // On récupère les règles du StoreZoneAdminRequest classique
-        $storeRules = (new StoreZoneAdminRequest())->rules();
+        $storeRules = (new StoreZoneAdminRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -32,4 +32,3 @@ class MassStoreZoneAdminRequest extends BaseMassFormRequest
         return $rules;
     }
 }
-

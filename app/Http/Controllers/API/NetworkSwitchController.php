@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreNetworkSwitchRequest;
 use App\Http\Requests\MassUpdateNetworkSwitchRequest;
 use App\Http\Requests\StoreNetworkSwitchRequest;
 use App\Http\Requests\UpdateNetworkSwitchRequest;
+use App\Models\NetworkSwitch;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\NetworkSwitch;
 use Symfony\Component\HttpFoundation\Response;
 
 class NetworkSwitchController extends APIController
@@ -75,11 +75,13 @@ class NetworkSwitchController extends APIController
 
         $networkSwitch->update($request->all());
 
-        if ($request->has('physical_switches'))
+        if ($request->has('physical_switches')) {
             $networkSwitch->physicalSwitches()->sync($request->input('physical_switches', []));
+        }
 
-        if ($request->has('vlans'))
+        if ($request->has('vlans')) {
             $networkSwitch->vlans()->sync($request->input('vlans', []));
+        }
 
         return response()->json();
     }
@@ -117,13 +119,13 @@ class NetworkSwitchController extends APIController
     {
         // authorize() in the FormRequest already checks `network_switch_create`
 
-        $createdIds        = [];
-        $networkSwitchModel = new NetworkSwitch();
-        $fillable           = $networkSwitchModel->getFillable();
+        $createdIds = [];
+        $networkSwitchModel = new NetworkSwitch;
+        $fillable = $networkSwitchModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             $physicalSwitches = $item['physical_switches'] ?? null;
-            $vlans            = $item['vlans'] ?? null;
+            $vlans = $item['vlans'] ?? null;
 
             // Only model columns, relations are excluded
             $attributes = collect($item)
@@ -147,8 +149,8 @@ class NetworkSwitchController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
@@ -161,13 +163,13 @@ class NetworkSwitchController extends APIController
     public function massUpdate(MassUpdateNetworkSwitchRequest $request)
     {
         // authorize() in the FormRequest already checks `network_switch_edit`
-        $networkSwitchModel = new NetworkSwitch();
-        $fillable           = $networkSwitchModel->getFillable();
+        $networkSwitchModel = new NetworkSwitch;
+        $fillable = $networkSwitchModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
-            $id               = $rawItem['id'];
+            $id = $rawItem['id'];
             $physicalSwitches = $rawItem['physical_switches'] ?? null;
-            $vlans            = $rawItem['vlans'] ?? null;
+            $vlans = $rawItem['vlans'] ?? null;
 
             /** @var NetworkSwitch $networkSwitch */
             $networkSwitch = NetworkSwitch::query()->findOrFail($id);

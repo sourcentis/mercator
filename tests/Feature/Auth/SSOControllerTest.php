@@ -1,14 +1,15 @@
 <?php
 
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\User as SocialiteUser;
-use App\Models\Role;
-use App\Models\User;
+use Tests\TestCase;
 
-uses(Tests\TestCase::class, RefreshDatabase::class);
+uses(TestCase::class, RefreshDatabase::class);
 
 beforeEach(function () {
     // Créer des rôles de test
@@ -76,7 +77,7 @@ it('redirects to local login when keycloak fails and fallback enabled', function
     Config::set('services.keycloak.enabled', true);
     Config::set('services.keycloak.fallback_local', true);
 
-    mockSocialiteKeycloakException(new \Exception('Keycloak unreachable'));
+    mockSocialiteKeycloakException(new Exception('Keycloak unreachable'));
 
     $response = $this->get(route('keycloak.callback'));
 
@@ -88,7 +89,7 @@ it('shows error when keycloak fails and fallback disabled', function () {
     Config::set('services.keycloak.enabled', true);
     Config::set('services.keycloak.fallback_local', false);
 
-    mockSocialiteKeycloakException(new \Exception('Keycloak unreachable'));
+    mockSocialiteKeycloakException(new Exception('Keycloak unreachable'));
 
     $response = $this->get(route('keycloak.callback'));
 
@@ -326,7 +327,7 @@ function mockSocialiteKeycloak(object $keycloakUser): void
         ->andReturn($keycloakUser);
 }
 
-function mockSocialiteKeycloakException(\Exception $exception): void
+function mockSocialiteKeycloakException(Exception $exception): void
 {
     Socialite::shouldReceive('driver')
         ->with('keycloak')

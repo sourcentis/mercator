@@ -17,10 +17,10 @@ class MassStorePeripheralRequest extends BaseMassFormRequest
     public function rules()
     {
         // On récupère les règles du StorePeripheralRequest classique
-        $storeRules = (new StorePeripheralRequest())->rules();
+        $storeRules = (new StorePeripheralRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -29,13 +29,12 @@ class MassStorePeripheralRequest extends BaseMassFormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.applications']   = ['sometimes', 'array'];
+        $rules['items.*.applications'] = ['sometimes', 'array'];
         $rules['items.*.applications.*'] = ['integer'];
 
-        $rules['items.*.roles']   = ['sometimes', 'array'];
+        $rules['items.*.roles'] = ['sometimes', 'array'];
         $rules['items.*.roles.*'] = ['integer'];
 
         return $rules;
     }
 }
-

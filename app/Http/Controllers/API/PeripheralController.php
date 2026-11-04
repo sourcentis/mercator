@@ -78,9 +78,9 @@ class PeripheralController extends APIController
     {
         // L’authorize() du FormRequest gère déjà le Gate::denies('peripheral_create')
 
-        $createdIds     = [];
-        $peripheralModel = new Peripheral();
-        $fillable        = $peripheralModel->getFillable();
+        $createdIds = [];
+        $peripheralModel = new Peripheral;
+        $fillable = $peripheralModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             $applications = $item['applications'] ?? null;
@@ -103,19 +103,19 @@ class PeripheralController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdatePeripheralRequest $request)
     {
         // L’authorize() du FormRequest gère déjà le Gate::denies('peripheral_edit')
-        $peripheralModel = new Peripheral();
-        $fillable        = $peripheralModel->getFillable();
+        $peripheralModel = new Peripheral;
+        $fillable = $peripheralModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
-            $id           = $rawItem['id'];
+            $id = $rawItem['id'];
             $applications = $rawItem['applications'] ?? null;
 
             /** @var Peripheral $peripheral */

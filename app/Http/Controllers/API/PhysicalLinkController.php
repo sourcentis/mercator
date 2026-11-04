@@ -7,10 +7,10 @@ use App\Http\Requests\MassStorePhysicalLinkRequest;
 use App\Http\Requests\MassUpdatePhysicalLinkRequest;
 use App\Http\Requests\StorePhysicalLinkRequest;
 use App\Http\Requests\UpdatePhysicalLinkRequest;
+use App\Models\PhysicalLink;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\PhysicalLink;
 use Symfony\Component\HttpFoundation\Response;
 
 class PhysicalLinkController extends APIController
@@ -72,9 +72,9 @@ class PhysicalLinkController extends APIController
     {
         // L’authorize() du FormRequest gère déjà la permission `physical_link_create`
 
-        $createdIds        = [];
-        $physicalLinkModel = new PhysicalLink();
-        $fillable           = $physicalLinkModel->getFillable();
+        $createdIds = [];
+        $physicalLinkModel = new PhysicalLink;
+        $fillable = $physicalLinkModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             // Colonnes du modèle uniquement
@@ -90,16 +90,16 @@ class PhysicalLinkController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdatePhysicalLinkRequest $request)
     {
         // L’authorize() du FormRequest gère déjà la permission `physical_link_edit`
-        $physicalLinkModel = new PhysicalLink();
-        $fillable          = $physicalLinkModel->getFillable();
+        $physicalLinkModel = new PhysicalLink;
+        $fillable = $physicalLinkModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
             $id = $rawItem['id'];

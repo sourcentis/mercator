@@ -7,11 +7,11 @@ use App\Http\Requests\MassStoreApplicationBlockRequest;
 use App\Http\Requests\MassUpdateApplicationBlockRequest;
 use App\Http\Requests\StoreApplicationBlockRequest;
 use App\Http\Requests\UpdateApplicationBlockRequest;
+use App\Models\Application;
+use App\Models\ApplicationBlock;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\ApplicationBlock;
-use App\Models\Application;
 use Symfony\Component\HttpFoundation\Response;
 
 class ApplicationBlockController extends APIController
@@ -89,9 +89,9 @@ class ApplicationBlockController extends APIController
     public function massStore(MassStoreApplicationBlockRequest $request)
     {
         // L’authorize() du FormRequest gère déjà le Gate::denies('application_block_create')
-        $createdIds    = [];
-        $model         = new ApplicationBlock();
-        $fillable      = $model->getFillable();
+        $createdIds = [];
+        $model = new ApplicationBlock;
+        $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             $applications = $item['applications'] ?? null;
@@ -115,19 +115,19 @@ class ApplicationBlockController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateApplicationBlockRequest $request)
     {
         // L’authorize() du FormRequest gère déjà le Gate::denies('application_block_edit')
-        $model    = new ApplicationBlock();
+        $model = new ApplicationBlock;
         $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
-            $id           = $rawItem['id'];
+            $id = $rawItem['id'];
             $applications = $rawItem['applications'] ?? null;
 
             /** @var ApplicationBlock $applicationBlock */

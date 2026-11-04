@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreApplicationServiceRequest;
 use App\Http\Requests\MassUpdateApplicationServiceRequest;
 use App\Http\Requests\StoreApplicationServiceRequest;
 use App\Http\Requests\UpdateApplicationServiceRequest;
+use App\Models\ApplicationService;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\ApplicationService;
 use Symfony\Component\HttpFoundation\Response;
 
 class ApplicationServiceController extends APIController
@@ -50,10 +50,12 @@ class ApplicationServiceController extends APIController
         abort_if(Gate::denies('edit-object', $applicationService), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $applicationService->update($request->all());
-        if ($request['modules'] !== null)
+        if ($request['modules'] !== null) {
             $applicationService->modules()->sync($request->input('modules', []));
-        if ($request['applications'] !== null)
+        }
+        if ($request['applications'] !== null) {
             $applicationService->applications()->sync($request->input('applications', []));
+        }
 
         return response()->json();
     }
@@ -81,11 +83,11 @@ class ApplicationServiceController extends APIController
         // L’authorize() du FormRequest gère déjà l’appel Gate::denies('application_service_create')
         $createdIds = [];
 
-        $model    = new ApplicationService();
+        $model = new ApplicationService;
         $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $item) {
-            $modules      = $item['modules'] ?? null;
+            $modules = $item['modules'] ?? null;
             $applications = $item['applications'] ?? null;
 
             // Ne garde que les colonnes du modèle, sans les relations
@@ -110,20 +112,20 @@ class ApplicationServiceController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateApplicationServiceRequest $request)
     {
         // L’authorize() du FormRequest gère déjà l’appel Gate::denies('application_service_edit')
-        $model    = new ApplicationService();
+        $model = new ApplicationService;
         $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
-            $id           = $rawItem['id'];
-            $modules      = $rawItem['modules'] ?? null;
+            $id = $rawItem['id'];
+            $modules = $rawItem['modules'] ?? null;
             $applications = $rawItem['applications'] ?? null;
 
             /** @var ApplicationService $applicationService */

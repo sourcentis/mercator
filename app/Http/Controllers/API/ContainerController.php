@@ -5,11 +5,11 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\MassDestroyContainerRequest;
 use App\Http\Requests\StoreContainerRequest;
 use App\Http\Requests\UpdateContainerRequest;
+use App\Models\Container;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Log;
-use App\Models\Container;
 use Symfony\Component\HttpFoundation\Response;
 
 class ContainerController extends APIController
@@ -45,7 +45,7 @@ class ContainerController extends APIController
         $container['logical_servers'] = $container->logicalServers()->pluck('id');
         $container['applications'] = $container->applications()->pluck('id');
         $container['databases'] = $container->databases()->pluck('id');
-        
+
         return new JsonResource($container);
     }
 
@@ -55,12 +55,15 @@ class ContainerController extends APIController
 
         $container->update($request->all());
 
-        if ($request->has('logical_servers'))
+        if ($request->has('logical_servers')) {
             $container->logicalServers()->sync($request->input('logical_servers', []));
-        if ($request->has('applications'))
+        }
+        if ($request->has('applications')) {
             $container->applications()->sync($request->input('applications', []));
-        if ($request->has('databases'))
+        }
+        if ($request->has('databases')) {
             $container->databases()->sync($request->input('databases', []));
+        }
 
         return response()->json();
     }

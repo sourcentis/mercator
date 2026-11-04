@@ -17,10 +17,10 @@ class MassStorePhoneRequest extends BaseMassFormRequest
     public function rules()
     {
         // On récupère les règles du StorePhoneRequest classique
-        $storeRules = (new StorePhoneRequest())->rules();
+        $storeRules = (new StorePhoneRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -32,4 +32,3 @@ class MassStorePhoneRequest extends BaseMassFormRequest
         return $rules;
     }
 }
-
