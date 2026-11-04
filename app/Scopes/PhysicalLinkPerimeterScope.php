@@ -7,7 +7,6 @@ use App\Support\PerimeterPermissions;
 use App\Support\PerimeterSettings;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
 /**
@@ -17,7 +16,7 @@ use Illuminate\Database\Query\Builder as QueryBuilder;
  * pertinents (son perimeter_id explicite, celui de la source, celui de la destination).
  * Le lien reste visible dès que l'un d'eux correspond au périmètre actif.
  */
-class PhysicalLinkPerimeterScope implements Scope
+class PhysicalLinkPerimeterScope implements PerimeterConstrainingScope
 {
     public function apply(Builder $builder, Model $model): void
     {

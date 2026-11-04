@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Laravel\Socialite\AbstractUser;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\AuditLog;
 use App\Models\Role;
@@ -64,7 +65,9 @@ class SsoController extends Controller
         $name = $keycloakUser->getName() ?? $login;
 
         // Récupérer les rôles de Keycloak
-        $keycloakRoles = $keycloakUser->getRaw()['realm_access']['roles'] ?? [];
+        $keycloakRoles = $keycloakUser instanceof AbstractUser
+            ? ($keycloakUser->getRaw()['realm_access']['roles'] ?? [])
+            : [];
 
         // Chercher l'utilisateur local par login OU par email
         $existingUser = User::where('login', $login)->first()

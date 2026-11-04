@@ -8,7 +8,6 @@ use App\Support\PerimeterPermissions;
 use App\Support\PerimeterSettings;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Scope;
 
 /**
  * Restreint toute requête sur un modèle HasPerimeter au périmètre de travail
@@ -25,7 +24,7 @@ use Illuminate\Database\Eloquent\Scope;
  * par une minorité de contrôleurs, un global scope s'applique uniformément
  * partout où le modèle est interrogé.
  */
-class PerimeterScope implements Scope
+class PerimeterScope implements PerimeterConstrainingScope
 {
     public function apply(Builder $builder, Model $model): void
     {

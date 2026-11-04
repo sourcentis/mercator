@@ -3,10 +3,11 @@
 namespace App\Traits;
 
 use App\Models\Perimeter;
+use App\Scopes\PerimeterConstrainingScope;
 use App\Scopes\PerimeterScope;
 use App\Support\PerimeterSettings;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Scope;
 use Symfony\Component\HttpFoundation\Response;
 
 trait HasPerimeter
@@ -21,7 +22,7 @@ trait HasPerimeter
      * in a model whose visibility depends on more than its own perimeter_id
      * column (see ApplicationFlow::perimeterScopeClass()).
      *
-     * @return class-string<Scope>
+     * @return class-string<PerimeterConstrainingScope>
      */
     protected static function perimeterScopeClass(): string
     {
@@ -32,12 +33,12 @@ trait HasPerimeter
      * Restreint $query aux objets visibles depuis l'un de ces périmètres, avec la même règle que
      * le global scope du modèle (y compris les scopes à relations d'ApplicationFlow/PhysicalLink).
      *
-     * @param  \Illuminate\Database\Eloquent\Builder<static>  $query
+     * @param  Builder<static>  $query
      * @param  list<int>  $perimeterIds
      */
-    public static function constrainToPerimeters(\Illuminate\Database\Eloquent\Builder $query, array $perimeterIds): void
+    public static function constrainToPerimeters(Builder $query, array $perimeterIds): void
     {
-        (new (static::perimeterScopeClass()))->constrain($query, new static, $perimeterIds);
+        (new (static::perimeterScopeClass()))->constrain($query, $query->getModel(), $perimeterIds);
     }
 
     public function perimeter(): BelongsTo

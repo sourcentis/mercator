@@ -279,7 +279,7 @@ class Cartographer extends Model
         $table = $query->getModel()->getTable();
 
         return $query->where(function (Builder $q) use ($class, $perimeterIds, $ids, $table) {
-            if ($perimeterIds !== []) {
+            if ($perimeterIds !== [] && method_exists($class, 'constrainToPerimeters')) {
                 $class::constrainToPerimeters($q, $perimeterIds);
             }
             if ($ids !== []) {

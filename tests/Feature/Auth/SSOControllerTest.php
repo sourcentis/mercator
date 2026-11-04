@@ -4,6 +4,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Laravel\Socialite\Facades\Socialite;
+use Laravel\Socialite\Two\User as SocialiteUser;
 use App\Models\Role;
 use App\Models\User;
 
@@ -298,43 +299,22 @@ it('creates audit log on successful sso login', function () {
  * Crée un mock de Keycloak user reproduisant Socialite\Two\User :
  * les rôles sont dans les données brutes du userinfo (getRaw()['realm_access']['roles'])
  */
-function mockKeycloakUser(array $attributes): object
+function mockKeycloakUser(array $attributes): SocialiteUser
 {
-    return new class($attributes) {
-        private $attributes;
-
-        public function __construct(array $attributes)
-        {
-            $this->attributes = $attributes;
-        }
-
-        public function getNickname()
-        {
-            return $this->attributes['nickname'] ?? null;
-        }
-
-        public function getEmail()
-        {
-            return $this->attributes['email'] ?? null;
-        }
-
-        public function getName()
-        {
-            return $this->attributes['name'] ?? $this->attributes['nickname'] ?? null;
-        }
-
-        public function getRaw(): array
-        {
-            return [
-                'preferred_username' => $this->attributes['nickname'] ?? null,
-                'email' => $this->attributes['email'] ?? null,
-                'name' => $this->attributes['name'] ?? null,
-                'realm_access' => [
-                    'roles' => $this->attributes['roles'] ?? [],
-                ],
-            ];
-        }
-    };
+    return (new SocialiteUser)
+        ->setRaw([
+            'preferred_username' => $attributes['nickname'] ?? null,
+            'email' => $attributes['email'] ?? null,
+            'name' => $attributes['name'] ?? null,
+            'realm_access' => [
+                'roles' => $attributes['roles'] ?? [],
+            ],
+        ])
+        ->map([
+            'nickname' => $attributes['nickname'] ?? null,
+            'email' => $attributes['email'] ?? null,
+            'name' => $attributes['name'] ?? $attributes['nickname'] ?? null,
+        ]);
 }
 
 function mockSocialiteKeycloak(object $keycloakUser): void
