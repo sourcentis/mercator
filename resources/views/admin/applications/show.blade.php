@@ -119,10 +119,7 @@
                     </th>
                     <td colspan=3>
                         @foreach($application->administrators as $administrator)
-                            <a href="{{ route('admin.admin-users.show', $administrator->id) }}">{{ $administrator->user_id }}</a>
-                            @if(!$loop->last)
-                                ,
-                            @endif
+                            <a href="{{ route('admin.admin-users.show', $administrator->id) }}">{{ $administrator->firstname }} {{ $administrator->lastname }} [{{ $administrator->user_id }}]</a>@if(!$loop->last),@endif
                         @endforeach
                     </td>
                     <td colspan=2>
