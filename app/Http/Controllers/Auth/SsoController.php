@@ -64,7 +64,7 @@ class SsoController extends Controller
         $name = $keycloakUser->getName() ?? $login;
 
         // Récupérer les rôles de Keycloak
-        $keycloakRoles = $keycloakUser['user']['realm_access']['roles'] ?? [];
+        $keycloakRoles = $keycloakUser->getRaw()['realm_access']['roles'] ?? [];
 
         // Chercher l'utilisateur local par login OU par email
         $existingUser = User::where('login', $login)->first()
@@ -151,7 +151,7 @@ class SsoController extends Controller
      */
     protected function syncKeycloakRoles(User $user, array $keycloakRoles): void
     {
-        $syncRoles = (bool) config('services.keycloak.sync_roles', true);
+        $syncRoles = (bool) config('services.keycloak.sync_roles', false);
 
         if (!$syncRoles || empty($keycloakRoles)) {
             return;
