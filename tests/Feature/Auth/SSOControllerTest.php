@@ -295,12 +295,12 @@ it('creates audit log on successful sso login', function () {
 // ============================================================================
 
 /**
- * Crée un mock de Keycloak user qui implémente ArrayAccess
- * pour supporter $keycloakUser['user']['realm_access']['roles']
+ * Crée un mock de Keycloak user reproduisant Socialite\Two\User :
+ * les rôles sont dans les données brutes du userinfo (getRaw()['realm_access']['roles'])
  */
 function mockKeycloakUser(array $attributes): object
 {
-    return new class($attributes) implements \ArrayAccess {
+    return new class($attributes) {
         private $attributes;
 
         public function __construct(array $attributes)
@@ -323,34 +323,16 @@ function mockKeycloakUser(array $attributes): object
             return $this->attributes['name'] ?? $this->attributes['nickname'] ?? null;
         }
 
-        public function offsetExists($offset): bool
+        public function getRaw(): array
         {
-            return $offset === 'user';
-        }
-
-        #[\ReturnTypeWillChange]
-        public function offsetGet($offset)
-        {
-            if ($offset === 'user') {
-                return [
-                    'realm_access' => [
-                        'roles' => $this->attributes['roles'] ?? [],
-                    ],
-                ];
-            }
-            return null;
-        }
-
-        #[\ReturnTypeWillChange]
-        public function offsetSet($offset, $value)
-        {
-            // Not implemented
-        }
-
-        #[\ReturnTypeWillChange]
-        public function offsetUnset($offset)
-        {
-            // Not implemented
+            return [
+                'preferred_username' => $this->attributes['nickname'] ?? null,
+                'email' => $this->attributes['email'] ?? null,
+                'name' => $this->attributes['name'] ?? null,
+                'realm_access' => [
+                    'roles' => $this->attributes['roles'] ?? [],
+                ],
+            ];
         }
     };
 }
