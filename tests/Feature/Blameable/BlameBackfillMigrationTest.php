@@ -10,7 +10,7 @@ use Tests\TestCase;
 uses(TestCase::class, RefreshDatabase::class);
 
 /**
- * Creates rows without any blame (as before the migration) and returns their id.
+ * Creates a row without any blame (as before the migration) and returns its id.
  */
 function unblamedRow(string $class, bool $deleted = false): int
 {
@@ -42,11 +42,18 @@ function audit(string $type, int $subjectId, ?int $userId, string $description):
     ]);
 }
 
+/**
+ * The columns already exist in the test database: up() only runs the backfill.
+ */
+function runBlameMigration(): void
+{
+    (require database_path('migrations/2026_11_06_000000_add_blame_columns_to_audited_tables.php'))->up();
+}
+
 beforeEach(function () {
     $this->userA = User::factory()->create();
     $this->userB = User::factory()->create();
     $this->userC = User::factory()->create();
-    DB::table('audit_logs')->delete();
 });
 
 it('fills the blame columns from the audit history without touching updated_at', function () {
@@ -61,7 +68,7 @@ it('fills the blame columns from the audit history without touching updated_at',
     audit(LogicalServer::class, $serverId, $this->userB->id, 'created');
     audit(LogicalServer::class, $serverId, $this->userA->id, 'deleted'); // not deleted any more
 
-    $this->artisan('mercator:backfill-blame')->assertSuccessful();
+    runBlameMigration();
 
     $app = DB::table('applications')->where('id', $appId)->first();
     expect($app->created_by)->toBe($this->userA->id)
@@ -79,20 +86,17 @@ it('handles the historical MApplication alias', function () {
     $appId = unblamedRow(Application::class);
     audit('App\\Models\\MApplication', $appId, $this->userA->id, 'created');
 
-    $this->artisan('mercator:backfill-blame')->assertSuccessful();
+    runBlameMigration();
 
     expect(DB::table('applications')->where('id', $appId)->value('created_by'))->toBe($this->userA->id);
 });
 
-it('leaves null and reports the user_id of purged users', function () {
+it('leaves null for purged users and ignores unknown subject types', function () {
     $appId = unblamedRow(Application::class);
     audit(Application::class, $appId, 987654, 'created');
     audit('App\\Models\\Unknown', 1, $this->userA->id, 'created');
 
-    $this->artisan('mercator:backfill-blame')
-        ->expectsOutputToContain('987654')
-        ->expectsOutputToContain('App\\Models\\Unknown')
-        ->assertSuccessful();
+    runBlameMigration();
 
     expect(DB::table('applications')->where('id', $appId)->value('created_by'))->toBeNull();
 });
@@ -102,29 +106,15 @@ it('is idempotent and never overwrites a filled column', function () {
     DB::table('applications')->where('id', $appId)->update(['created_by' => $this->userC->id]);
     audit(Application::class, $appId, $this->userA->id, 'created');
 
-    $this->artisan('mercator:backfill-blame')->assertSuccessful();
+    runBlameMigration();
 
     $row = DB::table('applications')->where('id', $appId)->first();
     expect($row->created_by)->toBe($this->userC->id)
         ->and($row->updated_by)->toBe($this->userA->id);
 
-    $this->artisan('mercator:backfill-blame')
-        ->expectsTable(['Table', 'created_by', 'updated_by', 'deleted_by'], [['TOTAL', 0, 0, 0]])
-        ->assertSuccessful();
-});
+    audit(Application::class, $appId, $this->userB->id, 'updated');
+    runBlameMigration();
 
-it('writes nothing in dry-run mode', function () {
-    $appId = unblamedRow(Application::class);
-    audit(Application::class, $appId, $this->userA->id, 'created');
-
-    $this->artisan('mercator:backfill-blame', ['--dry-run' => true])
-        ->expectsTable(['Table', 'created_by', 'updated_by', 'deleted_by'], [
-            ['applications', 1, 1, 0],
-            ['TOTAL', 1, 1, 0],
-        ])
-        ->assertSuccessful();
-
-    $row = DB::table('applications')->where('id', $appId)->first();
-    expect($row->created_by)->toBeNull()
-        ->and($row->updated_by)->toBeNull();
+    // updated_by is already filled: the second run does not change it
+    expect(DB::table('applications')->where('id', $appId)->value('updated_by'))->toBe($this->userA->id);
 });

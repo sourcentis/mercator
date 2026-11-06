@@ -15,7 +15,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   synchronisation, job).
 - The object footer shows who created and who last modified the object, for
   users holding the `audit_log_access` permission.
-- `mercator:backfill-blame` command, to fill these columns from the audit history.
 
 ### Changed
 
@@ -28,12 +27,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Upgrade
 
-After running the migrations, fill the author columns of existing objects from
-the audit history:
-
-```bash
-php artisan mercator:backfill-blame --dry-run   # shows what would be written
-php artisan mercator:backfill-blame
-```
-
-The command only writes into empty columns: it can safely be run several times.
+The migration fills the author columns of existing objects from the audit
+history (first creator, last editor, author of the deletion). Objects without
+audit history keep empty author columns until their next modification.
