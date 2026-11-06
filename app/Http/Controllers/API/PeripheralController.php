@@ -69,7 +69,7 @@ class PeripheralController extends APIController
     {
         abort_if(Gate::denies('peripheral_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        Peripheral::whereIn('id', $request->input('ids', []))->delete();
+        Peripheral::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

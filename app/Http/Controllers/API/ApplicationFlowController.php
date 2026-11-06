@@ -62,7 +62,7 @@ class ApplicationFlowController extends APIController
     {
         abort_if(Gate::denies('application_flow_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        ApplicationFlow::whereIn('id', $request->input('ids', []))->delete();
+        ApplicationFlow::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

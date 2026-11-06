@@ -100,7 +100,7 @@ class ApplicationController extends APIController
     {
         abort_if(Gate::denies('application_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        Application::whereIn('id', $request->input('ids', []))->delete();
+        Application::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

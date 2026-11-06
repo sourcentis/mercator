@@ -63,7 +63,7 @@ class PhysicalLinkController extends APIController
     {
         abort_if(Gate::denies('physical_link_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        PhysicalLink::whereIn('id', $request->input('ids', []))->delete();
+        PhysicalLink::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

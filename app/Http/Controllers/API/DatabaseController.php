@@ -80,7 +80,7 @@ class DatabaseController extends APIController
     {
         abort_if(Gate::denies('database_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        Database::query()->whereIn('id', request('ids'))->delete();
+        Database::query()->whereIn('id', request('ids'))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

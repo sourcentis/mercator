@@ -104,7 +104,7 @@ class NetworkSwitchController extends APIController
     {
         abort_if(Gate::denies('network_switch_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        NetworkSwitch::query()->whereIn('id', $request->input('ids', []))->delete();
+        NetworkSwitch::query()->whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

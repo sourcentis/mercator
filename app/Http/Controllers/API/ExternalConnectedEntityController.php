@@ -71,7 +71,7 @@ class ExternalConnectedEntityController extends APIController
     {
         abort_if(Gate::denies('external_connected_entity_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        ExternalConnectedEntity::whereIn('id', $request->input('ids', []))->delete();
+        ExternalConnectedEntity::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

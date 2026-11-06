@@ -70,7 +70,7 @@ class ForestAdController extends APIController
     {
         abort_if(Gate::denies('forest_ad_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        ForestAd::query()->whereIn('id', $request->input('ids', []))->delete();
+        ForestAd::query()->whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

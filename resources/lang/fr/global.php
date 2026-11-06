@@ -16,6 +16,8 @@ return [
     'copyPath' => 'Copier le chemin',
     'create' => 'Créer',
     'created_at' => 'Créé le',
+    'by' => 'par',
+    'deleted_user' => 'utilisateur supprimé',
     'dashboard' => 'Tableau de bord',
     'day' => 'jour',
     'days' => 'jours',

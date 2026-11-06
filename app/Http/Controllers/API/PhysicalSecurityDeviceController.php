@@ -70,7 +70,7 @@ class PhysicalSecurityDeviceController extends APIController
     {
         abort_if(Gate::denies('physical_security_device_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        PhysicalSecurityDevice::whereIn('id', $request->input('ids', []))->delete();
+        PhysicalSecurityDevice::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

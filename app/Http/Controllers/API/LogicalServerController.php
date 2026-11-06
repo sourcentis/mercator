@@ -90,7 +90,7 @@ class LogicalServerController extends APIController
     {
         abort_if(Gate::denies('logical_server_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        LogicalServer::whereIn('id', $request->input('ids', []))->delete();
+        LogicalServer::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

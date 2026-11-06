@@ -73,7 +73,7 @@ class ApplicationServiceController extends APIController
     {
         abort_if(Gate::denies('application_service_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        ApplicationService::query()->whereIn('id', request('ids'))->delete();
+        ApplicationService::query()->whereIn('id', request('ids'))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

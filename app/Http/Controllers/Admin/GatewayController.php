@@ -10,6 +10,7 @@ use App\Models\Cartographer;
 use App\Models\Gateway;
 use App\Models\Subnetwork;
 use Gate;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class GatewayController extends Controller
@@ -54,7 +55,7 @@ class GatewayController extends Controller
         $gateway = Gateway::create($request->all());
 
         Subnetwork::whereIn('id', $request->input('subnetworks', []))
-            ->update(['gateway_id' => $gateway->id]);
+            ->update(['gateway_id' => $gateway->id, 'updated_by' => Auth::id()]);
 
         return redirect()->route('admin.gateways.index');
     }
@@ -79,10 +80,10 @@ class GatewayController extends Controller
         $gateway->update($request->all());
 
         Subnetwork::where('gateway_id', $gateway->id)
-            ->update(['gateway_id' => null]);
+            ->update(['gateway_id' => null, 'updated_by' => Auth::id()]);
 
         Subnetwork::whereIn('id', $request->input('subnetworks', []))
-            ->update(['gateway_id' => $gateway->id]);
+            ->update(['gateway_id' => $gateway->id, 'updated_by' => Auth::id()]);
 
         return redirect()->route('admin.gateways.index');
     }

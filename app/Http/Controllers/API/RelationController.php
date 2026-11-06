@@ -70,7 +70,7 @@ class RelationController extends APIController
     {
         abort_if(Gate::denies('relation_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        Relation::whereIn('id', $request->input('ids', []))->delete();
+        Relation::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

@@ -62,7 +62,7 @@ class WifiTerminalController extends APIController
     {
         abort_if(Gate::denies('wifi_terminal_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        WifiTerminal::whereIn('id', $request->input('ids', []))->delete();
+        WifiTerminal::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

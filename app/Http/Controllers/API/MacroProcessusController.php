@@ -12,6 +12,7 @@ use App\Models\Process;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class MacroProcessusController extends APIController
@@ -33,7 +34,7 @@ class MacroProcessusController extends APIController
         $macroProcessus = MacroProcessus::query()->create($request->all());
 
         Process::whereIn('id', $request->input('processes', []))
-            ->update(['macroprocess_id' => $macroProcessus->id]);
+            ->update(['macroprocess_id' => $macroProcessus->id, 'updated_by' => Auth::id()]);
 
         return response()->json($macroProcessus, 201);
     }
@@ -53,7 +54,7 @@ class MacroProcessusController extends APIController
 
         if ($request->has('processes')) {
             Process::whereIn('id', $request->input('processes', []))
-                ->update(['macroprocess_id' => $macroProcessus->id]);
+                ->update(['macroprocess_id' => $macroProcessus->id, 'updated_by' => Auth::id()]);
         }
 
         return response()->json();
@@ -72,7 +73,7 @@ class MacroProcessusController extends APIController
     {
         abort_if(Gate::denies('macro_processus_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        MacroProcessus::whereIn('id', $request->input('ids', []))->delete();
+        MacroProcessus::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
@@ -99,7 +100,7 @@ class MacroProcessusController extends APIController
 
             if (array_key_exists('processes', $item) && ! empty($processes)) {
                 Process::whereIn('id', $processes)
-                    ->update(['macroprocess_id' => $macroProcessus->id]);
+                    ->update(['macroprocess_id' => $macroProcessus->id, 'updated_by' => Auth::id()]);
             }
 
             $createdIds[] = $macroProcessus->id;
@@ -137,7 +138,7 @@ class MacroProcessusController extends APIController
 
             if (array_key_exists('processes', $rawItem) && ! empty($processes)) {
                 Process::whereIn('id', $processes)
-                    ->update(['macroprocess_id' => $macroProcessus->id]);
+                    ->update(['macroprocess_id' => $macroProcessus->id, 'updated_by' => Auth::id()]);
             }
         }
 

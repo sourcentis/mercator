@@ -81,7 +81,7 @@ class ContainerController extends APIController
     {
         abort_if(Gate::denies('container_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        Container::query()->whereIn('id', request('ids'))->delete();
+        Container::query()->whereIn('id', request('ids'))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

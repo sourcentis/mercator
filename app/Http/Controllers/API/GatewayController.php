@@ -12,6 +12,7 @@ use App\Models\Subnetwork;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class GatewayController extends APIController
@@ -33,7 +34,7 @@ class GatewayController extends APIController
         $gateway = Gateway::query()->create($request->all());
 
         Subnetwork::whereIn('id', $request->input('subnetworks', []))
-            ->update(['gateway_id' => $gateway->id]);
+            ->update(['gateway_id' => $gateway->id, 'updated_by' => Auth::id()]);
 
         return response()->json($gateway, 201);
     }
@@ -53,11 +54,11 @@ class GatewayController extends APIController
 
         // Réinitialise les anciens liens
         Subnetwork::where('gateway_id', $gateway->id)
-            ->update(['gateway_id' => null]);
+            ->update(['gateway_id' => null, 'updated_by' => Auth::id()]);
 
         // Associe les nouveaux subnetworks
         Subnetwork::whereIn('id', $request->input('subnetworks', []))
-            ->update(['gateway_id' => $gateway->id]);
+            ->update(['gateway_id' => $gateway->id, 'updated_by' => Auth::id()]);
 
         return response()->json();
     }
@@ -75,7 +76,7 @@ class GatewayController extends APIController
     {
         abort_if(Gate::denies('gateway_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        Gateway::whereIn('id', $request->input('ids', []))->delete();
+        Gateway::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
@@ -102,7 +103,7 @@ class GatewayController extends APIController
 
             if (array_key_exists('subnetworks', $item) && ! empty($subnetworks)) {
                 Subnetwork::whereIn('id', $subnetworks)
-                    ->update(['gateway_id' => $gateway->id]);
+                    ->update(['gateway_id' => $gateway->id, 'updated_by' => Auth::id()]);
             }
 
             $createdIds[] = $gateway->id;
@@ -142,11 +143,11 @@ class GatewayController extends APIController
             if (array_key_exists('subnetworks', $rawItem)) {
                 // Réinitialise les anciens liens
                 Subnetwork::where('gateway_id', $gateway->id)
-                    ->update(['gateway_id' => null]);
+                    ->update(['gateway_id' => null, 'updated_by' => Auth::id()]);
 
                 if (! empty($subnetworks)) {
                     Subnetwork::whereIn('id', $subnetworks)
-                        ->update(['gateway_id' => $gateway->id]);
+                        ->update(['gateway_id' => $gateway->id, 'updated_by' => Auth::id()]);
                 }
             }
         }

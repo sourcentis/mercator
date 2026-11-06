@@ -10,6 +10,7 @@ use App\Models\Application;
 use App\Models\ApplicationBlock;
 use App\Models\Cartographer;
 use Gate;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class ApplicationBlockController extends Controller
@@ -58,7 +59,7 @@ class ApplicationBlockController extends Controller
         $applicationBlock = ApplicationBlock::create($request->all());
 
         Application::whereIn('id', $request->input('linkToApplications', []))
-            ->update(['application_block_id' => $applicationBlock->id]);
+            ->update(['application_block_id' => $applicationBlock->id, 'updated_by' => Auth::id()]);
 
         return redirect()->route('admin.application-blocks.index');
     }
@@ -86,10 +87,10 @@ class ApplicationBlockController extends Controller
         $applicationBlock->update($request->all());
 
         Application::where('application_block_id', $applicationBlock->id)
-            ->update(['application_block_id' => null]);
+            ->update(['application_block_id' => null, 'updated_by' => Auth::id()]);
 
         Application::whereIn('id', $request->input('linkToApplications', []))
-            ->update(['application_block_id' => $applicationBlock->id]);
+            ->update(['application_block_id' => $applicationBlock->id, 'updated_by' => Auth::id()]);
 
         return redirect()->route('admin.application-blocks.index');
     }

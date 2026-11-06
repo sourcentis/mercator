@@ -7,6 +7,7 @@ use App\Contracts\HasPrefix;
 use App\Contracts\HasUniqueIdentifierContract;
 use App\Factories\AdminUserFactory;
 use App\Traits\Auditable;
+use App\Traits\Blameable;
 use App\Traits\HasIcon;
 use App\Traits\HasPerimeter;
 use App\Traits\HasUniqueIdentifier;
@@ -22,7 +23,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class AdminUser extends Model implements HasIconContract, HasPrefix, HasUniqueIdentifierContract
 {
-    use Auditable, HasFactory, HasIcon, HasUniqueIdentifier, SoftDeletes;
+    use Auditable, Blameable, HasFactory, HasIcon, HasUniqueIdentifier, SoftDeletes;
     use HasPerimeter;
 
     public $table = 'admin_users';

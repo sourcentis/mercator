@@ -63,7 +63,7 @@ class TaskController extends APIController
     {
         abort_if(Gate::denies('task_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        Task::whereIn('id', $request->input('ids', []))->delete();
+        Task::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

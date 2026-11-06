@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Factories\DocumentFactory;
 use App\Traits\Auditable;
+use App\Traits\Blameable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,7 +18,7 @@ use Illuminate\Support\Str;
 
 class Document extends Model
 {
-    use Auditable, HasFactory, SoftDeletes;
+    use Auditable, Blameable, HasFactory, SoftDeletes;
 
     public $table = 'documents';
 

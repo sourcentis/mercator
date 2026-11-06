@@ -75,7 +75,7 @@ class WanController extends APIController
     {
         abort_if(Gate::denies('wan_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        Wan::query()->whereIn('id', $request->input('ids', []))->delete();
+        Wan::query()->whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

@@ -13,6 +13,7 @@ use App\Services\IconUploadService;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class BuildingController extends Controller
@@ -129,7 +130,7 @@ class BuildingController extends Controller
 
         // set children
         Building::query()->whereIn('id', $childrenIds)
-            ->update(['building_id' => $building->id]);
+            ->update(['building_id' => $building->id, 'updated_by' => Auth::id()]);
 
         return redirect()->route('admin.buildings.index');
     }
@@ -194,10 +195,10 @@ class BuildingController extends Controller
 
         // update children
         Building::query()->where('building_id', $building->id)
-            ->update(['building_id' => null]);
+            ->update(['building_id' => null, 'updated_by' => Auth::id()]);
 
         Building::query()->whereIn('id', $childrenIds)
-            ->update(['building_id' => $building->id]);
+            ->update(['building_id' => $building->id, 'updated_by' => Auth::id()]);
 
         return redirect()->route('admin.buildings.index');
     }
@@ -220,7 +221,7 @@ class BuildingController extends Controller
         // due to soft delete, also set null to all children
         Building::query()
             ->where('building_id', $building->id)
-            ->update(['building_id' => null]);
+            ->update(['building_id' => null, 'updated_by' => Auth::id()]);
 
         return redirect()->route('admin.buildings.index');
     }
@@ -232,7 +233,7 @@ class BuildingController extends Controller
         // due to soft delete, also set null to all children
         Building::query()
             ->whereIn('building_id', request('ids'))
-            ->update(['building_id' => null]);
+            ->update(['building_id' => null, 'updated_by' => Auth::id()]);
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

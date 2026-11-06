@@ -63,7 +63,7 @@ class SubnetworkController extends APIController
     {
         abort_if(Gate::denies('subnetwork_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        Subnetwork::whereIn('id', $request->input('ids', []))->delete();
+        Subnetwork::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

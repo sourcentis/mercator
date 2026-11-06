@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Contracts\HasPrefix;
 use App\Factories\GraphFactory;
 use App\Traits\Auditable;
+use App\Traits\Blameable;
 use App\Traits\HasUniqueIdentifier;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,7 +15,7 @@ use Illuminate\Support\Collection;
 
 class Graph extends Model implements HasPrefix
 {
-    use Auditable, HasFactory, HasUniqueIdentifier, SoftDeletes;
+    use Auditable, Blameable, HasFactory, HasUniqueIdentifier, SoftDeletes;
 
     public $table = 'graphs';
 

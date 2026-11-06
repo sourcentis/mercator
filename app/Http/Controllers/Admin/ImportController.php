@@ -96,6 +96,7 @@ class ImportController extends Controller
 
             // Exclure les colonnes inutiles
             unset($row['created_at'], $row['updated_at'], $row['deleted_at']);
+            unset($row['created_by'], $row['updated_by'], $row['deleted_by']);
 
             $data[] = $row;
         }

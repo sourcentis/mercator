@@ -76,7 +76,7 @@ class PhysicalRouterController extends APIController
     {
         abort_if(Gate::denies('physical_router_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        PhysicalRouter::whereIn('id', $request->input('ids', []))->delete();
+        PhysicalRouter::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

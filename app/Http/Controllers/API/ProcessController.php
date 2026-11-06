@@ -12,6 +12,7 @@ use App\Models\Process;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProcessController extends APIController
@@ -38,7 +39,7 @@ class ProcessController extends APIController
         $process->applications()->sync($request->input('applications', []));
 
         Operation::whereIn('id', $request->input('operations', []))
-            ->update(['process_id' => $process->id]);
+            ->update(['process_id' => $process->id, 'updated_by' => Auth::id()]);
 
         return response()->json($process, Response::HTTP_CREATED);
     }
@@ -80,7 +81,7 @@ class ProcessController extends APIController
 
         if ($request->has('operations')) {
             Operation::whereIn('id', $request->input('operations', []))
-                ->update(['process_id' => $process->id]);
+                ->update(['process_id' => $process->id, 'updated_by' => Auth::id()]);
         }
 
         return response()->json();
@@ -99,7 +100,7 @@ class ProcessController extends APIController
     {
         abort_if(Gate::denies('process_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        Process::whereIn('id', $request->input('ids', []))->delete();
+        Process::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
@@ -146,7 +147,7 @@ class ProcessController extends APIController
 
             if (array_key_exists('operations', $item) && ! empty($operations)) {
                 Operation::whereIn('id', $operations)
-                    ->update(['process_id' => $process->id]);
+                    ->update(['process_id' => $process->id, 'updated_by' => Auth::id()]);
             }
 
             $createdIds[] = $process->id;
@@ -204,7 +205,7 @@ class ProcessController extends APIController
 
             if (array_key_exists('operations', $rawItem) && ! empty($operations)) {
                 Operation::whereIn('id', $operations)
-                    ->update(['process_id' => $process->id]);
+                    ->update(['process_id' => $process->id, 'updated_by' => Auth::id()]);
             }
         }
 

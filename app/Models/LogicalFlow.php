@@ -6,6 +6,7 @@ use App\Contracts\HasPrefix;
 use App\Contracts\HasUniqueIdentifierContract;
 use App\Factories\LogicalFlowFactory;
 use App\Traits\Auditable;
+use App\Traits\Blameable;
 use App\Traits\HasCartographers;
 use App\Traits\HasPerimeter;
 use App\Traits\HasUniqueIdentifier;
@@ -61,7 +62,7 @@ use Illuminate\Support\Facades\Log;
  */
 class LogicalFlow extends Model implements HasPrefix, HasUniqueIdentifierContract
 {
-    use Auditable, HasFactory, HasUniqueIdentifier, SoftDeletes;
+    use Auditable, Blameable, HasFactory, HasUniqueIdentifier, SoftDeletes;
     use HasCartographers;
     use HasPerimeter;
 

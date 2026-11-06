@@ -11,6 +11,7 @@ use App\Models\Vlan;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -35,11 +36,11 @@ class VlanController extends APIController
         // Réinitialise les subnets pointant vers ce VLAN, puis assigne ceux de la requête
         DB::table('subnetworks')
             ->where('vlan_id', $vlan->id)
-            ->update(['vlan_id' => null]);
+            ->update(['vlan_id' => null, 'updated_by' => Auth::id()]);
 
         DB::table('subnetworks')
             ->whereIn('id', $request->input('subnetworks', []))
-            ->update(['vlan_id' => $vlan->id]);
+            ->update(['vlan_id' => $vlan->id, 'updated_by' => Auth::id()]);
 
         return response()->json($vlan, Response::HTTP_CREATED);
     }
@@ -53,11 +54,11 @@ class VlanController extends APIController
         if ($request->has('subnetworks')) {
             DB::table('subnetworks')
                 ->where('vlan_id', $vlan->id)
-                ->update(['vlan_id' => null]);
+                ->update(['vlan_id' => null, 'updated_by' => Auth::id()]);
 
             DB::table('subnetworks')
                 ->whereIn('id', $request->input('subnetworks', []))
-                ->update(['vlan_id' => $vlan->id]);
+                ->update(['vlan_id' => $vlan->id, 'updated_by' => Auth::id()]);
         }
 
         return response()->json();
@@ -83,7 +84,7 @@ class VlanController extends APIController
     {
         abort_if(Gate::denies('vlan_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        Vlan::whereIn('id', $request->input('ids', []))->delete();
+        Vlan::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
@@ -111,11 +112,11 @@ class VlanController extends APIController
             if (array_key_exists('subnetworks', $item)) {
                 DB::table('subnetworks')
                     ->where('vlan_id', $vlan->id)
-                    ->update(['vlan_id' => null]);
+                    ->update(['vlan_id' => null, 'updated_by' => Auth::id()]);
 
                 DB::table('subnetworks')
                     ->whereIn('id', $subnetworks ?? [])
-                    ->update(['vlan_id' => $vlan->id]);
+                    ->update(['vlan_id' => $vlan->id, 'updated_by' => Auth::id()]);
             }
 
             $createdIds[] = $vlan->id;
@@ -154,11 +155,11 @@ class VlanController extends APIController
             if (array_key_exists('subnetworks', $rawItem)) {
                 DB::table('subnetworks')
                     ->where('vlan_id', $vlan->id)
-                    ->update(['vlan_id' => null]);
+                    ->update(['vlan_id' => null, 'updated_by' => Auth::id()]);
 
                 DB::table('subnetworks')
                     ->whereIn('id', $subnetworks ?? [])
-                    ->update(['vlan_id' => $vlan->id]);
+                    ->update(['vlan_id' => $vlan->id, 'updated_by' => Auth::id()]);
             }
         }
 

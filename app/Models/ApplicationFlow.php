@@ -7,6 +7,7 @@ use App\Contracts\HasUniqueIdentifierContract;
 use App\Factories\ApplicationFlowFactory;
 use App\Scopes\ApplicationFlowPerimeterScope;
 use App\Traits\Auditable;
+use App\Traits\Blameable;
 use App\Traits\HasCartographers;
 use App\Traits\HasPerimeter;
 use App\Traits\HasUniqueIdentifier;
@@ -43,7 +44,7 @@ use Illuminate\Support\Carbon;
  */
 class ApplicationFlow extends Model implements HasPrefix, HasUniqueIdentifierContract
 {
-    use Auditable, HasFactory, HasUniqueIdentifier, SoftDeletes;
+    use Auditable, Blameable, HasFactory, HasUniqueIdentifier, SoftDeletes;
     use HasCartographers;
     use HasPerimeter;
 

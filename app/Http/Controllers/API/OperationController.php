@@ -83,7 +83,7 @@ class OperationController extends APIController
     {
         abort_if(Gate::denies('operation_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        Operation::whereIn('id', $request->input('ids', []))->delete();
+        Operation::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

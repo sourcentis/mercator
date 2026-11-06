@@ -68,7 +68,7 @@ class RouterController extends APIController
     {
         abort_if(Gate::denies('router_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        Router::whereIn('id', $request->input('ids', []))->delete();
+        Router::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

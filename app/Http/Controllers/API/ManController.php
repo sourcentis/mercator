@@ -63,7 +63,7 @@ class ManController extends APIController
     {
         abort_if(Gate::denies('man_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        Man::whereIn('id', $request->input('ids', []))->delete();
+        Man::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

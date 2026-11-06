@@ -14,6 +14,7 @@ use App\Models\Process;
 use App\Services\IconUploadService;
 use Gate;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class EntityController extends Controller
@@ -94,16 +95,16 @@ class EntityController extends Controller
 
         // update applications table
         Application::query()->whereIn('id', $request->input('respApplications', []))
-            ->update(['entity_resp_id' => $entity->id]);
+            ->update(['entity_resp_id' => $entity->id, 'updated_by' => Auth::id()]);
 
         // update databases table
         Database::query()->whereIn('id', $request->input('databases', []))
-            ->update(['entity_resp_id' => $entity->id]);
+            ->update(['entity_resp_id' => $entity->id, 'updated_by' => Auth::id()]);
 
         // update child entities
         Entity::query()->whereIn('id', $request->input('childEntities', []))
             ->where('id', '!=', $entity->id)
-            ->update(['parent_entity_id' => $entity->id]);
+            ->update(['parent_entity_id' => $entity->id, 'updated_by' => Auth::id()]);
 
         return redirect()->route('admin.entities.index');
     }
@@ -157,25 +158,25 @@ class EntityController extends Controller
 
         // update applications table
         Application::query()->where('entity_resp_id', $entity->id)
-            ->update(['entity_resp_id' => null]);
+            ->update(['entity_resp_id' => null, 'updated_by' => Auth::id()]);
 
         Application::query()->whereIn('id', $request->input('respApplications', []))
-            ->update(['entity_resp_id' => $entity->id]);
+            ->update(['entity_resp_id' => $entity->id, 'updated_by' => Auth::id()]);
 
         // update databases table
         Database::query()->where('entity_resp_id', $entity->id)
-            ->update(['entity_resp_id' => null]);
+            ->update(['entity_resp_id' => null, 'updated_by' => Auth::id()]);
 
         Database::query()->whereIn('id', $request->input('databases', []))
-            ->update(['entity_resp_id' => $entity->id]);
+            ->update(['entity_resp_id' => $entity->id, 'updated_by' => Auth::id()]);
 
         // update child entities
         Entity::query()->where('parent_entity_id', $entity->id)
-            ->update(['parent_entity_id' => null]);
+            ->update(['parent_entity_id' => null, 'updated_by' => Auth::id()]);
 
         Entity::query()->whereIn('id', $request->input('childEntities', []))
             ->where('id', '!=', $entity->id)
-            ->update(['parent_entity_id' => $entity->id]);
+            ->update(['parent_entity_id' => $entity->id, 'updated_by' => Auth::id()]);
 
         return redirect()->route('admin.entities.index');
     }

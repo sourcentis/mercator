@@ -70,7 +70,7 @@ class EntityController extends APIController
     {
         abort_if(Gate::denies('entity_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        Entity::query()->whereIn('id', $request->input('ids', []))->delete();
+        Entity::query()->whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

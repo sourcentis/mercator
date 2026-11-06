@@ -65,7 +65,7 @@ class DnsserverController extends APIController
     {
         abort_if(Gate::denies('dnsserver_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        Dnsserver::whereIn('id', $request->input('ids', []))->delete();
+        Dnsserver::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

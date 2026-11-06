@@ -65,7 +65,7 @@ class DhcpServerController extends APIController
     {
         abort_if(Gate::denies('dhcp_server_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        DhcpServer::whereIn('id', $request->input('ids', []))->delete();
+        DhcpServer::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

@@ -82,6 +82,8 @@ return [
     'create_new_notification' => 'Create a new Notification',
     'create_new_report' => 'create a new report',
     'created_at' => 'Created the',
+    'by' => 'by',
+    'deleted_user' => 'deleted user',
     'crud_date_field' => 'Crud date field',
     'crud_event_field' => 'Event field label',
     'crud_title' => 'Crud title',

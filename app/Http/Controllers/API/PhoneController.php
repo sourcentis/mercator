@@ -63,7 +63,7 @@ class PhoneController extends APIController
     {
         abort_if(Gate::denies('phone_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        Phone::whereIn('id', $request->input('ids', []))->delete();
+        Phone::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

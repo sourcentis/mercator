@@ -100,7 +100,7 @@ class ZoneController extends APIController
     {
         abort_if(Gate::denies('zone_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        Zone::whereIn('id', $request->input('ids', []))->delete();
+        Zone::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

@@ -81,7 +81,7 @@ class ClusterController extends APIController
     {
         abort_if(Gate::denies('cluster_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        Cluster::query()->whereIn('id', request('ids'))->delete();
+        Cluster::query()->whereIn('id', request('ids'))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

@@ -71,7 +71,7 @@ class DomainController extends APIController
     {
         abort_if(Gate::denies('domain_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        Domain::whereIn('id', $request->input('ids', []))->delete();
+        Domain::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

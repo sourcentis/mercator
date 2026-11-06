@@ -78,7 +78,7 @@ class DataProcessingController extends APIController
     {
         abort_if(Gate::denies('data_processing_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        DataProcessing::query()->whereIn('id', $request->input('ids', []))->delete();
+        DataProcessing::query()->whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

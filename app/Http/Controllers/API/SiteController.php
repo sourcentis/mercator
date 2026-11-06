@@ -63,7 +63,7 @@ class SiteController extends APIController
     {
         abort_if(Gate::denies('site_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        Site::whereIn('id', $request->input('ids', []))->delete();
+        Site::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

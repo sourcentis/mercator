@@ -70,7 +70,7 @@ class PhysicalSwitchController extends APIController
     {
         abort_if(Gate::denies('physical_switch_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        PhysicalSwitch::whereIn('id', $request->input('ids', []))->delete();
+        PhysicalSwitch::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

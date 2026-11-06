@@ -86,7 +86,7 @@ class PhysicalServerController extends APIController
     {
         abort_if(Gate::denies('physical_server_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        PhysicalServer::query()->whereIn('id', request('ids'))->delete();
+        PhysicalServer::query()->whereIn('id', request('ids'))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

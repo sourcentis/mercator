@@ -12,6 +12,7 @@ use App\Models\ApplicationBlock;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class ApplicationBlockController extends APIController
@@ -36,7 +37,7 @@ class ApplicationBlockController extends APIController
         $applications = $request->input('applications', []);
         if (! empty($applications)) {
             Application::whereIn('id', $applications)
-                ->update(['application_block_id' => $applicationBlock->id]);
+                ->update(['application_block_id' => $applicationBlock->id, 'updated_by' => Auth::id()]);
         }
 
         return response()->json($applicationBlock, Response::HTTP_CREATED);
@@ -61,7 +62,7 @@ class ApplicationBlockController extends APIController
             // Même logique que le contrôleur existant : ne fait qu’un update sur les IDs fournis
             if (! empty($applications)) {
                 Application::whereIn('id', $applications)
-                    ->update(['application_block_id' => $applicationBlock->id]);
+                    ->update(['application_block_id' => $applicationBlock->id, 'updated_by' => Auth::id()]);
             }
         }
 
@@ -81,7 +82,7 @@ class ApplicationBlockController extends APIController
     {
         abort_if(Gate::denies('application_block_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        ApplicationBlock::whereIn('id', $request->input('ids', []))->delete();
+        ApplicationBlock::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
@@ -107,7 +108,7 @@ class ApplicationBlockController extends APIController
 
             if (array_key_exists('applications', $item) && ! empty($applications)) {
                 Application::whereIn('id', $applications)
-                    ->update(['application_block_id' => $applicationBlock->id]);
+                    ->update(['application_block_id' => $applicationBlock->id, 'updated_by' => Auth::id()]);
             }
 
             $createdIds[] = $applicationBlock->id;
@@ -146,7 +147,7 @@ class ApplicationBlockController extends APIController
             // Si la clé est présente dans l’item, applique la même logique que update()
             if (array_key_exists('applications', $rawItem) && ! empty($applications)) {
                 Application::whereIn('id', $applications)
-                    ->update(['application_block_id' => $applicationBlock->id]);
+                    ->update(['application_block_id' => $applicationBlock->id, 'updated_by' => Auth::id()]);
             }
         }
 

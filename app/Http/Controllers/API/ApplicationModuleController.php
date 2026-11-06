@@ -75,7 +75,7 @@ class ApplicationModuleController extends APIController
     {
         abort_if(Gate::denies('application_module_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        ApplicationModule::query()->whereIn('id', request('ids'))->delete();
+        ApplicationModule::query()->whereIn('id', request('ids'))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

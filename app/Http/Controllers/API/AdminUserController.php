@@ -62,7 +62,7 @@ class AdminUserController extends APIController
     {
         abort_if(Gate::denies('admin_user_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        AdminUser::whereIn('id', $request->input('ids', []))->delete();
+        AdminUser::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
