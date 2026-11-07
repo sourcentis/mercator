@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Concerns\ValidatesIcon;
 use Illuminate\Validation\Rule;
 
 class UpdateProcessRequest extends BaseFormRequest
 {
+    use ValidatesIcon;
+
     protected array $htmlFields = ['description', 'in_out'];
 
     public function authorize(): bool

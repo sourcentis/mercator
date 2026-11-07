@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Concerns\ValidatesIcon;
 use Illuminate\Validation\Rule;
 
 class UpdateSiteRequest extends BaseFormRequest
 {
+    use ValidatesIcon;
+
     protected array $htmlFields = ['description'];
 
     public function authorize(): bool
@@ -27,7 +30,6 @@ class UpdateSiteRequest extends BaseFormRequest
                     ->ignore($this->route('site')->id ?? $this->id)
                     ->whereNull('deleted_at'),
             ],
-            'iconFile' => ['nullable', 'file', 'mimes:png', 'max:65535'],
             'description' => ['nullable', 'string'],
         ];
     }

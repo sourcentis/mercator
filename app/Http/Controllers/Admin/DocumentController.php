@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cartographer;
 use App\Models\Document;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class DocumentController extends Controller
 {
@@ -41,12 +44,17 @@ class DocumentController extends Controller
 
     public function store(Request $request)
     {
-        // Require an actual file and cap its size. Without this any
-        // authenticated user (including read-only roles) could write
-        // unbounded files to storage/docs, exhausting disk space.
-        $request->validate([
-            'file' => 'required|file|max:51200',
+        // GHSA-f6g2-8x59-5xjq : seuls les utilisateurs pouvant créer ou modifier un objet
+        // peuvent déposer un document (pas les rôles en lecture seule comme l'auditeur).
+        abort_if(! $this->canUpload(), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        // Taille maximale en kilo-octets (51200 Ko = 50 Mo par défaut)
+        $validator = Validator::make($request->all(), [
+            'file' => ['required', 'file', 'max:'.config('mercator.max_upload_size', 51200)],
         ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()->first('file')], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
 
         $file = $request->file('file');
 
@@ -156,6 +164,27 @@ class DocumentController extends Controller
 
         return view('admin.config.check')
             ->with('documents', $documents);
+    }
+
+    /**
+     * Upload is reserved to users holding at least one `_create` or `_edit` permission,
+     * or assigned as cartographer of some object.
+     */
+    private function canUpload(): bool
+    {
+        /** @var User $user */
+        $user = auth()->user();
+
+        $permissions = collect($user->permissionsByPerimeter())->flatten();
+        if ($permissions->contains(fn (string $p) => str_ends_with($p, '_create') || str_ends_with($p, '_edit'))) {
+            return true;
+        }
+
+        $roleIds = $user->roles()->pluck('id')->all();
+
+        return Cartographer::query()
+            ->where(fn ($q) => $q->where('user_id', $user->id)->orWhereIn('role_id', $roleIds))
+            ->exists();
     }
 
     /**

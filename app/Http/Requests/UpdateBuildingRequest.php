@@ -2,11 +2,14 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Concerns\ValidatesIcon;
 use App\Models\Building;
 use Illuminate\Validation\Rule;
 
 class UpdateBuildingRequest extends BaseFormRequest
 {
+    use ValidatesIcon;
+
     protected array $htmlFields = ['description'];
 
     public function authorize(): bool

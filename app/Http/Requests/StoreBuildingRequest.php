@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Concerns\ValidatesIcon;
 use App\Models\Building;
 use Gate;
 use Illuminate\Validation\Rule;
@@ -9,6 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class StoreBuildingRequest extends BaseFormRequest
 {
+    use ValidatesIcon;
+
     protected array $htmlFields = ['description'];
 
     public function authorize(): bool

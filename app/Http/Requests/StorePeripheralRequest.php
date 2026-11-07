@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Concerns\ValidatesIcon;
 use App\Rules\IPList;
 use Gate;
 use Illuminate\Validation\Rule;
@@ -9,6 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class StorePeripheralRequest extends BaseFormRequest
 {
+    use ValidatesIcon;
+
     protected array $htmlFields = ['description'];
 
     public function authorize(): bool
@@ -30,7 +33,6 @@ class StorePeripheralRequest extends BaseFormRequest
                 'required',
                 Rule::unique('peripherals')->where('perimeter_id', $perimeterId)->whereNull('deleted_at'),
             ],
-            'iconFile' => ['nullable', 'file', 'mimes:png', 'max:65535'],
             'address_ip' => [
                 'nullable',
                 new IPList,

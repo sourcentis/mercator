@@ -2,11 +2,14 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Concerns\ValidatesIcon;
 use App\Rules\IPList;
 use Illuminate\Validation\Rule;
 
 class UpdateLogicalServerRequest extends BaseFormRequest
 {
+    use ValidatesIcon;
+
     protected array $htmlFields = ['description', 'configuration'];
 
     public function authorize(): bool

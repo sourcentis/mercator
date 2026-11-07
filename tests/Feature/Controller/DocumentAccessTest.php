@@ -5,6 +5,7 @@
 // en itérant sur son identifiant.
 
 use App\Models\Application;
+use App\Models\Cartographer;
 use App\Models\Document;
 use App\Models\Permission;
 use App\Models\Role;
@@ -15,6 +16,7 @@ use Database\Seeders\RolesTableSeeder;
 use Database\Seeders\RoleUserTableSeeder;
 use Database\Seeders\UsersTableSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 
 uses(RefreshDatabase::class);
 
@@ -129,4 +131,74 @@ test('document configuration pages require the configure permission', function (
 
     $this->actingAs($user)->get(route('admin.config.documents'))->assertForbidden();
     $this->actingAs($user)->get(route('admin.config.documents.check'))->assertForbidden();
+});
+
+// Non-régression GHSA-f6g2-8x59-5xjq : POST /admin/documents/store ne vérifiait ni les droits
+// ni la taille du fichier, un utilisateur en lecture seule pouvait remplir le disque.
+
+test('a read-only user cannot upload a document', function () {
+    $count = Document::query()->count();
+
+    $this->actingAs(documentAccessUser(['application_access', 'application_show']))
+        ->post(route('admin.documents.store'), ['file' => UploadedFile::fake()->create('doc.pdf', 10)])
+        ->assertForbidden();
+
+    expect(Document::query()->count())->toBe($count);
+});
+
+test('the auditor cannot upload a document', function () {
+    $auditor = User::factory()->create();
+    $auditor->roles()->sync([Role::query()->where('title', 'Auditor')->value('id')]);
+
+    $this->actingAs($auditor)
+        ->post(route('admin.documents.store'), ['file' => UploadedFile::fake()->create('doc.pdf', 10)])
+        ->assertForbidden();
+});
+
+test('a user with a create permission can upload a document', function () {
+    $this->actingAs(documentAccessUser(['application_access', 'application_create']))
+        ->post(route('admin.documents.store'), ['file' => UploadedFile::fake()->create('doc.pdf', 10)])
+        ->assertOk()
+        ->assertJsonStructure(['success', 'id']);
+});
+
+test('a user with an edit permission can upload a document', function () {
+    $response = $this->actingAs(documentAccessUser(['application_access', 'application_edit']))
+        ->post(route('admin.documents.store'), ['file' => UploadedFile::fake()->create('doc.pdf', 10)])
+        ->assertOk();
+
+    expect(file_exists(storage_path('docs/'.$response->json('id'))))->toBeTrue();
+});
+
+test('a cartographer without edit permission can upload a document', function () {
+    $user = documentAccessUser(['application_access', 'application_show']);
+    Cartographer::query()->create([
+        'user_id' => $user->id,
+        'cartographiable_type' => Application::class,
+        'cartographiable_id' => $this->application->id,
+    ]);
+
+    $this->actingAs($user)
+        ->post(route('admin.documents.store'), ['file' => UploadedFile::fake()->create('doc.pdf', 10)])
+        ->assertOk();
+});
+
+test('an uploaded document larger than 50 MB is rejected', function () {
+    $count = Document::query()->count();
+
+    $this->actingAs($this->admin)
+        ->post(route('admin.documents.store'), ['file' => UploadedFile::fake()->create('big.bin', 51201)])
+        ->assertUnprocessable();
+
+    $this->actingAs($this->admin)
+        ->post(route('admin.documents.store'), ['file' => UploadedFile::fake()->create('ok.bin', 51200)])
+        ->assertOk();
+
+    expect(Document::query()->count())->toBe($count + 1);
+});
+
+test('an upload without file is rejected', function () {
+    $this->actingAs($this->admin)
+        ->post(route('admin.documents.store'))
+        ->assertUnprocessable();
 });

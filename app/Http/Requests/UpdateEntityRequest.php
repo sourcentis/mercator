@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Concerns\ValidatesIcon;
 use Illuminate\Validation\Rule;
 
 class UpdateEntityRequest extends BaseFormRequest
 {
+    use ValidatesIcon;
+
     protected array $htmlFields = ['description', 'security_level', 'contact_point'];
 
     public function authorize(): bool
@@ -27,7 +30,6 @@ class UpdateEntityRequest extends BaseFormRequest
                     ->ignore($this->route('entity')->id ?? $this->id)
                     ->whereNull('deleted_at'),
             ],
-            'iconFile' => ['nullable', 'file', 'mimes:png', 'max:65535'],
             'seurity_level' => [
                 'nullable',
                 'integer',

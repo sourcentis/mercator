@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Concerns\ValidatesIcon;
 use Illuminate\Validation\Rule;
 
 class UpdateInformationRequest extends BaseFormRequest
 {
+    use ValidatesIcon;
+
     protected array $htmlFields = ['description', 'constraints'];
 
     public function authorize(): bool
