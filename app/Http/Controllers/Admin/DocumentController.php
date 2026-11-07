@@ -41,6 +41,13 @@ class DocumentController extends Controller
 
     public function store(Request $request)
     {
+        // Require an actual file and cap its size. Without this any
+        // authenticated user (including read-only roles) could write
+        // unbounded files to storage/docs, exhausting disk space.
+        $request->validate([
+            'file' => 'required|file|max:51200',
+        ]);
+
         $file = $request->file('file');
 
         if (! $file) {
