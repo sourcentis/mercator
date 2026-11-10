@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Certificate;
+use App\Services\MailerService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
@@ -91,14 +92,7 @@ class CertificateExpiration extends Command
 
                 try {
                     // Server settings
-                    $mail->isSMTP();
-                    $mail->Host = config('mail.mailers.smtp.host'); // env('MAIL_HOST');
-                    $mail->SMTPAuth = config('mail.mailers.smtp.username') !== null;
-                    $mail->Username = config('mail.mailers.smtp.username'); // env('MAIL_USERNAME');
-                    $mail->Password = config('mail.mailers.smtp.password'); // env('MAIL_PASSWORD');
-                    $mail->SMTPSecure = config('mail.mailers.smtp.encryption'); // env('MAIL_SMTP_SECURE', false) ?: false; // 'tls' | 'ssl' | false
-                    $mail->SMTPAutoTLS = true; // filter_var(env('MAIL_SMTP_AUTO_TLS', true), FILTER_VALIDATE_BOOLEAN);
-                    $mail->Port = (int) config('mail.mailers.smtp.port'); // (int) env('MAIL_PORT', 587);
+                    MailerService::configure($mail);
 
                     // Recipients
                     $mail->setFrom($mail_from);

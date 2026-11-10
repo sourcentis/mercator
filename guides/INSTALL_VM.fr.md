@@ -199,16 +199,17 @@ Changer les permission d'accès à la clé
 
 ## Configuration du mail
 
-Si vous souhaitez envoyer des e-mails de notification depuis Deming.
+Si vous souhaitez envoyer des e-mails de notification depuis Mercator.
 Vous devez configurer l'accès au serveur SMTP dans .env
 
     MAIL_HOST='smtp.localhost'
-    MAIL_PORT=2525
+    MAIL_PORT=587
     MAIL_AUTH=true
-    MAIL_SMTP_SECURE='ssl'
-    MAIL_SMTP_AUTO_TLS=false
+    MAIL_SMTP_SECURE='tls'
     MAIL_USERNAME=
     MAIL_PASSWORD=
+
+MAIL_SMTP_SECURE accepte 'tls' (STARTTLS obligatoire, port 587), 'ssl' (TLS implicite, port 465) ou une valeur vide (STARTTLS si le serveur le propose). Le certificat du serveur SMTP est toujours vérifié.
 
 Vous pouvez également configurer DKIM :
 

@@ -9,6 +9,36 @@ use PHPMailer\PHPMailer\PHPMailer;
 class MailerService
 {
     /**
+     * Apply the SMTP server settings shared by every mail sent by Mercator.
+     *
+     * STARTTLS is always used when the server offers it, and the server
+     * certificate is always verified: the test mail of the configuration page
+     * must fail exactly like the scheduled mails would.
+     */
+    public static function configure(PHPMailer $mail): void
+    {
+        $mail->isSMTP();
+        $mail->Host = config('mail.mailers.smtp.host');
+        $mail->Port = (int) config('mail.mailers.smtp.port');
+
+        $username = config('mail.mailers.smtp.username');
+        $mail->SMTPAuth = filled($username);
+        $mail->Username = (string) $username;
+        $mail->Password = (string) config('mail.mailers.smtp.password');
+
+        // MAIL_SMTP_SECURE: 'tls' (mandatory STARTTLS), 'ssl' (implicit TLS) or empty (STARTTLS if offered)
+        $mail->SMTPSecure = (string) config('mail.mailers.smtp.encryption');
+        $mail->SMTPAutoTLS = true;
+        $mail->SMTPOptions = [
+            'ssl' => [
+                'verify_peer' => true,
+                'verify_peer_name' => true,
+                'allow_self_signed' => false,
+            ],
+        ];
+    }
+
+    /**
      * Send an email via SMTP (PHPMailer).
      * $to and $bcc accept comma-separated address lists.
      */
@@ -17,14 +47,7 @@ class MailerService
         $mail = new PHPMailer(true);
 
         try {
-            $mail->isSMTP();
-            $mail->Host = config('mail.mailers.smtp.host');
-            $mail->SMTPAuth = config('mail.mailers.smtp.username') !== null;
-            $mail->Username = config('mail.mailers.smtp.username');
-            $mail->Password = config('mail.mailers.smtp.password');
-            $mail->SMTPSecure = config('mail.mailers.smtp.encryption');
-            $mail->SMTPAutoTLS = config('mail.mailers.smtp.auto_tls');
-            $mail->Port = (int) config('mail.mailers.smtp.port');
+            self::configure($mail);
 
             if ($from) {
                 $mail->setFrom($from);
@@ -47,7 +70,7 @@ class MailerService
             $mail->send();
             Log::info('[mailer] Mail sent', ['to' => $to, 'subject' => $subject]);
         } catch (Exception $e) {
-            Log::error('[mailer] Send error', ['to' => $to, 'subject' => $subject, 'error' => $mail->ErrorInfo ?: $e->getMessage()]);
+            Log::error('[mailer] Send error', ['to' => $to, 'subject' => $subject, 'error' => $e->getMessage()]);
         }
     }
 }
