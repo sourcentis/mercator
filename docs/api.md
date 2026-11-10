@@ -197,6 +197,20 @@ TBD
 - <img src="/mercator/images/get.png" width="30"> /api/queries/execute/1  
     - The **query ID** must be provided.  
     - The query must be of **list type**.
+    - The result is returned as a **CSV** file.
+
+### A query can also be executed without saving it
+- **POST** /api/queries/execute
+    - The DSL is sent as **JSON** in the request body.
+    - Requires the `query_create` or `query_edit` permission, plus the **show** permission on every object read by the query.
+    - The result is returned as **JSON**: `columns`, `rows` and `meta` for a list, `nodes`, `edges` and `meta` for a graph.
+
+```bash
+curl -X POST https://mercator/api/queries/execute \
+     -H "Authorization: Bearer <token>" \
+     -H "Content-Type: application/json" \
+     -d '{"from": "applications", "fields": ["name", "logical_servers.name"], "filters": [{"field": "name", "operator": "like", "value": "A%"}], "output": "list", "limit": 100}'
+```
 
 ---
 

@@ -11,6 +11,7 @@ use App\Models\SavedQuery;
 use App\Services\QueryEngine\GraphResult;
 use App\Services\QueryEngine\ListResult;
 use App\Services\QueryEngine\QueryAccessChecker;
+use App\Services\QueryEngine\QueryDslValidator;
 use App\Services\QueryEngine\QueryResolver;
 use Gate;
 use Illuminate\Database\Eloquent\Builder;
@@ -91,6 +92,28 @@ class QueryController extends APIController
         }
 
         return $this->exportCsv($query);
+    }
+
+    /**
+     * Exécute un DSL libre, envoyé en JSON, sans l'enregistrer.
+     * Mêmes droits que l'éditeur web : query_create ou query_edit,
+     * plus le droit _show sur chaque objet lu par le DSL.
+     */
+    public function executeDsl(Request $request): JsonResponse
+    {
+        abort_if(Gate::none(['query_create', 'query_edit']), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $dsl = QueryDslValidator::validate($request->all());
+
+        $denied = QueryAccessChecker::deniedModels($dsl);
+        if (! empty($denied)) {
+            return response()->json(
+                ['message' => QueryAccessChecker::deniedMessage($denied)],
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
+        }
+
+        return response()->json($this->resolver->executeToArray($dsl));
     }
 
     /**

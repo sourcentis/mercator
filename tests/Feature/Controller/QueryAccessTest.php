@@ -528,3 +528,74 @@ describe('is_public lors d\'une modification', function () {
             ->assertSee('<input type="hidden" name="is_public" value="0">', false);
     });
 });
+
+describe('API – exécution d\'un DSL libre (POST /api/queries/execute)', function () {
+    beforeEach(function () {
+        $this->dsl = ['from' => 'applications', 'fields' => ['name'], 'output' => 'list'];
+    });
+
+    it('exécute le DSL et renvoie le résultat en JSON', function () {
+        Application::factory()->create(['name' => 'ERP']);
+        Passport::actingAs(queryAccessUser(['query_create', 'application_show']));
+
+        $this->postJson('/api/queries/execute', $this->dsl)
+            ->assertOk()
+            ->assertJsonStructure(['columns', 'rows', 'meta' => ['output', 'from', 'count', 'truncated']])
+            ->assertJsonPath('meta.count', 1)
+            ->assertJsonPath('rows.0.name', 'ERP');
+
+        expect(SavedQuery::count())->toBe(0);
+    });
+
+    it('renvoie un graphe', function () {
+        Application::factory()->create();
+        Passport::actingAs(queryAccessUser(['query_edit', 'application_show']));
+
+        $this->postJson('/api/queries/execute', ['from' => 'applications', 'output' => 'graph'])
+            ->assertOk()
+            ->assertJsonStructure(['nodes', 'edges', 'meta']);
+    });
+
+    it('refuse un compte avec query_show seul', function () {
+        Passport::actingAs(queryAccessUser(['query_show', 'application_show']));
+
+        $this->postJson('/api/queries/execute', $this->dsl)->assertForbidden();
+    });
+
+    it('refuse un DSL qui lit un objet sans droit', function () {
+        Passport::actingAs(queryAccessUser(['query_create', 'application_show']));
+
+        $response = $this->postJson('/api/queries/execute', [
+            'from' => 'applications',
+            'fields' => ['name', 'logical_servers.name'],
+        ]);
+
+        $response->assertUnprocessable();
+        expect($response->json('message'))->toContain('LogicalServer');
+    });
+
+    it('refuse un DSL invalide', function () {
+        Passport::actingAs(queryAccessUser(['query_create', 'application_show']));
+
+        $this->postJson('/api/queries/execute', ['from' => 'applications', 'output' => 'pie'])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors('output');
+    });
+
+    it('n\'expose pas les comptes utilisateurs, même à un administrateur', function () {
+        Passport::actingAs(User::query()->where('login', 'admin@admin.com')->first());
+
+        $this->postJson('/api/queries/execute', ['from' => 'users', 'fields' => ['login', 'email']])
+            ->assertNotFound()
+            ->assertJsonMissingPath('rows');
+    });
+
+    it('laisse intacte l\'exécution d\'une requête enregistrée par son id', function () {
+        Application::factory()->create();
+        Passport::actingAs(queryAccessUser(['query_show', 'application_show']));
+
+        $this->get('/api/queries/execute/'.accessQuery($this->other, public: true)->id)
+            ->assertOk()
+            ->assertHeader('Content-Type', 'text/csv; charset=UTF-8');
+    });
+});

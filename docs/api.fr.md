@@ -196,6 +196,20 @@ N/C
 - <img src="/mercator/images/get.png" width="30"> /api/queries/execute/1
     - l'id de la requête doit être fourni.
     - La requête doit être de type liste.
+    - Le résultat est renvoyé au format **CSV**.
+
+#### Une requête peut aussi être exécutée sans être enregistrée
+- **POST** /api/queries/execute
+    - Le DSL est envoyé en **JSON** dans le corps de la requête.
+    - Nécessite le droit `query_create` ou `query_edit`, ainsi que le droit **show** sur chaque objet lu par la requête.
+    - Le résultat est renvoyé en **JSON** : `columns`, `rows` et `meta` pour une liste, `nodes`, `edges` et `meta` pour un graphe.
+
+```bash
+curl -X POST https://mercator/api/queries/execute \
+     -H "Authorization: Bearer <token>" \
+     -H "Content-Type: application/json" \
+     -d '{"from": "applications", "fields": ["name", "logical_servers.name"], "filters": [{"field": "name", "operator": "like", "value": "A%"}], "output": "list", "limit": 100}'
+```
 
 ---
 
