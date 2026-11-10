@@ -86,9 +86,11 @@ class FakerPatterns
     public const DOMAIN_FQDN = '[a-z]{3,6}\.(local|corp|lan)';
 
     /**
-     * Nom de bâtiment, ex. "Batiment C".
+     * Nom de bâtiment, ex. "Batiment C 42". Le numéro (1 à 999) porte l'espace
+     * des noms à ~26 000 : avec la seule lettre, deux bâtiments d'un même test
+     * recevaient le même nom une fois sur 26 (échec sur la règle d'unicité).
      */
-    public const BUILDING_NAME = 'Batiment [A-Z]';
+    public const BUILDING_NAME = 'Batiment [A-Z] [1-9][0-9]{0,2}';
 
     /**
      * Nom de baie / rack, ex. "Baie 14".
