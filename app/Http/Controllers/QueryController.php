@@ -6,6 +6,7 @@ use App\Http\Requests\MassDestroySavedQueryRequest;
 use App\Http\Requests\StoreSavedQueryRequest;
 use App\Http\Requests\UpdateSavedQueryRequest;
 use App\Models\Cartographer;
+use App\Models\Permission;
 use App\Models\SavedQuery;
 use App\Services\QueryEngine\GraphResult;
 use App\Services\QueryEngine\QueryDslValidator;
@@ -141,7 +142,9 @@ class QueryController extends Controller
      */
     public function execute(Request $request): JsonResponse
     {
-        abort_if(Gate::denies('query_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        // Exécuter est une lecture : query_show suffit, query_create reste accepté (#2760).
+        // Les droits sur les objets interrogés sont vérifiés par collectDeniedModels().
+        abort_if(Gate::none(['query_show', 'query_create']), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $dsl = QueryDslValidator::validate($request->all());
 
@@ -218,7 +221,86 @@ class QueryController extends Controller
             }
         }
 
-        return $denied;
+        // Les modèles sans permission _show (Perimeter, ApplicationEvent…) n'ont pas de droit
+        // propre : lus en relation, ils suivent leur objet parent.
+        foreach ($this->resolveFieldAndFilterModelClasses($dsl) as $modelClass => $displayName) {
+            if (! $this->canShowModel($modelClass)
+                && Permission::query()->where('title', $this->showPermission($modelClass))->exists()) {
+                $denied[] = $displayName;
+            }
+        }
+
+        return array_values(array_unique($denied));
+    }
+
+    /**
+     * Collecte les modèles atteints par les relations des clauses FIELDS et WHERE.
+     *
+     * @return array<class-string, string> FQCN → nom court affiché
+     */
+    private function resolveFieldAndFilterModelClasses(array $dsl): array
+    {
+        try {
+            $fromClass = QueryEngineIntrospector::resolveModelClass($dsl['from']);
+        } catch (\Throwable) {
+            return [];
+        }
+
+        $models = [];
+
+        foreach ($dsl['fields'] ?? [] as $field) {
+            $this->walkRelationPath($fromClass, array_slice(explode('.', $field), 0, -1), $models);
+        }
+
+        $this->collectFilterModelClasses($fromClass, $dsl['filters'] ?? [], $models);
+
+        return $models;
+    }
+
+    /**
+     * @param  array<string, string>  $models
+     */
+    private function collectFilterModelClasses(string $class, array $filters, array &$models): void
+    {
+        foreach ($filters as $filter) {
+            $relation = $filter['exists'] ?? $filter['not_exists'] ?? null;
+
+            if ($relation !== null) {
+                $relatedClass = $this->walkRelationPath($class, [$relation], $models);
+                if ($relatedClass !== null) {
+                    $this->collectFilterModelClasses($relatedClass, (array) ($filter['conditions'] ?? []), $models);
+                }
+            } elseif (isset($filter['group'])) {
+                $this->collectFilterModelClasses($class, $filter['group'], $models);
+            } elseif (isset($filter['field'])) {
+                $this->walkRelationPath($class, array_slice(explode('.', $filter['field']), 0, -1), $models);
+            }
+        }
+    }
+
+    /**
+     * Suit un chemin de relations et ajoute chaque modèle atteint à $models.
+     * Une relation inconnue arrête le parcours : le résolveur la rejettera en 422.
+     *
+     * @param  list<string>  $segments
+     * @param  array<string, string>  $models
+     * @return class-string|null Classe du dernier modèle atteint
+     */
+    private function walkRelationPath(string $class, array $segments, array &$models): ?string
+    {
+        foreach ($segments as $segment) {
+            $relDef = collect(QueryEngineIntrospector::getRelations($class))
+                ->firstWhere('name', Str::snake($segment));
+
+            if (! $relDef) {
+                return null;
+            }
+
+            $class = QueryEngineIntrospector::resolveModelClassFromAny($relDef['related']);
+            $models[$class] = class_basename($class);
+        }
+
+        return $class;
     }
 
     /**
@@ -269,13 +351,16 @@ class QueryController extends Controller
      */
     private function canShowModel(string $modelClass): bool
     {
-        $permission = Str::snake(class_basename($modelClass)).'_show';
-
-        if (Gate::allows($permission)) {
+        if (Gate::allows($this->showPermission($modelClass))) {
             return true;
         }
 
         return Cartographer::hasAnyFor(auth()->user(), $modelClass);
+    }
+
+    private function showPermission(string $modelClass): string
+    {
+        return Str::snake(class_basename($modelClass)).'_show';
     }
 
     private function authorizeOwner(SavedQuery $savedQuery): void
