@@ -23,9 +23,10 @@ class UpdateSavedQueryRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        $this->merge([
-            'is_public' => $this->boolean('is_public'),
-        ]);
+        // Absent = inchangé : une modification ne doit pas rendre la requête privée par défaut.
+        if ($this->has('is_public')) {
+            $this->merge(['is_public' => $this->boolean('is_public')]);
+        }
 
         $this->mergeQueryInput();
     }

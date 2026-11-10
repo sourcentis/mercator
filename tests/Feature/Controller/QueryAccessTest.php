@@ -480,3 +480,51 @@ describe('API – format et validation du DSL', function () {
         $this->assertDatabaseHas('saved_queries', ['name' => 'Second', 'user_id' => $this->owner->id]);
     });
 });
+
+describe('is_public lors d\'une modification', function () {
+    beforeEach(function () {
+        $this->owner = queryAccessUser(['query_show', 'query_edit']);
+        $this->query = accessQuery($this->owner, public: true);
+    });
+
+    it('conserve is_public quand l\'API ne l\'envoie pas', function () {
+        Passport::actingAs($this->owner);
+
+        $this->putJson('/api/queries/'.$this->query->id, [
+            'name' => 'Renamed',
+            'query' => ['from' => 'applications'],
+        ])->assertOk();
+
+        expect($this->query->fresh()->is_public)->toBeTrue();
+    });
+
+    it('rend la requête privée quand l\'API envoie is_public à false', function () {
+        Passport::actingAs($this->owner);
+
+        $this->putJson('/api/queries/'.$this->query->id, [
+            'name' => 'Renamed',
+            'query' => ['from' => 'applications'],
+            'is_public' => false,
+        ])->assertOk();
+
+        expect($this->query->fresh()->is_public)->toBeFalse();
+    });
+
+    it('rend la requête privée quand la case du formulaire web est décochée', function () {
+        $this->actingAs($this->owner)
+            ->put(route('admin.queries.update', $this->query), [
+                'name' => 'Renamed',
+                'query_json' => json_encode(['from' => 'applications']),
+                'is_public' => '0',
+            ])->assertRedirect();
+
+        expect($this->query->fresh()->is_public)->toBeFalse();
+    });
+
+    it('envoie is_public même quand la case est décochée', function () {
+        $this->actingAs($this->owner)
+            ->get(route('admin.queries.edit', $this->query))
+            ->assertOk()
+            ->assertSee('<input type="hidden" name="is_public" value="0">', false);
+    });
+});
