@@ -378,6 +378,7 @@ Route::middleware(['api.protected'])->group(function () {
     Route::put('queries/mass-update', [API\QueryController::class, 'massUpdate'])->name('queries.mass-update');
     Route::delete('queries/mass-destroy', [API\QueryController::class, 'massDestroy'])->name('queries.mass-destroy');
     Route::get('queries/execute/{query}', [API\QueryController::class, 'execute'])->name('queries.execute');
+    Route::post('queries/execute', [API\QueryController::class, 'executeDsl'])->name('queries.execute-dsl');
     Route::resource('queries', API\QueryController::class);
 
     // =======================================

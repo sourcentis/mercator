@@ -119,9 +119,11 @@ test('an unknown document cannot be selected as icon', function () {
 
 test('an existing icon can be selected', function () {
     $icon = Document::factory()->create(['filename' => 'icon.png', 'mimetype' => 'image/png']);
-    Building::factory()->create(['icon_id' => $icon->id]);
+    // Noms fixes : BUILDING_NAME n'offre que 26 valeurs, deux tirages identiques
+    // feraient échouer la mise à jour sur la règle d'unicité du nom.
+    Building::factory()->create(['name' => 'Batiment A', 'icon_id' => $icon->id]);
 
-    $building = Building::factory()->create();
+    $building = Building::factory()->create(['name' => 'Batiment B']);
 
     $this->put(route('admin.buildings.update', $building), [
         'name' => $building->name,

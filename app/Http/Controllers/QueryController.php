@@ -6,7 +6,6 @@ use App\Http\Requests\MassDestroySavedQueryRequest;
 use App\Http\Requests\StoreSavedQueryRequest;
 use App\Http\Requests\UpdateSavedQueryRequest;
 use App\Models\SavedQuery;
-use App\Services\QueryEngine\GraphResult;
 use App\Services\QueryEngine\QueryAccessChecker;
 use App\Services\QueryEngine\QueryDslValidator;
 use App\Services\QueryEngine\QueryEngineIntrospector;
@@ -58,7 +57,7 @@ class QueryController extends Controller
                 'filters' => [],
                 'traverse' => [],
                 'output' => 'list',
-                'limit' => 100
+                'limit' => 100,
             ])),
         ]);
 
@@ -132,8 +131,11 @@ class QueryController extends Controller
         $copy = $query->duplicate();
         $copy->save();
 
-        return redirect()
-            ->route('admin.queries.edit', $copy);
+        // Sans query_edit, edit() refuserait l'accès : on ouvre la copie à la place.
+        return redirect()->route(
+            Gate::allows('query_edit') ? 'admin.queries.edit' : 'admin.queries.show',
+            $copy
+        );
     }
 
     public function show(SavedQuery $query): View
@@ -189,21 +191,7 @@ class QueryController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $result = $this->resolver->execute($dsl);
-
-        $response = $result->toArray();
-
-        // Métadonnées pour l'UI
-        $response['meta'] = [
-            'output' => $dsl['output'] ?? 'list',
-            'from' => $dsl['from'],
-            'count' => $result instanceof GraphResult
-                ? $result->nodeCount()
-                : $result->rowCount(),
-            'truncated' => $result instanceof GraphResult && $result->truncated,
-        ];
-
-        return response()->json($response);
+        return response()->json($this->resolver->executeToArray($dsl));
     }
 
     /**

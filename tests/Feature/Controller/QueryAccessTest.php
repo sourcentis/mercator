@@ -385,3 +385,217 @@ describe('Compte en lecture seule (query_show + query_access)', function () {
             ->assertOk();
     });
 });
+
+describe('duplicate', function () {
+    it('ouvre l\'éditeur de la copie avec query_edit', function () {
+        $user = queryAccessUser(['query_create', 'query_edit']);
+
+        $response = $this->actingAs($user)->post(route('admin.queries.duplicate', accessQuery($user)));
+
+        $copy = SavedQuery::query()->where('user_id', $user->id)->latest('id')->first();
+        $response->assertRedirect(route('admin.queries.edit', $copy));
+        $this->get(route('admin.queries.edit', $copy))->assertOk();
+    });
+
+    it('ouvre la copie sans passer par l\'éditeur sans query_edit', function () {
+        $user = queryAccessUser(['query_create']);
+
+        $response = $this->actingAs($user)->post(route('admin.queries.duplicate', accessQuery($user)));
+
+        $copy = SavedQuery::query()->where('user_id', $user->id)->latest('id')->first();
+        expect($copy->name)->toBe('Access Query (copie)');
+        $response->assertRedirect(route('admin.queries.show', $copy));
+        $this->get(route('admin.queries.show', $copy))->assertOk();
+    });
+});
+
+describe('API – format et validation du DSL', function () {
+    beforeEach(function () {
+        $this->owner = queryAccessUser(['query_create', 'query_edit']);
+        $this->query = accessQuery($this->owner);
+        Passport::actingAs($this->owner);
+    });
+
+    it('modifie une requête avec query en tableau', function () {
+        $this->putJson('/api/queries/'.$this->query->id, [
+            'name' => 'Renamed',
+            'query' => ['from' => 'logical-servers', 'output' => 'graph'],
+        ])->assertOk();
+
+        expect($this->query->fresh()->query)->toBe(['from' => 'logical-servers', 'output' => 'graph']);
+    });
+
+    it('modifie une requête avec query_json', function () {
+        $this->putJson('/api/queries/'.$this->query->id, [
+            'name' => 'Renamed',
+            'query_json' => json_encode(['from' => 'logical-servers']),
+        ])->assertOk();
+
+        expect($this->query->fresh()->query)->toBe(['from' => 'logical-servers']);
+    });
+
+    it('refuse une modification avec un DSL invalide', function () {
+        $this->putJson('/api/queries/'.$this->query->id, [
+            'name' => 'Renamed',
+            'query' => ['from' => 'logical-servers', 'output' => 'pie'],
+        ])->assertUnprocessable()
+            ->assertJsonValidationErrors('query.output');
+
+        expect($this->query->fresh()->query['from'])->toBe('applications');
+    });
+
+    it('refuse une modification sans DSL', function () {
+        $this->putJson('/api/queries/'.$this->query->id, ['name' => 'Renamed'])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors('query');
+    });
+
+    it('refuse un mass-store dont un élément a un DSL invalide', function () {
+        $this->putJson('/api/queries/mass-store', ['items' => [
+            ['name' => 'Valid', 'query' => ['from' => 'applications']],
+            ['name' => 'Invalid', 'query' => ['output' => 'list']],
+        ]])->assertUnprocessable()
+            ->assertJsonValidationErrors('items.1.query.from');
+
+        $this->assertDatabaseMissing('saved_queries', ['name' => 'Valid']);
+    });
+
+    it('refuse un mass-update dont un élément a un DSL invalide', function () {
+        $this->putJson('/api/queries/mass-update', ['items' => [[
+            'id' => $this->query->id,
+            'name' => 'Renamed',
+            'query' => ['from' => 'applications', 'limit' => 5000],
+        ]]])->assertUnprocessable()
+            ->assertJsonValidationErrors('items.0.query.limit');
+
+        expect($this->query->fresh()->name)->toBe('Access Query');
+    });
+
+    it('accepte un mass-store dont tous les DSL sont valides', function () {
+        $this->putJson('/api/queries/mass-store', ['items' => [
+            ['name' => 'First', 'query' => ['from' => 'applications']],
+            ['name' => 'Second', 'query' => ['from' => 'logical-servers', 'output' => 'graph']],
+        ]])->assertCreated();
+
+        $this->assertDatabaseHas('saved_queries', ['name' => 'Second', 'user_id' => $this->owner->id]);
+    });
+});
+
+describe('is_public lors d\'une modification', function () {
+    beforeEach(function () {
+        $this->owner = queryAccessUser(['query_show', 'query_edit']);
+        $this->query = accessQuery($this->owner, public: true);
+    });
+
+    it('conserve is_public quand l\'API ne l\'envoie pas', function () {
+        Passport::actingAs($this->owner);
+
+        $this->putJson('/api/queries/'.$this->query->id, [
+            'name' => 'Renamed',
+            'query' => ['from' => 'applications'],
+        ])->assertOk();
+
+        expect($this->query->fresh()->is_public)->toBeTrue();
+    });
+
+    it('rend la requête privée quand l\'API envoie is_public à false', function () {
+        Passport::actingAs($this->owner);
+
+        $this->putJson('/api/queries/'.$this->query->id, [
+            'name' => 'Renamed',
+            'query' => ['from' => 'applications'],
+            'is_public' => false,
+        ])->assertOk();
+
+        expect($this->query->fresh()->is_public)->toBeFalse();
+    });
+
+    it('rend la requête privée quand la case du formulaire web est décochée', function () {
+        $this->actingAs($this->owner)
+            ->put(route('admin.queries.update', $this->query), [
+                'name' => 'Renamed',
+                'query_json' => json_encode(['from' => 'applications']),
+                'is_public' => '0',
+            ])->assertRedirect();
+
+        expect($this->query->fresh()->is_public)->toBeFalse();
+    });
+
+    it('envoie is_public même quand la case est décochée', function () {
+        $this->actingAs($this->owner)
+            ->get(route('admin.queries.edit', $this->query))
+            ->assertOk()
+            ->assertSee('<input type="hidden" name="is_public" value="0">', false);
+    });
+});
+
+describe('API – exécution d\'un DSL libre (POST /api/queries/execute)', function () {
+    beforeEach(function () {
+        $this->dsl = ['from' => 'applications', 'fields' => ['name'], 'output' => 'list'];
+    });
+
+    it('exécute le DSL et renvoie le résultat en JSON', function () {
+        Application::factory()->create(['name' => 'ERP']);
+        Passport::actingAs(queryAccessUser(['query_create', 'application_show']));
+
+        $this->postJson('/api/queries/execute', $this->dsl)
+            ->assertOk()
+            ->assertJsonStructure(['columns', 'rows', 'meta' => ['output', 'from', 'count', 'truncated']])
+            ->assertJsonPath('meta.count', 1)
+            ->assertJsonPath('rows.0.name', 'ERP');
+
+        expect(SavedQuery::count())->toBe(0);
+    });
+
+    it('renvoie un graphe', function () {
+        Application::factory()->create();
+        Passport::actingAs(queryAccessUser(['query_edit', 'application_show']));
+
+        $this->postJson('/api/queries/execute', ['from' => 'applications', 'output' => 'graph'])
+            ->assertOk()
+            ->assertJsonStructure(['nodes', 'edges', 'meta']);
+    });
+
+    it('refuse un compte avec query_show seul', function () {
+        Passport::actingAs(queryAccessUser(['query_show', 'application_show']));
+
+        $this->postJson('/api/queries/execute', $this->dsl)->assertForbidden();
+    });
+
+    it('refuse un DSL qui lit un objet sans droit', function () {
+        Passport::actingAs(queryAccessUser(['query_create', 'application_show']));
+
+        $response = $this->postJson('/api/queries/execute', [
+            'from' => 'applications',
+            'fields' => ['name', 'logical_servers.name'],
+        ]);
+
+        $response->assertUnprocessable();
+        expect($response->json('message'))->toContain('LogicalServer');
+    });
+
+    it('refuse un DSL invalide', function () {
+        Passport::actingAs(queryAccessUser(['query_create', 'application_show']));
+
+        $this->postJson('/api/queries/execute', ['from' => 'applications', 'output' => 'pie'])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors('output');
+    });
+
+    it('n\'expose pas les comptes utilisateurs, même à un administrateur', function () {
+        Passport::actingAs(User::query()->where('login', 'admin@admin.com')->first());
+
+        $this->postJson('/api/queries/execute', ['from' => 'users', 'fields' => ['login', 'email']])
+            ->assertNotFound()
+            ->assertJsonMissingPath('rows');
+    });
+
+    it('laisse intacte l\'exécution d\'une requête enregistrée par son id', function () {
+        Application::factory()->create();
+        Passport::actingAs(queryAccessUser(['query_show', 'application_show']));
+
+        $this->get('/api/queries/execute/'.accessQuery($this->other, public: true)->id)
+            ->assertOk()
+            ->assertHeader('Content-Type', 'text/csv; charset=UTF-8');
+    });
+});

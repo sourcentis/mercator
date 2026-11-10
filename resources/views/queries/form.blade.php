@@ -49,6 +49,8 @@
                         </div>
 
                         <div class="form-check form-switch">
+                            {{-- Case décochée : envoie 0, sinon la modification conserverait l'ancienne valeur --}}
+                            <input type="hidden" name="is_public" value="0">
                             <input class="form-check-input" type="checkbox"
                                    id="is_public" name="is_public" value="1"
                                    {{ old('is_public', $query->is_public) ? 'checked' : '' }}>

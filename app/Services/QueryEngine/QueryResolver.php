@@ -62,6 +62,27 @@ class QueryResolver
         };
     }
 
+    /**
+     * Exécute le DSL et retourne le résultat sérialisable, avec ses métadonnées
+     * (réponse JSON du moteur, côté web comme côté API).
+     */
+    public function executeToArray(array $dsl): array
+    {
+        $result = $this->execute($dsl);
+
+        $response = $result->toArray();
+        $response['meta'] = [
+            'output' => $dsl['output'] ?? 'list',
+            'from' => $dsl['from'],
+            'count' => $result instanceof GraphResult
+                ? $result->nodeCount()
+                : $result->rowCount(),
+            'truncated' => $result instanceof GraphResult && $result->truncated,
+        ];
+
+        return $response;
+    }
+
     // ─────────────────────────────────────────────────────────────
     // Normalisation du format traverse (string | {segments:[...]})
     // ─────────────────────────────────────────────────────────────
