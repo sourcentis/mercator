@@ -10,7 +10,7 @@ class MassUpdateSavedQueryRequest extends BaseMassFormRequest
 {
     public function authorize(): true
     {
-        abort_if(Gate::denies('router_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('query_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
     }

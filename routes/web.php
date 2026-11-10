@@ -528,6 +528,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['web.prote
 
     // Queries
     Route::post('/queries/{query}/duplicate', [QueryController::class, 'duplicate'])->name('queries.duplicate');
+    Route::post('/queries/{query}/run', [QueryController::class, 'run'])->name('queries.run');
     Route::post('/queries/execute', [QueryController::class, 'execute'])->name('queries.execute');
     Route::get('/queries/schema', [QueryController::class, 'schema'])->name('queries.schema');
     Route::get('/queries/schema/{model}', [QueryController::class, 'schemaModel'])->name('queries.schema.model');

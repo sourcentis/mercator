@@ -3,13 +3,14 @@
 @section('title', __('Query Engine'))
 
 @section('content')
+@php $canSave = isset($query) && auth()->id() === $query->user_id && auth()->user()->can('query_edit'); @endphp
 
 <div class="card d-flex flex-column" style="min-height:calc(100vh - 180px);">
     <div class="card-header">
         @lang('Query Engine')
         @isset($query) — {{ $query->name }} @endisset
     </div>
-    @include('queries._engine')
+    @include('queries._engine', ['readOnly' => ! $canUseEditor])
 </div>
 
 {{-- ── Boutons d'action ────────────────────────────────────────────── --}}
@@ -18,7 +19,7 @@
         {{ trans('global.back_to_list') }}
     </a>
     @isset($query)
-        @if(auth()->id() === $query->user_id)
+        @if($canSave)
             <button class="btn btn-success" id="btn-save">
                 <i class="fas fa-save"></i> {{ trans('global.save') }}
             </button>
@@ -32,7 +33,7 @@
 
 {{-- ── Formulaire PUT caché (mise à jour) ─────────────────────────── --}}
 @isset($query)
-    @if(auth()->id() === $query->user_id)
+    @if($canSave)
         <form id="form-save-update"
               action="{{ route('admin.queries.update', $query) }}"
               method="POST" class="d-none">
@@ -52,7 +53,8 @@
 @vite(['resources/js/graphviz.js', 'resources/js/sql-parser.js'])
 @include('queries.engine-js', [
     'queryDsl'    => $query?->query ?? null,
-    'saveFormId'  => isset($query) && auth()->id() === $query->user_id
+    'runUrl'      => $canUseEditor ? null : route('admin.queries.run', $query),
+    'saveFormId'  => isset($query) && auth()->id() === $query->user_id && auth()->user()->can('query_edit')
                         ? 'form-save-update'
                         : null,
     'createRoute' => !isset($query)
