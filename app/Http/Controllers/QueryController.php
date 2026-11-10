@@ -58,7 +58,7 @@ class QueryController extends Controller
                 'filters' => [],
                 'traverse' => [],
                 'output' => 'list',
-                'limit' => 100
+                'limit' => 100,
             ])),
         ]);
 
@@ -132,8 +132,11 @@ class QueryController extends Controller
         $copy = $query->duplicate();
         $copy->save();
 
-        return redirect()
-            ->route('admin.queries.edit', $copy);
+        // Sans query_edit, edit() refuserait l'accès : on ouvre la copie à la place.
+        return redirect()->route(
+            Gate::allows('query_edit') ? 'admin.queries.edit' : 'admin.queries.show',
+            $copy
+        );
     }
 
     public function show(SavedQuery $query): View

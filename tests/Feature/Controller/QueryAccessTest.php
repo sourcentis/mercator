@@ -385,3 +385,26 @@ describe('Compte en lecture seule (query_show + query_access)', function () {
             ->assertOk();
     });
 });
+
+describe('duplicate', function () {
+    it('ouvre l\'éditeur de la copie avec query_edit', function () {
+        $user = queryAccessUser(['query_create', 'query_edit']);
+
+        $response = $this->actingAs($user)->post(route('admin.queries.duplicate', accessQuery($user)));
+
+        $copy = SavedQuery::query()->where('user_id', $user->id)->latest('id')->first();
+        $response->assertRedirect(route('admin.queries.edit', $copy));
+        $this->get(route('admin.queries.edit', $copy))->assertOk();
+    });
+
+    it('ouvre la copie sans passer par l\'éditeur sans query_edit', function () {
+        $user = queryAccessUser(['query_create']);
+
+        $response = $this->actingAs($user)->post(route('admin.queries.duplicate', accessQuery($user)));
+
+        $copy = SavedQuery::query()->where('user_id', $user->id)->latest('id')->first();
+        expect($copy->name)->toBe('Access Query (copie)');
+        $response->assertRedirect(route('admin.queries.show', $copy));
+        $this->get(route('admin.queries.show', $copy))->assertOk();
+    });
+});
