@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Concerns\ValidatesSavedQueryDsl;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateSavedQueryRequest extends FormRequest
 {
+    use ValidatesSavedQueryDsl;
+
     public function authorize(): bool
     {
         // Seul le propriétaire peut modifier
@@ -24,11 +27,6 @@ class UpdateSavedQueryRequest extends FormRequest
             'is_public' => $this->boolean('is_public'),
         ]);
 
-        $raw = $this->input('query_json', '');
-        $decoded = json_decode($raw, true);
-
-        $this->merge([
-            'query' => is_array($decoded) ? $decoded : null,
-        ]);
+        $this->mergeQueryInput();
     }
 }

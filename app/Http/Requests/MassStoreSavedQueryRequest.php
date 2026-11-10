@@ -2,11 +2,14 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Concerns\ValidatesMassSavedQueryDsl;
 use Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class MassStoreSavedQueryRequest extends BaseMassFormRequest
 {
+    use ValidatesMassSavedQueryDsl;
+
     public function authorize(): true
     {
         abort_if(Gate::denies('query_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');

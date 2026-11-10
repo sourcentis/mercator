@@ -408,3 +408,75 @@ describe('duplicate', function () {
         $this->get(route('admin.queries.show', $copy))->assertOk();
     });
 });
+
+describe('API – format et validation du DSL', function () {
+    beforeEach(function () {
+        $this->owner = queryAccessUser(['query_create', 'query_edit']);
+        $this->query = accessQuery($this->owner);
+        Passport::actingAs($this->owner);
+    });
+
+    it('modifie une requête avec query en tableau', function () {
+        $this->putJson('/api/queries/'.$this->query->id, [
+            'name' => 'Renamed',
+            'query' => ['from' => 'logical-servers', 'output' => 'graph'],
+        ])->assertOk();
+
+        expect($this->query->fresh()->query)->toBe(['from' => 'logical-servers', 'output' => 'graph']);
+    });
+
+    it('modifie une requête avec query_json', function () {
+        $this->putJson('/api/queries/'.$this->query->id, [
+            'name' => 'Renamed',
+            'query_json' => json_encode(['from' => 'logical-servers']),
+        ])->assertOk();
+
+        expect($this->query->fresh()->query)->toBe(['from' => 'logical-servers']);
+    });
+
+    it('refuse une modification avec un DSL invalide', function () {
+        $this->putJson('/api/queries/'.$this->query->id, [
+            'name' => 'Renamed',
+            'query' => ['from' => 'logical-servers', 'output' => 'pie'],
+        ])->assertUnprocessable()
+            ->assertJsonValidationErrors('query.output');
+
+        expect($this->query->fresh()->query['from'])->toBe('applications');
+    });
+
+    it('refuse une modification sans DSL', function () {
+        $this->putJson('/api/queries/'.$this->query->id, ['name' => 'Renamed'])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors('query');
+    });
+
+    it('refuse un mass-store dont un élément a un DSL invalide', function () {
+        $this->putJson('/api/queries/mass-store', ['items' => [
+            ['name' => 'Valid', 'query' => ['from' => 'applications']],
+            ['name' => 'Invalid', 'query' => ['output' => 'list']],
+        ]])->assertUnprocessable()
+            ->assertJsonValidationErrors('items.1.query.from');
+
+        $this->assertDatabaseMissing('saved_queries', ['name' => 'Valid']);
+    });
+
+    it('refuse un mass-update dont un élément a un DSL invalide', function () {
+        $this->putJson('/api/queries/mass-update', ['items' => [[
+            'id' => $this->query->id,
+            'name' => 'Renamed',
+            'query' => ['from' => 'applications', 'limit' => 5000],
+        ]]])->assertUnprocessable()
+            ->assertJsonValidationErrors('items.0.query.limit');
+
+        expect($this->query->fresh()->name)->toBe('Access Query');
+    });
+
+    it('accepte un mass-store dont tous les DSL sont valides', function () {
+        $this->putJson('/api/queries/mass-store', ['items' => [
+            ['name' => 'First', 'query' => ['from' => 'applications']],
+            ['name' => 'Second', 'query' => ['from' => 'logical-servers', 'output' => 'graph']],
+        ]])->assertCreated();
+
+        $this->assertDatabaseHas('saved_queries', ['name' => 'Second', 'user_id' => $this->owner->id]);
+    });
+});
