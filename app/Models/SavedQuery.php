@@ -48,6 +48,14 @@ final class SavedQuery extends Model
     // ─── Helpers ───────────────────────────────────────────────
 
     /**
+     * Même règle que scopeVisibleBy, pour une requête déjà chargée.
+     */
+    public function isVisibleBy(int $userId): bool
+    {
+        return $this->is_public || $this->user_id === $userId;
+    }
+
+    /**
      * Retourne une copie du DSL avec un nouveau nom.
      * Utilisé pour la duplication.
      */

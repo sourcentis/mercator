@@ -5,10 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\MassDestroySavedQueryRequest;
 use App\Http\Requests\StoreSavedQueryRequest;
 use App\Http\Requests\UpdateSavedQueryRequest;
-use App\Models\Cartographer;
-use App\Models\Permission;
 use App\Models\SavedQuery;
 use App\Services\QueryEngine\GraphResult;
+use App\Services\QueryEngine\QueryAccessChecker;
 use App\Services\QueryEngine\QueryDslValidator;
 use App\Services\QueryEngine\QueryEngineIntrospector;
 use App\Services\QueryEngine\QueryResolver;
@@ -16,13 +15,17 @@ use Gate;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\Response;
 
 class QueryController extends Controller
 {
+    private const READ_ABILITIES = ['query_show', 'query_create', 'query_edit'];
+
+    private const EDITOR_ABILITIES = ['query_create', 'query_edit'];
+
     public function __construct(protected QueryResolver $resolver) {}
 
     /**
@@ -30,6 +33,8 @@ class QueryController extends Controller
      */
     public function index(): View
     {
+        abort_if(Gate::denies('query_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $queries = SavedQuery::visibleBy(auth()->id())
             ->with('user:id,name')
             ->orderBy('name')
@@ -43,6 +48,8 @@ class QueryController extends Controller
      */
     public function create(Request $request): View
     {
+        abort_if(Gate::denies('query_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         // Pré-remplissage depuis le query engine (DSL passé en session)
         $query = new SavedQuery([
             'query' => $request->old('query', session('qe_last_query', [
@@ -51,7 +58,7 @@ class QueryController extends Controller
                 'filters' => [],
                 'traverse' => [],
                 'output' => 'list',
-                'limit' => 100,
+                'limit' => 100
             ])),
         ]);
 
@@ -79,6 +86,7 @@ class QueryController extends Controller
      */
     public function edit(SavedQuery $query): View
     {
+        abort_if(Gate::denies('query_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $this->authorizeOwner($query);
 
         return view('queries.form', compact('query'));
@@ -89,6 +97,7 @@ class QueryController extends Controller
      */
     public function update(UpdateSavedQueryRequest $request, SavedQuery $query): RedirectResponse
     {
+        abort_if(Gate::denies('query_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $this->authorizeOwner($query);
 
         $query->update($request->validated());
@@ -102,6 +111,7 @@ class QueryController extends Controller
      */
     public function destroy(SavedQuery $query): RedirectResponse
     {
+        abort_if(Gate::denies('query_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $this->authorizeOwner($query);
 
         $name = $query->name;
@@ -117,6 +127,7 @@ class QueryController extends Controller
     public function duplicate(SavedQuery $query): RedirectResponse
     {
         abort_if(Gate::denies('query_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_unless($query->isVisibleBy(auth()->id()), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $copy = $query->duplicate();
         $copy->save();
@@ -127,31 +138,54 @@ class QueryController extends Controller
 
     public function show(SavedQuery $query): View
     {
-        $exportUrl = URL::temporarySignedRoute(
-            'queries.export.signed',
-            now()->addDays(30),
-            ['query' => $query->id],
-        );
+        abort_if(Gate::none(self::READ_ABILITIES), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_unless($query->isVisibleBy(auth()->id()), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $canUseEditor = Gate::any(self::EDITOR_ABILITIES);
+
+        // Le lien signé s'utilise sans authentification : il n'est remis qu'à
+        // un utilisateur qui a lui-même le droit de lire tout le résultat.
+        $exportUrl = $this->canReadResult($query)
+            ? URL::temporarySignedRoute(
+                'queries.export.signed',
+                now()->addDays(30),
+                ['query' => $query->id],
+            )
+            : null;
 
         return view('queries.show',
-            compact('query', 'exportUrl'));
+            compact('query', 'exportUrl', 'canUseEditor'));
     }
 
     /**
-     * Exécute un DSL et retourne le résultat JSON.
+     * Exécute une requête enregistrée : seul son DSL stocké est pris en compte,
+     * ce qui suffit aux comptes en lecture seule (#2760).
+     */
+    public function run(SavedQuery $query): JsonResponse
+    {
+        abort_if(Gate::none(self::READ_ABILITIES), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_unless($query->isVisibleBy(auth()->id()), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        // « depth » n'est plus accepté par le validateur mais peut subsister en base.
+        return $this->executeDsl(QueryDslValidator::validate(Arr::except($query->query ?? [], 'depth')));
+    }
+
+    /**
+     * Exécute un DSL libre et retourne le résultat JSON.
      */
     public function execute(Request $request): JsonResponse
     {
-        // Exécuter est une lecture : query_show suffit, query_create reste accepté (#2760).
-        // Les droits sur les objets interrogés sont vérifiés par collectDeniedModels().
-        abort_if(Gate::none(['query_show', 'query_create']), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::none(self::EDITOR_ABILITIES), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $dsl = QueryDslValidator::validate($request->all());
+        return $this->executeDsl(QueryDslValidator::validate($request->all()));
+    }
 
-        $denied = $this->collectDeniedModels($dsl);
+    private function executeDsl(array $dsl): JsonResponse
+    {
+        $denied = QueryAccessChecker::deniedModels($dsl);
         if (! empty($denied)) {
             return response()->json([
-                'message' => 'Accès refusé. Vous n\'avez pas le droit de consulter : '.implode(', ', $denied).'.',
+                'message' => QueryAccessChecker::deniedMessage($denied),
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
@@ -198,169 +232,26 @@ class QueryController extends Controller
 
     public function massDestroy(MassDestroySavedQueryRequest $request)
     {
-        abort_if(Gate::denies('queries_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('query_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        SavedQuery::query()->whereIn('id', $request->input('ids', []))->delete();
+        // Même règle que destroy() : seul le propriétaire supprime ses requêtes.
+        SavedQuery::query()
+            ->whereIn('id', $request->input('ids', []))
+            ->where('user_id', auth()->id())
+            ->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
 
     // ─── Private ───────────────────────────────────────────────
 
-    /**
-     * Retourne les noms des modèles du DSL pour lesquels l'utilisateur
-     * n'a pas la permission _show.
-     */
-    private function collectDeniedModels(array $dsl): array
-    {
-        $denied = [];
-
-        foreach ($this->resolveInvolvedModelClasses($dsl) as $modelClass => $displayName) {
-            if (! $this->canShowModel($modelClass)) {
-                $denied[] = $displayName;
-            }
-        }
-
-        // Les modèles sans permission _show (Perimeter, ApplicationEvent…) n'ont pas de droit
-        // propre : lus en relation, ils suivent leur objet parent.
-        foreach ($this->resolveFieldAndFilterModelClasses($dsl) as $modelClass => $displayName) {
-            if (! $this->canShowModel($modelClass)
-                && Permission::query()->where('title', $this->showPermission($modelClass))->exists()) {
-                $denied[] = $displayName;
-            }
-        }
-
-        return array_values(array_unique($denied));
-    }
-
-    /**
-     * Collecte les modèles atteints par les relations des clauses FIELDS et WHERE.
-     *
-     * @return array<class-string, string> FQCN → nom court affiché
-     */
-    private function resolveFieldAndFilterModelClasses(array $dsl): array
+    private function canReadResult(SavedQuery $query): bool
     {
         try {
-            $fromClass = QueryEngineIntrospector::resolveModelClass($dsl['from']);
+            return QueryAccessChecker::deniedModels($query->query ?? []) === [];
         } catch (\Throwable) {
-            return [];
+            return false; // DSL enregistré mal formé
         }
-
-        $models = [];
-
-        foreach ($dsl['fields'] ?? [] as $field) {
-            $this->walkRelationPath($fromClass, array_slice(explode('.', $field), 0, -1), $models);
-        }
-
-        $this->collectFilterModelClasses($fromClass, $dsl['filters'] ?? [], $models);
-
-        return $models;
-    }
-
-    /**
-     * @param  array<string, string>  $models
-     */
-    private function collectFilterModelClasses(string $class, array $filters, array &$models): void
-    {
-        foreach ($filters as $filter) {
-            $relation = $filter['exists'] ?? $filter['not_exists'] ?? null;
-
-            if ($relation !== null) {
-                $relatedClass = $this->walkRelationPath($class, [$relation], $models);
-                if ($relatedClass !== null) {
-                    $this->collectFilterModelClasses($relatedClass, (array) ($filter['conditions'] ?? []), $models);
-                }
-            } elseif (isset($filter['group'])) {
-                $this->collectFilterModelClasses($class, $filter['group'], $models);
-            } elseif (isset($filter['field'])) {
-                $this->walkRelationPath($class, array_slice(explode('.', $filter['field']), 0, -1), $models);
-            }
-        }
-    }
-
-    /**
-     * Suit un chemin de relations et ajoute chaque modèle atteint à $models.
-     * Une relation inconnue arrête le parcours : le résolveur la rejettera en 422.
-     *
-     * @param  list<string>  $segments
-     * @param  array<string, string>  $models
-     * @return class-string|null Classe du dernier modèle atteint
-     */
-    private function walkRelationPath(string $class, array $segments, array &$models): ?string
-    {
-        foreach ($segments as $segment) {
-            $relDef = collect(QueryEngineIntrospector::getRelations($class))
-                ->firstWhere('name', Str::snake($segment));
-
-            if (! $relDef) {
-                return null;
-            }
-
-            $class = QueryEngineIntrospector::resolveModelClassFromAny($relDef['related']);
-            $models[$class] = class_basename($class);
-        }
-
-        return $class;
-    }
-
-    /**
-     * Collecte toutes les classes de modèles référencées par le DSL
-     * (clause FROM + chaque segment des chemins traverse).
-     *
-     * @return array<class-string, string> FQCN → nom court affiché
-     */
-    private function resolveInvolvedModelClasses(array $dsl): array
-    {
-        $models = [];
-
-        try {
-            $fromClass = QueryEngineIntrospector::resolveModelClass($dsl['from']);
-            $models[$fromClass] = class_basename($fromClass);
-        } catch (\Throwable) {
-            return $models;
-        }
-
-        foreach ($dsl['traverse'] ?? [] as $traverseItem) {
-            $segments = QueryResolver::normalizeSegments($traverseItem);
-            $currentClass = $fromClass;
-
-            foreach ($segments as $segment) {
-                try {
-                    $relations = QueryEngineIntrospector::getRelations($currentClass);
-                    $relDef = collect($relations)->firstWhere('name', Str::snake($segment['name']));
-
-                    if (! $relDef) {
-                        break;
-                    }
-
-                    $relatedClass = QueryEngineIntrospector::resolveModelClassFromAny($relDef['related']);
-                    $models[$relatedClass] = class_basename($relatedClass);
-                    $currentClass = $relatedClass;
-                } catch (\Throwable) {
-                    break;
-                }
-            }
-        }
-
-        return $models;
-    }
-
-    /**
-     * Vérifie si l'utilisateur courant peut consulter ce type de modèle,
-     * soit via une permission de rôle (_show), soit en tant que cartographe.
-     */
-    private function canShowModel(string $modelClass): bool
-    {
-        if (Gate::allows($this->showPermission($modelClass))) {
-            return true;
-        }
-
-        return Cartographer::hasAnyFor(auth()->user(), $modelClass);
-    }
-
-    private function showPermission(string $modelClass): string
-    {
-        return Str::snake(class_basename($modelClass)).'_show';
     }
 
     private function authorizeOwner(SavedQuery $savedQuery): void

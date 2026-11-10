@@ -40,15 +40,20 @@
                             data-name="{{ e($q->name) }}"
                             data-query-dsl='{{ json_encode($q->query ?? [], JSON_HEX_APOS | JSON_HEX_TAG) }}'
                             data-url-show="{{ route('admin.queries.show', $q->id) }}"
+                            data-url-run="{{ route('admin.queries.run', $q->id) }}"
                             data-url-edit="{{ route('admin.queries.edit', $q->id) }}"
                             data-url-destroy="{{ route('admin.queries.destroy', $q->id) }}"
                             data-is-owner="{{ $isOwner ? '1' : '0' }}">
                             <td></td>
                             <td>
-                                <a href="{{ route('admin.queries.show', $q->id) }}"
-                                   title="@lang('Ouvrir')">
+                                @canany(['query_create', 'query_edit'])
+                                    <a href="{{ route('admin.queries.show', $q->id) }}"
+                                       title="@lang('Ouvrir')">
+                                        {{ $q->name }}
+                                    </a>
+                                @else
                                     {{ $q->name }}
-                                </a>
+                                @endcanany
                                 @if($q->description)
                                     <small class="d-block text-muted">{{ $q->description }}</small>
                                 @endif
@@ -248,7 +253,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // 5. Appel load
         // console.log('→ Appel QueryEngine.load(dsl)');
         try {
-            window.QueryEngine.load(dsl);
+            window.QueryEngine.load(dsl, row.dataset.urlRun);
             // console.log('✅ QueryEngine.load() terminé');
             // console.log('query-editor valeur après load :', editor?.value);
         } catch (err) {
