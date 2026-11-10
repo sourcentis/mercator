@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Application;
 use App\Models\ApplicationModule;
+use App\Services\MailerService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Http\Client\Factory;
@@ -291,14 +292,7 @@ class CVESearch extends Command
         $mail = new PHPMailer(true);
 
         try {
-            $mail->isSMTP();
-            $mail->Host = config('mail.mailers.smtp.host'); // env('MAIL_HOST');
-            $mail->SMTPAuth = config('mail.mailers.smtp.username') !== null;
-            $mail->Username = config('mail.mailers.smtp.username'); // env('MAIL_USERNAME');
-            $mail->Password = config('mail.mailers.smtp.password'); // env('MAIL_PASSWORD');
-            $mail->SMTPSecure = config('mail.mailers.smtp.encryption'); // env('MAIL_SMTP_SECURE', false) ?: false; // 'tls' | 'ssl' | false
-            $mail->SMTPAutoTLS = config('mail.mailers.smtp.auto_tls'); //
-            $mail->Port = (int) config('mail.mailers.smtp.port'); // (int) env('MAIL_PORT', 587);
+            MailerService::configure($mail);
 
             $from = config('mercator.cve.mail-from');
             if ($from) {

@@ -7,6 +7,7 @@ use App\Models\Document;
 use App\Models\MonarcSyncItem;
 use App\Models\Parameter;
 use App\Models\Perimeter;
+use App\Services\MailerService;
 use App\Support\MercatorSettings;
 use App\Support\MonarcSettings;
 use App\Support\MonarcSyncState;
@@ -328,24 +329,9 @@ class ConfigurationController extends Controller
     {
         $mail = new PHPMailer(true);
         try {
-            $mail->isSMTP();
-            $mail->Host = config('mail.mailers.smtp.host');
-            $mail->SMTPAuth = config('mail.mailers.smtp.username') !== null;
-            $mail->Username = config('mail.mailers.smtp.username');
-            $mail->Password = config('mail.mailers.smtp.password');
-            $mail->SMTPSecure = config('mail.mailers.smtp.encryption');
-            // Mêmes conditions que l'envoi planifié (CertificateExpiration) : STARTTLS dès que
-            // le serveur l'annonce, avec un certificat vérifié. Une erreur TLS doit apparaître
-            // ici plutôt qu'à l'envoi de minuit.
-            $mail->SMTPAutoTLS = true;
-            $mail->SMTPOptions = [
-                'ssl' => [
-                    'verify_peer' => true,
-                    'verify_peer_name' => true,
-                    'allow_self_signed' => false,
-                ],
-            ];
-            $mail->Port = (int) config('mail.mailers.smtp.port');
+            // Mêmes réglages que les envois automatiques : une erreur TLS doit apparaître ici
+            // plutôt qu'à l'envoi de minuit.
+            MailerService::configure($mail);
 
             $mail->CharSet = PHPMailer::CHARSET_UTF8;
             $mail->Encoding = PHPMailer::ENCODING_BASE64;
