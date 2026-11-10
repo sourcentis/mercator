@@ -97,7 +97,7 @@ class CertificateExpiration extends Command
                     $mail->Username = config('mail.mailers.smtp.username'); // env('MAIL_USERNAME');
                     $mail->Password = config('mail.mailers.smtp.password'); // env('MAIL_PASSWORD');
                     $mail->SMTPSecure = config('mail.mailers.smtp.encryption'); // env('MAIL_SMTP_SECURE', false) ?: false; // 'tls' | 'ssl' | false
-                    $mail->SMTPAutoTLS = config('mail.mailers.smtp.auto_tls');
+                    $mail->SMTPAutoTLS = true; // filter_var(env('MAIL_SMTP_AUTO_TLS', true), FILTER_VALIDATE_BOOLEAN);
                     $mail->Port = (int) config('mail.mailers.smtp.port'); // (int) env('MAIL_PORT', 587);
 
                     // Recipients

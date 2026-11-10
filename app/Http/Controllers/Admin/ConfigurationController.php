@@ -334,7 +334,17 @@ class ConfigurationController extends Controller
             $mail->Username = config('mail.mailers.smtp.username');
             $mail->Password = config('mail.mailers.smtp.password');
             $mail->SMTPSecure = config('mail.mailers.smtp.encryption');
-            $mail->SMTPAutoTLS = config('mail.mailers.smtp.auto_tls');
+            // Mêmes conditions que l'envoi planifié (CertificateExpiration) : STARTTLS dès que
+            // le serveur l'annonce, avec un certificat vérifié. Une erreur TLS doit apparaître
+            // ici plutôt qu'à l'envoi de minuit.
+            $mail->SMTPAutoTLS = true;
+            $mail->SMTPOptions = [
+                'ssl' => [
+                    'verify_peer' => true,
+                    'verify_peer_name' => true,
+                    'allow_self_signed' => false,
+                ],
+            ];
             $mail->Port = (int) config('mail.mailers.smtp.port');
 
             $mail->CharSet = PHPMailer::CHARSET_UTF8;
@@ -356,8 +366,12 @@ class ConfigurationController extends Controller
             $mail->send();
 
             return ['Message has been sent', true];
-        } catch (Exception) {
-            return ["Message could not be sent. Mailer Error: {$mail->ErrorInfo}", false];
+        } catch (Exception $e) {
+            // Message de l'exception plutôt que ErrorInfo : après un échec STARTTLS,
+            // ErrorInfo se voit ajouter la réponse au QUIT, faite d'octets TLS binaires.
+            $error = mb_scrub(trim($e->getMessage()), 'UTF-8');
+
+            return ["Message could not be sent. Mailer Error: {$error}", false];
         }
     }
 
