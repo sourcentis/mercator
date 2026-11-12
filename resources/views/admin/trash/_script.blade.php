@@ -4,7 +4,8 @@
     if (isset($trashListModel)) {
         $trashRoutes = \App\Support\TrashMode::indexRoutes();
         $trashList = [
-            'base' => isset($trashRoutes[$trashListModel]) ? route($trashRoutes[$trashListModel]) : null,
+            'base' => isset($trashListRoute) && Route::has($trashListRoute) ? route($trashListRoute)
+                : (isset($trashRoutes[$trashListModel]) ? route($trashRoutes[$trashListModel]) : null),
             'restore' => route('admin.trash.restore', [\App\Support\TrashMode::key($trashListModel), 0]),
             'canRestore' => Gate::allows(\App\Support\TrashMode::permissionPrefix($trashListModel).'_delete'),
             'label' => trans('cruds.trash.restore'),
@@ -30,8 +31,14 @@
         if (path === explorePath || clonePath.test(path)) a.remove();
     });
 
+    // Modification d'un objet : /x/1/edit, mais aussi /bpmn/edit/1 et /bpmn/raw/1
+    var editPath = /(^|\/)(edit|raw)(\/|$)/;
+
     var list = @json($trashList);
     if (list) {
+        // Panneau d'aperçu de la liste (BPMN) : pas de modification ni de suppression
+        content.querySelectorAll('#btn-panel-edit, #btn-panel-raw, #form-panel-destroy').forEach(function (el) { el.remove(); });
+
         var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         content.querySelectorAll('table tbody tr[data-entry-id]').forEach(function (row) {
             var id = row.getAttribute('data-entry-id');
@@ -64,7 +71,9 @@
 
     // Fiche d'un objet supprimé : pas de modification ni de suppression.
     if (document.getElementById('trash-object')) {
-        content.querySelectorAll('a[href$="/edit"]').forEach(function (el) { el.remove(); });
+        content.querySelectorAll('a[href]').forEach(function (a) {
+            if (editPath.test(new URL(a.href).pathname)) a.remove();
+        });
         content.querySelectorAll('form').forEach(function (form) {
             var method = form.querySelector('input[name="_method"]');
             if (method && method.value.toUpperCase() === 'DELETE') form.remove();

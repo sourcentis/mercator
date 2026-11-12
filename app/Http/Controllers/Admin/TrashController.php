@@ -32,18 +32,21 @@ class TrashController extends Controller
         $rows = [];
         foreach (TrashMode::MENU as $viewKey => $types) {
             foreach ($types as $class => $labelKey) {
-                if (! isset($routes[$class]) || Gate::denies(TrashMode::permissionPrefix($class).'_access')) {
+                if (Gate::denies(TrashMode::permissionPrefix($class).'_access')) {
                     continue;
                 }
-                $count = $class::onlyTrashed()->count();
-                if ($count === 0) {
-                    continue;
+                // Une ligne par liste (ex. graphes : cartes et BPMN)
+                foreach (TrashMode::lists($class, $labelKey, $routes) as $list) {
+                    $count = $class::onlyTrashed()->where($list['where'])->count();
+                    if ($count === 0) {
+                        continue;
+                    }
+                    $rows[trans($viewKey)][] = [
+                        'label' => trans($list['label']),
+                        'count' => $count,
+                        'url' => route($list['route']),
+                    ];
                 }
-                $rows[trans($viewKey)][] = [
-                    'label' => trans($labelKey),
-                    'count' => $count,
-                    'url' => route($routes[$class]),
-                ];
             }
         }
 
@@ -101,7 +104,8 @@ class TrashController extends Controller
         $table = $object->getTable();
         $name = $object->getAttribute('name');
 
-        if ($name === null || ! Schema::hasColumn($table, 'name')) {
+        if ($name === null || in_array($object::class, TrashMode::NON_UNIQUE_NAMES, true)
+            || ! Schema::hasColumn($table, 'name')) {
             return false;
         }
 

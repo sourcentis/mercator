@@ -124,6 +124,8 @@ Tant que le mode corbeille est actif :
 
 La fiche d'un objet supprimé indique la date de suppression et l'utilisateur qui l'a supprimé, et propose un bouton **Restaurer**.
 
+Les cartes et les BPMN supprimés figurent sur deux lignes distinctes de la vue d'ensemble, dans le groupe **Outils**. Chaque ligne mène à la liste correspondante (**Outils → Cartes** ou **Outils → BPMN**), où le graphe supprimé peut être prévisualisé, affiché et restauré.
+
 [<img src="/mercator/fr/images/trash-show.png" width="700">](images/trash-show.fr.png)
 
 Les droits s'appliquent comme en dehors du mode corbeille :
@@ -131,7 +133,7 @@ Les droits s'appliquent comme en dehors du mode corbeille :
 * l'accès au mode corbeille est réservé aux utilisateurs qui peuvent modifier la configuration ;
 * afficher un objet supprimé nécessite le droit de consulter les objets de ce type ;
 * restaurer un objet nécessite le droit de **supprimer** les objets de ce type ;
-* un objet ne peut pas être restauré si un objet actif du même type porte déjà son nom dans le même périmètre.
+* un objet ne peut pas être restauré si un objet actif du même type porte déjà son nom dans le même périmètre. Cette règle ne s'applique pas aux cartes ni aux BPMN, dont le nom n'a pas à être unique.
 
 Le bouton **Quitter la corbeille**, en bas du menu latéral au-dessus du numéro de version, désactive le mode corbeille et ramène à l'onglet Nettoyage.
 

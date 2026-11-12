@@ -37,6 +37,8 @@ class TrashModeMiddleware
         }
 
         View::share('trashListModel', $model);
+        // Liste affichée : un modèle peut avoir plusieurs listes (graphes : cartes et BPMN)
+        View::share('trashListRoute', $name);
         $restore = TrashMode::scopeToTrashed($model);
 
         try {

@@ -16,6 +16,7 @@ use Database\Seeders\PermissionsTableSeeder;
 use Database\Seeders\RolesTableSeeder;
 use Database\Seeders\RoleUserTableSeeder;
 use Database\Seeders\UsersTableSeeder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
@@ -127,6 +128,10 @@ test('every list only shows deleted objects in trash mode', function (string $cl
 
     $route = TrashMode::indexRoutes()[$class];
 
+    // Comme en production : le modèle n'a pas encore été booté quand le middleware s'exécute
+    // (ici, les factories l'ont booté — on l'annule).
+    Model::clearBootedModels();
+
     $this->withSession([TrashMode::SESSION_KEY => true])
         ->get(route($route))
         ->assertOk()
@@ -204,6 +209,112 @@ test('an object is not restored when an active object already has its name', fun
         ->assertSessionHasErrors();
 
     expect(Actor::find($deleted->id))->toBeNull();
+});
+
+// ── Graphes : cartes (class 1) et BPMN (class 2) partagent le modèle Graph ──────────────
+
+test('the overview lists deleted maps and BPMN separately, each linked to its own list', function () {
+    trash(Graph::factory()->create(['class' => 1]));
+    trash(Graph::factory()->create(['class' => 2]));
+    trash(Graph::factory()->create(['class' => 2]));
+
+    $this->withSession([TrashMode::SESSION_KEY => true])
+        ->get(route('admin.trash.index'))
+        ->assertOk()
+        ->assertSeeInOrder([trans('cruds.graph.title'), '1', route('admin.graphs.index')], false)
+        ->assertSeeInOrder([trans('cruds.bpmn.title'), '2', route('admin.bpmn.index')], false);
+});
+
+test('the BPMN list only shows deleted BPMN in trash mode, with a restore action', function () {
+    $live = Graph::factory()->create(['class' => 2]);
+    $deleted = Graph::factory()->create(['class' => 2]);
+    trash($deleted);
+    $deletedMap = Graph::factory()->create(['class' => 1]);
+    trash($deletedMap);
+    // Comme en production : Graph n'est pas booté avant le middleware (pas d'observer de périmètre)
+    Model::clearBootedModels();
+
+    $this->withSession([TrashMode::SESSION_KEY => true])
+        ->get(route('admin.bpmn.index'))
+        ->assertOk()
+        ->assertSee('data-entry-id="'.$deleted->id.'"', false)
+        ->assertDontSee('data-entry-id="'.$live->id.'"', false)
+        ->assertDontSee('data-entry-id="'.$deletedMap->id.'"', false)
+        // Le script de la corbeille garde le lien vers la fiche BPMN et ajoute la restauration
+        ->assertSee('"base":'.json_encode(route('admin.bpmn.index')), false)
+        ->assertSee('"restore":'.json_encode(route('admin.trash.restore', ['graph', 0])), false);
+
+    $this->withSession([TrashMode::SESSION_KEY => false])
+        ->get(route('admin.bpmn.index'))
+        ->assertOk()
+        ->assertSee('data-entry-id="'.$live->id.'"', false)
+        ->assertDontSee('data-entry-id="'.$deleted->id.'"', false);
+});
+
+test('the map list still links rows to the map page in trash mode', function () {
+    $deleted = Graph::factory()->create(['class' => 1]);
+    trash($deleted);
+
+    $this->withSession([TrashMode::SESSION_KEY => true])
+        ->get(route('admin.graphs.index'))
+        ->assertOk()
+        ->assertSee('data-entry-id="'.$deleted->id.'"', false)
+        ->assertSee('"base":'.json_encode(route('admin.graphs.index')), false);
+});
+
+test('a deleted BPMN can be displayed and previewed only in trash mode', function () {
+    $bpmn = Graph::factory()->create(['class' => 2, 'content' => null]);
+    trash($bpmn);
+
+    $this->get(route('admin.bpmn.show', $bpmn->id))->assertNotFound();
+    $this->get(route('admin.bpmn.data', $bpmn->id))->assertNotFound();
+
+    $this->withSession([TrashMode::SESSION_KEY => true])
+        ->get(route('admin.bpmn.show', $bpmn->id))
+        ->assertOk()
+        ->assertSee('id="trash-object"', false)
+        ->assertSee(route('admin.trash.restore', ['graph', $bpmn->id]), false);
+
+    $this->withSession([TrashMode::SESSION_KEY => true])
+        ->get(route('admin.bpmn.data', $bpmn->id))
+        ->assertOk()
+        ->assertJson(['content' => null]);
+});
+
+test('a deleted map can be displayed in trash mode with a restore action', function () {
+    $map = Graph::factory()->create(['class' => 1]);
+    trash($map);
+
+    $this->withSession([TrashMode::SESSION_KEY => true])
+        ->get(route('admin.graphs.show', $map->id))
+        ->assertOk()
+        ->assertSee('id="trash-object"', false)
+        ->assertSee(route('admin.trash.restore', ['graph', $map->id]), false);
+});
+
+test('deleted maps and BPMN are restored', function (int $class) {
+    $graph = Graph::factory()->create(['class' => $class]);
+    trash($graph);
+
+    $this->withSession([TrashMode::SESSION_KEY => true])
+        ->post(route('admin.trash.restore', ['graph', $graph->id]))
+        ->assertRedirect()
+        ->assertSessionHas('message');
+
+    expect(Graph::find($graph->id))->not->toBeNull();
+})->with(['map' => 1, 'BPMN' => 2]);
+
+test('a graph is restored even when an active graph has its name (graph names are not unique)', function () {
+    $deleted = Graph::factory()->create(['class' => 2, 'name' => 'Processus achats']);
+    trash($deleted);
+    Graph::factory()->create(['class' => 2, 'name' => 'Processus achats']);
+
+    $this->withSession([TrashMode::SESSION_KEY => true])
+        ->post(route('admin.trash.restore', ['graph', $deleted->id]))
+        ->assertSessionHasNoErrors()
+        ->assertSessionHas('message');
+
+    expect(Graph::find($deleted->id))->not->toBeNull();
 });
 
 test('an unknown object type cannot be restored', function () {

@@ -124,6 +124,8 @@ While the trash mode is active:
 
 The page of a deleted object shows the deletion date and the user who deleted it, and offers a **Restore** button.
 
+Deleted maps and BPMN diagrams appear on two separate rows of the overview, in the **Tools** group. Each row leads to the matching list (**Tools → Maps** or **Tools → BPMN**), where the deleted graph can be previewed, displayed and restored.
+
 [<img src="/mercator/images/trash-show.png" width="700">](images/trash-show.png)
 
 Permissions apply as outside the trash mode:
@@ -131,7 +133,7 @@ Permissions apply as outside the trash mode:
 * the trash mode is reserved to users who can change the configuration;
 * displaying a deleted object requires the right to view objects of that type;
 * restoring an object requires the right to **delete** objects of that type;
-* an object cannot be restored if an active object of the same type already has its name in the same perimeter.
+* an object cannot be restored if an active object of the same type already has its name in the same perimeter. This rule does not apply to maps and BPMN diagrams, whose names do not have to be unique.
 
 The **Leave the trash** button, at the bottom of the side menu above the version number, disables the trash mode and returns to the Cleanup tab.
 

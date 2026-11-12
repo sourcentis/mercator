@@ -1,6 +1,7 @@
 @php
-    // Fiche d'un objet supprimé : objet résolu par la liaison de route (voir TrashModeMiddleware).
-    $trashObject = collect(request()->route()?->parameters() ?? [])
+    // Fiche d'un objet supprimé : objet transmis par le contrôleur (BPMN), sinon résolu par la
+    // liaison de route (voir TrashModeMiddleware).
+    $trashObject = ($trashObject ?? null) ?: collect(request()->route()?->parameters() ?? [])
         ->first(fn ($p) => $p instanceof \Illuminate\Database\Eloquent\Model
             && method_exists($p, 'trashed') && $p->trashed());
 @endphp

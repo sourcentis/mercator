@@ -2,6 +2,7 @@
 
 namespace App\Support;
 
+use App\Http\Controllers\BPMNController;
 use App\Models\Activity;
 use App\Models\Actor;
 use App\Models\AdminUser;
@@ -164,6 +165,40 @@ class TrashMode
         ],
     ];
 
+    /**
+     * Contrôleurs hors du namespace Admin dont la liste et les fiches relèvent aussi du mode
+     * corbeille. Leur liste n'est pas la liste « canonique » du modèle (voir indexRoutes()).
+     *
+     * @var array<class-string, class-string<Model>>
+     */
+    public const EXTRA_CONTROLLERS = [
+        BPMNController::class => Graph::class,
+    ];
+
+    /**
+     * Modèles affichés dans plusieurs listes : une ligne par liste dans la vue d'ensemble de la
+     * corbeille, chacune avec son filtre. Les graphes sont des cartes (class 1, liste des cartes)
+     * ou des BPMN (class 2, liste des BPMN).
+     *
+     * @var array<class-string<Model>, list<array{label: string, route: string, where: array<string, mixed>}>>
+     */
+    public const SPLIT_LISTS = [
+        Graph::class => [
+            ['label' => 'cruds.graph.title', 'route' => 'admin.graphs.index', 'where' => ['class' => 1]],
+            ['label' => 'cruds.bpmn.title', 'route' => 'admin.bpmn.index', 'where' => ['class' => 2]],
+        ],
+    ];
+
+    /**
+     * Modèles dont le nom n'est pas unique (ni en base ni dans les formulaires) : la restauration
+     * n'a pas à refuser un objet dont le nom est déjà porté par un objet actif.
+     *
+     * @var list<class-string<Model>>
+     */
+    public const NON_UNIQUE_NAMES = [
+        Graph::class,
+    ];
+
     public static function active(): bool
     {
         return (bool) session(self::SESSION_KEY, false);
@@ -207,6 +242,10 @@ class TrashMode
      */
     public static function modelForController(?string $controller): ?string
     {
+        if ($controller !== null && isset(self::EXTRA_CONTROLLERS[$controller])) {
+            return self::EXTRA_CONTROLLERS[$controller];
+        }
+
         if ($controller === null || ! str_starts_with($controller, 'App\\Http\\Controllers\\Admin\\')) {
             return null;
         }
@@ -229,6 +268,10 @@ class TrashMode
             if (! str_starts_with($name, 'admin.') || ! str_ends_with($name, '.index')) {
                 continue;
             }
+            // Les listes secondaires (EXTRA_CONTROLLERS) ne remplacent pas la liste du modèle.
+            if (isset(self::EXTRA_CONTROLLERS[$route->getControllerClass()])) {
+                continue;
+            }
             $model = self::modelForController($route->getControllerClass());
             if ($model !== null) {
                 $routes[$model] = $name;
@@ -236,6 +279,26 @@ class TrashMode
         }
 
         return $routes;
+    }
+
+    /**
+     * Listes d'un modèle pour la vue d'ensemble de la corbeille : libellé, route et filtre.
+     *
+     * @param  class-string<Model>  $class
+     * @param  array<class-string<Model>, string>  $indexRoutes  résultat de indexRoutes()
+     * @return list<array{label: string, route: string, where: array<string, mixed>}>
+     */
+    public static function lists(string $class, string $labelKey, array $indexRoutes): array
+    {
+        if (isset(self::SPLIT_LISTS[$class])) {
+            return array_values(array_filter(self::SPLIT_LISTS[$class], fn (array $list) => Route::has($list['route'])));
+        }
+
+        if (! isset($indexRoutes[$class])) {
+            return [];
+        }
+
+        return [['label' => $labelKey, 'route' => $indexRoutes[$class], 'where' => []]];
     }
 
     /** Préfixe des permissions du modèle (ex. `application_flow`). */
@@ -264,6 +327,11 @@ class TrashMode
             return $previous;
         };
         $swap = \Closure::bind($swap, null, Model::class);
+
+        // Le modèle doit être booté AVANT l'échange : son premier boot (première instanciation dans
+        // la requête) réinstalle le SoftDeletingScope et écraserait le scope de la corbeille.
+        // Les modèles des périmètres sont bootés dès le démarrage (observers), mais pas tous (Graph).
+        new $class;
 
         $previous = $swap($class, new OnlyTrashedScope);
 
