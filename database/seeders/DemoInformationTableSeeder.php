@@ -33,7 +33,7 @@ class DemoInformationTableSeeder extends Seeder
                 'security_need_i' => 3,
                 'security_need_a' => 2,
                 'security_need_t' => 2,
-                'retention' => null,
+                'retention_period' => null,
             ],
             1 => [
                 'id' => 2,
@@ -51,7 +51,7 @@ class DemoInformationTableSeeder extends Seeder
                 'security_need_i' => 1,
                 'security_need_a' => 1,
                 'security_need_t' => 1,
-                'retention' => null,
+                'retention_period' => null,
             ],
             2 => [
                 'id' => 3,
@@ -69,7 +69,7 @@ class DemoInformationTableSeeder extends Seeder
                 'security_need_i' => 4,
                 'security_need_a' => 3,
                 'security_need_t' => 4,
-                'retention' => null,
+                'retention_period' => null,
             ],
             3 => [
                 'id' => 4,
@@ -87,7 +87,7 @@ class DemoInformationTableSeeder extends Seeder
                 'security_need_i' => 1,
                 'security_need_a' => 1,
                 'security_need_t' => 1,
-                'retention' => null,
+                'retention_period' => null,
             ],
             4 => [
                 'id' => 5,
@@ -105,7 +105,7 @@ class DemoInformationTableSeeder extends Seeder
                 'security_need_i' => 2,
                 'security_need_a' => 2,
                 'security_need_t' => 2,
-                'retention' => null,
+                'retention_period' => null,
             ],
         ]);
 
