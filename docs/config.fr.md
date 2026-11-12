@@ -238,6 +238,26 @@ Lorsqu'il est activé, les erreurs sont affichées à l'écran. **Ne pas activer
 SESSION_LIFETIME=120
 ```
 
+### Content Security Policy
+
+```
+CSP_MODE=enforce
+```
+
+Mercator envoie un en-tête Content Security Policy (CSP) qui n'autorise que les scripts de l'application, porteurs d'un nonce renouvelé à chaque requête. Un script injecté dans une page (attaque XSS) n'est donc pas exécuté par le navigateur.
+
+| Valeur | Effet |
+|--------|-------|
+| `enforce` (défaut) | La politique est appliquée (`Content-Security-Policy`) : tout ce qui n'est pas autorisé est bloqué |
+| `report-only` | La politique est seulement observée (`Content-Security-Policy-Report-Only`) : rien n'est bloqué, les violations sont journalisées dans `storage/logs/security-AAAA-MM-JJ.log` |
+| `off` | Aucun en-tête CSP |
+
+Toute autre valeur désactive la CSP, comme `off`. Les en-têtes `X-Content-Type-Options`, `X-Frame-Options` et `Referrer-Policy` sont envoyés dans tous les cas.
+
+Si une page ne fonctionne plus correctement (bouton sans effet, graphique absent), passer temporairement en `report-only` : l'application refonctionne immédiatement et le journal `security` indique la ressource bloquée, à signaler pour correction.
+
+Le mode en vigueur est affiché dans la [page d'information](#page-dinformation).
+
 ---
 
 ## Journalisation
@@ -286,6 +306,59 @@ Si aucun fichier n'apparaît, vérifiez les permissions du répertoire.
 
 📢 *Note : si la configuration est en cache (`php artisan config:cache`), les modifications du `.env` ne s'appliquent qu'après `php artisan config:clear` (ou un nouveau `config:cache`).*
 
+## Page d'information
+
+La page d'information rassemble la configuration de l'instance et la situation de l'utilisateur connecté. Elle est accessible à tout utilisateur via :
+
+> **Aide → Informations** (`/admin/doc/info`)
+
+Elle permet de vérifier qu'un réglage du `.env` est bien pris en compte, de comprendre pourquoi un utilisateur ne voit pas un objet ou n'a pas un droit, et de transmettre ces éléments au support.
+
+### Mercator
+
+| Ligne | Contenu |
+|-------|---------|
+| Version | Version de Mercator (`version.txt`) |
+| Environnement | Valeur de `APP_ENV` |
+| Fuseau horaire / Langue | Fuseau et langue par défaut de l'application |
+| Date / heure | Heure du serveur, utile pour vérifier le fuseau |
+| Base de données / Version du serveur BD | Pilote utilisé et version du serveur de base de données |
+| PHP / Laravel | Versions de PHP et du framework |
+| Méthodes d'authentification | `Local`, `LDAP` et/ou `Keycloak`, selon la configuration |
+| Pilotes | Pilotes de cache, de file d'attente et d'envoi de courriels |
+| Mémoire PHP | Mémoire utilisée par la requête, limite `memory_limit` et mémoire disponible |
+| Content Security Policy (CSP_MODE) | Mode CSP en vigueur (voir [Content Security Policy](#content-security-policy)) |
+
+La ligne Content Security Policy affiche un badge de couleur :
+
+| Badge | Signification |
+|-------|---------------|
+| 🟢 `enforce` | Politique appliquée |
+| 🟠 `report-only` | Observation : violations journalisées sans blocage |
+| 🔴 `off` ou autre valeur | CSP désactivée |
+
+Une valeur mal saisie dans le `.env` (par exemple `CSP_MODE=enforced`) apparaît en rouge : elle désactive réellement la CSP.
+
+### Utilisateur
+
+Identifiant, nom, adresse électronique, langue et granularité de l'utilisateur connecté, ainsi que ses rôles et s'il est [cartographe](cartographers.md) (avec les types d'objets qui lui sont attribués). Lorsque les [périmètres](perimeters.md) sont activés, la carte indique aussi ses périmètres et le périmètre actif.
+
+### Périmètres
+
+Affiché uniquement lorsque les périmètres sont activés. Pour chaque périmètre de l'utilisateur, le tableau donne ses rôles dans ce périmètre, le nombre d'objets qu'il peut y consulter et, pour chaque droit (Lecture, Création, Modification, Suppression), le nombre de types d'objets concernés. La ligne du périmètre actif est mise en évidence.
+
+### Objets cartographiés
+
+Nombre d'objets visibles depuis le périmètre actif, par vue de la cartographie. Le bouton **Droits par type d'objet** déplie le détail : pour chaque type d'objet, le nombre d'objets visibles et les droits Lecture / Création / Modification / Suppression, par périmètre. Un administrateur dispose de tous les droits dans tous les périmètres.
+
+### Copier pour le helpdesk
+
+Le bouton **Copier pour le helpdesk** place dans le presse-papiers un résumé texte de la page (configuration, utilisateur, périmètres, nombre d'objets visibles), prêt à coller dans une demande de support.
+
+📢 *Remarque : ce résumé contient l'identifiant et l'adresse électronique de l'utilisateur. Le relire avant de l'envoyer à l'extérieur de l'organisation.*
+
+📢 *Remarque : la page affiche la configuration effectivement chargée. Si la configuration est en cache, une modification du `.env` n'y apparaît qu'après `php artisan config:clear`.*
+
 ---
 
 ## Export / Import de fichiers
@@ -325,6 +398,7 @@ volumes:
 
 * Désactiver `APP_DEBUG`
 * Activer HTTPS
+* Laisser la Content Security Policy appliquée (`CSP_MODE=enforce`)
 * Utiliser un reverse proxy (Traefik, Nginx)
 * Configurer des sauvegardes automatiques de la base de données
 * Protéger `.env` et `storage/` avec les permissions appropriées
@@ -358,6 +432,7 @@ volumes:
 | Durée de session | `SESSION_LIFETIME` | 120 | Durée de session en minutes |
 | Mode débogage | `APP_DEBUG` | false | Active ou désactive le mode débogage |
 | URL de l'application | `APP_URL` | https://mercator.example.com | URL de base utilisée dans les liens et les exports |
+| Content Security Policy | `CSP_MODE` | enforce | `enforce`, `report-only` ou `off` |
 | Environnement de l'instance | `APP_ENV` | Production | Définit l'environnement de cette instance Mercator |
 | Nom de l'application | `APP_NAME` | Mercator | Nom affiché, utile pour différencier les instances |
 | Type de messagerie | `MAIL_MAILER` | smtp | Connexion au serveur de messagerie |

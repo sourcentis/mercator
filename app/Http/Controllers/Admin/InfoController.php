@@ -172,6 +172,7 @@ class InfoController extends Controller
             'memLimit' => $memLimitRaw,
             'memUsedMb' => $memUsedMb,
             'memFreeMb' => $memFreeMb,
+            'cspMode' => (string) config('mercator.csp.mode', 'enforce'),
             'userName' => $user->name,
             'userEmail' => $user->email,
             'userLogin' => $user->login,

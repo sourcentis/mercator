@@ -91,3 +91,20 @@ test('renders for a non-admin user restricted to one perimeter', function () {
     $response->assertViewHas('isAdmin', false);
     $response->assertSee('Site D');
 });
+
+test('displays the CSP mode', function (string $mode, string $badge, string $labelKey) {
+    config(['mercator.csp.mode' => $mode]);
+
+    $response = $this->get(route('admin.doc.info'));
+
+    $response->assertOk();
+    $response->assertViewHas('cspMode', $mode);
+    $response->assertSee('<span class="badge '.$badge.'">'.$mode.'</span>', false);
+    $response->assertSee(trans('panel.info.'.$labelKey));
+})->with([
+    'enforce' => ['enforce', 'bg-success', 'csp_enforce'],
+    'report-only' => ['report-only', 'bg-warning text-dark', 'csp_report_only'],
+    'off' => ['off', 'bg-danger', 'csp_off'],
+    // Valeur inconnue : SecurityHeaders n'émet aucune CSP — la page doit le refléter
+    'unknown value' => ['enforced', 'bg-danger', 'csp_off'],
+]);

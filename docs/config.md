@@ -238,6 +238,26 @@ When enabled, errors will be shown on screen. **Do not enable in production.**
 SESSION_LIFETIME=120
 ```
 
+### Content Security Policy
+
+```
+CSP_MODE=enforce
+```
+
+Mercator sends a Content Security Policy (CSP) header that only allows the application's own scripts, which carry a nonce renewed on every request. A script injected into a page (XSS attack) is therefore not executed by the browser.
+
+| Value | Effect |
+|-------|--------|
+| `enforce` (default) | The policy is applied (`Content-Security-Policy`): anything not allowed is blocked |
+| `report-only` | The policy is only monitored (`Content-Security-Policy-Report-Only`): nothing is blocked, violations are logged to `storage/logs/security-YYYY-MM-DD.log` |
+| `off` | No CSP header |
+
+Any other value disables the CSP, like `off`. The `X-Content-Type-Options`, `X-Frame-Options` and `Referrer-Policy` headers are sent in every case.
+
+If a page stops working properly (a button does nothing, a chart is missing), temporarily switch to `report-only`: the application works again immediately and the `security` log shows the blocked resource, to be reported for a fix.
+
+The active mode is shown on the [information page](#information-page).
+
 ---
 
 ## Logging
@@ -286,6 +306,59 @@ If no file appears, ensure directory permissions are correct.
 
 📢 *Note: if the configuration is cached (`php artisan config:cache`), changes to `.env` only apply after `php artisan config:clear` (or a new `config:cache`).*
 
+## Information page
+
+The information page gathers the instance configuration and the situation of the logged-in user. It is available to every user via:
+
+> **Help → Information** (`/admin/doc/info`)
+
+It is used to check that a `.env` setting has been taken into account, to understand why a user cannot see an object or lacks a right, and to pass this information on to support.
+
+### Mercator
+
+| Row | Content |
+|-----|---------|
+| Version | Mercator version (`version.txt`) |
+| Environment | Value of `APP_ENV` |
+| Timezone / Language | Default timezone and language of the application |
+| Date / time | Server time, useful to check the timezone |
+| Database / Database server version | Driver in use and database server version |
+| PHP / Laravel | PHP and framework versions |
+| Authentication methods | `Local`, `LDAP` and/or `Keycloak`, depending on the configuration |
+| Drivers | Cache, queue and mail drivers |
+| PHP memory | Memory used by the request, `memory_limit` and available memory |
+| Content Security Policy (CSP_MODE) | Active CSP mode (see [Content Security Policy](#content-security-policy)) |
+
+The Content Security Policy row shows a colored badge:
+
+| Badge | Meaning |
+|-------|---------|
+| 🟢 `enforce` | Policy enforced |
+| 🟠 `report-only` | Monitoring: violations logged, nothing blocked |
+| 🔴 `off` or any other value | CSP disabled |
+
+A mistyped value in `.env` (for example `CSP_MODE=enforced`) shows up in red: it does disable the CSP.
+
+### User
+
+Login, name, email address, language and granularity of the logged-in user, along with their roles and whether they are a [cartographer](cartographers.md) (with the object types assigned to them). When [perimeters](perimeters.md) are enabled, the card also shows their perimeters and the active perimeter.
+
+### Perimeters
+
+Only shown when perimeters are enabled. For each of the user's perimeters, the table gives their roles in that perimeter, the number of objects they can see there and, for each right (Read, Create, Edit, Delete), the number of object types concerned. The active perimeter's row is highlighted.
+
+### Mapped objects
+
+Number of objects visible from the active perimeter, by cartography view. The **Rights by object type** button expands the details: for each object type, the number of visible objects and the Read / Create / Edit / Delete rights, per perimeter. An administrator has all rights in every perimeter.
+
+### Copy for helpdesk
+
+The **Copy for helpdesk** button puts a text summary of the page (configuration, user, perimeters, number of visible objects) on the clipboard, ready to paste into a support request.
+
+📢 *Note: this summary contains the user's login and email address. Review it before sending it outside the organization.*
+
+📢 *Note: the page shows the configuration actually loaded. If the configuration is cached, a `.env` change only appears after `php artisan config:clear`.*
+
 ---
 
 ## File Export / Import
@@ -325,6 +398,7 @@ volumes:
 
 * Disable `APP_DEBUG`
 * Enable HTTPS
+* Keep the Content Security Policy enforced (`CSP_MODE=enforce`)
 * Use a reverse proxy (Traefik, Nginx)
 * Configure automatic backups of the database
 * Protect `.env` and `storage/` with proper permissions
@@ -358,6 +432,7 @@ volumes:
 | Session duration | `SESSION_LIFETIME` | 120 | Session duration in minutes |
 | Debug mode | `APP_DEBUG` | false | Enables or disables debug mode |
 | Application URL | `APP_URL` | https://mercator.example.com | Base URL used in links and exports |
+| Content Security Policy | `CSP_MODE` | enforce | `enforce`, `report-only` or `off` |
 | Instance environment | `APP_ENV` | Production | Defines the environment of this Mercator instance |
 | Application name | `APP_NAME` | Mercator | Displayed name, useful when running multiple instances |
 | Mailer type | `MAIL_MAILER` | smtp | Mail server connection |
