@@ -7,7 +7,7 @@
 @section('content')
 <div style="margin-bottom: 10px;" class="row">
     <div class="col-lg-12">
-        <a class="btn btn-default" onclick="history.back()">
+        <a class="btn btn-default" href="#" data-history-back>
             {{ trans('global.back_to_list') }}
         </a>
     </div>

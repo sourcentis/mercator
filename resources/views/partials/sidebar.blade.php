@@ -591,7 +591,7 @@
                 @endcanAccess
             </div>
         @endcanany
-        <a href="#" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
+        <a href="#" id="logout-link">
             <i class="bi bi-box-arrow-right"></i><span class="menu-text">{{ trans('global.logout') }}</span>
         </a>
     </div>

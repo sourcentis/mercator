@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 render: function (data, type, row) {
                     result =  '<a href="/admin/logical-servers/'+row.id+'" class="btn btn-xs btn-primary">'+translations.view+'</a>';
                     result += '<a href="/admin/logical-servers/'+row.id+'/edit" class="btn btn-xs btn-info">'+translations.edit+'</a>';
-                    result += '<form action="/admin/logical-servers/'+row.id+'" method="POST" onsubmit=\'return confirm("'+translations.areYouSure+'");\' style="display: inline-block;">';
+                    result += '<form action="/admin/logical-servers/'+row.id+'" method="POST" data-confirm="'+String(translations.areYouSure).replace(/"/g, '&quot;')+'" style="display: inline-block;">';
                     result += '<input type="hidden" name="_method" value="DELETE">';
                     result += '<input type="hidden" name="_token" value="' + $('meta[name="csrf-token"]').attr('content') + '">';
                     result += '<input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">';

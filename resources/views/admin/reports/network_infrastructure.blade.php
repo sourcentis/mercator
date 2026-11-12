@@ -49,7 +49,7 @@
                     </table>
                     <div class="col-sm-8">
                         <input name="show_ports" id='show_ports' type="checkbox" value="1" class="form-check-input"
-                               {{ Session::get('show_ports') ? 'checked' : '' }} onchange="this.form.submit()">
+                               {{ Session::get('show_ports') ? 'checked' : '' }} data-autosubmit>
                         <label for="show_ports">Afficher les ports source/destination</label>
                     </div>
                 </div>

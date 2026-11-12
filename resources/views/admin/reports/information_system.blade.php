@@ -26,7 +26,7 @@
                                 <td style="width: 50%">
                                     {{ trans('cruds.macroProcessus.title') }} :
                                     <select name="macroprocess" id="macroprocess"
-                                            onchange="this.form.process.value='';this.form.submit()"
+                                            data-autosubmit data-autosubmit-clear="process"
                                             class="form-control select2">
                                         <option value="">-- All --</option>
                                         @foreach ($all_macroprocess as $macroprocess)
@@ -36,7 +36,7 @@
                                 </td>
                                 <td style="width: 50%">
                                     {{ trans('cruds.process.title') }} :
-                                    <select name="process" id="process" onchange="this.form.submit()"
+                                    <select name="process" id="process" data-autosubmit
                                             class="form-control select2">
                                         <option value="">-- All --</option>
                                         @if ($all_process!=null)

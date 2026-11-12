@@ -25,7 +25,7 @@
                             <td style="width: 300px;">
                                 {{ trans("cruds.network.title_singular") }} :
                                 <select name="network" id="network"
-                                        onchange="this.form.subnetwork.value='';this.form.submit()"
+                                        data-autosubmit data-autosubmit-clear="subnetwork"
                                         class="form-control select2">
                                     <option value="">-- All networks --</option>
                                     @foreach($all_networks as $id => $name)
@@ -35,7 +35,7 @@
                             </td>
                             <td style="width: 300px;">
                                 {{ trans("cruds.subnetwork.title_singular") }} :
-                                <select name="subnetwork" id="subnetwork" onchange="this.form.submit()"
+                                <select name="subnetwork" id="subnetwork" data-autosubmit
                                         class="form-control select2">
                                     <option value="">-- All subnetworks --</option>
                                     @if ($all_subnetworks!==null)
@@ -49,7 +49,7 @@
                     </table>
                     <div class="col-sm-8">
                         <input name="show_ip" id='show_ip' type="checkbox" value="1" class="form-check-input"
-                               {{ Session::get('show_ip') ? 'checked' : '' }} onchange="this.form.subnetwork.value='';this.form.submit()">
+                               {{ Session::get('show_ip') ? 'checked' : '' }} data-autosubmit data-autosubmit-clear="subnetwork">
                         <label for="show_ip">Afficher les adresses IP</label>
                     </div>
                 </div>

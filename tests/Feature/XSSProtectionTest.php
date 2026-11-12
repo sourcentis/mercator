@@ -211,6 +211,27 @@ describe('Content Security Policy — modes et infrastructure', function () {
         expect($offenders)->toBe([]);
     });
 
+    // Garde-fou statique : un nonce ne peut pas autoriser un handler inline (onclick=, onsubmit=…).
+    // Utiliser les comportements déclaratifs de resources/js/app.js (data-confirm, data-autosubmit,
+    // data-history-back) ou un addEventListener dans un <script @nonce>.
+    it('aucune vue ne contient de handler d\'événement inline', function () {
+        $offenders = [];
+        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(resource_path('views')));
+
+        foreach ($files as $file) {
+            if (! str_ends_with($file->getFilename(), '.blade.php')) {
+                continue;
+            }
+            foreach (file($file->getPathname()) as $i => $line) {
+                if (preg_match('/\son[a-z]+\s*=\s*\\\\?["\']/i', $line)) {
+                    $offenders[] = str_replace(resource_path('views').'/', '', $file->getPathname()).':'.($i + 1);
+                }
+            }
+        }
+
+        expect($offenders)->toBe([]);
+    });
+
     it('chaque script inline rendu porte le nonce du header CSP', function (string $routeName) {
         config(['mercator.csp.mode' => 'enforce']);
 

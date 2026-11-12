@@ -27,7 +27,7 @@
                                 {{ trans("cruds.applicationBlock.title") }} :
                                 <select name="applicationBlock" id="applicationBlock"
                                         class="form-control select2"
-                                        onchange="this.form.application.value='';this.form.submit()">
+                                        data-autosubmit data-autosubmit-clear="application">
                                     <option value="">-- All --</option>
                                     @foreach ($all_applicationBlocks as $applicationBlock)
                                         <option value="{{$applicationBlock->id}}" {{ Session::get('applicationBlock')==$applicationBlock->id ? "selected" : "" }}>{{ $applicationBlock->name }}</option>
@@ -37,7 +37,7 @@
                             <td style="min-width: 280px;">
                                 {{ trans("cruds.application.title") }} :
                                 <select name="application" id="application" class="form-control select2"
-                                        onchange="this.form.submit()">
+                                        data-autosubmit>
                                     <option value="">-- All --</option>
                                     @if ($all_applications!=null)
                                         @foreach ($all_applications as $application)

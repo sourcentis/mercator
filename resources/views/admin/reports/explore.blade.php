@@ -81,14 +81,13 @@
                                     </div>
                                 </td>
                                 <td style="text-align: left; vertical-align: middle;">
-<button type="button" class="btn btn-success" onclick="addNode(document.getElementById('node').value)">
+<button type="button" class="btn btn-success" id="explore-add-node">
 <i class="bi bi-plus-square-fill"></i>&nbsp;{{ trans('global.add') }}
 </button>
                                 </td>
                                 <td style="text-align: right; vertical-align: top;">
                                     &nbsp;
-                                    <a onclick="needSavePNG=true; network.redraw();document.getElementById('canvasImg').click();"
-                                       href="#"><i class="bi bi-camera-fill"></i>
+                                    <a id="explore-photo" href="#"><i class="bi bi-camera-fill"></i>
                                         Photo
                                     </a>
                                     <a id="canvasImg" download="filename"></a>
@@ -96,11 +95,11 @@
                             </tr>
                             <tr>
                                 <td colspan="5">
-<button type="button" class="btn btn-danger" onclick="network.deleteSelected()">
+<button type="button" class="btn btn-danger" id="explore-delete">
 <i class="bi bi-dash-circle"></i>&nbsp;{{ trans("cruds.report.explorer.delete") }}
 </button>
 &nbsp;
-<button type="button" class="btn btn-warning" onclick="network.unselectAll(); nodes.clear(); edges.clear(); network.redraw();">
+<button type="button" class="btn btn-warning" id="explore-reload">
 <i class="bi bi-arrow-repeat"></i>&nbsp;{{ trans("cruds.report.explorer.reload") }}
 </button>
 &nbsp;&nbsp;
@@ -123,7 +122,7 @@
                                         <option value="5">9</option>
                                     </select>
                                     </div>
-<button type="button" class="btn btn-info" onclick="deployAll()">
+<button type="button" class="btn btn-info" id="explore-deploy">
 <i class="fas fa-star"></i>&nbsp;{{ trans("cruds.report.explorer.deploy") }}
 </button>
                                     &nbsp;
@@ -780,6 +779,28 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             loadGraphData();
+
+            // Boutons de la barre d'outils (pas de handlers inline : CSP)
+            document.getElementById('explore-add-node')
+                .addEventListener('click', () => addNode(document.getElementById('node').value));
+            document.getElementById('explore-photo')
+                .addEventListener('click', (event) => {
+                    event.preventDefault();
+                    needSavePNG = true;
+                    network.redraw();
+                    document.getElementById('canvasImg').click();
+                });
+            document.getElementById('explore-delete')
+                .addEventListener('click', () => network.deleteSelected());
+            document.getElementById('explore-reload')
+                .addEventListener('click', () => {
+                    network.unselectAll();
+                    nodes.clear();
+                    edges.clear();
+                    network.redraw();
+                });
+            document.getElementById('explore-deploy')
+                .addEventListener('click', () => deployAll());
 
             $('body').keydown(function (event) {
                 if (event.keyCode === 8 || event.keyCode === 46) {

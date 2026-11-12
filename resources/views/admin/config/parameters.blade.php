@@ -1063,7 +1063,7 @@
                                                 </button>
                                             @else
                                                 <form action="{{ route('admin.perimeters.destroy', $perimeter->id) }}" method="POST"
-                                                      onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display:inline-block;">
+                                                      data-confirm="{{ trans('global.areYouSure') }}" style="display:inline-block;">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-xs btn-danger">
