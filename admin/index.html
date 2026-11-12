@@ -1091,8 +1091,26 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#cartography" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cartography
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#perimeters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Perimeters
+    </span>
+  </a>
   
 </li>
       
@@ -1106,13 +1124,37 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#cve" class="md-nav__link">
+  <a href="#cleanup" class="md-nav__link">
     <span class="md-ellipsis">
-      CVE
+      Cleanup
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="CVE">
+    <nav class="md-nav" aria-label="Cleanup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trash" class="md-nav__link">
+    <span class="md-ellipsis">
+      Trash
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vulnerabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vulnerabilities
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vulnerabilities">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1130,9 +1172,36 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#reminders" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reminders
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notifications
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#documents" class="md-nav__link">
     <span class="md-ellipsis">
       Documents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monarc" class="md-nav__link">
+    <span class="md-ellipsis">
+      Monarc
     </span>
   </a>
   
@@ -1280,8 +1349,26 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#cartography" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cartography
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#perimeters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Perimeters
+    </span>
+  </a>
   
 </li>
       
@@ -1295,13 +1382,37 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#cve" class="md-nav__link">
+  <a href="#cleanup" class="md-nav__link">
     <span class="md-ellipsis">
-      CVE
+      Cleanup
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="CVE">
+    <nav class="md-nav" aria-label="Cleanup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trash" class="md-nav__link">
+    <span class="md-ellipsis">
+      Trash
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vulnerabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vulnerabilities
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vulnerabilities">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1319,9 +1430,36 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#reminders" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reminders
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notifications
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#documents" class="md-nav__link">
     <span class="md-ellipsis">
       Documents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monarc" class="md-nav__link">
+    <span class="md-ellipsis">
+      Monarc
     </span>
   </a>
   
@@ -1372,11 +1510,12 @@
 <blockquote>
 <p><strong>Admin → Configuration → Parameters</strong> (<code>/admin/config/parameters</code>)</p>
 </blockquote>
-<p>Unlike environment variables, these settings are stored in the <strong>config/mercator.php</strong> file and can be modified at runtime by an administrator, without restarting the application or editing <code>.env</code>.</p>
-<p>The parameters page is organised into four tabs.</p>
+<p>Unlike environment variables, these settings are stored in the database (defaults are in <strong>config/mercator.php</strong>) and can be modified at runtime by an administrator, without restarting the application or editing <code>.env</code>.</p>
+<p>The parameters page is organised into nine tabs: Parameters, Perimeters, Certificates, Cleanup, Vulnerabilities, Reminders, Notifications, Documents and Monarc.</p>
 <hr />
 <h2 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h2>
 <p>This tab groups application-level behavioural options.</p>
+<p><a href="../images/config-general.png"><img src="/mercator/images/config-general.png" width="700"></a></p>
 <h3 id="applications">Applications<a class="headerlink" href="#applications" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -1405,15 +1544,64 @@
 </thead>
 <tbody>
 <tr>
-<td><strong>Security need authentication</strong></td>
-<td>When enabled, the security-need fields on logical servers require prior authentication before being displayed.</td>
-<td><code>false</code></td>
+<td><strong>Authenticity</strong></td>
+<td>Adds the "Authenticity" security criterion to the existing Confidentiality, Integrity, Availability and Traceability criteria (DORA requirement).</td>
+<td><code>inactive</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="cartography">Cartography<a class="headerlink" href="#cartography" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Maximum number of nodes</strong></td>
+<td>Beyond this number of nodes, graphs are not displayed (<code>0</code> = no limit).</td>
+<td>500</td>
 </tr>
 </tbody>
 </table>
 <hr />
+<h2 id="perimeters">Perimeters<a class="headerlink" href="#perimeters" title="Permanent link">&para;</a></h2>
+<p>This tab enables the partitioning of the cartography by establishment and manages the list of perimeters.</p>
+<p><a href="../images/config-perimeters.png"><img src="/mercator/images/config-perimeters.png" width="700"></a></p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Enable perimeters</strong></td>
+<td>Enables or disables perimeter management (disabled by default). As long as it is disabled, the application behaves as if a single perimeter existed. Enabling or disabling it does not change any data.</td>
+</tr>
+<tr>
+<td><strong>Add</strong></td>
+<td>Creates a new perimeter (name of 2 to 32 characters).</td>
+</tr>
+<tr>
+<td><strong>Edit</strong></td>
+<td>Renames a perimeter, including the default one.</td>
+</tr>
+<tr>
+<td><strong>Delete</strong></td>
+<td>Deletes a perimeter that contains no object and is not linked to any role. The default perimeter (<code>#1</code>) cannot be deleted.</td>
+</tr>
+</tbody>
+</table>
+<p>The full behaviour (roles, working perimeter selector, cross-perimeter flows, import) is described in the <a href="../perimeters/">Perimeters</a> page.</p>
+<hr />
 <h2 id="certificates">Certificates<a class="headerlink" href="#certificates" title="Permanent link">&para;</a></h2>
 <p>Controls the automated monitoring and notification of TLS/SSL certificate expiry.</p>
+<p><a href="../images/config-cert.png"><img src="/mercator/images/config-cert.png" width="700"></a></p>
 <table>
 <thead>
 <tr>
@@ -1462,8 +1650,87 @@
 </table>
 <p>A <strong>Test</strong> button is available to send a test email using the current configuration without saving.</p>
 <hr />
-<h2 id="cve">CVE<a class="headerlink" href="#cve" title="Permanent link">&para;</a></h2>
+<h2 id="cleanup">Cleanup<a class="headerlink" href="#cleanup" title="Permanent link">&para;</a></h2>
+<p>This tab enables the automatic purge of the database. Two purges are available; each one is enabled independently and has its own retention period.</p>
+<p><a href="../images/cleanup.png"><img src="/mercator/images/cleanup.png" width="700"></a></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Values</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Audit log purge</strong></td>
+<td>Deletes audit log entries (history of creations, updates and deletions) older than the retention period.</td>
+<td>Enabled / Disabled</td>
+<td><code>disabled</code></td>
+</tr>
+<tr>
+<td><strong>Audit log retention period</strong></td>
+<td>Age beyond which a log entry is deleted.</td>
+<td>1, 3, 6, 12, 24, 36 or 60 months</td>
+<td>12 months</td>
+</tr>
+<tr>
+<td><strong>Deleted objects purge</strong></td>
+<td>Permanently deletes objects that have been in the trash (soft-deleted) for longer than the retention period.</td>
+<td>Enabled / Disabled</td>
+<td><code>disabled</code></td>
+</tr>
+<tr>
+<td><strong>Deleted objects retention period</strong></td>
+<td>Time after an object's deletion beyond which it is permanently deleted.</td>
+<td>1, 3, 6, 12, 24, 36 or 60 months</td>
+<td>3 months</td>
+</tr>
+</tbody>
+</table>
+<p>The cleanup runs <strong>every night at 02:00</strong> through the Laravel scheduler (command <code>mercator:db-cleanup</code>), so the scheduler must be running (<code>php artisan schedule:run</code> launched every minute by cron, or <code>schedule:work</code>). The tab footer shows the date and result of the last run.</p>
+<p>The deleted objects purge:</p>
+<ul>
+<li>applies to every cartography object, <strong>except users and roles</strong>, which stay in the trash;</li>
+<li>is <strong>irreversible</strong>: a purged object can no longer be restored;</li>
+<li>also deletes the object's links to other objects (pivot tables) and its dependent data (for instance an application's events). For a document, the file is also removed from disk;</li>
+<li>clears the reference to the purged object in objects that still pointed to it (for instance a workstation's building);</li>
+<li><strong>skips</strong> an object that is still a mandatory reference of another object (for instance the source entity of a relation that is not deleted). It is processed again on the following runs, once the reference is gone.</li>
+</ul>
+<p>The purge itself does not create audit log entries.</p>
+<p>The command can also be run manually; the <code>--dry-run</code> option shows what would be deleted without deleting anything:</p>
+<div class="highlight"><pre><span></span><code>php<span class="w"> </span>artisan<span class="w"> </span>mercator:db-cleanup<span class="w"> </span>--dry-run
+</code></pre></div>
+<h3 id="trash">Trash<a class="headerlink" href="#trash" title="Permanent link">&para;</a></h3>
+<p>The <strong>Browse the trash</strong> button of the Cleanup tab enables the <strong>trash mode</strong>, which lets you view and restore deleted objects before they are permanently purged.</p>
+<p>The mode opens on an overview that shows, for each object type, the number of deleted objects. Types are grouped by view and listed in the order of the menu. Only the types whose list the user can access are shown.</p>
+<p><a href="../images/trash-overview.png"><img src="/mercator/images/trash-overview.png" width="700"></a></p>
+<p>While the trash mode is active:</p>
+<ul>
+<li>the screen background is hatched in red and a banner reminds that the trash mode is on;</li>
+<li>the cartography lists (reached from the menu or the overview) <strong>only show deleted objects</strong>; active objects do not appear;</li>
+<li>each row offers the <strong>Display</strong> and <strong>Restore</strong> actions; create, edit and delete actions are hidden, as well as the <strong>Explore</strong> (exploration of the object's links) and <strong>Clone</strong> (duplication of the object or of a graph) buttons;</li>
+<li>the dashboard and the maturity reports only count deleted objects, and the maturity levels are 0;</li>
+<li>the global search is disabled.</li>
+</ul>
+<p><a href="../images/trash-list.png"><img src="/mercator/images/trash-list.png" width="700"></a></p>
+<p>The page of a deleted object shows the deletion date and the user who deleted it, and offers a <strong>Restore</strong> button.</p>
+<p>Deleted maps and BPMN diagrams appear on two separate rows of the overview, in the <strong>Tools</strong> group. Each row leads to the matching list (<strong>Tools → Maps</strong> or <strong>Tools → BPMN</strong>), where the deleted graph can be previewed, displayed and restored.</p>
+<p><a href="../images/trash-show.png"><img src="/mercator/images/trash-show.png" width="700"></a></p>
+<p>Permissions apply as outside the trash mode:</p>
+<ul>
+<li>the trash mode is reserved to users who can change the configuration;</li>
+<li>displaying a deleted object requires the right to view objects of that type;</li>
+<li>restoring an object requires the right to <strong>delete</strong> objects of that type;</li>
+<li>an object cannot be restored if an active object of the same type already has its name in the same perimeter. This rule does not apply to maps and BPMN diagrams, whose names do not have to be unique.</li>
+</ul>
+<p>The <strong>Leave the trash</strong> button, at the bottom of the side menu above the version number, disables the trash mode and returns to the Cleanup tab.</p>
+<p>Deleted users and roles are not part of the trash mode.</p>
+<hr />
+<h2 id="vulnerabilities">Vulnerabilities<a class="headerlink" href="#vulnerabilities" title="Permanent link">&para;</a></h2>
 <p>Controls the automated scanning for known vulnerabilities (CVE) affecting inventory items.</p>
+<p><a href="../images/config-cve.png"><img src="/mercator/images/config-cve.png" width="700"></a></p>
 <table>
 <thead>
 <tr>
@@ -1515,8 +1782,172 @@
 <li><strong>Test Guesser</strong> — checks connectivity to the configured CPE Guesser service.</li>
 </ul>
 <hr />
+<h2 id="reminders">Reminders<a class="headerlink" href="#reminders" title="Permanent link">&para;</a></h2>
+<p>This tab configures the email reminders sent to cartographers when objects they are responsible for have not been updated for a given time.</p>
+<p><a href="../images/config-reminders.png"><img src="/mercator/images/config-reminders.png" width="700"></a></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Enable reminders</strong></td>
+<td>Enables sending reminders. The other fields can only be edited while the option is enabled.</td>
+<td><code>inactive</code></td>
+</tr>
+<tr>
+<td><strong>Sender</strong></td>
+<td>Sender address of the reminders.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Carbon copy to</strong></td>
+<td>Address(es) receiving a blind copy (Bcc) of every reminder.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Reminder subject</strong></td>
+<td>Subject of the email.</td>
+<td><code>[Mercator] Rappel</code></td>
+</tr>
+<tr>
+<td><strong>Reminder body</strong></td>
+<td>HTML content of the email.</td>
+<td>Provided template</td>
+</tr>
+<tr>
+<td><strong>No update since (months)</strong></td>
+<td>An object is reported if it has not been modified for this number of months.</td>
+<td>1</td>
+</tr>
+<tr>
+<td><strong>Send a reminder every (days)</strong></td>
+<td>Minimum delay between two reminder campaigns.</td>
+<td>30</td>
+</tr>
+</tbody>
+</table>
+<p>Variables available in the reminder body:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Replaced by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>:name</code> / <code>:user</code></td>
+<td>Cartographer's name</td>
+</tr>
+<tr>
+<td><code>:count</code></td>
+<td>Number of objects to update</td>
+</tr>
+<tr>
+<td><code>:list</code></td>
+<td>List of objects, with a link to each one</td>
+</tr>
+<tr>
+<td><code>:months</code></td>
+<td>Number of months without update</td>
+</tr>
+<tr>
+<td><code>:mercator_url</code></td>
+<td>Mercator URL</td>
+</tr>
+</tbody>
+</table>
+<p>Reminders are sent by the <code>mercator:remind-cartographers</code> command, run daily by the scheduler. The tab footer shows the date of the last sending. The <strong>Test</strong> button sends a test email to the blind-copy address (or, failing that, to the sender).</p>
+<p>See also <a href="../cartographers/">Cartographers</a>.</p>
+<hr />
+<h2 id="notifications">Notifications<a class="headerlink" href="#notifications" title="Permanent link">&para;</a></h2>
+<p>This tab configures the email notifications sent to an object's cartographers when the object is modified by another user.</p>
+<p><a href="../images/config-notifications.png"><img src="/mercator/images/config-notifications.png" width="700"></a></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Enable modification notifications</strong></td>
+<td>Enables sending notifications. The other fields can only be edited while the option is enabled.</td>
+<td><code>inactive</code></td>
+</tr>
+<tr>
+<td><strong>Sender</strong></td>
+<td>Sender address of the notifications.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Carbon copy to</strong></td>
+<td>Address(es) receiving a blind copy (Bcc) of every notification.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Notification subject</strong></td>
+<td>Subject of the email; may contain variables.</td>
+<td><code>[Mercator] Objet :name modifié</code></td>
+</tr>
+<tr>
+<td><strong>Notification body</strong></td>
+<td>HTML content of the email.</td>
+<td>Provided template</td>
+</tr>
+</tbody>
+</table>
+<p>Variables available in the subject and body:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Replaced by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>:user</code> / <code>:email</code></td>
+<td>Name and email of the user who made the change</td>
+</tr>
+<tr>
+<td><code>:name</code> / <code>:id</code></td>
+<td>Name and identifier of the object</td>
+</tr>
+<tr>
+<td><code>:object</code></td>
+<td>Object type</td>
+</tr>
+<tr>
+<td><code>:object_url</code></td>
+<td>URL of the object</td>
+</tr>
+<tr>
+<td><code>:object_history_url</code></td>
+<td>URL of the object's history</td>
+</tr>
+<tr>
+<td><code>:fields</code></td>
+<td>Modified fields</td>
+</tr>
+<tr>
+<td><code>:date</code> / <code>:timestamp</code></td>
+<td>Date (and time) of the change</td>
+</tr>
+</tbody>
+</table>
+<p>The <strong>Test</strong> button sends a test email to the blind-copy address (or, failing that, to the sender).</p>
+<hr />
 <h2 id="documents">Documents<a class="headerlink" href="#documents" title="Permanent link">&para;</a></h2>
 <p>This tab is <strong>read-only</strong> and provides an overview of the documents stored in Mercator.</p>
+<p><a href="../images/config-documents.png"><img src="/mercator/images/config-documents.png" width="700"></a></p>
 <table>
 <thead>
 <tr>
@@ -1559,6 +1990,38 @@
 </tbody>
 </table>
 <hr />
+<h2 id="monarc">Monarc<a class="headerlink" href="#monarc" title="Permanent link">&para;</a></h2>
+<p>This tab configures the connection to a MONARC Front Office instance, used to export the cartography as a risk analysis.</p>
+<p><a href="../images/config-monarc.png"><img src="/mercator/images/config-monarc.png" width="700"></a></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Enable Monarc integration</strong></td>
+<td>Shows the "Monarc" entry in the Tools menu and grants access to the generation screen.</td>
+</tr>
+<tr>
+<td><strong>Monarc instance URL</strong></td>
+<td>Base URL of the MONARC Front Office instance.</td>
+</tr>
+<tr>
+<td><strong>Login</strong></td>
+<td>Account used to authenticate on the Monarc API.</td>
+</tr>
+<tr>
+<td><strong>Password</strong></td>
+<td>Leave empty to keep the password already saved.</td>
+</tr>
+</tbody>
+</table>
+<p>The <strong>Test connection</strong> button checks the authentication. The <strong>Reset link</strong> block shows the currently linked analysis (ANR), the date of the last synchronisation and the number of tracked objects; it removes this local link without changing anything in Monarc.</p>
+<p>See the <a href="../monarc/">Monarc integration</a> page.</p>
+<hr />
 <h2 id="summary-table">Summary Table<a class="headerlink" href="#summary-table" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -1571,10 +2034,28 @@
 </thead>
 <tbody>
 <tr>
-<td>General</td>
-<td>Security need authentication</td>
-<td>Requires authentication to display security-need fields</td>
-<td><code>false</code></td>
+<td>Parameters</td>
+<td>Documents attached to applications</td>
+<td>Attach files to applications</td>
+<td><code>inactive</code></td>
+</tr>
+<tr>
+<td>Parameters</td>
+<td>Authenticity</td>
+<td>Adds the "Authenticity" security criterion (DORA)</td>
+<td><code>inactive</code></td>
+</tr>
+<tr>
+<td>Parameters</td>
+<td>Maximum number of nodes</td>
+<td>Maximum size of displayed graphs</td>
+<td>500</td>
+</tr>
+<tr>
+<td>Perimeters</td>
+<td>Enable perimeters</td>
+<td>Partitioning of the cartography by establishment</td>
+<td><code>inactive</code></td>
 </tr>
 <tr>
 <td>Certificates</td>
@@ -1619,37 +2100,55 @@
 <td>Single</td>
 </tr>
 <tr>
-<td>CVE</td>
+<td>Cleanup</td>
+<td>Audit log purge</td>
+<td>Deletes log entries older than the retention period</td>
+<td><code>disabled</code>, 12 months</td>
+</tr>
+<tr>
+<td>Cleanup</td>
+<td>Deleted objects purge</td>
+<td>Permanently deletes objects deleted longer ago than the retention period</td>
+<td><code>disabled</code>, 3 months</td>
+</tr>
+<tr>
+<td>Cleanup</td>
+<td>Trash</td>
+<td>View and restore deleted objects</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Vulnerabilities</td>
 <td>Message subject</td>
 <td>Subject of CVE alert emails</td>
 <td>—</td>
 </tr>
 <tr>
-<td>CVE</td>
+<td>Vulnerabilities</td>
 <td>Sent from</td>
 <td>Sender address for CVE alerts</td>
 <td>—</td>
 </tr>
 <tr>
-<td>CVE</td>
+<td>Vulnerabilities</td>
 <td>Recipients</td>
 <td>Destination address(es) for CVE alerts</td>
 <td>—</td>
 </tr>
 <tr>
-<td>CVE</td>
+<td>Vulnerabilities</td>
 <td>Check frequency</td>
 <td>Scan interval for new CVEs</td>
 <td>Never</td>
 </tr>
 <tr>
-<td>CPE</td>
+<td>Vulnerabilities</td>
 <td>CPE Guesser URL</td>
 <td>Endpoint of the <a href="https://github.com/vulnerability-lookup/cpe-guesser">cpe-guesser</a> service</td>
 <td>—</td>
 </tr>
 <tr>
-<td>CVE</td>
+<td>Vulnerabilities</td>
 <td>CVE Provider URL</td>
 <td>Endpoint of the <a href="https://github.com/vulnerability-lookup/vulnerability-lookup">vulnerability-lookup</a> provider</td>
 <td>—</td>
@@ -1659,6 +2158,24 @@
 <td>—</td>
 <td>Read-only: document count, total size, integrity check</td>
 <td>—</td>
+</tr>
+<tr>
+<td>Reminders</td>
+<td>Enable reminders</td>
+<td>Reminders to cartographers for outdated objects</td>
+<td><code>inactive</code></td>
+</tr>
+<tr>
+<td>Notifications</td>
+<td>Enable modification notifications</td>
+<td>Notify cartographers when an object is modified</td>
+<td><code>inactive</code></td>
+</tr>
+<tr>
+<td>Monarc</td>
+<td>Enable Monarc integration</td>
+<td>Export the cartography to a Monarc risk analysis</td>
+<td><code>inactive</code></td>
 </tr>
 </tbody>
 </table>

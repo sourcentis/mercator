@@ -1091,8 +1091,26 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#cartographie" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cartographie
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#perimetres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Périmètres
+    </span>
+  </a>
   
 </li>
       
@@ -1106,13 +1124,37 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#cve" class="md-nav__link">
+  <a href="#nettoyage" class="md-nav__link">
     <span class="md-ellipsis">
-      CVE
+      Nettoyage
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="CVE">
+    <nav class="md-nav" aria-label="Nettoyage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#corbeille" class="md-nav__link">
+    <span class="md-ellipsis">
+      Corbeille
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vulnerabilites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vulnérabilités
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vulnérabilités">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1130,9 +1172,36 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#rappels" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rappels
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notifications
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#documents" class="md-nav__link">
     <span class="md-ellipsis">
       Documents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monarc" class="md-nav__link">
+    <span class="md-ellipsis">
+      Monarc
     </span>
   </a>
   
@@ -1280,8 +1349,26 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#cartographie" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cartographie
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#perimetres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Périmètres
+    </span>
+  </a>
   
 </li>
       
@@ -1295,13 +1382,37 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#cve" class="md-nav__link">
+  <a href="#nettoyage" class="md-nav__link">
     <span class="md-ellipsis">
-      CVE
+      Nettoyage
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="CVE">
+    <nav class="md-nav" aria-label="Nettoyage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#corbeille" class="md-nav__link">
+    <span class="md-ellipsis">
+      Corbeille
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vulnerabilites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vulnérabilités
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vulnérabilités">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1319,9 +1430,36 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#rappels" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rappels
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notifications
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#documents" class="md-nav__link">
     <span class="md-ellipsis">
       Documents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monarc" class="md-nav__link">
+    <span class="md-ellipsis">
+      Monarc
     </span>
   </a>
   
@@ -1372,11 +1510,12 @@
 <blockquote>
 <p><strong>Admin → Configuration → Paramètres</strong> (<code>/admin/config/parameters</code>)</p>
 </blockquote>
-<p>Contrairement aux variables d'environnement, ces paramètres sont stockés dans le fichier <strong>config/mercator.php</strong> et peuvent être modifiés à chaud par un administrateur, sans redémarrer l'application ni modifier le fichier <code>.env</code>.</p>
-<p>La page des paramètres est organisée en quatre onglets.</p>
+<p>Contrairement aux variables d'environnement, ces paramètres sont stockés en base de données (les valeurs par défaut figurent dans <strong>config/mercator.php</strong>) et peuvent être modifiés à chaud par un administrateur, sans redémarrer l'application ni modifier le fichier <code>.env</code>.</p>
+<p>La page des paramètres est organisée en neuf onglets : Paramètres, Périmètres, Certificats, Nettoyage, Vulnérabilités, Rappels, Notifications, Documents et Monarc.</p>
 <hr />
 <h2 id="parametres">Paramètres<a class="headerlink" href="#parametres" title="Permanent link">&para;</a></h2>
 <p>Cet onglet regroupe les options de comportement générales de l'application.</p>
+<p><a href="../images/config-general.png"><img src="/mercator/fr/images/config-general.png" width="700"></a></p>
 <h3 id="applications">Applications<a class="headerlink" href="#applications" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -1405,15 +1544,64 @@
 </thead>
 <tbody>
 <tr>
-<td><strong>Authentification des besoins de sécurité</strong></td>
-<td>Lorsque cette option est activée, les champs de besoin de sécurité sur les serveurs logiques nécessitent une authentification préalable avant d'être affichés.</td>
-<td><code>false</code></td>
+<td><strong>Authenticité</strong></td>
+<td>Ajoute le critère de sécurité « Authenticité » aux critères Confidentialité, Intégrité, Disponibilité et Traçabilité déjà existants (exigence DORA).</td>
+<td><code>inactif</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="cartographie">Cartographie<a class="headerlink" href="#cartographie" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Défaut</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Nombre maximum de nœuds</strong></td>
+<td>Au-delà de ce nombre de nœuds, les graphes ne sont pas affichés (<code>0</code> = pas de limite).</td>
+<td>500</td>
 </tr>
 </tbody>
 </table>
 <hr />
+<h2 id="perimetres">Périmètres<a class="headerlink" href="#perimetres" title="Permanent link">&para;</a></h2>
+<p>Cet onglet active le cloisonnement de la cartographie par établissement et permet de gérer la liste des périmètres.</p>
+<p><a href="../images/config-perimeters.png"><img src="/mercator/fr/images/config-perimeters.png" width="700"></a></p>
+<table>
+<thead>
+<tr>
+<th>Élément</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Activer les périmètres</strong></td>
+<td>Active ou désactive la gestion des périmètres (désactivée par défaut). Tant qu'elle n'est pas activée, l'application se comporte comme si un seul périmètre existait. L'activation et la désactivation ne modifient aucune donnée.</td>
+</tr>
+<tr>
+<td><strong>Ajouter</strong></td>
+<td>Crée un nouveau périmètre (nom de 2 à 32 caractères).</td>
+</tr>
+<tr>
+<td><strong>Modifier</strong></td>
+<td>Renomme un périmètre, y compris le périmètre par défaut.</td>
+</tr>
+<tr>
+<td><strong>Supprimer</strong></td>
+<td>Supprime un périmètre qui ne contient aucun objet et n'est associé à aucun rôle. Le périmètre par défaut (<code>#1</code>) ne peut pas être supprimé.</td>
+</tr>
+</tbody>
+</table>
+<p>Le fonctionnement complet (rôles, sélecteur de périmètre de travail, flux inter-périmètres, import) est décrit dans la page <a href="../perimeters/">Périmètres</a>.</p>
+<hr />
 <h2 id="certificats">Certificats<a class="headerlink" href="#certificats" title="Permanent link">&para;</a></h2>
 <p>Gère la surveillance automatisée et les notifications d'expiration des certificats TLS/SSL.</p>
+<p><a href="../images/config-cert.png"><img src="/mercator/fr/images/config-cert.png" width="700"></a></p>
 <table>
 <thead>
 <tr>
@@ -1462,8 +1650,87 @@
 </table>
 <p>Un bouton <strong>Test</strong> permet d'envoyer un e-mail de test avec la configuration en cours sans sauvegarder.</p>
 <hr />
-<h2 id="cve">CVE<a class="headerlink" href="#cve" title="Permanent link">&para;</a></h2>
+<h2 id="nettoyage">Nettoyage<a class="headerlink" href="#nettoyage" title="Permanent link">&para;</a></h2>
+<p>Cet onglet active la purge automatique de la base de données. Deux purges sont disponibles ; chacune s'active indépendamment et a sa propre durée de conservation.</p>
+<p><a href="../images/cleanup.png"><img src="/mercator/fr/images/cleanup.png" width="700"></a></p>
+<table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Valeurs</th>
+<th>Défaut</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Purge du journal d'audit</strong></td>
+<td>Supprime les entrées du journal d'audit (historique des créations, modifications et suppressions) plus anciennes que la durée de conservation.</td>
+<td>Actif / Inactif</td>
+<td><code>inactif</code></td>
+</tr>
+<tr>
+<td><strong>Durée de conservation du journal d'audit</strong></td>
+<td>Âge au-delà duquel une entrée du journal est supprimée.</td>
+<td>1, 3, 6, 12, 24, 36 ou 60 mois</td>
+<td>12 mois</td>
+</tr>
+<tr>
+<td><strong>Purge des objets supprimés</strong></td>
+<td>Supprime définitivement les objets supprimés (corbeille) depuis plus longtemps que la durée de conservation.</td>
+<td>Actif / Inactif</td>
+<td><code>inactif</code></td>
+</tr>
+<tr>
+<td><strong>Durée de conservation des objets supprimés</strong></td>
+<td>Délai après la suppression d'un objet au-delà duquel il est supprimé définitivement.</td>
+<td>1, 3, 6, 12, 24, 36 ou 60 mois</td>
+<td>3 mois</td>
+</tr>
+</tbody>
+</table>
+<p>Le nettoyage est exécuté <strong>chaque nuit à 02:00</strong> par le planificateur Laravel (commande <code>mercator:db-cleanup</code>) ; il nécessite donc que le planificateur soit actif (<code>php artisan schedule:run</code> lancé chaque minute par cron, ou <code>schedule:work</code>). Le pied de l'onglet affiche la date et le résultat de la dernière exécution.</p>
+<p>La purge des objets supprimés :</p>
+<ul>
+<li>concerne tous les objets de la cartographie, <strong>à l'exception des utilisateurs et des rôles</strong>, qui restent dans la corbeille ;</li>
+<li>est <strong>irréversible</strong> : un objet purgé ne peut plus être restauré ;</li>
+<li>supprime aussi les liens de l'objet avec d'autres objets (tables de liaison) et ses données dépendantes (par exemple les événements d'une application). Pour un document, le fichier est également supprimé du disque ;</li>
+<li>retire la référence à l'objet purgé dans les objets qui pointaient encore vers lui (par exemple le bâtiment d'un poste de travail) ;</li>
+<li><strong>ignore</strong> un objet encore référencé de façon obligatoire par un autre objet (par exemple une entité source d'une relation non supprimée). Il sera de nouveau traité lors des exécutions suivantes, une fois la référence supprimée.</li>
+</ul>
+<p>La purge ne génère pas elle-même d'entrées dans le journal d'audit.</p>
+<p>La commande peut aussi être lancée manuellement ; l'option <code>--dry-run</code> affiche ce qui serait supprimé sans rien supprimer :</p>
+<div class="highlight"><pre><span></span><code>php<span class="w"> </span>artisan<span class="w"> </span>mercator:db-cleanup<span class="w"> </span>--dry-run
+</code></pre></div>
+<h3 id="corbeille">Corbeille<a class="headerlink" href="#corbeille" title="Permanent link">&para;</a></h3>
+<p>Le bouton <strong>Explorer la corbeille</strong> de l'onglet Nettoyage active le <strong>mode corbeille</strong>, qui permet de consulter et de restaurer les objets supprimés avant leur purge définitive.</p>
+<p>Le mode s'ouvre sur une vue d'ensemble qui indique, pour chaque type d'objet, le nombre d'objets supprimés. Les types sont regroupés par vue et présentés dans l'ordre du menu. Seuls les types dont l'utilisateur peut consulter la liste sont affichés.</p>
+<p><a href="../images/trash-overview.png"><img src="/mercator/fr/images/trash-overview.png" width="700"></a></p>
+<p>Tant que le mode corbeille est actif :</p>
+<ul>
+<li>le fond de l'écran est hachuré de rouge et un bandeau rappelle que l'on est en mode corbeille ;</li>
+<li>les listes de la cartographie (accessibles par le menu ou par la vue d'ensemble) n'affichent <strong>que les objets supprimés</strong> ; les objets actifs n'y apparaissent pas ;</li>
+<li>chaque ligne propose les actions <strong>Afficher</strong> et <strong>Restaurer</strong> ; les actions de création, de modification et de suppression sont masquées, ainsi que les boutons <strong>Explorer</strong> (exploration des liens de l'objet) et <strong>Copier</strong> (duplication de l'objet ou d'un graphe) ;</li>
+<li>le tableau de bord et les rapports de maturité ne comptent que les objets supprimés, et les niveaux de conformité valent 0 ;</li>
+<li>la recherche globale est désactivée.</li>
+</ul>
+<p><a href="../images/trash-list.png"><img src="/mercator/fr/images/trash-list.png" width="700"></a></p>
+<p>La fiche d'un objet supprimé indique la date de suppression et l'utilisateur qui l'a supprimé, et propose un bouton <strong>Restaurer</strong>.</p>
+<p>Les cartes et les BPMN supprimés figurent sur deux lignes distinctes de la vue d'ensemble, dans le groupe <strong>Outils</strong>. Chaque ligne mène à la liste correspondante (<strong>Outils → Cartes</strong> ou <strong>Outils → BPMN</strong>), où le graphe supprimé peut être prévisualisé, affiché et restauré.</p>
+<p><a href="../images/trash-show.png"><img src="/mercator/fr/images/trash-show.png" width="700"></a></p>
+<p>Les droits s'appliquent comme en dehors du mode corbeille :</p>
+<ul>
+<li>l'accès au mode corbeille est réservé aux utilisateurs qui peuvent modifier la configuration ;</li>
+<li>afficher un objet supprimé nécessite le droit de consulter les objets de ce type ;</li>
+<li>restaurer un objet nécessite le droit de <strong>supprimer</strong> les objets de ce type ;</li>
+<li>un objet ne peut pas être restauré si un objet actif du même type porte déjà son nom dans le même périmètre. Cette règle ne s'applique pas aux cartes ni aux BPMN, dont le nom n'a pas à être unique.</li>
+</ul>
+<p>Le bouton <strong>Quitter la corbeille</strong>, en bas du menu latéral au-dessus du numéro de version, désactive le mode corbeille et ramène à l'onglet Nettoyage.</p>
+<p>Les utilisateurs et les rôles supprimés ne sont pas concernés par le mode corbeille.</p>
+<hr />
+<h2 id="vulnerabilites">Vulnérabilités<a class="headerlink" href="#vulnerabilites" title="Permanent link">&para;</a></h2>
 <p>Gère la recherche automatisée des vulnérabilités connues (CVE) affectant les éléments de l'inventaire.</p>
+<p><a href="../images/config-cve.png"><img src="/mercator/fr/images/config-cve.png" width="700"></a></p>
 <table>
 <thead>
 <tr>
@@ -1515,8 +1782,172 @@
 <li><strong>Test Guesser</strong> — vérifie la connectivité avec le service CPE Guesser configuré.</li>
 </ul>
 <hr />
+<h2 id="rappels">Rappels<a class="headerlink" href="#rappels" title="Permanent link">&para;</a></h2>
+<p>Cet onglet configure les rappels envoyés par e-mail aux cartographes lorsque des objets dont ils sont responsables n'ont pas été mis à jour depuis un certain temps.</p>
+<p><a href="../images/config-reminders.png"><img src="/mercator/fr/images/config-reminders.png" width="700"></a></p>
+<table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Défaut</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Activer les rappels</strong></td>
+<td>Active l'envoi des rappels. Les autres champs ne sont modifiables que lorsque l'option est active.</td>
+<td><code>inactif</code></td>
+</tr>
+<tr>
+<td><strong>Expéditeur</strong></td>
+<td>Adresse d'envoi des rappels.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Copie cachée à</strong></td>
+<td>Adresse(s) recevant une copie cachée (Cci) de chaque rappel.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Sujet du rappel</strong></td>
+<td>Objet de l'e-mail.</td>
+<td><code>[Mercator] Rappel</code></td>
+</tr>
+<tr>
+<td><strong>Corps du rappel</strong></td>
+<td>Contenu HTML de l'e-mail.</td>
+<td>Modèle fourni</td>
+</tr>
+<tr>
+<td><strong>Pas de mise à jour depuis (mois)</strong></td>
+<td>Un objet est signalé s'il n'a pas été modifié depuis ce nombre de mois.</td>
+<td>1</td>
+</tr>
+<tr>
+<td><strong>Envoyer un rappel tous les (jours)</strong></td>
+<td>Délai minimal entre deux campagnes de rappels.</td>
+<td>30</td>
+</tr>
+</tbody>
+</table>
+<p>Variables utilisables dans le corps du rappel :</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Remplacée par</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>:name</code> / <code>:user</code></td>
+<td>Nom du cartographe</td>
+</tr>
+<tr>
+<td><code>:count</code></td>
+<td>Nombre d'objets à mettre à jour</td>
+</tr>
+<tr>
+<td><code>:list</code></td>
+<td>Liste des objets, avec un lien vers chaque fiche</td>
+</tr>
+<tr>
+<td><code>:months</code></td>
+<td>Nombre de mois sans mise à jour</td>
+</tr>
+<tr>
+<td><code>:mercator_url</code></td>
+<td>URL de Mercator</td>
+</tr>
+</tbody>
+</table>
+<p>Les rappels sont envoyés par la commande <code>mercator:remind-cartographers</code>, exécutée chaque jour par le planificateur. Le pied de l'onglet affiche la date du dernier envoi. Le bouton <strong>Tester</strong> envoie un e-mail de test à l'adresse de copie cachée (ou, à défaut, à l'expéditeur).</p>
+<p>Voir aussi <a href="../cartographers/">Les cartographes</a>.</p>
+<hr />
+<h2 id="notifications">Notifications<a class="headerlink" href="#notifications" title="Permanent link">&para;</a></h2>
+<p>Cet onglet configure les notifications envoyées par e-mail aux cartographes d'un objet lorsque celui-ci est modifié par un autre utilisateur.</p>
+<p><a href="../images/config-notifications.png"><img src="/mercator/fr/images/config-notifications.png" width="700"></a></p>
+<table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Défaut</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Activer les notifications de modification</strong></td>
+<td>Active l'envoi des notifications. Les autres champs ne sont modifiables que lorsque l'option est active.</td>
+<td><code>inactif</code></td>
+</tr>
+<tr>
+<td><strong>Expéditeur</strong></td>
+<td>Adresse d'envoi des notifications.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Copie cachée à</strong></td>
+<td>Adresse(s) recevant une copie cachée (Cci) de chaque notification.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Sujet de la notification</strong></td>
+<td>Objet de l'e-mail ; peut contenir des variables.</td>
+<td><code>[Mercator] Objet :name modifié</code></td>
+</tr>
+<tr>
+<td><strong>Corps de la notification</strong></td>
+<td>Contenu HTML de l'e-mail.</td>
+<td>Modèle fourni</td>
+</tr>
+</tbody>
+</table>
+<p>Variables utilisables dans le sujet et le corps :</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Remplacée par</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>:user</code> / <code>:email</code></td>
+<td>Nom et e-mail de l'utilisateur qui a fait la modification</td>
+</tr>
+<tr>
+<td><code>:name</code> / <code>:id</code></td>
+<td>Nom et identifiant de l'objet</td>
+</tr>
+<tr>
+<td><code>:object</code></td>
+<td>Type de l'objet</td>
+</tr>
+<tr>
+<td><code>:object_url</code></td>
+<td>URL de la fiche de l'objet</td>
+</tr>
+<tr>
+<td><code>:object_history_url</code></td>
+<td>URL de l'historique de l'objet</td>
+</tr>
+<tr>
+<td><code>:fields</code></td>
+<td>Champs modifiés</td>
+</tr>
+<tr>
+<td><code>:date</code> / <code>:timestamp</code></td>
+<td>Date (et heure) de la modification</td>
+</tr>
+</tbody>
+</table>
+<p>Le bouton <strong>Tester</strong> envoie un e-mail de test à l'adresse de copie cachée (ou, à défaut, à l'expéditeur).</p>
+<hr />
 <h2 id="documents">Documents<a class="headerlink" href="#documents" title="Permanent link">&para;</a></h2>
 <p>Cet onglet est <strong>en lecture seule</strong> et fournit une vue d'ensemble des documents stockés dans Mercator.</p>
+<p><a href="../images/config-documents.png"><img src="/mercator/fr/images/config-documents.png" width="700"></a></p>
 <table>
 <thead>
 <tr>
@@ -1559,6 +1990,38 @@
 </tbody>
 </table>
 <hr />
+<h2 id="monarc">Monarc<a class="headerlink" href="#monarc" title="Permanent link">&para;</a></h2>
+<p>Cet onglet configure la connexion à une instance MONARC Front Office, utilisée pour exporter la cartographie sous forme d'analyse de risques.</p>
+<p><a href="../images/config-monarc.png"><img src="/mercator/fr/images/config-monarc.png" width="700"></a></p>
+<table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Activer l'intégration Monarc</strong></td>
+<td>Affiche l'entrée « Monarc » dans le menu Outils et autorise l'accès à l'écran de génération.</td>
+</tr>
+<tr>
+<td><strong>URL de l'instance Monarc</strong></td>
+<td>URL de base de l'instance MONARC Front Office.</td>
+</tr>
+<tr>
+<td><strong>Identifiant</strong></td>
+<td>Compte utilisé pour s'authentifier sur l'API Monarc.</td>
+</tr>
+<tr>
+<td><strong>Mot de passe</strong></td>
+<td>Laisser vide pour conserver le mot de passe déjà enregistré.</td>
+</tr>
+</tbody>
+</table>
+<p>Le bouton <strong>Tester la connexion</strong> vérifie l'authentification. Le bloc <strong>Réinitialiser la liaison</strong> affiche l'analyse (ANR) actuellement liée, la date de la dernière synchronisation et le nombre d'objets suivis ; il permet de supprimer cette liaison locale sans rien modifier dans Monarc.</p>
+<p>Voir la page <a href="../monarc/">Intégration Monarc</a>.</p>
+<hr />
 <h2 id="tableau-recapitulatif">Tableau récapitulatif<a class="headerlink" href="#tableau-recapitulatif" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -1571,10 +2034,28 @@
 </thead>
 <tbody>
 <tr>
-<td>Général</td>
-<td>Authentification des besoins de sécurité</td>
-<td>Requiert une authentification pour afficher les champs de besoin de sécurité</td>
-<td><code>false</code></td>
+<td>Paramètres</td>
+<td>Documents associés aux applications</td>
+<td>Association de fichiers aux applications</td>
+<td><code>inactif</code></td>
+</tr>
+<tr>
+<td>Paramètres</td>
+<td>Authenticité</td>
+<td>Ajoute le critère de sécurité « Authenticité » (DORA)</td>
+<td><code>inactif</code></td>
+</tr>
+<tr>
+<td>Paramètres</td>
+<td>Nombre maximum de nœuds</td>
+<td>Taille maximale des graphes affichés</td>
+<td>500</td>
+</tr>
+<tr>
+<td>Périmètres</td>
+<td>Activer les périmètres</td>
+<td>Cloisonnement de la cartographie par établissement</td>
+<td><code>inactif</code></td>
 </tr>
 <tr>
 <td>Certificats</td>
@@ -1619,37 +2100,55 @@
 <td>Unique</td>
 </tr>
 <tr>
-<td>CVE</td>
+<td>Nettoyage</td>
+<td>Purge du journal d'audit</td>
+<td>Suppression des entrées du journal plus anciennes que la durée de conservation</td>
+<td><code>inactif</code>, 12 mois</td>
+</tr>
+<tr>
+<td>Nettoyage</td>
+<td>Purge des objets supprimés</td>
+<td>Suppression définitive des objets supprimés depuis plus longtemps que la durée de conservation</td>
+<td><code>inactif</code>, 3 mois</td>
+</tr>
+<tr>
+<td>Nettoyage</td>
+<td>Corbeille</td>
+<td>Consultation et restauration des objets supprimés</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Vulnérabilités</td>
 <td>Sujet du message</td>
 <td>Objet des e-mails d'alerte CVE</td>
 <td>—</td>
 </tr>
 <tr>
-<td>CVE</td>
+<td>Vulnérabilités</td>
 <td>Expéditeur</td>
 <td>Adresse d'envoi des alertes CVE</td>
 <td>—</td>
 </tr>
 <tr>
-<td>CVE</td>
+<td>Vulnérabilités</td>
 <td>Destinataires</td>
 <td>Adresse(s) de destination des alertes CVE</td>
 <td>—</td>
 </tr>
 <tr>
-<td>CVE</td>
+<td>Vulnérabilités</td>
 <td>Fréquence de vérification</td>
 <td>Intervalle de recherche des nouvelles CVE</td>
 <td>Jamais</td>
 </tr>
 <tr>
-<td>CPE</td>
+<td>Vulnérabilités</td>
 <td>URL du CPE Guesser</td>
 <td>Point d'accès du service <a href="https://github.com/vulnerability-lookup/cpe-guesser">cpe-guesser</a></td>
 <td>—</td>
 </tr>
 <tr>
-<td>CVE</td>
+<td>Vulnérabilités</td>
 <td>URL du fournisseur CVE</td>
 <td>Point d'accès du fournisseur <a href="https://github.com/vulnerability-lookup/vulnerability-lookup">vulnerability-lookup</a></td>
 <td>—</td>
@@ -1659,6 +2158,24 @@
 <td>—</td>
 <td>Lecture seule : nombre de documents, taille totale, vérification d'intégrité</td>
 <td>—</td>
+</tr>
+<tr>
+<td>Rappels</td>
+<td>Activer les rappels</td>
+<td>Rappels aux cartographes pour les objets non mis à jour</td>
+<td><code>inactif</code></td>
+</tr>
+<tr>
+<td>Notifications</td>
+<td>Activer les notifications de modification</td>
+<td>Notification des cartographes lors d'une modification</td>
+<td><code>inactif</code></td>
+</tr>
+<tr>
+<td>Monarc</td>
+<td>Activer l'intégration Monarc</td>
+<td>Export de la cartographie vers une analyse de risques Monarc</td>
+<td><code>inactif</code></td>
 </tr>
 </tbody>
 </table>

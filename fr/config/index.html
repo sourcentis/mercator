@@ -1277,6 +1277,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#content-security-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Content Security Policy
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1305,6 +1314,66 @@
   <a href="#journalisation-ldaprecord" class="md-nav__link">
     <span class="md-ellipsis">
       Journalisation LDAPRecord
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#page-dinformation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Page d'information
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Page d'information">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mercator" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mercator
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utilisateur" class="md-nav__link">
+    <span class="md-ellipsis">
+      Utilisateur
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#perimetres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Périmètres
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#objets-cartographies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objets cartographiés
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#copier-pour-le-helpdesk" class="md-nav__link">
+    <span class="md-ellipsis">
+      Copier pour le helpdesk
     </span>
   </a>
   
@@ -1652,6 +1721,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#content-security-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Content Security Policy
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1680,6 +1758,66 @@
   <a href="#journalisation-ldaprecord" class="md-nav__link">
     <span class="md-ellipsis">
       Journalisation LDAPRecord
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#page-dinformation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Page d'information
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Page d'information">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mercator" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mercator
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utilisateur" class="md-nav__link">
+    <span class="md-ellipsis">
+      Utilisateur
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#perimetres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Périmètres
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#objets-cartographies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objets cartographiés
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#copier-pour-le-helpdesk" class="md-nav__link">
+    <span class="md-ellipsis">
+      Copier pour le helpdesk
     </span>
   </a>
   
@@ -1925,6 +2063,35 @@ API_RATE_LIMIT_DECAY=1
 <h3 id="duree-de-session">Durée de session<a class="headerlink" href="#duree-de-session" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code>SESSION_LIFETIME=120
 </code></pre></div>
+<h3 id="content-security-policy">Content Security Policy<a class="headerlink" href="#content-security-policy" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>CSP_MODE=enforce
+</code></pre></div>
+<p>Mercator envoie un en-tête Content Security Policy (CSP) qui n'autorise que les scripts de l'application, porteurs d'un nonce renouvelé à chaque requête. Un script injecté dans une page (attaque XSS) n'est donc pas exécuté par le navigateur.</p>
+<table>
+<thead>
+<tr>
+<th>Valeur</th>
+<th>Effet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>enforce</code> (défaut)</td>
+<td>La politique est appliquée (<code>Content-Security-Policy</code>) : tout ce qui n'est pas autorisé est bloqué</td>
+</tr>
+<tr>
+<td><code>report-only</code></td>
+<td>La politique est seulement observée (<code>Content-Security-Policy-Report-Only</code>) : rien n'est bloqué, les violations sont journalisées dans <code>storage/logs/security-AAAA-MM-JJ.log</code></td>
+</tr>
+<tr>
+<td><code>off</code></td>
+<td>Aucun en-tête CSP</td>
+</tr>
+</tbody>
+</table>
+<p>Toute autre valeur désactive la CSP, comme <code>off</code>. Les en-têtes <code>X-Content-Type-Options</code>, <code>X-Frame-Options</code> et <code>Referrer-Policy</code> sont envoyés dans tous les cas.</p>
+<p>Si une page ne fonctionne plus correctement (bouton sans effet, graphique absent), passer temporairement en <code>report-only</code> : l'application refonctionne immédiatement et le journal <code>security</code> indique la ressource bloquée, à signaler pour correction.</p>
+<p>Le mode en vigueur est affiché dans la <a href="#page-dinformation">page d'information</a>.</p>
 <hr />
 <h2 id="journalisation">Journalisation<a class="headerlink" href="#journalisation" title="Permanent link">&para;</a></h2>
 <p>Mercator utilise le système de journalisation de Laravel. Les journaux de l'application sont écrits dans :</p>
@@ -1989,6 +2156,97 @@ API_RATE_LIMIT_DECAY=1
 </code></pre></div>
 <p>Si aucun fichier n'apparaît, vérifiez les permissions du répertoire.</p>
 <p>📢 <em>Note : si la configuration est en cache (<code>php artisan config:cache</code>), les modifications du <code>.env</code> ne s'appliquent qu'après <code>php artisan config:clear</code> (ou un nouveau <code>config:cache</code>).</em></p>
+<h2 id="page-dinformation">Page d'information<a class="headerlink" href="#page-dinformation" title="Permanent link">&para;</a></h2>
+<p>La page d'information rassemble la configuration de l'instance et la situation de l'utilisateur connecté. Elle est accessible à tout utilisateur via :</p>
+<blockquote>
+<p><strong>Aide → Informations</strong> (<code>/admin/doc/info</code>)</p>
+</blockquote>
+<p>Elle permet de vérifier qu'un réglage du <code>.env</code> est bien pris en compte, de comprendre pourquoi un utilisateur ne voit pas un objet ou n'a pas un droit, et de transmettre ces éléments au support.</p>
+<h3 id="mercator">Mercator<a class="headerlink" href="#mercator" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Ligne</th>
+<th>Contenu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Version</td>
+<td>Version de Mercator (<code>version.txt</code>)</td>
+</tr>
+<tr>
+<td>Environnement</td>
+<td>Valeur de <code>APP_ENV</code></td>
+</tr>
+<tr>
+<td>Fuseau horaire / Langue</td>
+<td>Fuseau et langue par défaut de l'application</td>
+</tr>
+<tr>
+<td>Date / heure</td>
+<td>Heure du serveur, utile pour vérifier le fuseau</td>
+</tr>
+<tr>
+<td>Base de données / Version du serveur BD</td>
+<td>Pilote utilisé et version du serveur de base de données</td>
+</tr>
+<tr>
+<td>PHP / Laravel</td>
+<td>Versions de PHP et du framework</td>
+</tr>
+<tr>
+<td>Méthodes d'authentification</td>
+<td><code>Local</code>, <code>LDAP</code> et/ou <code>Keycloak</code>, selon la configuration</td>
+</tr>
+<tr>
+<td>Pilotes</td>
+<td>Pilotes de cache, de file d'attente et d'envoi de courriels</td>
+</tr>
+<tr>
+<td>Mémoire PHP</td>
+<td>Mémoire utilisée par la requête, limite <code>memory_limit</code> et mémoire disponible</td>
+</tr>
+<tr>
+<td>Content Security Policy (CSP_MODE)</td>
+<td>Mode CSP en vigueur (voir <a href="#content-security-policy">Content Security Policy</a>)</td>
+</tr>
+</tbody>
+</table>
+<p>La ligne Content Security Policy affiche un badge de couleur :</p>
+<table>
+<thead>
+<tr>
+<th>Badge</th>
+<th>Signification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🟢 <code>enforce</code></td>
+<td>Politique appliquée</td>
+</tr>
+<tr>
+<td>🟠 <code>report-only</code></td>
+<td>Observation : violations journalisées sans blocage</td>
+</tr>
+<tr>
+<td>🔴 <code>off</code> ou autre valeur</td>
+<td>CSP désactivée</td>
+</tr>
+</tbody>
+</table>
+<p>Une valeur mal saisie dans le <code>.env</code> (par exemple <code>CSP_MODE=enforced</code>) apparaît en rouge : elle désactive réellement la CSP.</p>
+<h3 id="utilisateur">Utilisateur<a class="headerlink" href="#utilisateur" title="Permanent link">&para;</a></h3>
+<p>Identifiant, nom, adresse électronique, langue et granularité de l'utilisateur connecté, ainsi que ses rôles et s'il est <a href="../cartographers/">cartographe</a> (avec les types d'objets qui lui sont attribués). Lorsque les <a href="../perimeters/">périmètres</a> sont activés, la carte indique aussi ses périmètres et le périmètre actif.</p>
+<h3 id="perimetres">Périmètres<a class="headerlink" href="#perimetres" title="Permanent link">&para;</a></h3>
+<p>Affiché uniquement lorsque les périmètres sont activés. Pour chaque périmètre de l'utilisateur, le tableau donne ses rôles dans ce périmètre, le nombre d'objets qu'il peut y consulter et, pour chaque droit (Lecture, Création, Modification, Suppression), le nombre de types d'objets concernés. La ligne du périmètre actif est mise en évidence.</p>
+<h3 id="objets-cartographies">Objets cartographiés<a class="headerlink" href="#objets-cartographies" title="Permanent link">&para;</a></h3>
+<p>Nombre d'objets visibles depuis le périmètre actif, par vue de la cartographie. Le bouton <strong>Droits par type d'objet</strong> déplie le détail : pour chaque type d'objet, le nombre d'objets visibles et les droits Lecture / Création / Modification / Suppression, par périmètre. Un administrateur dispose de tous les droits dans tous les périmètres.</p>
+<h3 id="copier-pour-le-helpdesk">Copier pour le helpdesk<a class="headerlink" href="#copier-pour-le-helpdesk" title="Permanent link">&para;</a></h3>
+<p>Le bouton <strong>Copier pour le helpdesk</strong> place dans le presse-papiers un résumé texte de la page (configuration, utilisateur, périmètres, nombre d'objets visibles), prêt à coller dans une demande de support.</p>
+<p>📢 <em>Remarque : ce résumé contient l'identifiant et l'adresse électronique de l'utilisateur. Le relire avant de l'envoyer à l'extérieur de l'organisation.</em></p>
+<p>📢 <em>Remarque : la page affiche la configuration effectivement chargée. Si la configuration est en cache, une modification du <code>.env</code> n'y apparaît qu'après <code>php artisan config:clear</code>.</em></p>
 <hr />
 <h2 id="export-import-de-fichiers">Export / Import de fichiers<a class="headerlink" href="#export-import-de-fichiers" title="Permanent link">&para;</a></h2>
 <p>Mercator prend en charge l'export Excel et PDF via :</p>
@@ -2016,6 +2274,7 @@ API_RATE_LIMIT_DECAY=1
 <ul>
 <li>Désactiver <code>APP_DEBUG</code></li>
 <li>Activer HTTPS</li>
+<li>Laisser la Content Security Policy appliquée (<code>CSP_MODE=enforce</code>)</li>
 <li>Utiliser un reverse proxy (Traefik, Nginx)</li>
 <li>Configurer des sauvegardes automatiques de la base de données</li>
 <li>Protéger <code>.env</code> et <code>storage/</code> avec les permissions appropriées</li>
@@ -2164,6 +2423,12 @@ API_RATE_LIMIT_DECAY=1
 <td><code>APP_URL</code></td>
 <td>https://mercator.example.com</td>
 <td>URL de base utilisée dans les liens et les exports</td>
+</tr>
+<tr>
+<td>Content Security Policy</td>
+<td><code>CSP_MODE</code></td>
+<td>enforce</td>
+<td><code>enforce</code>, <code>report-only</code> ou <code>off</code></td>
 </tr>
 <tr>
 <td>Environnement de l'instance</td>

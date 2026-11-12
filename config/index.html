@@ -1277,6 +1277,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#content-security-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Content Security Policy
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1305,6 +1314,66 @@
   <a href="#ldaprecord-logging" class="md-nav__link">
     <span class="md-ellipsis">
       LDAPRecord logging
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#information-page" class="md-nav__link">
+    <span class="md-ellipsis">
+      Information page
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Information page">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mercator" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mercator
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user" class="md-nav__link">
+    <span class="md-ellipsis">
+      User
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#perimeters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Perimeters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mapped-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mapped objects
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#copy-for-helpdesk" class="md-nav__link">
+    <span class="md-ellipsis">
+      Copy for helpdesk
     </span>
   </a>
   
@@ -1652,6 +1721,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#content-security-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Content Security Policy
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1680,6 +1758,66 @@
   <a href="#ldaprecord-logging" class="md-nav__link">
     <span class="md-ellipsis">
       LDAPRecord logging
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#information-page" class="md-nav__link">
+    <span class="md-ellipsis">
+      Information page
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Information page">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mercator" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mercator
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user" class="md-nav__link">
+    <span class="md-ellipsis">
+      User
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#perimeters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Perimeters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mapped-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mapped objects
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#copy-for-helpdesk" class="md-nav__link">
+    <span class="md-ellipsis">
+      Copy for helpdesk
     </span>
   </a>
   
@@ -1925,6 +2063,35 @@ API_RATE_LIMIT_DECAY=1
 <h3 id="session-lifetime">Session Lifetime<a class="headerlink" href="#session-lifetime" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code>SESSION_LIFETIME=120
 </code></pre></div>
+<h3 id="content-security-policy">Content Security Policy<a class="headerlink" href="#content-security-policy" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>CSP_MODE=enforce
+</code></pre></div>
+<p>Mercator sends a Content Security Policy (CSP) header that only allows the application's own scripts, which carry a nonce renewed on every request. A script injected into a page (XSS attack) is therefore not executed by the browser.</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>enforce</code> (default)</td>
+<td>The policy is applied (<code>Content-Security-Policy</code>): anything not allowed is blocked</td>
+</tr>
+<tr>
+<td><code>report-only</code></td>
+<td>The policy is only monitored (<code>Content-Security-Policy-Report-Only</code>): nothing is blocked, violations are logged to <code>storage/logs/security-YYYY-MM-DD.log</code></td>
+</tr>
+<tr>
+<td><code>off</code></td>
+<td>No CSP header</td>
+</tr>
+</tbody>
+</table>
+<p>Any other value disables the CSP, like <code>off</code>. The <code>X-Content-Type-Options</code>, <code>X-Frame-Options</code> and <code>Referrer-Policy</code> headers are sent in every case.</p>
+<p>If a page stops working properly (a button does nothing, a chart is missing), temporarily switch to <code>report-only</code>: the application works again immediately and the <code>security</code> log shows the blocked resource, to be reported for a fix.</p>
+<p>The active mode is shown on the <a href="#information-page">information page</a>.</p>
 <hr />
 <h2 id="logging">Logging<a class="headerlink" href="#logging" title="Permanent link">&para;</a></h2>
 <p>Mercator uses Laravel's logging system. Application logs are written to:</p>
@@ -1989,6 +2156,97 @@ API_RATE_LIMIT_DECAY=1
 </code></pre></div>
 <p>If no file appears, ensure directory permissions are correct.</p>
 <p>📢 <em>Note: if the configuration is cached (<code>php artisan config:cache</code>), changes to <code>.env</code> only apply after <code>php artisan config:clear</code> (or a new <code>config:cache</code>).</em></p>
+<h2 id="information-page">Information page<a class="headerlink" href="#information-page" title="Permanent link">&para;</a></h2>
+<p>The information page gathers the instance configuration and the situation of the logged-in user. It is available to every user via:</p>
+<blockquote>
+<p><strong>Help → Information</strong> (<code>/admin/doc/info</code>)</p>
+</blockquote>
+<p>It is used to check that a <code>.env</code> setting has been taken into account, to understand why a user cannot see an object or lacks a right, and to pass this information on to support.</p>
+<h3 id="mercator">Mercator<a class="headerlink" href="#mercator" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Row</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Version</td>
+<td>Mercator version (<code>version.txt</code>)</td>
+</tr>
+<tr>
+<td>Environment</td>
+<td>Value of <code>APP_ENV</code></td>
+</tr>
+<tr>
+<td>Timezone / Language</td>
+<td>Default timezone and language of the application</td>
+</tr>
+<tr>
+<td>Date / time</td>
+<td>Server time, useful to check the timezone</td>
+</tr>
+<tr>
+<td>Database / Database server version</td>
+<td>Driver in use and database server version</td>
+</tr>
+<tr>
+<td>PHP / Laravel</td>
+<td>PHP and framework versions</td>
+</tr>
+<tr>
+<td>Authentication methods</td>
+<td><code>Local</code>, <code>LDAP</code> and/or <code>Keycloak</code>, depending on the configuration</td>
+</tr>
+<tr>
+<td>Drivers</td>
+<td>Cache, queue and mail drivers</td>
+</tr>
+<tr>
+<td>PHP memory</td>
+<td>Memory used by the request, <code>memory_limit</code> and available memory</td>
+</tr>
+<tr>
+<td>Content Security Policy (CSP_MODE)</td>
+<td>Active CSP mode (see <a href="#content-security-policy">Content Security Policy</a>)</td>
+</tr>
+</tbody>
+</table>
+<p>The Content Security Policy row shows a colored badge:</p>
+<table>
+<thead>
+<tr>
+<th>Badge</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🟢 <code>enforce</code></td>
+<td>Policy enforced</td>
+</tr>
+<tr>
+<td>🟠 <code>report-only</code></td>
+<td>Monitoring: violations logged, nothing blocked</td>
+</tr>
+<tr>
+<td>🔴 <code>off</code> or any other value</td>
+<td>CSP disabled</td>
+</tr>
+</tbody>
+</table>
+<p>A mistyped value in <code>.env</code> (for example <code>CSP_MODE=enforced</code>) shows up in red: it does disable the CSP.</p>
+<h3 id="user">User<a class="headerlink" href="#user" title="Permanent link">&para;</a></h3>
+<p>Login, name, email address, language and granularity of the logged-in user, along with their roles and whether they are a <a href="../cartographers/">cartographer</a> (with the object types assigned to them). When <a href="../perimeters/">perimeters</a> are enabled, the card also shows their perimeters and the active perimeter.</p>
+<h3 id="perimeters">Perimeters<a class="headerlink" href="#perimeters" title="Permanent link">&para;</a></h3>
+<p>Only shown when perimeters are enabled. For each of the user's perimeters, the table gives their roles in that perimeter, the number of objects they can see there and, for each right (Read, Create, Edit, Delete), the number of object types concerned. The active perimeter's row is highlighted.</p>
+<h3 id="mapped-objects">Mapped objects<a class="headerlink" href="#mapped-objects" title="Permanent link">&para;</a></h3>
+<p>Number of objects visible from the active perimeter, by cartography view. The <strong>Rights by object type</strong> button expands the details: for each object type, the number of visible objects and the Read / Create / Edit / Delete rights, per perimeter. An administrator has all rights in every perimeter.</p>
+<h3 id="copy-for-helpdesk">Copy for helpdesk<a class="headerlink" href="#copy-for-helpdesk" title="Permanent link">&para;</a></h3>
+<p>The <strong>Copy for helpdesk</strong> button puts a text summary of the page (configuration, user, perimeters, number of visible objects) on the clipboard, ready to paste into a support request.</p>
+<p>📢 <em>Note: this summary contains the user's login and email address. Review it before sending it outside the organization.</em></p>
+<p>📢 <em>Note: the page shows the configuration actually loaded. If the configuration is cached, a <code>.env</code> change only appears after <code>php artisan config:clear</code>.</em></p>
 <hr />
 <h2 id="file-export-import">File Export / Import<a class="headerlink" href="#file-export-import" title="Permanent link">&para;</a></h2>
 <p>Mercator supports Excel and PDF export via:</p>
@@ -2016,6 +2274,7 @@ API_RATE_LIMIT_DECAY=1
 <ul>
 <li>Disable <code>APP_DEBUG</code></li>
 <li>Enable HTTPS</li>
+<li>Keep the Content Security Policy enforced (<code>CSP_MODE=enforce</code>)</li>
 <li>Use a reverse proxy (Traefik, Nginx)</li>
 <li>Configure automatic backups of the database</li>
 <li>Protect <code>.env</code> and <code>storage/</code> with proper permissions</li>
@@ -2164,6 +2423,12 @@ API_RATE_LIMIT_DECAY=1
 <td><code>APP_URL</code></td>
 <td>https://mercator.example.com</td>
 <td>Base URL used in links and exports</td>
+</tr>
+<tr>
+<td>Content Security Policy</td>
+<td><code>CSP_MODE</code></td>
+<td>enforce</td>
+<td><code>enforce</code>, <code>report-only</code> or <code>off</code></td>
 </tr>
 <tr>
 <td>Instance environment</td>
