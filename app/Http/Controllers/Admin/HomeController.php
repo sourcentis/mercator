@@ -56,6 +56,7 @@ use App\Models\WifiTerminal;
 use App\Models\Workstation;
 use App\Models\Zone;
 use App\Models\ZoneAdmin;
+use App\Support\TrashMode;
 use Illuminate\Contracts\Support\Renderable;
 
 class HomeController extends Controller
@@ -113,9 +114,32 @@ class HomeController extends Controller
     }
 
     /**
-     * Compute maturity levels
+     * Compute maturity levels.
+     *
+     * En mode corbeille, les compteurs ne portent que sur les objets supprimés
+     * et les niveaux de conformité valent 0.
      */
     protected function computeMaturity(): array
+    {
+        if (! TrashMode::active()) {
+            return $this->computeLevels();
+        }
+
+        $restores = array_map(fn (string $class) => TrashMode::scopeToTrashed($class), array_values(TrashMode::models()));
+        try {
+            $levels = $this->computeLevels();
+        } finally {
+            foreach ($restores as $restore) {
+                $restore();
+            }
+        }
+
+        $levels['maturity1'] = $levels['maturity2'] = $levels['maturity3'] = 0;
+
+        return $levels;
+    }
+
+    protected function computeLevels(): array
     {
         $levels = [
             // GDPR

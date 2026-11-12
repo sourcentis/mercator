@@ -116,7 +116,9 @@ While the trash mode is active:
 
 * the screen background is hatched in red and a banner reminds that the trash mode is on;
 * the cartography lists (reached from the menu or the overview) **only show deleted objects**; active objects do not appear;
-* each row offers the **Display** and **Restore** actions; create, edit and delete actions are hidden, as well as the **Explore** (exploration of the object's links) and **Clone** (duplication of the object or of a graph) buttons.
+* each row offers the **Display** and **Restore** actions; create, edit and delete actions are hidden, as well as the **Explore** (exploration of the object's links) and **Clone** (duplication of the object or of a graph) buttons;
+* the dashboard and the maturity reports only count deleted objects, and the maturity levels are 0;
+* the global search is disabled.
 
 [<img src="/mercator/images/trash-list.png" width="700">](images/trash-list.png)
 

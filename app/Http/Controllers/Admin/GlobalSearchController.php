@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Cartographer;
 use App\Support\ModelRegistry;
+use App\Support\TrashMode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -36,7 +37,8 @@ class GlobalSearchController extends Controller
 
         $searchableData = [];
 
-        if (($term === null) || (mb_strlen($term) < 3)) {
+        // La recherche globale est désactivée en mode corbeille.
+        if (($term === null) || (mb_strlen($term) < 3) || TrashMode::active()) {
             return view('admin.search', compact('searchableData'));
         }
 

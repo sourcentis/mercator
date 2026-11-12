@@ -2260,6 +2260,7 @@ return [
         'overview' => 'Overview',
         'help' => 'Number of deleted objects per type. Click a type to show the list of its deleted objects; the other lists of the menu also only show deleted objects while the trash mode is active.',
         'empty' => 'The trash is empty.',
+        'search_disabled' => 'Search disabled (trash)',
         'view' => 'View',
         'object_type' => 'Object type',
         'deleted_count' => 'Deleted objects',

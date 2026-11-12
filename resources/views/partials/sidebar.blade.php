@@ -30,7 +30,13 @@
     @endif
     <div class="search-box">
         <form id="search-form" action="/admin/global-search" method="GET">
-            <input type="text" name="search" class="form-control" placeholder="Rechercher...">
+            @if (\App\Support\TrashMode::active())
+                {{-- Recherche globale désactivée en mode corbeille --}}
+                <input type="text" name="search" class="form-control" disabled
+                       placeholder="{{ trans('cruds.trash.search_disabled') }}">
+            @else
+                <input type="text" name="search" class="form-control" placeholder="Rechercher...">
+            @endif
         </form>
     </div>
     <div class="flex-grow-1">

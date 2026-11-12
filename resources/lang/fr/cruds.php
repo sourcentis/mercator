@@ -2298,6 +2298,7 @@ return [
         'overview' => 'Vue d\'ensemble',
         'help' => 'Nombre d\'objets supprimés par type. Cliquer sur un type pour afficher la liste de ses objets supprimés ; les autres listes du menu n\'affichent également que les objets supprimés tant que le mode corbeille est actif.',
         'empty' => 'La corbeille est vide.',
+        'search_disabled' => 'Recherche désactivée (corbeille)',
         'view' => 'Vue',
         'object_type' => 'Type d\'objet',
         'deleted_count' => 'Objets supprimés',

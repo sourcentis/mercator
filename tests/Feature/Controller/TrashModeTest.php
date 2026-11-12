@@ -211,3 +211,48 @@ test('an unknown object type cannot be restored', function () {
         ->post(route('admin.trash.restore', ['user', $this->admin->id]))
         ->assertNotFound();
 });
+
+test('the dashboard only counts deleted objects and shows no maturity in trash mode', function () {
+    Entity::factory()->count(2)->create();
+    trash(Entity::factory()->create());
+
+    $this->withSession([TrashMode::SESSION_KEY => true])
+        ->get(route('admin.home'))
+        ->assertOk()
+        ->assertViewHas('entities', 1)
+        ->assertViewHas('maturity1', 0)
+        ->assertViewHas('maturity2', 0)
+        ->assertViewHas('maturity3', 0);
+
+    // Hors mode corbeille (et les scopes sont bien rétablis).
+    $this->withSession([TrashMode::SESSION_KEY => false])
+        ->get(route('admin.home'))
+        ->assertOk()
+        ->assertViewHas('entities', 2);
+});
+
+test('the maturity reports only count deleted objects in trash mode', function (string $route) {
+    Entity::factory()->count(2)->create();
+    trash(Entity::factory()->create());
+
+    $this->withSession([TrashMode::SESSION_KEY => true])
+        ->get(route($route))
+        ->assertOk()
+        ->assertViewHas('entities', 1)
+        ->assertViewHas('maturity1', 0);
+})->with(['admin.report.maturity1', 'admin.report.maturity2', 'admin.report.maturity3']);
+
+test('the global search is disabled in trash mode', function () {
+    Entity::factory()->create(['name' => 'Searchable entity']);
+
+    $this->withSession([TrashMode::SESSION_KEY => true])
+        ->get(route('admin.globalSearch', ['search' => 'Searchable']))
+        ->assertOk()
+        ->assertViewHas('searchableData', [])
+        ->assertSee('name="search" class="form-control" disabled', false);
+
+    $this->withSession([TrashMode::SESSION_KEY => false])
+        ->get(route('admin.globalSearch', ['search' => 'Searchable']))
+        ->assertOk()
+        ->assertSee('Searchable entity');
+});
