@@ -139,6 +139,13 @@ describe('Content Security Policy', function () {
             ->not->toMatch("/script-src[^;]*'unsafe-inline'/");
     });
 
+    it('autorise la police de pictogrammes BPMN injectée en data:', function () {
+        // @sourcentis/bpmn-editor injecte @font-face { src: url("data:font/ttf;base64,…") }
+        $csp = $this->get(route('admin.entities.index'))->headers->get('Content-Security-Policy');
+
+        expect($csp)->toMatch("/font-src 'self' data:/");
+    });
+
     it('déclare la route de rapport des violations', function () {
         $response = $this->get(route('admin.entities.index'));
 

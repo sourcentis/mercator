@@ -71,8 +71,9 @@ class SecurityHeaders
             // Select2, DataTables, MaxGraph et Chart.js posent des styles inline
             "style-src 'self' 'unsafe-inline'".$viteOrigins,
 
-            // Bootstrap Icons (woff2) servi par Vite en dev
-            "font-src 'self'".$viteOrigins,
+            // Bootstrap Icons (woff2) servi par Vite en dev ;
+            // data: : @sourcentis/bpmn-editor injecte sa police de pictogrammes BPMN en data:font/ttf
+            "font-src 'self' data:".$viteOrigins,
 
             "connect-src 'self'".$viteOrigins.$viteWs,
 
