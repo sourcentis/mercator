@@ -4,9 +4,9 @@ Les paramètres de configuration sont accessibles dans Mercator via :
 
 > **Admin → Configuration → Paramètres** (`/admin/config/parameters`)
 
-Contrairement aux variables d'environnement, ces paramètres sont stockés dans le fichier **config/mercator.php** et peuvent être modifiés à chaud par un administrateur, sans redémarrer l'application ni modifier le fichier `.env`.
+Contrairement aux variables d'environnement, ces paramètres sont stockés en base de données (les valeurs par défaut figurent dans **config/mercator.php**) et peuvent être modifiés à chaud par un administrateur, sans redémarrer l'application ni modifier le fichier `.env`.
 
-La page des paramètres est organisée en quatre onglets.
+La page des paramètres est organisée en onglets.
 
 ---
 
@@ -43,6 +43,39 @@ Gère la surveillance automatisée et les notifications d'expiration des certifi
 | **Répétition des notifications** | Envoyer une seule notification par événement d'expiration, ou répéter jusqu'au renouvellement ou à la suppression du certificat. | Unique / Répétée |
 
 Un bouton **Test** permet d'envoyer un e-mail de test avec la configuration en cours sans sauvegarder.
+
+---
+
+## Nettoyage
+
+Cet onglet active la purge automatique de la base de données. Deux purges sont disponibles ; chacune s'active indépendamment et a sa propre durée de conservation.
+
+[<img src="/mercator/images/cleanup.fr.png" width="700">](images/cleanup.fr.png)
+
+| Paramètre | Description | Valeurs | Défaut |
+|-----------|-------------|---------|--------|
+| **Purge du journal d'audit** | Supprime les entrées du journal d'audit (historique des créations, modifications et suppressions) plus anciennes que la durée de conservation. | Actif / Inactif | `inactif` |
+| **Durée de conservation du journal d'audit** | Âge au-delà duquel une entrée du journal est supprimée. | 1, 3, 6, 12, 24, 36 ou 60 mois | 12 mois |
+| **Purge des objets supprimés** | Supprime définitivement les objets supprimés (corbeille) depuis plus longtemps que la durée de conservation. | Actif / Inactif | `inactif` |
+| **Durée de conservation des objets supprimés** | Délai après la suppression d'un objet au-delà duquel il est supprimé définitivement. | 1, 3, 6, 12, 24, 36 ou 60 mois | 3 mois |
+
+Le nettoyage est exécuté **chaque nuit à 02:00** par le planificateur Laravel (commande `mercator:db-cleanup`) ; il nécessite donc que le planificateur soit actif (`php artisan schedule:run` lancé chaque minute par cron, ou `schedule:work`). Le pied de l'onglet affiche la date et le résultat de la dernière exécution.
+
+La purge des objets supprimés :
+
+* concerne tous les objets de la cartographie, **à l'exception des utilisateurs et des rôles**, qui restent dans la corbeille ;
+* est **irréversible** : un objet purgé ne peut plus être restauré ;
+* supprime aussi les liens de l'objet avec d'autres objets (tables de liaison) et ses données dépendantes (par exemple les événements d'une application). Pour un document, le fichier est également supprimé du disque ;
+* retire la référence à l'objet purgé dans les objets qui pointaient encore vers lui (par exemple le bâtiment d'un poste de travail) ;
+* **ignore** un objet encore référencé de façon obligatoire par un autre objet (par exemple une entité source d'une relation non supprimée). Il sera de nouveau traité lors des exécutions suivantes, une fois la référence supprimée.
+
+La purge ne génère pas elle-même d'entrées dans le journal d'audit.
+
+La commande peut aussi être lancée manuellement ; l'option `--dry-run` affiche ce qui serait supprimé sans rien supprimer :
+
+```bash
+php artisan mercator:db-cleanup --dry-run
+```
 
 ---
 
@@ -111,3 +144,5 @@ Un bouton **Vérifier** déclenche une vérification d'intégrité de tous les d
 | CPE | URL du CPE Guesser | Point d'accès du service [cpe-guesser](https://github.com/vulnerability-lookup/cpe-guesser) | — |
 | CVE | URL du fournisseur CVE | Point d'accès du fournisseur [vulnerability-lookup](https://github.com/vulnerability-lookup/vulnerability-lookup) | — |
 | Documents | — | Lecture seule : nombre de documents, taille totale, vérification d'intégrité | — |
+| Nettoyage | Purge du journal d'audit | Suppression des entrées du journal plus anciennes que la durée de conservation | `inactif`, 12 mois |
+| Nettoyage | Purge des objets supprimés | Suppression définitive des objets supprimés depuis plus longtemps que la durée de conservation | `inactif`, 3 mois |

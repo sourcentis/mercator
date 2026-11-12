@@ -4,9 +4,9 @@ The configuration parameters are accessible in Mercator via :
 
 > **Admin → Configuration → Parameters** (`/admin/config/parameters`)
 
-Unlike environment variables, these settings are stored in the **config/mercator.php** file and can be modified at runtime by an administrator, without restarting the application or editing `.env`.
+Unlike environment variables, these settings are stored in the database (defaults are in **config/mercator.php**) and can be modified at runtime by an administrator, without restarting the application or editing `.env`.
 
-The parameters page is organised into four tabs.
+The parameters page is organised into tabs.
 
 ---
 
@@ -43,6 +43,39 @@ Controls the automated monitoring and notification of TLS/SSL certificate expiry
 | **Repeat notifications** | Send a single notification per expiry event, or repeat until the certificate is renewed or removed. | Single / Repeat |
 
 A **Test** button is available to send a test email using the current configuration without saving.
+
+---
+
+## Cleanup
+
+This tab enables the automatic purge of the database. Two purges are available; each one is enabled independently and has its own retention period.
+
+[<img src="/mercator/images/cleanup.png" width="700">](images/cleanup.png)
+
+| Parameter | Description | Values | Default |
+|-----------|-------------|--------|---------|
+| **Audit log purge** | Deletes audit log entries (history of creations, updates and deletions) older than the retention period. | Enabled / Disabled | `disabled` |
+| **Audit log retention period** | Age beyond which a log entry is deleted. | 1, 3, 6, 12, 24, 36 or 60 months | 12 months |
+| **Deleted objects purge** | Permanently deletes objects that have been in the trash (soft-deleted) for longer than the retention period. | Enabled / Disabled | `disabled` |
+| **Deleted objects retention period** | Time after an object's deletion beyond which it is permanently deleted. | 1, 3, 6, 12, 24, 36 or 60 months | 3 months |
+
+The cleanup runs **every night at 02:00** through the Laravel scheduler (command `mercator:db-cleanup`), so the scheduler must be running (`php artisan schedule:run` launched every minute by cron, or `schedule:work`). The tab footer shows the date and result of the last run.
+
+The deleted objects purge:
+
+* applies to every cartography object, **except users and roles**, which stay in the trash;
+* is **irreversible**: a purged object can no longer be restored;
+* also deletes the object's links to other objects (pivot tables) and its dependent data (for instance an application's events). For a document, the file is also removed from disk;
+* clears the reference to the purged object in objects that still pointed to it (for instance a workstation's building);
+* **skips** an object that is still a mandatory reference of another object (for instance the source entity of a relation that is not deleted). It is processed again on the following runs, once the reference is gone.
+
+The purge itself does not create audit log entries.
+
+The command can also be run manually; the `--dry-run` option shows what would be deleted without deleting anything:
+
+```bash
+php artisan mercator:db-cleanup --dry-run
+```
 
 ---
 
@@ -111,3 +144,5 @@ A **Check** button triggers an integrity verification of all documents: Mercator
 | CPE          | CPE Guesser URL | Endpoint of the [cpe-guesser](https://github.com/vulnerability-lookup/cpe-guesser) service | — |
 | CVE          | CVE Provider URL | Endpoint of the [vulnerability-lookup](https://github.com/vulnerability-lookup/vulnerability-lookup) provider | — |
 | Documents    | — | Read-only: document count, total size, integrity check | — |
+| Cleanup | Audit log purge | Deletes log entries older than the retention period | `disabled`, 12 months |
+| Cleanup | Deleted objects purge | Permanently deletes objects deleted longer ago than the retention period | `disabled`, 3 months |

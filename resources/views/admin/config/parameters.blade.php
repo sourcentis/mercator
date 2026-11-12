@@ -52,6 +52,15 @@
         </button>
     </li>
     <li class="nav-item" role="presentation">
+        <button class="nav-link fw-bold {{ $tab === 'cleanup' ? 'active' : '' }}"
+                id="tab-cleanup-btn" data-bs-toggle="tab" data-bs-target="#tab-cleanup"
+                type="button" role="tab"
+                aria-controls="tab-cleanup" aria-selected="{{ $tab === 'cleanup' ? 'true' : 'false' }}">
+            <i class="fas fa-broom me-1"></i>
+            {{ trans('cruds.configuration.cleanup.title_short') }}
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
         <button class="nav-link fw-bold {{ $tab === 'cve' ? 'active' : '' }}"
                 id="tab-cve-btn" data-bs-toggle="tab" data-bs-target="#tab-cve"
                 type="button" role="tab"
@@ -319,6 +328,98 @@
         </form>
 
     </div>{{-- /tab-cert --}}
+
+    {{-- ================================================================== --}}
+    {{-- TAB : Nettoyage de la base de données                              --}}
+    {{-- ================================================================== --}}
+    <div class="tab-pane fade {{ $tab === 'cleanup' ? 'show active' : '' }}"
+         id="tab-cleanup" role="tabpanel" aria-labelledby="tab-cleanup-btn">
+
+        <form method="POST" action="{{ route('admin.config.parameters') }}">
+            @method('PUT')
+            @csrf
+            <input type="hidden" name="active_tab" value="cleanup">
+
+            <div class="card">
+                <div class="card-body">
+                    <p class="text-muted mb-0">
+                        {{ trans('cruds.configuration.cleanup.help') }}
+                    </p>
+                </div>
+
+                @foreach ([
+                    'audit_logs' => ['enabled' => $cleanup_audit_logs_enabled, 'retention' => $cleanup_audit_logs_retention],
+                    'deleted_objects' => ['enabled' => $cleanup_deleted_objects_enabled, 'retention' => $cleanup_deleted_objects_retention],
+                ] as $key => $item)
+                <div class="card-body border-top">
+                    <h6 class="fw-bold mb-3">{{ trans('cruds.configuration.cleanup.'.$key) }}</h6>
+                    <div class="form-group mb-3">
+                        <label class="d-block mb-1">
+                            {{ trans('cruds.configuration.cleanup.'.$key.'_helper') }}
+                        </label>
+                        <div class="form-check form-switch">
+                            <input name="{{ $key }}_enabled" id="{{ $key }}_enabled"
+                                   type="checkbox" class="form-check-input"
+                                   {{ $item['enabled'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="{{ $key }}_enabled">
+                                {{ trans('cruds.configuration.cleanup.'.$key.'_enabled') }}
+                            </label>
+                        </div>
+                    </div>
+                    <fieldset id="fieldset-{{ $key }}"
+                              {{ $item['enabled'] ? '' : 'disabled' }}
+                              class="{{ $item['enabled'] ? '' : 'opacity-50' }}">
+                        <div class="col-sm-6 col-md-4 col-lg-3">
+                            <label class="form-label" for="{{ $key }}_retention">
+                                {{ trans('cruds.configuration.cleanup.retention') }}
+                            </label>
+                            <select name="{{ $key }}_retention" id="{{ $key }}_retention"
+                                    class="form-control select2 @error($key.'_retention') is-invalid @enderror"
+                                    data-allow-clear="false"
+                                    {{ $item['enabled'] ? '' : 'disabled' }}>
+                                @foreach ($cleanup_retention_options as $months)
+                                    <option value="{{ $months }}" {{ (int) old($key.'_retention', $item['retention']) === $months ? 'selected' : '' }}>
+                                        {{ trans_choice('cruds.configuration.cleanup.months', $months, ['count' => $months]) }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error($key.'_retention')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </fieldset>
+                </div>
+                @endforeach
+
+                <div class="card-footer text-muted small">
+                    {{ trans('cruds.configuration.cleanup.schedule') }}
+                    —
+                    {{ trans('cruds.configuration.cleanup.last_run') }} :
+                    @if ($cleanup_last_run)
+                        {{ $cleanup_last_run['date'] }}
+                        @isset($cleanup_last_run['audit_logs'])
+                            · {{ trans('cruds.configuration.cleanup.last_run_logs', ['count' => $cleanup_last_run['audit_logs']]) }}
+                        @endisset
+                        @isset($cleanup_last_run['deleted_objects'])
+                            · {{ trans('cruds.configuration.cleanup.last_run_objects', ['count' => $cleanup_last_run['deleted_objects']]) }}
+                        @endisset
+                        @if (($cleanup_last_run['skipped_objects'] ?? 0) > 0)
+                            · {{ trans('cruds.configuration.cleanup.last_run_skipped', ['count' => $cleanup_last_run['skipped_objects']]) }}
+                        @endif
+                    @else
+                        {{ trans('global.never') }}
+                    @endif
+                </div>
+            </div>
+
+            <div class="form-group mt-3">
+                <button class="btn btn-success" type="submit" name="action" value="save">
+                    <i class="fas fa-save me-1"></i>{{ trans('global.save') }}
+                </button>
+            </div>
+        </form>
+
+    </div>{{-- /tab-cleanup --}}
 
     {{-- ================================================================== --}}
     {{-- TAB 3 : CVE                                                         --}}
@@ -1056,11 +1157,15 @@
         cb.addEventListener('change', function () {
             fs.disabled = !cb.checked;
             fs.classList.toggle('opacity-50', !cb.checked);
+            // Select2 ne suit pas l'état hérité du fieldset : on désactive le select lui-même.
+            fs.querySelectorAll('select').forEach(function (s) { s.disabled = !cb.checked; });
             if (btn) btn.disabled = !cb.checked;
         });
     }
     bindNotifToggle('reminders_enabled',    'fieldset-reminders',    'tab-reminders',    'test_reminder');
     bindNotifToggle('modification_enabled', 'fieldset-modification', 'tab-notifications', 'test_modification');
+    bindNotifToggle('audit_logs_enabled',      'fieldset-audit_logs',      'tab-cleanup', null);
+    bindNotifToggle('deleted_objects_enabled', 'fieldset-deleted_objects', 'tab-cleanup', null);
 })();
 </script>
 @endsection

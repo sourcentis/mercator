@@ -23,6 +23,12 @@ return [
         'application_documents' => false,
         'max_nodes' => 500,
     ],
+    'cleanup' => [
+        'audit_logs_enabled' => false,
+        'audit_logs_retention' => 12,
+        'deleted_objects_enabled' => false,
+        'deleted_objects_retention' => 3,
+    ],
     'cpe' => [
         'guesser' => 'https://cpe-guesser.cve-search.org',
     ],
