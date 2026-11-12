@@ -17,7 +17,7 @@
 
 @section('scripts')
 @vite(['resources/js/graphviz.js'])
-<script>
+<script @nonce>
 document.addEventListener('graphvizReady', () => {
     document.getElementById("graph").innerHTML = window.graphviz.layout(
         `digraph {

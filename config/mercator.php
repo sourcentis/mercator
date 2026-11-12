@@ -18,10 +18,25 @@ return [
         'provider' => 'https://vulnerability.circl.lu',
         'guesser' => 'https://cpe-guesser.cve-search.org',
     ],
+    // Content Security Policy (App\Http\Middleware\SecurityHeaders)
+    //   enforce     : la politique est appliquée (Content-Security-Policy) — défaut
+    //   report-only : envoyée en Content-Security-Policy-Report-Only : les violations sont
+    //                 journalisées (storage/logs/security-*.log) sans rien bloquer.
+    //                 Repli immédiat si une page casse en production (CSP_MODE=report-only).
+    //   off         : aucun header CSP
+    'csp' => [
+        'mode' => env('CSP_MODE', 'enforce'),
+    ],
     'parameters' => [
         'security_need_auth' => false,
         'application_documents' => false,
         'max_nodes' => 500,
+    ],
+    'cleanup' => [
+        'audit_logs_enabled' => false,
+        'audit_logs_retention' => 12,
+        'deleted_objects_enabled' => false,
+        'deleted_objects_retention' => 3,
     ],
     'cpe' => [
         'guesser' => 'https://cpe-guesser.cve-search.org',

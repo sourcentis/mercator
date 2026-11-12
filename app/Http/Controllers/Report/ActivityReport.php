@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Report;
 // GDPR
 // ecosystem
 use App\Models\DataProcessing;
+use App\Services\Report\WordHelper;
 use Carbon\Carbon;
 use Gate;
-use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
@@ -199,14 +199,15 @@ class ActivityReport extends ReportController
         }
 
         // Filename
-        $filepath = storage_path('app/reports/register-'.Carbon::today()->format('Ymd').'.docx');
+        // uniqid() : deux exports simultanés ne doivent pas écrire (ni supprimer) le même fichier
+        $filepath = storage_path('app/reports/register-'.Carbon::today()->format('Ymd').'-'.uniqid().'.docx');
 
         // Saving the document as Word2007 file.
-        $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
-
-        $objWriter->save($filepath);
+        WordHelper::saveDocx($phpWord, $filepath);
 
         // return
-        return response()->download($filepath)->deleteFileAfterSend(true);
+        return response()
+            ->download($filepath, 'register-'.Carbon::today()->format('Ymd').'.docx')
+            ->deleteFileAfterSend(true);
     }
 }

@@ -198,7 +198,7 @@
 @section('scripts')
 @vite(['resources/js/graphviz.js'])
 
-<script>
+<script @nonce>
 let dotSrc = @json($dotSrc);
 
 // Select2 déclenche un événement jQuery : on l'écoute via jQuery, une fois

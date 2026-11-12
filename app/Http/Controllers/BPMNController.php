@@ -10,6 +10,7 @@ use App\Models\MacroProcessus;
 use App\Models\Operation;
 use App\Models\Process;
 use App\Models\Task;
+use App\Support\TrashMode;
 use Gate;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -182,7 +183,7 @@ class BPMNController extends Controller
     {
         abort_if(Gate::denies('graph_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $graph = Graph::query()->find($request->id);
+        $graph = $this->findForDisplay($request->id);
 
         abort_if($graph->class !== 2, Response::HTTP_NOT_ACCEPTABLE, '406 Not a graph');
 
@@ -231,7 +232,22 @@ class BPMNController extends Controller
                 'tasks',
                 'actors',
                 'informations'
-            ));
+            ) + [
+                // Bandeau « objet supprimé » et bouton de restauration (admin/trash/_banner)
+                'trashObject' => $graph->trashed() ? $graph : null,
+            ]);
+    }
+
+    /**
+     * Graphe à afficher : en mode corbeille, les graphes supprimés sont aussi consultables
+     * (fiche et aperçu dans la liste), comme les fiches résolues par TrashModeMiddleware.
+     */
+    private function findForDisplay(mixed $id): Graph
+    {
+        /** @var Graph */
+        return Graph::query()
+            ->when(TrashMode::active(), fn ($query) => $query->withTrashed())
+            ->findOrFail($id);
     }
 
     private function getCellUrls(string $xmlString): array
@@ -406,7 +422,7 @@ class BPMNController extends Controller
     {
         abort_if(Gate::denies('graph_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $graph = Graph::query()->findOrFail($request->id);
+        $graph = $this->findForDisplay($request->id);
 
         abort_if($graph->class !== 2, Response::HTTP_NOT_ACCEPTABLE, '406 Not BPMN');
 

@@ -431,6 +431,9 @@ class InformationSystemSection implements ReportSection
             }
 
             $helper->addHTMLRow($table, trans('cruds.information.fields.constraints'), $information->constraints);
+            $helper->addTextRow($table, trans('cruds.information.fields.retention_period'), $information->retention_period);
+            $helper->addTextRow($table, trans('cruds.information.fields.final_disposition'), $information->final_disposition);
+            $helper->addHTMLRow($table, trans('cruds.information.fields.retention_notes'), $information->retention_notes);
         }
     }
 

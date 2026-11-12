@@ -27,6 +27,7 @@ export default defineConfig({
                 'resources/charts/chart-maturity.js',
                 'resources/charts/chart-relation.js',
                 'resources/charts/chart-patching.js',
+                'resources/charts/chart-matrix.js',
                 // Mapping
                 'resources/css/mapping.css',
                 // D3 / Viz

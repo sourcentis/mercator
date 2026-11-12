@@ -114,7 +114,7 @@ LIMIT 100"></textarea>
 
 @section('scripts')
 @vite(['resources/js/sql-parser.js'])
-<script>
+<script @nonce>
 document.addEventListener('DOMContentLoaded', function () {
 
     const editor = document.getElementById('query-editor');

@@ -9,7 +9,7 @@ class UpdateInformationRequest extends BaseFormRequest
 {
     use ValidatesIcon;
 
-    protected array $htmlFields = ['description', 'constraints'];
+    protected array $htmlFields = ['description', 'constraints', 'retention_notes'];
 
     public function authorize(): bool
     {
@@ -47,6 +47,20 @@ class UpdateInformationRequest extends BaseFormRequest
             ],
             'children.*' => [
                 'integer',
+            ],
+            'retention_period' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+            'final_disposition' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+            'retention_notes' => [
+                'nullable',
+                'string',
             ],
             'security_need' => [
                 'nullable',

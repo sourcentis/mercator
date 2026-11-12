@@ -27,10 +27,9 @@
 @endsection
 
 @section('scripts')
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix@1.3.0/dist/chartjs-chart-matrix.min.js"></script>
+@vite(['resources/charts/chart-matrix.js'])
 
-<script>
+<script @nonce>
 document.addEventListener('DOMContentLoaded', function () {
     const canvas = document.getElementById('ipv4Heatmap');
     const ctx = canvas.getContext('2d');

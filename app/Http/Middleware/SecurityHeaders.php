@@ -4,30 +4,36 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Vite;
 use Random\RandomException;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class SecurityHeaders
 {
+    /** Nom du groupe Reporting API (header Reporting-Endpoints / directive report-to). */
+    private const REPORT_GROUP = 'csp-endpoint';
+
     /**
      * @throws RandomException
      */
     public function handle(Request $request, Closure $next): mixed
     {
-        // TODO : enable CSP
+        $mode = config('mercator.csp.mode', 'enforce');
+        $cspEnabled = in_array($mode, ['report-only', 'enforce'], true);
 
-        // Le nonce doit être blindé AVANT $next() car la vue est rendue dans $next()
-        // $nonce = base64_encode(random_bytes(16));
-        // app()->instance('csp-nonce', $nonce);
-
-        // Transmettre le même nonce au plugin Vite
-        // → il l'ajoutera automatiquement sur les <script> et <link> qu'il génère
-        // Vite::useCspNonce($nonce);
+        $nonce = null;
+        if ($cspEnabled) {
+            // Le nonce doit être fixé AVANT $next() : la vue est rendue dans $next().
+            // Vite l'ajoute automatiquement aux <script>/<link> générés par @vite ;
+            // les scripts inline des vues le récupèrent via @nonce (Vite::cspNonce()).
+            $nonce = base64_encode(random_bytes(16));
+            Vite::useCspNonce($nonce);
+        }
 
         $response = $next($request);
 
-        // Les réponses binaires et streams ne supportent pas l'ajout de headers CSP
+        // Les réponses binaires et streams ne supportent pas l'ajout de headers
         if ($response instanceof BinaryFileResponse || $response instanceof StreamedResponse) {
             return $response;
         }
@@ -36,50 +42,40 @@ class SecurityHeaders
         $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
         $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
 
-        // Phase de test : Report-Only observe sans bloquer
-        // $response->headers->set('Content-Security-Policy-Report-Only', $this->buildCsp($nonce));
+        if ($cspEnabled) {
+            // enforce (défaut) bloque ; report-only se contente de journaliser les violations
+            // (storage/logs/security-*.log) — repli à utiliser si une page casse.
+            $header = $mode === 'enforce' ? 'Content-Security-Policy' : 'Content-Security-Policy-Report-Only';
 
-        // Basculer vers 'Content-Security-Policy' une fois zéro violation dans les logs
-        // $response->headers->set('Content-Security-Policy', $this->buildCsp($nonce));
+            $response->headers->set('Reporting-Endpoints', self::REPORT_GROUP.'="'.url('/csp-report').'"');
+            $response->headers->set($header, $this->buildCsp($nonce));
+        }
 
         return $response;
     }
 
-    /*
     private function buildCsp(string $nonce): string
     {
         $isDev = app()->environment('local');
 
-        // Origines Vite — IPv4 ET IPv6, sans ws:// ici
-        $viteOrigins = $isDev
-            ? 'http://localhost:5173'
-            : '';
-
-        // WebSocket HMR — uniquement pour connect-src
-        $viteWs = $isDev
-            ? 'ws://localhost:5173'
-            : '';
+        // Serveur Vite (HMR) — uniquement en local
+        $viteOrigins = $isDev ? ' http://localhost:5173' : '';
+        $viteWs = $isDev ? ' ws://localhost:5173' : '';
 
         $directives = [
             "default-src 'self'",
 
-            // Le hash couvre le script inline HMR de Vite que Vite::useCspNonce() ne peut pas nonce-ifier
-            "script-src 'self' 'nonce-{$nonce}'"
-            . ($viteOrigins ? " {$viteOrigins}" : '')
-            ,
+            // 'wasm-unsafe-eval' : @hpcc-js/wasm-graphviz (vues réseau d3-graphviz) instancie du WebAssembly
+            "script-src 'self' 'nonce-{$nonce}' 'wasm-unsafe-eval'".$viteOrigins,
 
-            // Vite sert les CSS depuis son serveur dev
-            "style-src 'self' 'unsafe-inline'"
-            . ($viteOrigins ? " {$viteOrigins}" : ''),
+            // Select2, DataTables, MaxGraph et Chart.js posent des styles inline
+            "style-src 'self' 'unsafe-inline'".$viteOrigins,
 
-            // Bootstrap Icons woff2 servi par Vite en dev
-            "font-src 'self'"
-            . ($viteOrigins ? " {$viteOrigins}" : ''),
+            // Bootstrap Icons (woff2) servi par Vite en dev ;
+            // data: : @sourcentis/bpmn-editor injecte sa police de pictogrammes BPMN en data:font/ttf
+            "font-src 'self' data:".$viteOrigins,
 
-            // WebSocket HMR uniquement ici
-            "connect-src 'self'"
-            . ($viteOrigins ? " {$viteOrigins}" : '')
-            . ($viteWs      ? " {$viteWs}"      : ''),
+            "connect-src 'self'".$viteOrigins.$viteWs,
 
             "img-src 'self' data:",
             "frame-src 'none'",
@@ -88,9 +84,12 @@ class SecurityHeaders
             "base-uri 'self'",
             "form-action 'self'",
             "frame-ancestors 'self'",
+
+            // report-uri (navigateurs actuels) + report-to (Reporting API)
+            'report-uri '.url('/csp-report'),
+            'report-to '.self::REPORT_GROUP,
         ];
 
         return implode('; ', $directives);
     }
-    */
 }

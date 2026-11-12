@@ -63,6 +63,12 @@
                         <th data-column="constraints">
                             {{ trans('cruds.information.fields.constraints') }}
                         </th>
+                        <th data-column="retention_period">
+                            {{ trans('cruds.information.fields.retention_period') }}
+                        </th>
+                        <th data-column="final_disposition">
+                            {{ trans('cruds.information.fields.final_disposition') }}
+                        </th>
                         <th>
                             &nbsp;
                         </th>
@@ -203,6 +209,12 @@
                             <td>
                                 {{ $info->constraints }}
                             </td>
+                            <td>
+                                {{ $info->retention_period }}
+                            </td>
+                            <td>
+                                {{ $info->final_disposition }}
+                            </td>
                             <td nowrap>
                                 @can('information_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.information.show', $info->id) }}">
@@ -217,7 +229,7 @@
                                 @endcanEdit
 
                                 @can('information_delete')
-                                    <form action="{{ route('admin.information.destroy', $info->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                    <form action="{{ route('admin.information.destroy', $info->id) }}" method="POST" data-confirm="{{ trans('global.areYouSure') }}" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
@@ -238,7 +250,7 @@
 @endsection
 @section('scripts')
 @parent
-<script>
+<script @nonce>
 @include('partials.datatable', array(
     'id' => '#dataTable',
             'order' => auth()->user()->hasMultiplePerimeters() ? '[[2, "asc"]]' : '[[1, "asc"]]',
@@ -246,7 +258,7 @@
     'URL' => route('admin.information.massDestroy'),
     'canDelete' => auth()->user()->can('information_delete') ? true : false,
     'serverSidePagination' => true,
-    'hiddenColumns' => ['perimeter', 'type','attributes','constraints'],
+    'hiddenColumns' => ['perimeter', 'type','attributes','constraints','retention_period','final_disposition'],
 ));
 </script>
 @endsection

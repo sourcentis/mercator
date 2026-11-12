@@ -54,7 +54,7 @@
                                 @endcanEdit
 
                                 @can('graph_delete')
-                                    <form action="{{ route('admin.graphs.destroy', $graph->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                    <form action="{{ route('admin.graphs.destroy', $graph->id) }}" method="POST" data-confirm="{{ trans('global.areYouSure') }}" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
@@ -120,7 +120,7 @@
 @endsection
 
 @section('scripts')
-<script>
+<script @nonce>
 let _nodes = new Map();
 @foreach($nodes as $node)
     _nodes.set("{{ $node['id'] }}", { type: "{{ $node['type'] }}" });
@@ -139,7 +139,7 @@ const cloneGraphId = document.getElementById('clone-graph-id');
 const placeholder  = document.getElementById('graph-placeholder');
 </script>
 
-<script>
+<script @nonce>
 @include('partials.datatable', [
     'id'        => '#dataTable',
     'title'     => trans('cruds.graph.title_singular'),
@@ -149,7 +149,7 @@ const placeholder  = document.getElementById('graph-placeholder');
 ])
 </script>
 
-<script>
+<script @nonce>
 document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('#dataTable tbody').addEventListener('click', function (e) {
         const row = e.target.closest('tr');

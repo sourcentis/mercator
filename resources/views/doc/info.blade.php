@@ -69,6 +69,21 @@
                             @endif
                         </td>
                     </tr>
+                    <tr>
+                        <td class="text-muted">{{ trans('panel.info.csp') }}</td>
+                        <td id="info-csp">
+                            {{-- Toute valeur autre que enforce / report-only désactive la CSP (cf. SecurityHeaders) --}}
+                            @php
+                                [$cspBadge, $cspLabel] = match ($cspMode) {
+                                    'enforce' => ['bg-success', 'csp_enforce'],
+                                    'report-only' => ['bg-warning text-dark', 'csp_report_only'],
+                                    default => ['bg-danger', 'csp_off'],
+                                };
+                            @endphp
+                            <span class="badge {{ $cspBadge }}">{{ $cspMode }}</span>
+                            <span class="text-muted small">{{ trans('panel.info.'.$cspLabel) }}</span>
+                        </td>
+                    </tr>
                 </table>
             </div>
         </div>
@@ -312,7 +327,7 @@
 
 @section('scripts')
 @parent
-<script>
+<script @nonce>
 document.getElementById('btn-copy-info').addEventListener('click', function () {
     function val(id) {
         var el = document.getElementById(id);
@@ -330,6 +345,7 @@ document.getElementById('btn-copy-info').addEventListener('click', function () {
         'Auth : '          + val('info-auth'),
         'Drivers : '       + val('info-drivers'),
         'Mémoire : '       + val('info-mem'),
+        'CSP : '           + val('info-csp'),
         '---',
         'Login : '         + val('info-login'),
         'Nom : '           + val('info-name'),

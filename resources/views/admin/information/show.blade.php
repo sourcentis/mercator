@@ -28,7 +28,7 @@
         @endcanEdit
 
         @can('information_delete')
-            <form action="{{ route('admin.information.destroy', $information->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+            <form action="{{ route('admin.information.destroy', $information->id) }}" method="POST" data-confirm="{{ trans('global.areYouSure') }}" style="display: inline-block;">
                 <input type="hidden" name="_method" value="DELETE">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <input type="submit" class="btn btn-danger" value="{{ trans('global.delete') }}">
@@ -198,6 +198,39 @@
                     </th>
                     <td>
                         {!! clean($information->constraints ?? '') !!}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!---------------------------------------------------------------------------------------------------->
+    <div class="card-header">
+        {{ trans('cruds.information.fields.retention') }}
+    </div>
+    <!---------------------------------------------------------------------------------------------------->
+    <div class="card-body">
+        <table class="table table-bordered table-striped table-report">
+            <tbody>
+                <tr>
+                    <th width="10%">
+                        {{ trans('cruds.information.fields.retention_period') }}
+                    </th>
+                    <td width="40%">
+                        {{ $information->retention_period }}
+                    </td>
+                    <th width="10%">
+                        {{ trans('cruds.information.fields.final_disposition') }}
+                    </th>
+                    <td width="40%">
+                        {{ $information->final_disposition }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {{ trans('cruds.information.fields.retention_notes') }}
+                    </th>
+                    <td colspan="3">
+                        {!! clean($information->retention_notes ?? '') !!}
                     </td>
                 </tr>
             </tbody>

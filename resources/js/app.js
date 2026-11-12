@@ -53,6 +53,44 @@ select2($);
 // Vérifier que jQuery est bien chargé
 window.$ = window.jQuery = $;
 
+// ========================================
+// Comportements déclaratifs (remplacent les handlers inline on*="…", interdits par la CSP).
+// Délégation jQuery volontaire : Select2 déclenche 'change' via $.trigger(), qu'un
+// addEventListener natif ne reçoit pas.
+
+// <form data-confirm="Message ?"> : confirmation avant envoi
+$(document).on('submit', 'form[data-confirm]', function (event) {
+    if (!window.confirm(this.dataset.confirm)) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+    }
+});
+
+// <select data-autosubmit> : envoie le formulaire au changement
+//   data-autosubmit-clear="champ"     vide d'abord ce champ du formulaire (filtre dépendant)
+//   data-autosubmit-if-empty="champ"  met ce champ à '1' quand la sélection est vide
+$(document).on('change', '[data-autosubmit]', function () {
+    const form = this.form;
+    if (!form) {
+        return;
+    }
+    const clear = this.dataset.autosubmitClear;
+    if (clear && form.elements[clear]) {
+        form.elements[clear].value = '';
+    }
+    const ifEmpty = this.dataset.autosubmitIfEmpty;
+    if (ifEmpty && form.elements[ifEmpty] && this.value === '') {
+        form.elements[ifEmpty].value = '1';
+    }
+    form.submit();
+});
+
+// <a data-history-back> : retour à la page précédente
+$(document).on('click', '[data-history-back]', function (event) {
+    event.preventDefault();
+    window.history.back();
+});
+
 // Permet d'utiliser DynamicSelect dans la Blade
 window.DynamicSelect = DynamicSelect;
 window.bootstrap = bootstrap;

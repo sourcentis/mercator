@@ -9,7 +9,7 @@
       - bâtiment choisi    → site auto-sélectionné, baies filtrées sur ce bâtiment
       - baie choisie       → bâtiment et site auto-sélectionnés
 --}}
-<script>
+<script @nonce>
     document.addEventListener('DOMContentLoaded', function () {
         'use strict';
 

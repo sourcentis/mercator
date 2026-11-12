@@ -26,7 +26,7 @@
                             <td style="width: 50%;">
                                 {{ trans("cruds.site.title_singular") }} :
                                 <select name="site" id="site"
-                                        onchange="this.form.building.value='';this.form.submit()"
+                                        data-autosubmit data-autosubmit-clear="building"
                                         class="form-control select2">
                                     <option value="">-- All sites --</option>
                                     @foreach($all_sites as $id => $name)
@@ -36,7 +36,7 @@
                             </td>
                             <td style="width: 50%;">
                                 {{ trans("cruds.building.title_singular") }} :
-                                <select name="building" id="building" onchange="this.form.submit()"
+                                <select name="building" id="building" data-autosubmit
                                         class="form-control select2">
                                     <option value="">-- All buildings --</option>
                                     @if ($all_buildings!=null)
@@ -386,7 +386,7 @@
 
 @section('scripts')
 @vite(['resources/js/graphviz.js'])
-<script>
+<script @nonce>
 let dotSrc = @json($dotSrc);
 
 document.addEventListener('graphvizReady', () => {

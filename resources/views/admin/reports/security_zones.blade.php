@@ -20,7 +20,7 @@
                             <td>
                                 {{ trans('cruds.zone.title') }} :
                                 <select name="zones[]" id="zones" class="form-control select2" multiple
-                                        onchange="this.form.submit()">
+                                        data-autosubmit>
                                     @foreach($allZones as $id => $name)
                                         <option value="{{ $id }}" {{ in_array($id, $selectedIds) ? 'selected' : '' }}>{{ $name }}</option>
                                     @endforeach
@@ -129,7 +129,7 @@
 
 @section('scripts')
 @vite(['resources/js/graphviz.js'])
-<script>
+<script @nonce>
 let dotSrc = @json($dotSrc);
 
 document.addEventListener('graphvizReady', () => {

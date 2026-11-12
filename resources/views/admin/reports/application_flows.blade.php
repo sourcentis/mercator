@@ -32,7 +32,7 @@
                                 </div>
                                 <select class="form-control select2 " name="applicationBlocks[]"
                                         class="form-control select2"
-                                        id="applicationBlocks" multiple onchange="this.form.submit();">
+                                        id="applicationBlocks" multiple data-autosubmit>
                                     @foreach($all_applicationBlocks as $id => $name)
                                         <option value="{{ $id }}" {{ in_array($id, Session::get('applicationBlocks')) ? 'selected' : '' }}>{{ $name }}</option>
                                     @endforeach
@@ -47,7 +47,7 @@
                                           style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
                                 </div>
                                 <select class="form-control select2 " name="applications[]" id="applications"
-                                        multiple onchange="this.form.submit();" class="form-control select2">
+                                        multiple data-autosubmit class="form-control select2">
                                     @foreach($all_applications as $id => $name)
                                         <option value="{{ $id }}" {{ in_array($id, Session::get('applications')) ? 'selected' : '' }}>{{ $name }}</option>
                                     @endforeach
@@ -62,7 +62,7 @@
                                           style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
                                 </div>
                                 <select class="form-control select2 " name="databases[]" id="databases" multiple
-                                        onchange="this.form.submit();" class="form-control select2">
+                                        data-autosubmit class="form-control select2">
                                     @foreach($all_databases as $id => $name)
                                         <option value="{{ $id }}" {{ in_array($id, Session::get('databases')) ? 'selected' : '' }}>{{ $name }}</option>
                                     @endforeach
@@ -237,7 +237,7 @@
 
 @section('scripts')
     @vite(['resources/js/graphviz.js'])
-    <script>
+    <script @nonce>
         let dotSrc = @json($dotSrc);
 
         document.addEventListener('graphvizReady', () => {

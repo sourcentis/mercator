@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Console\Commands\DatabaseCleanup;
 use App\Http\Controllers\Controller;
 use App\Models\Document;
 use App\Models\MonarcSyncItem;
@@ -15,11 +16,15 @@ use App\Support\PerimeterSettings;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
 class ConfigurationController extends Controller
 {
+    /** Durées de conservation proposées pour le nettoyage de la base (en mois). */
+    public const CLEANUP_RETENTION_MONTHS = [1, 3, 6, 12, 24, 36, 60];
+
     /**
      * Page de configuration unifiée — charge tous les onglets.
      * Lit directement depuis le fichier pour garantir les valeurs à jour
@@ -74,6 +79,13 @@ class ConfigurationController extends Controller
             'monarc_synced_items_count' => isset($monarcSyncState['anr_id'])
                 ? MonarcSyncItem::query()->where('anr_id', $monarcSyncState['anr_id'])->count()
                 : 0,
+            // Nettoyage de la base
+            'cleanup_audit_logs_enabled' => (bool) ($cfg['cleanup']['audit_logs_enabled'] ?? false),
+            'cleanup_audit_logs_retention' => (int) ($cfg['cleanup']['audit_logs_retention'] ?? 12),
+            'cleanup_deleted_objects_enabled' => (bool) ($cfg['cleanup']['deleted_objects_enabled'] ?? false),
+            'cleanup_deleted_objects_retention' => (int) ($cfg['cleanup']['deleted_objects_retention'] ?? 3),
+            'cleanup_retention_options' => self::CLEANUP_RETENTION_MONTHS,
+            'cleanup_last_run' => json_decode((string) Parameter::getValue(DatabaseCleanup::LAST_RUN_PARAMETER), true),
             // Documents
             'count' => Document::query()->count(),
             'sum' => Document::query()->sum('size'),
@@ -106,6 +118,7 @@ class ConfigurationController extends Controller
             'reminders' => $this->handleReminders($action, $request),
             'notifications' => $this->handleModification($action, $request),
             'monarc' => $this->handleMonarc($request),
+            'cleanup' => $this->handleCleanup($request),
             default => $this->handleGeneral($request),
         };
 
@@ -265,6 +278,28 @@ class ConfigurationController extends Controller
             $cfg['cartography']['notifier_body'] = $request->input('modification_body');
         }
 
+        $this->writeConfigFile($cfg);
+
+        return [trans('cruds.configuration.saved'), true];
+    }
+
+    private function handleCleanup(Request $request): array
+    {
+        // Une durée n'est pas transmise quand sa purge est désactivée (fieldset disabled) :
+        // la valeur précédente est alors conservée.
+        $validated = $request->validate([
+            'audit_logs_retention' => ['nullable', 'integer', Rule::in(self::CLEANUP_RETENTION_MONTHS)],
+            'deleted_objects_retention' => ['nullable', 'integer', Rule::in(self::CLEANUP_RETENTION_MONTHS)],
+        ]);
+
+        $cfg = $this->readConfigFile();
+        $current = $cfg['cleanup'] ?? [];
+        $cfg['cleanup'] = [
+            'audit_logs_enabled' => $request->boolean('audit_logs_enabled'),
+            'audit_logs_retention' => (int) ($validated['audit_logs_retention'] ?? $current['audit_logs_retention'] ?? 12),
+            'deleted_objects_enabled' => $request->boolean('deleted_objects_enabled'),
+            'deleted_objects_retention' => (int) ($validated['deleted_objects_retention'] ?? $current['deleted_objects_retention'] ?? 3),
+        ];
         $this->writeConfigFile($cfg);
 
         return [trans('cruds.configuration.saved'), true];

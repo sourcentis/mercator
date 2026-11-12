@@ -53,6 +53,8 @@ class InformationController extends Controller
         $sensitivity_list = Information::select('sensitivity')->where('sensitivity', '<>', null)->distinct()->orderBy('sensitivity')->pluck('sensitivity');
         $administrator_list = Information::select('administrator')->where('administrator', '<>', null)->distinct()->orderBy('administrator')->pluck('administrator');
         $type_list = Information::query()->select('type')->where('type', '<>', null)->distinct()->orderBy('type')->pluck('type');
+        $retention_period_list = Information::query()->select('retention_period')->whereNotNull('retention_period')->distinct()->orderBy('retention_period')->pluck('retention_period');
+        $final_disposition_list = Information::query()->select('final_disposition')->whereNotNull('final_disposition')->distinct()->orderBy('final_disposition')->pluck('final_disposition');
         $attributes_list = $this->getAttributes();
         $icons = Information::select('icon_id')->whereNotNull('icon_id')->orderBy('icon_id')->distinct()->pluck('icon_id');
 
@@ -65,6 +67,8 @@ class InformationController extends Controller
             'information_list',
             'type_list',
             'attributes_list',
+            'retention_period_list',
+            'final_disposition_list',
             'icons'
         ));
     }
@@ -102,6 +106,8 @@ class InformationController extends Controller
         $sensitivity_list = Information::select('sensitivity')->where('sensitivity', '<>', null)->distinct()->orderBy('sensitivity')->pluck('sensitivity');
         $administrator_list = Information::select('administrator')->where('administrator', '<>', null)->distinct()->orderBy('administrator')->pluck('administrator');
         $type_list = Information::query()->select('type')->where('type', '<>', null)->distinct()->orderBy('type')->pluck('type');
+        $retention_period_list = Information::query()->select('retention_period')->whereNotNull('retention_period')->distinct()->orderBy('retention_period')->pluck('retention_period');
+        $final_disposition_list = Information::query()->select('final_disposition')->whereNotNull('final_disposition')->distinct()->orderBy('final_disposition')->pluck('final_disposition');
         $attributes_list = $this->getAttributes();
         $icons = Information::select('icon_id')->whereNotNull('icon_id')->orderBy('icon_id')->distinct()->pluck('icon_id');
 
@@ -115,6 +121,8 @@ class InformationController extends Controller
             'information_list',
             'type_list',
             'attributes_list',
+            'retention_period_list',
+            'final_disposition_list',
             'icons'
         ));
     }

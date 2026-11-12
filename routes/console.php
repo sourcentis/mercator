@@ -22,6 +22,12 @@ Schedule::command('mercator:cleanup')
         logger()->error('Cleanup task failed');
     });
 
+Schedule::command('mercator:db-cleanup')
+    ->name('db-cleanup-daily')
+    ->dailyAt('02:00')
+    ->withoutOverlapping()
+    ->runInBackground();
+
 Schedule::command('mercator:certificate-expiration')
     ->name('certificate-expiration-daily')
     ->daily()

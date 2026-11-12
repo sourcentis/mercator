@@ -131,7 +131,7 @@
 
                                 @can('physical_router_delete')
                                     <form action="{{ route('admin.physical-routers.destroy', $physicalRouter->id) }}"
-                                          method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
+                                          method="POST" data-confirm="{{ trans('global.areYouSure') }}"
                                           style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -153,7 +153,7 @@
 
 @section('scripts')
     @parent
-    <script>
+    <script @nonce>
         @include('partials.datatable', array(
             'id' => '#dataTable',
             'order' => auth()->user()->hasMultiplePerimeters() ? '[[2, "asc"]]' : '[[1, "asc"]]',

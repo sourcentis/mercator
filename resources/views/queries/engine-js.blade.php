@@ -14,7 +14,7 @@
     $saveFormId  = $saveFormId  ?? null;
     $createRoute = $createRoute ?? null;
 @endphp
-<script>
+<script @nonce>
 document.addEventListener('DOMContentLoaded', function () {
 (function () {
     'use strict';

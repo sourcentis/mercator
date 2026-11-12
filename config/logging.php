@@ -60,6 +60,14 @@ return [
             'days' => 14,
         ],
 
+        // Violations CSP remontées par les navigateurs (route csp.report)
+        'security' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/security.log'),
+            'level' => 'warning',
+            'days' => 30,
+        ],
+
         'slack' => [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),

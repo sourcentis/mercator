@@ -84,7 +84,7 @@
                                 @endcanEdit
                                 @can('zone_delete')
                                     <form action="{{ route('admin.zones.destroy', $zone->id) }}" method="POST"
-                                          onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
+                                          data-confirm="{{ trans('global.areYouSure') }}"
                                           style="display: inline-block;">
                                         @method('DELETE')
                                         @csrf
@@ -106,7 +106,7 @@
 
 @section('scripts')
     @parent
-    <script>
+    <script @nonce>
         @include('partials.datatable', [
             'id'        => '#dataTable',
             'order' => auth()->user()->hasMultiplePerimeters() ? '[[2, "asc"]]' : '[[1, "asc"]]',

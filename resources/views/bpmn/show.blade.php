@@ -19,7 +19,7 @@
 
         @can('graph_delete')
             <form action="{{ route('admin.bpmn.destroy', $graph->id) }}" method="POST"
-                  onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                  data-confirm="{{ trans('global.areYouSure') }}" style="display: inline-block;">
                 <input type="hidden" name="_method" value="DELETE">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <input type="submit" class="btn btn-danger" value="{{ trans('global.delete') }}">
@@ -229,7 +229,7 @@
 @section('scripts')
 @vite('resources/BPMN/bpmn-show.ts')
 
-<script>
+<script @nonce>
 document.addEventListener("DOMContentLoaded", function () {
 @if (!empty($graph->content))
     const xmlContent = @json($graph->content);

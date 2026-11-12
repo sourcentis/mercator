@@ -221,7 +221,7 @@
 @section('scripts')
 @vite(['resources/js/graphviz.js'])
 
-<script>
+<script @nonce>
     // ─── Paramètres courants injectés par Laravel (URL → JS) ──────────────────
     const PARAMS = {
         node:      @json(request('node')),

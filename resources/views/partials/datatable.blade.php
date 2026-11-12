@@ -184,7 +184,7 @@ table = $('{{ $id }}').DataTable({
                 columns: ':not(:first-child):not(:last-child)'
               }
           },
-          @if ($canDelete)
+          @if ($canDelete && ! \App\Support\TrashMode::active())
           {
                 text: "{{ trans('global.datatables.delete') }}",
                 className: 'btn-danger',

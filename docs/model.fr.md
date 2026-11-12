@@ -406,7 +406,9 @@ erDiagram
         int security_need_t
         int security_need_auth
         text constraints
-        string retention
+        string retention_period
+        string final_disposition
+        text retention_notes
         list parents
         list children
         list processes
@@ -683,7 +685,9 @@ Les informations peuvent former des hiérarchies parent-enfant via des liaisons 
 | security_need_t    | int          | Traçabilité                                          |
 | security_need_auth | int          | Authenticité                                         |
 | constraints        | longtext     | Contraintes légales et réglementaires                |
-| retention          | varchar(255) | Durée de rétention de l'information                  |
+| retention_period   | varchar(255) | Durée de rétention (durée d'utilité administrative)  |
+| final_disposition  | varchar(255) | Sort final une fois la durée de rétention atteinte   |
+| retention_notes    | longtext     | Observations sur la rétention (critères de tri...)   |
 | parents            | List int [,] | Liste d'id des informations parentes liées           |
 | children           | List int [,] | Liste d'id des informations enfants liées            |
 | processes          | List int [,] | Liste d'id des processus utilisant cette information |
@@ -691,7 +695,16 @@ Les informations peuvent former des hiérarchies parent-enfant via des liaisons 
 | updated_at         | timestamp    | Date de mise à jour                                  |
 | deleted_at         | timestamp    | Date de suppression                                  |
 
-Le champ "retention" n'est pas utilisé pour le moment et est donc absent de l'application.
+La section « Rétention » documente l'archivage légal de l'information :
+
+- la durée de rétention ou durée d'utilité administrative (DUA) ("retention_period"), ex. : « 6 mois » ou « Durée de la
+  convention + 5 ans » ;
+- le sort final réservé à l'information une fois cette durée atteinte ("final_disposition"), ex. : destruction, tri,
+  versement aux archives ;
+- des observations libres ("retention_notes") décrivant les critères de tri ou toute autre précision utile.
+
+Dans l'application, la durée de rétention et le sort final sont des listes déroulantes proposant les valeurs déjà
+utilisées, dans lesquelles une nouvelle valeur peut aussi être saisie.
 
 Dans l'application, le besoin en authenticité est masqué par défaut. Il est obligatoire dans le cas
 d'une entité soumise à la directive UE 2022/2554 (DORA).  

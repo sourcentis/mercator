@@ -89,7 +89,7 @@
                                     @can('query_delete')
                                         <form action="{{ route('admin.queries.destroy', $q->id) }}"
                                               method="POST"
-                                              onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
+                                              data-confirm="{{ trans('global.areYouSure') }}"
                                               style="display:inline-block;">
                                             @csrf
                                             @method('DELETE')
@@ -129,7 +129,7 @@
                     @can('query_delete')
                         <form id="form-panel-destroy" action="#" method="POST"
                               style="display:inline-block;"
-                              onsubmit="return confirm('{{ trans('global.areYouSure') }}');">
+                              data-confirm="{{ trans('global.areYouSure') }}">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-xs btn-danger">
@@ -167,7 +167,7 @@
 @section('scripts')
 @vite(['resources/js/graphviz.js', 'resources/js/sql-parser.js'])
 @include('queries.engine-js')
-<script>
+<script @nonce>
 
 @include('partials.datatable', [
     'id'         => '#dataTable',

@@ -46,15 +46,19 @@ Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPass
 Route::get('login/keycloak', [SsoController::class, 'redirectToKeycloak'])->name('login.keycloak');
 Route::get('login/keycloak/callback', [SsoController::class, 'handleKeycloakCallback'])->name('keycloak.callback');
 
-// CSP
+// CSP : rapports de violation envoyés par le navigateur (report-uri / report-to).
+// Public et sans CSRF par nature (c'est le navigateur qui poste) : volume limité et contenu tronqué.
 Route::post('/csp-report', function (Request $request) {
     Log::channel('security')->warning('CSP Violation', [
-        'report' => $request->getContent(),
+        'report' => mb_substr($request->getContent(), 0, 4096),
         'ip' => $request->ip(),
+        'user_agent' => mb_substr((string) $request->userAgent(), 0, 255),
     ]);
 
     return response()->noContent();
-})->withoutMiddleware([VerifyCsrfToken::class]);
+})->name('csp.report')
+    ->middleware('throttle:60,1')
+    ->withoutMiddleware([VerifyCsrfToken::class]);
 
 // Admin
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['web.protected']], function (): void {
@@ -335,6 +339,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['web.prote
     Route::get('config/parameters', [Admin\ConfigurationController::class, 'getParameters'])
         ->name('config.parameters');
     Route::put('config/parameters', [Admin\ConfigurationController::class, 'saveConfig']);
+
+    // Mode corbeille (exploration et restauration des objets supprimés)
+    Route::get('trash', [Admin\TrashController::class, 'index'])->name('trash.index');
+    Route::post('trash/enter', [Admin\TrashController::class, 'enter'])->name('trash.enter');
+    Route::post('trash/exit', [Admin\TrashController::class, 'exit'])->name('trash.exit');
+    Route::post('trash/{type}/{id}/restore', [Admin\TrashController::class, 'restore'])
+        ->whereNumber('id')->name('trash.restore');
 
     // Périmètres (cloisonnement multi-établissement)
     Route::put('config/perimeters/activation', [Admin\PerimeterController::class, 'activation'])

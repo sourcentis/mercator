@@ -66,7 +66,7 @@
                                     @endcan
                                     @can('graph_delete')
                                         <form action="{{ route('admin.bpmn.destroy', $graph->id) }}" method="POST"
-                                              onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
+                                              data-confirm="{{ trans('global.areYouSure') }}"
                                               style="display:inline-block;">
                                             <input type="hidden" name="_method" value="DELETE">
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -107,7 +107,7 @@
                         @can('graph_delete')
                             <form id="form-panel-destroy" action="#" method="POST"
                                   style="display:inline-block;"
-                                  onsubmit="return confirm('{{ trans('global.areYouSure') }}');">
+                                  data-confirm="{{ trans('global.areYouSure') }}">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <input type="submit" class="btn btn-xs btn-danger"
@@ -162,7 +162,7 @@
 @section('scripts')
     @vite('resources/BPMN/bpmn-show.ts')
 
-    <script>
+    <script @nonce>
         @include('partials.datatable', [
             'id'         => '#dataTable',
             'title'      => trans('cruds.bpmn.title_singular'),

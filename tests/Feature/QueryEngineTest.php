@@ -504,22 +504,23 @@ describe('execute – traversée de relations', function () {
         expect($pairs->count())->toBe($pairs->unique()->count());
     });
 
-    it('ignore silencieusement une relation inexistante', function () {
+    it('rejette une relation inexistante avec une erreur 422', function () {
         makeServer();
 
-        $result = $this->resolver->execute([
-            'from' => 'logical-servers',
-            'traverse' => ['relationInexistante'],
-            'output' => 'graph',
-        ]);
-
-        expect($result->nodes)->toHaveCount(1);
-        expect($result->edges)->toHaveCount(0);
-    })->todo(
-        'Le resolver appelle with([relation]) avant traverseNode : '
-        .'RelationNotFoundException levée avant le try/catch. '
-        .'Corriger execute() en filtrant les relations valides avant with().'
-    );
+        // Une faute de frappe dans le DSL doit être signalée, pas ignorée
+        // (QueryEngineIntrospector::resolveRelationMethod() → abort(422)).
+        try {
+            $this->resolver->execute([
+                'from' => 'logical-servers',
+                'traverse' => ['relationInexistante'],
+                'output' => 'graph',
+            ]);
+            $this->fail('Une HttpException 422 était attendue.');
+        } catch (HttpException $e) {
+            expect($e->getStatusCode())->toBe(422)
+                ->and($e->getMessage())->toContain('relationInexistante');
+        }
+    });
 });
 
 // ─────────────────────────────────────────────────────────────────────────────

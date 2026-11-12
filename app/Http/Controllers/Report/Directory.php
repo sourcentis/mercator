@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Report;
 
 use App\Models\Application;
+use App\Services\Report\WordHelper;
 use Carbon\Carbon;
 use Gate;
 use Illuminate\Support\Facades\DB;
-use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
@@ -241,14 +241,16 @@ class Directory extends ReportController
 
         // --- Sauvegarde du fichier
         // Filename
-        $filepath = storage_path('app/reports/directory-'.Carbon::today()->format('Ymd').'.docx');
+        // uniqid() : deux exports simultanés ne doivent pas écrire (ni supprimer) le même fichier
+        $filepath = storage_path('app/reports/directory-'.Carbon::today()->format('Ymd').'-'.uniqid().'.docx');
 
         // Saving the document as Word2007 file.
-        $writer = IOFactory::createWriter($phpWord, 'Word2007');
-        $writer->save($filepath);
+        WordHelper::saveDocx($phpWord, $filepath);
 
         // return
-        return response()->download($filepath)->deleteFileAfterSend(true);
+        return response()
+            ->download($filepath, 'directory-'.Carbon::today()->format('Ymd').'.docx')
+            ->deleteFileAfterSend(true);
     }
 
     private static function getApplicationProcessesNames(int $applicationId): string

@@ -19,7 +19,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label class="label-required">Application / Processus</label>
-                        <select class="form-control select2 {{ $errors->has('src_id') ? 'is-invalid' : '' }}" name="source" id="source" onchange="">
+                        <select class="form-control select2 {{ $errors->has('src_id') ? 'is-invalid' : '' }}" name="source" id="source">
                             <option></option>
                             <optgroup label="Processes">
                             @foreach($procs as $id => $name)
@@ -64,9 +64,9 @@
         </div>
     </div>
     <div class="form-group">
-        <button id="btn-cancel" class="btn btn-secondary" type="button"  onclick="window.location.href='/admin/security-controls'">
+        <a id="btn-cancel" class="btn btn-secondary" href="{{ route('admin.security-controls.index') }}">
             {{ trans('global.back_to_list') }}
-        </button>
+        </a>
         <button id="btn-save" class="btn btn-success" type="submit">
             {{ trans('global.save') }}
         </button>
@@ -75,7 +75,7 @@
 @endsection
 
 @section('scripts')
-<script>
+<script @nonce>
 document.addEventListener("DOMContentLoaded", function () {
     $(document.body).on("change","#source",function(){
         $(':checkbox').prop('checked', false);
