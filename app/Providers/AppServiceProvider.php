@@ -77,6 +77,14 @@ class AppServiceProvider extends ServiceProvider
         // PclZip is a pure-PHP zip implementation bundled with phpword, immune to that.
         PhpWordSettings::setZipClass(PhpWordSettings::PCLZIP);
 
+        // PclZip names its intermediate archive copies PCLZIP_TEMPORARY_DIR.uniqid('pclzip-').'.tmp'.
+        // The library default ('') puts them in the current directory — public/ under php-fpm, i.e.
+        // briefly web-reachable — and uniqid() (microsecond clock) can collide between concurrent
+        // processes. Used as a path PREFIX (not a directory): system temp dir + this process's pid.
+        if (! defined('PCLZIP_TEMPORARY_DIR')) {
+            define('PCLZIP_TEMPORARY_DIR', rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.'mercator-pclzip-'.getmypid().'-');
+        }
+
         // start Paginator
         Paginator::useBootstrap();
 
