@@ -14,7 +14,7 @@ La page des paramètres est organisée en neuf onglets : Paramètres, Périmètr
 
 Cet onglet regroupe les options de comportement générales de l'application.
 
-[<img src="/mercator/images/config-general.fr.png" width="700">](images/config-general.fr.png)
+[<img src="/mercator/fr/images/config-general.png" width="700">](images/config-general.fr.png)
 
 ### Applications
 
@@ -40,7 +40,7 @@ Cet onglet regroupe les options de comportement générales de l'application.
 
 Cet onglet active le cloisonnement de la cartographie par établissement et permet de gérer la liste des périmètres.
 
-[<img src="/mercator/images/config-perimeters.fr.png" width="700">](images/config-perimeters.fr.png)
+[<img src="/mercator/fr/images/config-perimeters.png" width="700">](images/config-perimeters.fr.png)
 
 | Élément | Description |
 |---------|-------------|
@@ -57,7 +57,7 @@ Le fonctionnement complet (rôles, sélecteur de périmètre de travail, flux in
 
 Gère la surveillance automatisée et les notifications d'expiration des certificats TLS/SSL.
 
-[<img src="/mercator/images/config-cert.fr.png" width="700">](images/config-cert.fr.png)
+[<img src="/mercator/fr/images/config-cert.png" width="700">](images/config-cert.fr.png)
 
 | Paramètre | Description | Valeurs |
 |-----------|-------------|---------|
@@ -77,7 +77,7 @@ Un bouton **Test** permet d'envoyer un e-mail de test avec la configuration en c
 
 Cet onglet active la purge automatique de la base de données. Deux purges sont disponibles ; chacune s'active indépendamment et a sa propre durée de conservation.
 
-[<img src="/mercator/images/cleanup.fr.png" width="700">](images/cleanup.fr.png)
+[<img src="/mercator/fr/images/cleanup.png" width="700">](images/cleanup.fr.png)
 
 | Paramètre | Description | Valeurs | Défaut |
 |-----------|-------------|---------|--------|
@@ -110,7 +110,7 @@ Le bouton **Explorer la corbeille** de l'onglet Nettoyage active le **mode corbe
 
 Le mode s'ouvre sur une vue d'ensemble qui indique, pour chaque type d'objet, le nombre d'objets supprimés. Les types sont regroupés par vue et présentés dans l'ordre du menu. Seuls les types dont l'utilisateur peut consulter la liste sont affichés.
 
-[<img src="/mercator/images/trash-overview.fr.png" width="700">](images/trash-overview.fr.png)
+[<img src="/mercator/fr/images/trash-overview.png" width="700">](images/trash-overview.fr.png)
 
 Tant que le mode corbeille est actif :
 
@@ -118,11 +118,11 @@ Tant que le mode corbeille est actif :
 * les listes de la cartographie (accessibles par le menu ou par la vue d'ensemble) n'affichent **que les objets supprimés** ; les objets actifs n'y apparaissent pas ;
 * chaque ligne propose les actions **Afficher** et **Restaurer** ; les actions de création, de modification et de suppression sont masquées.
 
-[<img src="/mercator/images/trash-list.fr.png" width="700">](images/trash-list.fr.png)
+[<img src="/mercator/fr/images/trash-list.png" width="700">](images/trash-list.fr.png)
 
 La fiche d'un objet supprimé indique la date de suppression et l'utilisateur qui l'a supprimé, et propose un bouton **Restaurer**.
 
-[<img src="/mercator/images/trash-show.fr.png" width="700">](images/trash-show.fr.png)
+[<img src="/mercator/fr/images/trash-show.png" width="700">](images/trash-show.fr.png)
 
 Les droits s'appliquent comme en dehors du mode corbeille :
 
@@ -141,7 +141,7 @@ Les utilisateurs et les rôles supprimés ne sont pas concernés par le mode cor
 
 Gère la recherche automatisée des vulnérabilités connues (CVE) affectant les éléments de l'inventaire.
 
-[<img src="/mercator/images/config-cve.fr.png" width="700">](images/config-cve.fr.png)
+[<img src="/mercator/fr/images/config-cve.png" width="700">](images/config-cve.fr.png)
 
 | Paramètre | Description | Valeurs |
 |-----------|-------------|---------|
@@ -170,7 +170,7 @@ Trois boutons **Test** sont disponibles :
 
 Cet onglet configure les rappels envoyés par e-mail aux cartographes lorsque des objets dont ils sont responsables n'ont pas été mis à jour depuis un certain temps.
 
-[<img src="/mercator/images/config-reminders.fr.png" width="700">](images/config-reminders.fr.png)
+[<img src="/mercator/fr/images/config-reminders.png" width="700">](images/config-reminders.fr.png)
 
 | Paramètre | Description | Défaut |
 |-----------|-------------|--------|
@@ -202,7 +202,7 @@ Voir aussi [Les cartographes](cartographers.md).
 
 Cet onglet configure les notifications envoyées par e-mail aux cartographes d'un objet lorsque celui-ci est modifié par un autre utilisateur.
 
-[<img src="/mercator/images/config-notifications.fr.png" width="700">](images/config-notifications.fr.png)
+[<img src="/mercator/fr/images/config-notifications.png" width="700">](images/config-notifications.fr.png)
 
 | Paramètre | Description | Défaut |
 |-----------|-------------|--------|
@@ -232,7 +232,7 @@ Le bouton **Tester** envoie un e-mail de test à l'adresse de copie cachée (ou,
 
 Cet onglet est **en lecture seule** et fournit une vue d'ensemble des documents stockés dans Mercator.
 
-[<img src="/mercator/images/config-documents.fr.png" width="700">](images/config-documents.fr.png)
+[<img src="/mercator/fr/images/config-documents.png" width="700">](images/config-documents.fr.png)
 
 | Information | Description |
 |-------------|-------------|
@@ -253,7 +253,7 @@ Un bouton **Vérifier** déclenche une vérification d'intégrité de tous les d
 
 Cet onglet configure la connexion à une instance MONARC Front Office, utilisée pour exporter la cartographie sous forme d'analyse de risques.
 
-[<img src="/mercator/images/config-monarc.fr.png" width="700">](images/config-monarc.fr.png)
+[<img src="/mercator/fr/images/config-monarc.png" width="700">](images/config-monarc.fr.png)
 
 | Paramètre | Description |
 |-----------|-------------|
