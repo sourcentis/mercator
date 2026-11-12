@@ -6,13 +6,15 @@ Les paramètres de configuration sont accessibles dans Mercator via :
 
 Contrairement aux variables d'environnement, ces paramètres sont stockés en base de données (les valeurs par défaut figurent dans **config/mercator.php**) et peuvent être modifiés à chaud par un administrateur, sans redémarrer l'application ni modifier le fichier `.env`.
 
-La page des paramètres est organisée en onglets.
+La page des paramètres est organisée en neuf onglets : Paramètres, Périmètres, Certificats, Nettoyage, Vulnérabilités, Rappels, Notifications, Documents et Monarc.
 
 ---
 
 ## Paramètres
 
 Cet onglet regroupe les options de comportement générales de l'application.
+
+[<img src="/mercator/images/config-general.fr.png" width="700">](images/config-general.fr.png)
 
 ### Applications
 
@@ -24,13 +26,38 @@ Cet onglet regroupe les options de comportement générales de l'application.
 
 | Paramètre | Description | Défaut |
 |-----------|-------------|--------|
-| **Authentification des besoins de sécurité** | Lorsque cette option est activée, les champs de besoin de sécurité sur les serveurs logiques nécessitent une authentification préalable avant d'être affichés. | `false` |
+| **Authenticité** | Ajoute le critère de sécurité « Authenticité » aux critères Confidentialité, Intégrité, Disponibilité et Traçabilité déjà existants (exigence DORA). | `inactif` |
+
+### Cartographie
+
+| Paramètre | Description | Défaut |
+|-----------|-------------|--------|
+| **Nombre maximum de nœuds** | Au-delà de ce nombre de nœuds, les graphes ne sont pas affichés (`0` = pas de limite). | 500 |
+
+---
+
+## Périmètres
+
+Cet onglet active le cloisonnement de la cartographie par établissement et permet de gérer la liste des périmètres.
+
+[<img src="/mercator/images/config-perimeters.fr.png" width="700">](images/config-perimeters.fr.png)
+
+| Élément | Description |
+|---------|-------------|
+| **Activer les périmètres** | Active ou désactive la gestion des périmètres (désactivée par défaut). Tant qu'elle n'est pas activée, l'application se comporte comme si un seul périmètre existait. L'activation et la désactivation ne modifient aucune donnée. |
+| **Ajouter** | Crée un nouveau périmètre (nom de 2 à 32 caractères). |
+| **Modifier** | Renomme un périmètre, y compris le périmètre par défaut. |
+| **Supprimer** | Supprime un périmètre qui ne contient aucun objet et n'est associé à aucun rôle. Le périmètre par défaut (`#1`) ne peut pas être supprimé. |
+
+Le fonctionnement complet (rôles, sélecteur de périmètre de travail, flux inter-périmètres, import) est décrit dans la page [Périmètres](perimeters.md).
 
 ---
 
 ## Certificats
 
 Gère la surveillance automatisée et les notifications d'expiration des certificats TLS/SSL.
+
+[<img src="/mercator/images/config-cert.fr.png" width="700">](images/config-cert.fr.png)
 
 | Paramètre | Description | Valeurs |
 |-----------|-------------|---------|
@@ -79,9 +106,11 @@ php artisan mercator:db-cleanup --dry-run
 
 ---
 
-## CVE
+## Vulnérabilités
 
 Gère la recherche automatisée des vulnérabilités connues (CVE) affectant les éléments de l'inventaire.
+
+[<img src="/mercator/images/config-cve.fr.png" width="700">](images/config-cve.fr.png)
 
 | Paramètre | Description | Valeurs |
 |-----------|-------------|---------|
@@ -106,9 +135,73 @@ Trois boutons **Test** sont disponibles :
 
 ---
 
+## Rappels
+
+Cet onglet configure les rappels envoyés par e-mail aux cartographes lorsque des objets dont ils sont responsables n'ont pas été mis à jour depuis un certain temps.
+
+[<img src="/mercator/images/config-reminders.fr.png" width="700">](images/config-reminders.fr.png)
+
+| Paramètre | Description | Défaut |
+|-----------|-------------|--------|
+| **Activer les rappels** | Active l'envoi des rappels. Les autres champs ne sont modifiables que lorsque l'option est active. | `inactif` |
+| **Expéditeur** | Adresse d'envoi des rappels. | — |
+| **Copie cachée à** | Adresse(s) recevant une copie cachée (Cci) de chaque rappel. | — |
+| **Sujet du rappel** | Objet de l'e-mail. | `[Mercator] Rappel` |
+| **Corps du rappel** | Contenu HTML de l'e-mail. | Modèle fourni |
+| **Pas de mise à jour depuis (mois)** | Un objet est signalé s'il n'a pas été modifié depuis ce nombre de mois. | 1 |
+| **Envoyer un rappel tous les (jours)** | Délai minimal entre deux campagnes de rappels. | 30 |
+
+Variables utilisables dans le corps du rappel :
+
+| Variable | Remplacée par |
+|----------|---------------|
+| `:name` / `:user` | Nom du cartographe |
+| `:count` | Nombre d'objets à mettre à jour |
+| `:list` | Liste des objets, avec un lien vers chaque fiche |
+| `:months` | Nombre de mois sans mise à jour |
+| `:mercator_url` | URL de Mercator |
+
+Les rappels sont envoyés par la commande `mercator:remind-cartographers`, exécutée chaque jour par le planificateur. Le pied de l'onglet affiche la date du dernier envoi. Le bouton **Tester** envoie un e-mail de test à l'adresse de copie cachée (ou, à défaut, à l'expéditeur).
+
+Voir aussi [Les cartographes](cartographers.md).
+
+---
+
+## Notifications
+
+Cet onglet configure les notifications envoyées par e-mail aux cartographes d'un objet lorsque celui-ci est modifié par un autre utilisateur.
+
+[<img src="/mercator/images/config-notifications.fr.png" width="700">](images/config-notifications.fr.png)
+
+| Paramètre | Description | Défaut |
+|-----------|-------------|--------|
+| **Activer les notifications de modification** | Active l'envoi des notifications. Les autres champs ne sont modifiables que lorsque l'option est active. | `inactif` |
+| **Expéditeur** | Adresse d'envoi des notifications. | — |
+| **Copie cachée à** | Adresse(s) recevant une copie cachée (Cci) de chaque notification. | — |
+| **Sujet de la notification** | Objet de l'e-mail ; peut contenir des variables. | `[Mercator] Objet :name modifié` |
+| **Corps de la notification** | Contenu HTML de l'e-mail. | Modèle fourni |
+
+Variables utilisables dans le sujet et le corps :
+
+| Variable | Remplacée par |
+|----------|---------------|
+| `:user` / `:email` | Nom et e-mail de l'utilisateur qui a fait la modification |
+| `:name` / `:id` | Nom et identifiant de l'objet |
+| `:object` | Type de l'objet |
+| `:object_url` | URL de la fiche de l'objet |
+| `:object_history_url` | URL de l'historique de l'objet |
+| `:fields` | Champs modifiés |
+| `:date` / `:timestamp` | Date (et heure) de la modification |
+
+Le bouton **Tester** envoie un e-mail de test à l'adresse de copie cachée (ou, à défaut, à l'expéditeur).
+
+---
+
 ## Documents
 
 Cet onglet est **en lecture seule** et fournit une vue d'ensemble des documents stockés dans Mercator.
+
+[<img src="/mercator/images/config-documents.fr.png" width="700">](images/config-documents.fr.png)
 
 | Information | Description |
 |-------------|-------------|
@@ -125,11 +218,33 @@ Un bouton **Vérifier** déclenche une vérification d'intégrité de tous les d
 
 ---
 
+## Monarc
+
+Cet onglet configure la connexion à une instance MONARC Front Office, utilisée pour exporter la cartographie sous forme d'analyse de risques.
+
+[<img src="/mercator/images/config-monarc.fr.png" width="700">](images/config-monarc.fr.png)
+
+| Paramètre | Description |
+|-----------|-------------|
+| **Activer l'intégration Monarc** | Affiche l'entrée « Monarc » dans le menu Outils et autorise l'accès à l'écran de génération. |
+| **URL de l'instance Monarc** | URL de base de l'instance MONARC Front Office. |
+| **Identifiant** | Compte utilisé pour s'authentifier sur l'API Monarc. |
+| **Mot de passe** | Laisser vide pour conserver le mot de passe déjà enregistré. |
+
+Le bouton **Tester la connexion** vérifie l'authentification. Le bloc **Réinitialiser la liaison** affiche l'analyse (ANR) actuellement liée, la date de la dernière synchronisation et le nombre d'objets suivis ; il permet de supprimer cette liaison locale sans rien modifier dans Monarc.
+
+Voir la page [Intégration Monarc](monarc.md).
+
+---
+
 ## Tableau récapitulatif
 
 | Onglet | Paramètre | Description | Défaut |
 |--------|-----------|-------------|--------|
-| Général | Authentification des besoins de sécurité | Requiert une authentification pour afficher les champs de besoin de sécurité | `false` |
+| Paramètres | Documents associés aux applications | Association de fichiers aux applications | `inactif` |
+| Paramètres | Authenticité | Ajoute le critère de sécurité « Authenticité » (DORA) | `inactif` |
+| Paramètres | Nombre maximum de nœuds | Taille maximale des graphes affichés | 500 |
+| Périmètres | Activer les périmètres | Cloisonnement de la cartographie par établissement | `inactif` |
 | Certificats | Sujet du message | Objet des e-mails d'alerte d'expiration | — |
 | Certificats | Expéditeur | Adresse d'envoi des alertes de certificat | — |
 | Certificats | Destinataires | Adresse(s) de destination des alertes de certificat | — |
@@ -137,12 +252,15 @@ Un bouton **Vérifier** déclenche une vérification d'intégrité de tous les d
 | Certificats | Fréquence de vérification | Intervalle de recherche des certificats expirants | Jamais |
 | Certificats | Regroupement | Un e-mail consolidé ou un par certificat | Un seul e-mail |
 | Certificats | Répétition des notifications | Notification unique ou répétée jusqu'à résolution | Unique |
-| CVE | Sujet du message | Objet des e-mails d'alerte CVE | — |
-| CVE | Expéditeur | Adresse d'envoi des alertes CVE | — |
-| CVE | Destinataires | Adresse(s) de destination des alertes CVE | — |
-| CVE | Fréquence de vérification | Intervalle de recherche des nouvelles CVE | Jamais |
-| CPE | URL du CPE Guesser | Point d'accès du service [cpe-guesser](https://github.com/vulnerability-lookup/cpe-guesser) | — |
-| CVE | URL du fournisseur CVE | Point d'accès du fournisseur [vulnerability-lookup](https://github.com/vulnerability-lookup/vulnerability-lookup) | — |
-| Documents | — | Lecture seule : nombre de documents, taille totale, vérification d'intégrité | — |
 | Nettoyage | Purge du journal d'audit | Suppression des entrées du journal plus anciennes que la durée de conservation | `inactif`, 12 mois |
 | Nettoyage | Purge des objets supprimés | Suppression définitive des objets supprimés depuis plus longtemps que la durée de conservation | `inactif`, 3 mois |
+| Vulnérabilités | Sujet du message | Objet des e-mails d'alerte CVE | — |
+| Vulnérabilités | Expéditeur | Adresse d'envoi des alertes CVE | — |
+| Vulnérabilités | Destinataires | Adresse(s) de destination des alertes CVE | — |
+| Vulnérabilités | Fréquence de vérification | Intervalle de recherche des nouvelles CVE | Jamais |
+| Vulnérabilités | URL du CPE Guesser | Point d'accès du service [cpe-guesser](https://github.com/vulnerability-lookup/cpe-guesser) | — |
+| Vulnérabilités | URL du fournisseur CVE | Point d'accès du fournisseur [vulnerability-lookup](https://github.com/vulnerability-lookup/vulnerability-lookup) | — |
+| Documents | — | Lecture seule : nombre de documents, taille totale, vérification d'intégrité | — |
+| Rappels | Activer les rappels | Rappels aux cartographes pour les objets non mis à jour | `inactif` |
+| Notifications | Activer les notifications de modification | Notification des cartographes lors d'une modification | `inactif` |
+| Monarc | Activer l'intégration Monarc | Export de la cartographie vers une analyse de risques Monarc | `inactif` |

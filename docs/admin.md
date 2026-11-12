@@ -6,13 +6,15 @@ The configuration parameters are accessible in Mercator via :
 
 Unlike environment variables, these settings are stored in the database (defaults are in **config/mercator.php**) and can be modified at runtime by an administrator, without restarting the application or editing `.env`.
 
-The parameters page is organised into tabs.
+The parameters page is organised into nine tabs: Parameters, Perimeters, Certificates, Cleanup, Vulnerabilities, Reminders, Notifications, Documents and Monarc.
 
 ---
 
 ## Parameters
 
 This tab groups application-level behavioural options.
+
+[<img src="/mercator/images/config-general.png" width="700">](images/config-general.png)
 
 ### Applications
 
@@ -24,13 +26,38 @@ This tab groups application-level behavioural options.
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
-| **Security need authentication** | When enabled, the security-need fields on logical servers require prior authentication before being displayed. | `false` |
+| **Authenticity** | Adds the "Authenticity" security criterion to the existing Confidentiality, Integrity, Availability and Traceability criteria (DORA requirement). | `inactive` |
+
+### Cartography
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| **Maximum number of nodes** | Beyond this number of nodes, graphs are not displayed (`0` = no limit). | 500 |
+
+---
+
+## Perimeters
+
+This tab enables the partitioning of the cartography by establishment and manages the list of perimeters.
+
+[<img src="/mercator/images/config-perimeters.png" width="700">](images/config-perimeters.png)
+
+| Item | Description |
+|------|-------------|
+| **Enable perimeters** | Enables or disables perimeter management (disabled by default). As long as it is disabled, the application behaves as if a single perimeter existed. Enabling or disabling it does not change any data. |
+| **Add** | Creates a new perimeter (name of 2 to 32 characters). |
+| **Edit** | Renames a perimeter, including the default one. |
+| **Delete** | Deletes a perimeter that contains no object and is not linked to any role. The default perimeter (`#1`) cannot be deleted. |
+
+The full behaviour (roles, working perimeter selector, cross-perimeter flows, import) is described in the [Perimeters](perimeters.md) page.
 
 ---
 
 ## Certificates
 
 Controls the automated monitoring and notification of TLS/SSL certificate expiry.
+
+[<img src="/mercator/images/config-cert.png" width="700">](images/config-cert.png)
 
 | Parameter | Description | Values |
 |-----------|-------------|--------|
@@ -79,9 +106,11 @@ php artisan mercator:db-cleanup --dry-run
 
 ---
 
-## CVE
+## Vulnerabilities
 
 Controls the automated scanning for known vulnerabilities (CVE) affecting inventory items.
+
+[<img src="/mercator/images/config-cve.png" width="700">](images/config-cve.png)
 
 | Parameter | Description | Values |
 |-----------|-------------|--------|
@@ -106,9 +135,73 @@ Three **Test** buttons are available:
 
 ---
 
+## Reminders
+
+This tab configures the email reminders sent to cartographers when objects they are responsible for have not been updated for a given time.
+
+[<img src="/mercator/images/config-reminders.png" width="700">](images/config-reminders.png)
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| **Enable reminders** | Enables sending reminders. The other fields can only be edited while the option is enabled. | `inactive` |
+| **Sender** | Sender address of the reminders. | — |
+| **Carbon copy to** | Address(es) receiving a blind copy (Bcc) of every reminder. | — |
+| **Reminder subject** | Subject of the email. | `[Mercator] Rappel` |
+| **Reminder body** | HTML content of the email. | Provided template |
+| **No update since (months)** | An object is reported if it has not been modified for this number of months. | 1 |
+| **Send a reminder every (days)** | Minimum delay between two reminder campaigns. | 30 |
+
+Variables available in the reminder body:
+
+| Variable | Replaced by |
+|----------|-------------|
+| `:name` / `:user` | Cartographer's name |
+| `:count` | Number of objects to update |
+| `:list` | List of objects, with a link to each one |
+| `:months` | Number of months without update |
+| `:mercator_url` | Mercator URL |
+
+Reminders are sent by the `mercator:remind-cartographers` command, run daily by the scheduler. The tab footer shows the date of the last sending. The **Test** button sends a test email to the blind-copy address (or, failing that, to the sender).
+
+See also [Cartographers](cartographers.md).
+
+---
+
+## Notifications
+
+This tab configures the email notifications sent to an object's cartographers when the object is modified by another user.
+
+[<img src="/mercator/images/config-notifications.png" width="700">](images/config-notifications.png)
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| **Enable modification notifications** | Enables sending notifications. The other fields can only be edited while the option is enabled. | `inactive` |
+| **Sender** | Sender address of the notifications. | — |
+| **Carbon copy to** | Address(es) receiving a blind copy (Bcc) of every notification. | — |
+| **Notification subject** | Subject of the email; may contain variables. | `[Mercator] Objet :name modifié` |
+| **Notification body** | HTML content of the email. | Provided template |
+
+Variables available in the subject and body:
+
+| Variable | Replaced by |
+|----------|-------------|
+| `:user` / `:email` | Name and email of the user who made the change |
+| `:name` / `:id` | Name and identifier of the object |
+| `:object` | Object type |
+| `:object_url` | URL of the object |
+| `:object_history_url` | URL of the object's history |
+| `:fields` | Modified fields |
+| `:date` / `:timestamp` | Date (and time) of the change |
+
+The **Test** button sends a test email to the blind-copy address (or, failing that, to the sender).
+
+---
+
 ## Documents
 
 This tab is **read-only** and provides an overview of the documents stored in Mercator.
+
+[<img src="/mercator/images/config-documents.png" width="700">](images/config-documents.png)
 
 | Information | Description |
 |-------------|-------------|
@@ -125,11 +218,33 @@ A **Check** button triggers an integrity verification of all documents: Mercator
 
 ---
 
+## Monarc
+
+This tab configures the connection to a MONARC Front Office instance, used to export the cartography as a risk analysis.
+
+[<img src="/mercator/images/config-monarc.png" width="700">](images/config-monarc.png)
+
+| Parameter | Description |
+|-----------|-------------|
+| **Enable Monarc integration** | Shows the "Monarc" entry in the Tools menu and grants access to the generation screen. |
+| **Monarc instance URL** | Base URL of the MONARC Front Office instance. |
+| **Login** | Account used to authenticate on the Monarc API. |
+| **Password** | Leave empty to keep the password already saved. |
+
+The **Test connection** button checks the authentication. The **Reset link** block shows the currently linked analysis (ANR), the date of the last synchronisation and the number of tracked objects; it removes this local link without changing anything in Monarc.
+
+See the [Monarc integration](monarc.md) page.
+
+---
+
 ## Summary Table
 
 | Tab          | Parameter | Description | Default |
 |--------------|-----------|-------------|---------|
-| General      | Security need authentication | Requires authentication to display security-need fields | `false` |
+| Parameters   | Documents attached to applications | Attach files to applications | `inactive` |
+| Parameters   | Authenticity | Adds the "Authenticity" security criterion (DORA) | `inactive` |
+| Parameters   | Maximum number of nodes | Maximum size of displayed graphs | 500 |
+| Perimeters   | Enable perimeters | Partitioning of the cartography by establishment | `inactive` |
 | Certificates | Message subject | Subject of expiry alert emails | — |
 | Certificates | Sent from | Sender address for certificate alerts | — |
 | Certificates | Recipients | Destination address(es) for certificate alerts | — |
@@ -137,12 +252,15 @@ A **Check** button triggers an integrity verification of all documents: Mercator
 | Certificates | Check frequency | Scan interval for expiring certificates | Never |
 | Certificates | Grouping | One consolidated email or one per certificate | One email |
 | Certificates | Repeat notifications | Single or repeated notifications until resolved | Single |
-| CVE          | Message subject | Subject of CVE alert emails | — |
-| CVE          | Sent from | Sender address for CVE alerts | — |
-| CVE          | Recipients | Destination address(es) for CVE alerts | — |
-| CVE          | Check frequency | Scan interval for new CVEs | Never |
-| CPE          | CPE Guesser URL | Endpoint of the [cpe-guesser](https://github.com/vulnerability-lookup/cpe-guesser) service | — |
-| CVE          | CVE Provider URL | Endpoint of the [vulnerability-lookup](https://github.com/vulnerability-lookup/vulnerability-lookup) provider | — |
-| Documents    | — | Read-only: document count, total size, integrity check | — |
 | Cleanup | Audit log purge | Deletes log entries older than the retention period | `disabled`, 12 months |
 | Cleanup | Deleted objects purge | Permanently deletes objects deleted longer ago than the retention period | `disabled`, 3 months |
+| Vulnerabilities | Message subject | Subject of CVE alert emails | — |
+| Vulnerabilities | Sent from | Sender address for CVE alerts | — |
+| Vulnerabilities | Recipients | Destination address(es) for CVE alerts | — |
+| Vulnerabilities | Check frequency | Scan interval for new CVEs | Never |
+| Vulnerabilities | CPE Guesser URL | Endpoint of the [cpe-guesser](https://github.com/vulnerability-lookup/cpe-guesser) service | — |
+| Vulnerabilities | CVE Provider URL | Endpoint of the [vulnerability-lookup](https://github.com/vulnerability-lookup/vulnerability-lookup) provider | — |
+| Documents    | — | Read-only: document count, total size, integrity check | — |
+| Reminders | Enable reminders | Reminders to cartographers for outdated objects | `inactive` |
+| Notifications | Enable modification notifications | Notify cartographers when an object is modified | `inactive` |
+| Monarc | Enable Monarc integration | Export the cartography to a Monarc risk analysis | `inactive` |
