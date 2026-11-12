@@ -184,6 +184,8 @@ dataset('api_endpoints', [
         [
             'route' => 'admin-users',
             'model' => AdminUser::class,
+            // Pas de colonne 'name' : champ libellé utilisé pour les tests de filtre/tri
+            'label' => 'user_id',
         ],
     ],
     'networks' => [
@@ -358,12 +360,16 @@ dataset('api_endpoints', [
         [
             'route' => 'physical-links',
             'model' => PhysicalLink::class,
+            // Pas de colonne 'name' : champ libellé utilisé pour les tests de filtre/tri
+            'label' => 'src_port',
         ],
     ],
     'documents' => [
         [
             'route' => 'documents',
             'model' => Document::class,
+            // Pas de colonne 'name' : champ libellé utilisé pour les tests de filtre/tri
+            'label' => 'filename',
         ],
     ],
 ]);

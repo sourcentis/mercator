@@ -25,13 +25,17 @@ beforeEach(function () {
 });
 
 /**
- * Helper pour vérifier si un modèle a un champ spécifique
+ * Champ libellé d'un endpoint : 'name' par défaut, ou la clé 'label' du dataset
+ * pour les modèles sans colonne 'name' (AdminUser, PhysicalLink, Document).
+ * Le champ doit être fillable pour être filtrable/triable via l'API.
  */
-function modelHasField(string $modelClass, string $field): bool
+function labelField(array $config): string
 {
-    $model = new $modelClass;
+    $field = $config['label'] ?? 'name';
 
-    return in_array($field, $model->getFillable());
+    expect((new $config['model'])->getFillable())->toContain($field);
+
+    return $field;
 }
 
 /**
@@ -65,21 +69,17 @@ it('denies access to index without proper permissions', function (array $config)
 })->with('api_endpoints');
 
 /**
- * Test filtre par nom (seulement si le modèle a un champ name)
+ * Test filtre par nom (ou par le champ libellé du dataset)
  */
 it('filters index by name', function (array $config) {
     $modelClass = $config['model'];
-
-    // Skip si pas de champ 'name'
-    if (! modelHasField($modelClass, 'name')) {
-        $this->markTestSkipped("Model {$modelClass} does not have 'name' field");
-    }
+    $field = labelField($config);
 
     $items = $modelClass::factory()->count(10)->create();
     $targetItem = $items->first();
-    $targetName = $targetItem->name;
+    $targetName = $targetItem->{$field};
 
-    $response = $this->getJson("/api/{$config['route']}?filter[name]={$targetName}")
+    $response = $this->getJson("/api/{$config['route']}?filter[{$field}]={$targetName}")
         ->assertOk();
 
     $data = $response->json();
@@ -87,7 +87,7 @@ it('filters index by name', function (array $config) {
     expect($data)->toBeArray();
     expect(count($data))->toBeGreaterThanOrEqual(1);
 
-    $names = collect($data)->pluck('name');
+    $names = collect($data)->pluck($field);
     expect($names)->toContain($targetName);
 
 })->with('api_endpoints');
@@ -97,15 +97,11 @@ it('filters index by name', function (array $config) {
  */
 it('returns empty array when filtering with non-existent name', function (array $config) {
     $modelClass = $config['model'];
-
-    // Skip si pas de champ 'name'
-    if (! modelHasField($modelClass, 'name')) {
-        $this->markTestSkipped("Model {$modelClass} does not have 'name' field");
-    }
+    $field = labelField($config);
 
     $modelClass::factory()->count(5)->create();
 
-    $response = $this->getJson("/api/{$config['route']}?filter[name]=NONEXISTENT_NAME_12345")
+    $response = $this->getJson("/api/{$config['route']}?filter[{$field}]=NONEXISTENT_NAME_12345")
         ->assertOk();
 
     $data = $response->json();
@@ -120,22 +116,18 @@ it('returns empty array when filtering with non-existent name', function (array 
  */
 it('sorts index by name ascending', function (array $config) {
     $modelClass = $config['model'];
-
-    // Skip si pas de champ 'name'
-    if (! modelHasField($modelClass, 'name')) {
-        $this->markTestSkipped("Model {$modelClass} does not have 'name' field");
-    }
+    $field = labelField($config);
 
     $modelClass::factory()->count(5)->create();
 
-    $response = $this->getJson("/api/{$config['route']}?sort=name")
+    $response = $this->getJson("/api/{$config['route']}?sort={$field}")
         ->assertOk();
 
     $data = $response->json();
-    $names = collect($data)->pluck('name')->toArray();
+    $names = collect($data)->pluck($field)->toArray();
 
     $sortedNames = $names;
-    sort($sortedNames);
+    sort($sortedNames, SORT_STRING | SORT_FLAG_CASE);
 
     expect($names)->toBe($sortedNames);
 
@@ -146,22 +138,18 @@ it('sorts index by name ascending', function (array $config) {
  */
 it('sorts index by name descending', function (array $config) {
     $modelClass = $config['model'];
-
-    // Skip si pas de champ 'name'
-    if (! modelHasField($modelClass, 'name')) {
-        $this->markTestSkipped("Model {$modelClass} does not have 'name' field");
-    }
+    $field = labelField($config);
 
     $modelClass::factory()->count(5)->create();
 
-    $response = $this->getJson("/api/{$config['route']}?sort=-name")
+    $response = $this->getJson("/api/{$config['route']}?sort=-{$field}")
         ->assertOk();
 
     $data = $response->json();
-    $names = collect($data)->pluck('name')->toArray();
+    $names = collect($data)->pluck($field)->toArray();
 
     $sortedNames = $names;
-    rsort($sortedNames);
+    rsort($sortedNames, SORT_STRING | SORT_FLAG_CASE);
 
     expect($names)->toBe($sortedNames);
 
