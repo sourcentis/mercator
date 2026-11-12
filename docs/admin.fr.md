@@ -104,6 +104,37 @@ La commande peut aussi être lancée manuellement ; l'option `--dry-run` affiche
 php artisan mercator:db-cleanup --dry-run
 ```
 
+### Corbeille
+
+Le bouton **Explorer la corbeille** de l'onglet Nettoyage active le **mode corbeille**, qui permet de consulter et de restaurer les objets supprimés avant leur purge définitive.
+
+Le mode s'ouvre sur une vue d'ensemble qui indique, pour chaque type d'objet, le nombre d'objets supprimés. Les types sont regroupés par vue et présentés dans l'ordre du menu. Seuls les types dont l'utilisateur peut consulter la liste sont affichés.
+
+[<img src="/mercator/images/trash-overview.fr.png" width="700">](images/trash-overview.fr.png)
+
+Tant que le mode corbeille est actif :
+
+* le fond de l'écran est hachuré de rouge et un bandeau rappelle que l'on est en mode corbeille ;
+* les listes de la cartographie (accessibles par le menu ou par la vue d'ensemble) n'affichent **que les objets supprimés** ; les objets actifs n'y apparaissent pas ;
+* chaque ligne propose les actions **Afficher** et **Restaurer** ; les actions de création, de modification et de suppression sont masquées.
+
+[<img src="/mercator/images/trash-list.fr.png" width="700">](images/trash-list.fr.png)
+
+La fiche d'un objet supprimé indique la date de suppression et l'utilisateur qui l'a supprimé, et propose un bouton **Restaurer**.
+
+[<img src="/mercator/images/trash-show.fr.png" width="700">](images/trash-show.fr.png)
+
+Les droits s'appliquent comme en dehors du mode corbeille :
+
+* l'accès au mode corbeille est réservé aux utilisateurs qui peuvent modifier la configuration ;
+* afficher un objet supprimé nécessite le droit de consulter les objets de ce type ;
+* restaurer un objet nécessite le droit de **supprimer** les objets de ce type ;
+* un objet ne peut pas être restauré si un objet actif du même type porte déjà son nom dans le même périmètre.
+
+Le bouton **Quitter la corbeille**, en bas du menu latéral au-dessus du numéro de version, désactive le mode corbeille et ramène à l'onglet Nettoyage.
+
+Les utilisateurs et les rôles supprimés ne sont pas concernés par le mode corbeille.
+
 ---
 
 ## Vulnérabilités
@@ -254,6 +285,7 @@ Voir la page [Intégration Monarc](monarc.md).
 | Certificats | Répétition des notifications | Notification unique ou répétée jusqu'à résolution | Unique |
 | Nettoyage | Purge du journal d'audit | Suppression des entrées du journal plus anciennes que la durée de conservation | `inactif`, 12 mois |
 | Nettoyage | Purge des objets supprimés | Suppression définitive des objets supprimés depuis plus longtemps que la durée de conservation | `inactif`, 3 mois |
+| Nettoyage | Corbeille | Consultation et restauration des objets supprimés | — |
 | Vulnérabilités | Sujet du message | Objet des e-mails d'alerte CVE | — |
 | Vulnérabilités | Expéditeur | Adresse d'envoi des alertes CVE | — |
 | Vulnérabilités | Destinataires | Adresse(s) de destination des alertes CVE | — |

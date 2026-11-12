@@ -20,6 +20,16 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @yield('styles')
+    @if (\App\Support\TrashMode::active())
+    <style>
+        /* Mode corbeille : fond hachuré pour signaler que seuls les objets supprimés sont affichés */
+        body.trash-mode #content-home {
+            min-height: calc(100vh - 56px);
+            background-color: #f3dede;
+            background-image: repeating-linear-gradient(-45deg, transparent 0 18px, rgba(176, 42, 55, .06) 18px 36px);
+        }
+    </style>
+    @endif
     <script>
     try {
         if (localStorage.getItem('sidebar_hidden') === 'true') {
@@ -30,7 +40,7 @@
     }
     </script>
 </head>
-<body>
+<body class="{{ \App\Support\TrashMode::active() ? 'trash-mode' : '' }}">
     @include('partials.navbar')
     <div class="d-flex">
     @include('partials.sidebar')
@@ -50,6 +60,10 @@
                         @endforeach
                     </ul>
                 </div>
+            @endif
+
+            @if (\App\Support\TrashMode::active())
+                @include('admin.trash._banner')
             @endif
 
             @yield('content')
@@ -77,6 +91,9 @@
         }
     </script>
     @yield('scripts')
+    @if (\App\Support\TrashMode::active())
+        @include('admin.trash._script')
+    @endif
     <form id="logoutform" action="{{ route('logout') }}" method="POST" style="display: none;">
         {{ csrf_field() }}
     </form>

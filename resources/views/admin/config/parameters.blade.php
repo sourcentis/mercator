@@ -416,7 +416,14 @@
                 <button class="btn btn-success" type="submit" name="action" value="save">
                     <i class="fas fa-save me-1"></i>{{ trans('global.save') }}
                 </button>
+                <button class="btn btn-outline-danger" type="submit" form="trash-enter-form" id="btn-trash-enter">
+                    <i class="bi bi-trash3 me-1"></i>{{ trans('cruds.trash.enter') }}
+                </button>
             </div>
+        </form>
+        {{-- Formulaire séparé (pas de formulaires imbriqués) --}}
+        <form id="trash-enter-form" method="POST" action="{{ route('admin.trash.enter') }}">
+            @csrf
         </form>
 
     </div>{{-- /tab-cleanup --}}

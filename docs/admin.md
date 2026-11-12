@@ -104,6 +104,37 @@ The command can also be run manually; the `--dry-run` option shows what would be
 php artisan mercator:db-cleanup --dry-run
 ```
 
+### Trash
+
+The **Browse the trash** button of the Cleanup tab enables the **trash mode**, which lets you view and restore deleted objects before they are permanently purged.
+
+The mode opens on an overview that shows, for each object type, the number of deleted objects. Types are grouped by view and listed in the order of the menu. Only the types whose list the user can access are shown.
+
+[<img src="/mercator/images/trash-overview.png" width="700">](images/trash-overview.png)
+
+While the trash mode is active:
+
+* the screen background is hatched in red and a banner reminds that the trash mode is on;
+* the cartography lists (reached from the menu or the overview) **only show deleted objects**; active objects do not appear;
+* each row offers the **Display** and **Restore** actions; create, edit and delete actions are hidden.
+
+[<img src="/mercator/images/trash-list.png" width="700">](images/trash-list.png)
+
+The page of a deleted object shows the deletion date and the user who deleted it, and offers a **Restore** button.
+
+[<img src="/mercator/images/trash-show.png" width="700">](images/trash-show.png)
+
+Permissions apply as outside the trash mode:
+
+* the trash mode is reserved to users who can change the configuration;
+* displaying a deleted object requires the right to view objects of that type;
+* restoring an object requires the right to **delete** objects of that type;
+* an object cannot be restored if an active object of the same type already has its name in the same perimeter.
+
+The **Leave the trash** button, at the bottom of the side menu above the version number, disables the trash mode and returns to the Cleanup tab.
+
+Deleted users and roles are not part of the trash mode.
+
 ---
 
 ## Vulnerabilities
@@ -254,6 +285,7 @@ See the [Monarc integration](monarc.md) page.
 | Certificates | Repeat notifications | Single or repeated notifications until resolved | Single |
 | Cleanup | Audit log purge | Deletes log entries older than the retention period | `disabled`, 12 months |
 | Cleanup | Deleted objects purge | Permanently deletes objects deleted longer ago than the retention period | `disabled`, 3 months |
+| Cleanup | Trash | View and restore deleted objects | — |
 | Vulnerabilities | Message subject | Subject of CVE alert emails | — |
 | Vulnerabilities | Sent from | Sender address for CVE alerts | — |
 | Vulnerabilities | Recipients | Destination address(es) for CVE alerts | — |

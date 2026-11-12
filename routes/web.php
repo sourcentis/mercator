@@ -336,6 +336,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['web.prote
         ->name('config.parameters');
     Route::put('config/parameters', [Admin\ConfigurationController::class, 'saveConfig']);
 
+    // Mode corbeille (exploration et restauration des objets supprimés)
+    Route::get('trash', [Admin\TrashController::class, 'index'])->name('trash.index');
+    Route::post('trash/enter', [Admin\TrashController::class, 'enter'])->name('trash.enter');
+    Route::post('trash/exit', [Admin\TrashController::class, 'exit'])->name('trash.exit');
+    Route::post('trash/{type}/{id}/restore', [Admin\TrashController::class, 'restore'])
+        ->whereNumber('id')->name('trash.restore');
+
     // Périmètres (cloisonnement multi-établissement)
     Route::put('config/perimeters/activation', [Admin\PerimeterController::class, 'activation'])
         ->name('perimeters.activation');

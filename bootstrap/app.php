@@ -13,6 +13,7 @@ use App\Http\Middleware\RefreshCartographerPermissions;
 use App\Http\Middleware\RefreshRolePermissions;
 use App\Http\Middleware\SecurityHeaders;
 use App\Http\Middleware\SetLocale;
+use App\Http\Middleware\TrashModeMiddleware;
 use App\Http\Middleware\UseCachedAuthUser;
 use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Auth\Middleware\AuthenticateWithBasicAuth;
@@ -30,6 +31,7 @@ use Illuminate\Foundation\Http\Middleware\TrimStrings;
 use Illuminate\Http\Middleware\HandleCors;
 use Illuminate\Http\Middleware\SetCacheHeaders;
 use Illuminate\Http\Middleware\ValidatePostSize;
+use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Routing\Middleware\ValidateSignature;
 use Illuminate\Session\Middleware\StartSession;
@@ -110,7 +112,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'auth',
             'gates',
             EnsureActivePerimeter::class,
+            TrashModeMiddleware::class,
         ]);
+
+        // Le mode corbeille doit autoriser les objets supprimés avant la résolution des liaisons de route.
+        $middleware->prependToPriorityList(SubstituteBindings::class, TrashModeMiddleware::class);
 
         // Configurer les trusted proxies
         $middleware->trustProxies(

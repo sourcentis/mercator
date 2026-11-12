@@ -589,10 +589,28 @@
             <i class="bi bi-box-arrow-right"></i><span class="menu-text">{{ trans('global.logout') }}</span>
         </a>
     </div>
-    <div class="sidebar-footer">
-        Open Source<br>
-        Version {{ app('mercator.version') }}
-    </div>
+    @if (\App\Support\TrashMode::active())
+        {{-- Mode corbeille : bouton de sortie au-dessus du numéro de version --}}
+        <div class="sidebar-bottom" style="position: fixed; bottom: 0; width: 230px;">
+            <div class="bg-white border-top p-2">
+                <form method="POST" action="{{ route('admin.trash.exit') }}">
+                    @csrf
+                    <button type="submit" id="btn-trash-exit" class="btn btn-danger btn-sm w-100">
+                        <i class="bi bi-box-arrow-left me-1"></i>{{ trans('cruds.trash.exit') }}
+                    </button>
+                </form>
+            </div>
+            <div class="sidebar-footer" style="position: static;">
+                Open Source<br>
+                Version {{ app('mercator.version') }}
+            </div>
+        </div>
+    @else
+        <div class="sidebar-footer">
+            Open Source<br>
+            Version {{ app('mercator.version') }}
+        </div>
+    @endif
 </nav>
 
 <script>
