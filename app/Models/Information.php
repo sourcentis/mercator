@@ -40,7 +40,9 @@ use Illuminate\Support\Collection;
  * @property int|null $security_need_auth
  * @property string|null $sensitivity
  * @property string|null $constraints
- * @property string|null $retention
+ * @property string|null $retention_period
+ * @property string|null $final_disposition
+ * @property string|null $retention_notes
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
@@ -64,6 +66,9 @@ class Information extends Model implements HasIconContract, HasPrefix, HasUnique
         'constraints',
         'type',
         'attributes',
+        'retention_period',
+        'final_disposition',
+        'retention_notes',
     ];
 
     protected array $dates = [
@@ -90,6 +95,9 @@ class Information extends Model implements HasIconContract, HasPrefix, HasUnique
         'security_need_auth',
         'sensitivity',
         'constraints',
+        'retention_period',
+        'final_disposition',
+        'retention_notes',
         'created_at',
         'updated_at',
         'deleted_at',

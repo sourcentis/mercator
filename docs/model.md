@@ -358,7 +358,9 @@ erDiagram
         int security_need_t
         int security_need_auth
         text constraints
-        string retention
+        string retention_period
+        string final_disposition
+        text retention_notes
         list parents
         list children
         list processes
@@ -641,7 +643,9 @@ Information can be linked to multiple information.
 | security_need_t    | int          | Traceability                                   |
 | security_need_auth | int          | Authenticity                                   |
 | constraints        | longtext     | Legal and regulatory constraints               |
-| retention          | varchar(255) | Information retention period                   |
+| retention_period   | varchar(255) | Retention period                               |
+| final_disposition  | varchar(255) | Final disposition after the retention period   |
+| retention_notes    | longtext     | Notes on retention (sorting criteria...)       |
 | parents            | List int [,] | IDs list of linked parents information         |
 | children           | List int [,] | IDs list of linked children information        |
 | processes          | List int [,] | IDs list of used processes by this information |
@@ -649,7 +653,15 @@ Information can be linked to multiple information.
 | updated_at         | timestamp    | Date of update                                 |
 | deleted_at         | timestamp    | Date of deletion                               |
 
-The field "retention" is not used and therefore is absent in the app.
+The "Retention" section documents the legal archiving of the information:
+
+- the retention period ("retention_period"), e.g. "6 months" or "Agreement duration + 5 years";
+- the final disposition once this period is over ("final_disposition"), e.g. destruction, sorting, transfer to the
+  archives;
+- free-text notes ("retention_notes") describing sorting criteria or any other useful detail.
+
+In the app, the retention period and the final disposition are drop-down lists offering the values already in use,
+in which a new value can also be typed.
 
 In the app, the field for the authenticity need ("security_need_auth") is hidden by default. It is mandatory for
 entities subject to the regulation (EU) 2022/2554 (DORA).  

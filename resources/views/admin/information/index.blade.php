@@ -63,6 +63,12 @@
                         <th data-column="constraints">
                             {{ trans('cruds.information.fields.constraints') }}
                         </th>
+                        <th data-column="retention_period">
+                            {{ trans('cruds.information.fields.retention_period') }}
+                        </th>
+                        <th data-column="final_disposition">
+                            {{ trans('cruds.information.fields.final_disposition') }}
+                        </th>
                         <th>
                             &nbsp;
                         </th>
@@ -203,6 +209,12 @@
                             <td>
                                 {{ $info->constraints }}
                             </td>
+                            <td>
+                                {{ $info->retention_period }}
+                            </td>
+                            <td>
+                                {{ $info->final_disposition }}
+                            </td>
                             <td nowrap>
                                 @can('information_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.information.show', $info->id) }}">
@@ -246,7 +258,7 @@
     'URL' => route('admin.information.massDestroy'),
     'canDelete' => auth()->user()->can('information_delete') ? true : false,
     'serverSidePagination' => true,
-    'hiddenColumns' => ['perimeter', 'type','attributes','constraints'],
+    'hiddenColumns' => ['perimeter', 'type','attributes','constraints','retention_period','final_disposition'],
 ));
 </script>
 @endsection

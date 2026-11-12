@@ -405,6 +405,66 @@
                 <span class="help-block">{{ trans('cruds.information.fields.constraints_helper') }}</span>
             </div>
         </div>
+        <!---------------------------------------------------------------------------------------------------->
+        <div class="card-header">
+            {{ trans('cruds.information.fields.retention') }}
+        </div>
+        <!---------------------------------------------------------------------------------------------------->
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="retention_period">{{ trans('cruds.information.fields.retention_period') }}</label>
+                        <select class="form-control select2-free {{ $errors->has('retention_period') ? 'is-invalid' : '' }}"
+                                name="retention_period" id="retention_period">
+                            @if (!$retention_period_list->contains(old('retention_period', '')))
+                                <option>{{ old('retention_period', '') }}</option>
+                            @endif
+                            @foreach($retention_period_list as $t)
+                                <option {{ old('retention_period', '') == $t ? 'selected' : '' }}>{{ $t }}</option>
+                            @endforeach
+                        </select>
+                        @if($errors->has('retention_period'))
+                            <div class="invalid-feedback">
+                                {{ $errors->first('retention_period') }}
+                            </div>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.information.fields.retention_period_helper') }}</span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="final_disposition">{{ trans('cruds.information.fields.final_disposition') }}</label>
+                        <select class="form-control select2-free {{ $errors->has('final_disposition') ? 'is-invalid' : '' }}"
+                                name="final_disposition" id="final_disposition">
+                            @if (!$final_disposition_list->contains(old('final_disposition', '')))
+                                <option>{{ old('final_disposition', '') }}</option>
+                            @endif
+                            @foreach($final_disposition_list as $t)
+                                <option {{ old('final_disposition', '') == $t ? 'selected' : '' }}>{{ $t }}</option>
+                            @endforeach
+                        </select>
+                        @if($errors->has('final_disposition'))
+                            <div class="invalid-feedback">
+                                {{ $errors->first('final_disposition') }}
+                            </div>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.information.fields.final_disposition_helper') }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="retention_notes">{{ trans('cruds.information.fields.retention_notes') }}</label>
+                <textarea class="form-control ckeditor {{ $errors->has('retention_notes') ? 'is-invalid' : '' }}"
+                          name="retention_notes" id="retention_notes">{{ old('retention_notes', '') }}</textarea>
+                @if($errors->has('retention_notes'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('retention_notes') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.information.fields.retention_notes_helper') }}</span>
+            </div>
+        </div>
     </div>
     <div class="form-group">
         <a id="btn-cancel" class="btn btn-default" href="{{ route('admin.information.index') }}">

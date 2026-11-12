@@ -15,6 +15,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   synchronisation, job).
 - The object footer shows who created and who last modified the object, for
   users holding the `audit_log_access` permission.
+- Retention section on information (#2727): retention period
+  (`retention_period`), final disposition (`final_disposition`) and notes
+  (`retention_notes`). Available in the forms, the information page, the list
+  (hidden columns), the API and the cartography report.
 
 ### Changed
 
@@ -24,6 +28,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   audited and `deleted_by` is recorded.
 - The Excel export no longer includes the `created_by`, `updated_by` and
   `deleted_by` columns.
+- The unused `retention` column of `information` is renamed to
+  `retention_period` (API field name changes accordingly).
 
 ### Upgrade
 
