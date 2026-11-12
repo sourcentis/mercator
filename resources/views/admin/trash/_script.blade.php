@@ -18,8 +18,17 @@
     var content = document.getElementById('content-home');
     if (!content) return;
 
-    // Pas de création ni de modification en mode corbeille.
-    content.querySelectorAll('#btn-new').forEach(function (el) { el.remove(); });
+    // Pas de création ni de modification en mode corbeille, ni d'action sur un objet supprimé :
+    // exploration de ses liens (bouton « Explorer ») ou duplication d'un graphe (bouton « Copier »).
+    var explorePath = new URL(@json(route('admin.report.explore'))).pathname;
+    content.querySelectorAll('#btn-new, #btn-clone').forEach(function (el) { el.remove(); });
+    // Les routes de duplication (admin.*.clone) ont des formes variées
+    // (/sites/1/clone, /vlans/clone/1, /wifi-terminals-clone/1) mais un segment « clone » commun.
+    var clonePath = /(^|[\/-])clone(\/|$)/;
+    content.querySelectorAll('a[href]').forEach(function (a) {
+        var path = new URL(a.href).pathname;
+        if (path === explorePath || clonePath.test(path)) a.remove();
+    });
 
     var list = @json($trashList);
     if (list) {

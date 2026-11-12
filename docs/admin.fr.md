@@ -116,7 +116,7 @@ Tant que le mode corbeille est actif :
 
 * le fond de l'écran est hachuré de rouge et un bandeau rappelle que l'on est en mode corbeille ;
 * les listes de la cartographie (accessibles par le menu ou par la vue d'ensemble) n'affichent **que les objets supprimés** ; les objets actifs n'y apparaissent pas ;
-* chaque ligne propose les actions **Afficher** et **Restaurer** ; les actions de création, de modification et de suppression sont masquées.
+* chaque ligne propose les actions **Afficher** et **Restaurer** ; les actions de création, de modification et de suppression sont masquées, ainsi que les boutons **Explorer** (exploration des liens de l'objet) et **Copier** (duplication de l'objet ou d'un graphe).
 
 [<img src="/mercator/fr/images/trash-list.png" width="700">](images/trash-list.fr.png)
 
