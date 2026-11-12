@@ -19,7 +19,7 @@ class SecurityHeaders
      */
     public function handle(Request $request, Closure $next): mixed
     {
-        $mode = config('mercator.csp.mode', 'report-only');
+        $mode = config('mercator.csp.mode', 'enforce');
         $cspEnabled = in_array($mode, ['report-only', 'enforce'], true);
 
         $nonce = null;
@@ -43,8 +43,8 @@ class SecurityHeaders
         $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
 
         if ($cspEnabled) {
-            // Phase d'observation : Report-Only journalise les violations sans rien bloquer.
-            // Basculer CSP_MODE=enforce une fois les logs de violations vides.
+            // enforce (défaut) bloque ; report-only se contente de journaliser les violations
+            // (storage/logs/security-*.log) — repli à utiliser si une page casse.
             $header = $mode === 'enforce' ? 'Content-Security-Policy' : 'Content-Security-Policy-Report-Only';
 
             $response->headers->set('Reporting-Endpoints', self::REPORT_GROUP.'="'.url('/csp-report').'"');

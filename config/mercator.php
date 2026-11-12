@@ -19,12 +19,13 @@ return [
         'guesser' => 'https://cpe-guesser.cve-search.org',
     ],
     // Content Security Policy (App\Http\Middleware\SecurityHeaders)
-    //   report-only : la politique est envoyée en Content-Security-Policy-Report-Only,
-    //                 les violations sont journalisées (storage/logs/security.log) sans rien bloquer
-    //   enforce     : la politique est appliquée (Content-Security-Policy)
+    //   enforce     : la politique est appliquée (Content-Security-Policy) — défaut
+    //   report-only : envoyée en Content-Security-Policy-Report-Only : les violations sont
+    //                 journalisées (storage/logs/security-*.log) sans rien bloquer.
+    //                 Repli immédiat si une page casse en production (CSP_MODE=report-only).
     //   off         : aucun header CSP
     'csp' => [
-        'mode' => env('CSP_MODE', 'report-only'),
+        'mode' => env('CSP_MODE', 'enforce'),
     ],
     'parameters' => [
         'security_need_auth' => false,

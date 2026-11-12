@@ -159,7 +159,16 @@ describe('Content Security Policy', function () {
 
 describe('Content Security Policy — modes et infrastructure', function () {
 
-    it('est en report-only par défaut (observation sans blocage)', function () {
+    it('applique la CSP par défaut', function () {
+        $response = $this->get(route('admin.entities.index'));
+
+        $response->assertHeaderMissing('Content-Security-Policy-Report-Only');
+        expect(config('mercator.csp.mode'))->toBe('enforce')
+            ->and($response->headers->get('Content-Security-Policy'))
+            ->toMatch("/script-src 'self' 'nonce-[A-Za-z0-9+\/=]+'/");
+    });
+
+    it('en mode report-only, journalise sans bloquer', function () {
         config(['mercator.csp.mode' => 'report-only']);
 
         $response = $this->get(route('admin.entities.index'));
