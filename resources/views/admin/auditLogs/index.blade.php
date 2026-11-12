@@ -125,7 +125,7 @@
 
 @section('scripts')
     @parent
-    <script>
+    <script @nonce>
         @include('partials.datatable-paginate', array(
             'id' => '#dataTable',
             'order' => "[1, 'desc']"

@@ -516,7 +516,7 @@
 
 @section('scripts')
     @vite(['resources/js/graphviz.js'])
-    <script>
+    <script @nonce>
         let dotSrc = @json($dotSrc);
 
         // ─── Listeners formulaire (DOM uniquement, pas besoin du WASM) ────────

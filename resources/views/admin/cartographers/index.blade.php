@@ -125,7 +125,7 @@
 
 @section('scripts')
 @parent
-<script>
+<script @nonce>
 @include('partials.datatable', [
     'id'                  => '#dataTable',
     'title'               => trans('cruds.cartographer.title_singular'),

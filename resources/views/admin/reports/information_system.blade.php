@@ -263,7 +263,7 @@
 
 @section('scripts')
     @vite(['resources/js/graphviz.js'])
-    <script>
+    <script @nonce>
         let dotSrc = @json($dotSrc);
 
         document.addEventListener('graphvizReady', () => {

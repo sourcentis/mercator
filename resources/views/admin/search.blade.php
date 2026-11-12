@@ -83,7 +83,7 @@
 
 @section('scripts')
 @parent
-<script>
+<script @nonce>
 $(function () {
     const dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons);
 

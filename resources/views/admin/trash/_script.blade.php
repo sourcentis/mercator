@@ -12,7 +12,7 @@
         ];
     }
 @endphp
-<script>
+<script @nonce>
 (function () {
     'use strict';
     var content = document.getElementById('content-home');

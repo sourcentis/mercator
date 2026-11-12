@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', trans('panel.page.untitled')) | {{ trans('panel.site_title') }}</title>
-    <script>
+    <script @nonce>
         window._lang = {
             colvis:  "{{ trans('global.datatables.colvis') }}",
             copy:    "{{ trans('global.datatables.copy') }}",
@@ -30,7 +30,7 @@
         }
     </style>
     @endif
-    <script>
+    <script @nonce>
     try {
         if (localStorage.getItem('sidebar_hidden') === 'true') {
             document.documentElement.classList.add('sidebar-preload-hidden');
@@ -69,7 +69,7 @@
             @yield('content')
         </div>
     </div>
-    <script>
+    <script @nonce>
         (function() {
             const isHidden = localStorage.getItem('sidebar_hidden') === 'true';
             if (isHidden) {

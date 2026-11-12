@@ -855,7 +855,7 @@
 @section('scripts')
     @parent
     @if (config('mercator.parameters.application_documents'))
-    <script>
+    <script @nonce>
         document.addEventListener("DOMContentLoaded", function () {
             var image_uploader = new Dropzone("#dropzoneFileUpload", {
                 url: '/admin/documents/store',
@@ -894,7 +894,7 @@
         });
     </script>
     @endif
-    <script>
+    <script @nonce>
         document.addEventListener("DOMContentLoaded", function () {
 
             /**

@@ -105,7 +105,7 @@
 
 @section('scripts')
     @parent
-    <script>
+    <script @nonce>
         @include('partials.datatable', [
             'id'        => '#dataTable',
             'order' => auth()->user()->hasMultiplePerimeters() ? '[[2, "asc"]]' : '[[1, "asc"]]',

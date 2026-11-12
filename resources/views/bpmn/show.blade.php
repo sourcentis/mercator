@@ -229,7 +229,7 @@
 @section('scripts')
 @vite('resources/BPMN/bpmn-show.ts')
 
-<script>
+<script @nonce>
 document.addEventListener("DOMContentLoaded", function () {
 @if (!empty($graph->content))
     const xmlContent = @json($graph->content);

@@ -175,7 +175,7 @@
         })->toArray();
     @endphp
 
-    <script>
+    <script @nonce>
         document.addEventListener("DOMContentLoaded", function () {
             // Objet final : uniquement les entrées autorisées
             const objectMap = @json($objectMap, JSON_UNESCAPED_UNICODE);

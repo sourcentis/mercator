@@ -311,7 +311,7 @@
 @endsection
 
 @section('scripts')
-<script>
+<script @nonce>
 document.addEventListener("DOMContentLoaded", function () {
 
     const update_date = document.getElementById('update_date');

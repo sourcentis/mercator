@@ -95,7 +95,7 @@
 @endsection
 @section('scripts')
 @parent
-<script>
+<script @nonce>
 @include('partials.datatable', array(
     'id' => '#dataTable',
     'title' => "CVE",

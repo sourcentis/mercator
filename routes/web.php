@@ -46,15 +46,19 @@ Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPass
 Route::get('login/keycloak', [SsoController::class, 'redirectToKeycloak'])->name('login.keycloak');
 Route::get('login/keycloak/callback', [SsoController::class, 'handleKeycloakCallback'])->name('keycloak.callback');
 
-// CSP
+// CSP : rapports de violation envoyés par le navigateur (report-uri / report-to).
+// Public et sans CSRF par nature (c'est le navigateur qui poste) : volume limité et contenu tronqué.
 Route::post('/csp-report', function (Request $request) {
     Log::channel('security')->warning('CSP Violation', [
-        'report' => $request->getContent(),
+        'report' => mb_substr($request->getContent(), 0, 4096),
         'ip' => $request->ip(),
+        'user_agent' => mb_substr((string) $request->userAgent(), 0, 255),
     ]);
 
     return response()->noContent();
-})->withoutMiddleware([VerifyCsrfToken::class]);
+})->name('csp.report')
+    ->middleware('throttle:60,1')
+    ->withoutMiddleware([VerifyCsrfToken::class]);
 
 // Admin
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['web.protected']], function (): void {

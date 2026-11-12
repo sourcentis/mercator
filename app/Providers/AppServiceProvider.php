@@ -120,6 +120,11 @@ class AppServiceProvider extends ServiceProvider
         }
 
         // Directives Blade cartographes
+        // @nonce → nonce="…" sur les <script> inline (CSP, cf. SecurityHeaders) ; vide si la CSP est désactivée
+        Blade::directive('nonce', function () {
+            return '<?php if ($__cspNonce = \\Illuminate\\Support\\Facades\\Vite::cspNonce()) { echo \'nonce="\'.e($__cspNonce).\'"\'; } ?>';
+        });
+
         Blade::directive('canEdit', function (string $expression) {
             return "<?php if(Gate::allows('edit-object', {$expression})): ?>";
         });

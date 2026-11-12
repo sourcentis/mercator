@@ -430,7 +430,7 @@
 @endsection
 
 @section('scripts')
-    <script>
+    <script @nonce>
         document.addEventListener("DOMContentLoaded", function () {
             $("#dynamic-ar").click(function () {
                 console.log($("#inputValueField").val());

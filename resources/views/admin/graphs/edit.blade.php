@@ -345,7 +345,7 @@
 @endsection
 
 @section('scripts')
-    <script>
+    <script @nonce>
         // TODO : optimize me
         let _nodes = new Map();
         @foreach($nodes as $node)

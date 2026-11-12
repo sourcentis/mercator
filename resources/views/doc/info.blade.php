@@ -312,7 +312,7 @@
 
 @section('scripts')
 @parent
-<script>
+<script @nonce>
 document.getElementById('btn-copy-info').addEventListener('click', function () {
     function val(id) {
         var el = document.getElementById(id);

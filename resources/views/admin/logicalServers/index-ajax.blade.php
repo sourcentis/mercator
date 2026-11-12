@@ -50,7 +50,7 @@
 
 @section('scripts')
 @parent
-<script>
+<script @nonce>
 var translations = {
     view: "{{ trans('global.view') }}",
     delete: "{{ trans('global.delete') }}",

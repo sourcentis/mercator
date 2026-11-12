@@ -285,7 +285,7 @@
 
 
 @section('scripts')
-<script>
+<script @nonce>
     document.addEventListener("DOMContentLoaded", function () {
 
         // Options générées côté serveur pour réutilisation dans les lignes dynamiques

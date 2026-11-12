@@ -9,7 +9,10 @@ use Database\Seeders\RolesTableSeeder;
 use Database\Seeders\RoleUserTableSeeder;
 use Database\Seeders\UsersTableSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Vite;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
@@ -81,6 +84,12 @@ function xssPayloadsInName(): array
 
 describe('Content Security Policy', function () {
 
+    // Le mode par défaut est 'report-only' (phase d'observation) : ces tests vérifient la
+    // politique appliquée telle qu'elle sera envoyée une fois CSP_MODE=enforce.
+    beforeEach(function () {
+        config(['mercator.csp.mode' => 'enforce']);
+    });
+
     it('emet un header CSP sur toutes les réponses authentifiées', function () {
         $this->get(route('admin.entities.index'))
             ->assertHeader('Content-Security-Policy');
@@ -104,16 +113,13 @@ describe('Content Security Policy', function () {
             ->toContain('script-src');
     });
 
-    // FIX 1 : nonce pas encore implémenté — script-src utilise 'unsafe-inline'
-    //          Ce test passera au vert une fois le nonce activé dans SecurityHeaders.
     it('le header CSP contient un nonce valide sur script-src', function () {
         $csp = $this->get(route('admin.entities.index'))
             ->headers->get('Content-Security-Policy');
 
         expect($csp)->toMatch("/script-src 'self' 'nonce-[A-Za-z0-9+\/=]+'/");
-    })->todo('Activer après implémentation du nonce dans SecurityHeaders');
+    });
 
-    // FIX 1 : dépend du nonce — todo() en attendant
     it('le nonce est différent à chaque requête', function () {
         $csp1 = $this->get(route('admin.entities.index'))->headers->get('Content-Security-Policy');
         $csp2 = $this->get(route('admin.entities.index'))->headers->get('Content-Security-Policy');
@@ -122,7 +128,26 @@ describe('Content Security Policy', function () {
         preg_match("/'nonce-([A-Za-z0-9+\/=]+)'/", $csp2, $m2);
 
         expect($m1[1])->not->toBe($m2[1]);
-    })->todo('Activer après implémentation du nonce dans SecurityHeaders');
+    });
+
+    it('autorise le WebAssembly de graphviz sans autoriser eval()', function () {
+        $csp = $this->get(route('admin.entities.index'))->headers->get('Content-Security-Policy');
+
+        expect($csp)
+            ->toContain("'wasm-unsafe-eval'")
+            ->not->toContain("'unsafe-eval'")
+            ->not->toMatch("/script-src[^;]*'unsafe-inline'/");
+    });
+
+    it('déclare la route de rapport des violations', function () {
+        $response = $this->get(route('admin.entities.index'));
+
+        expect($response->headers->get('Content-Security-Policy'))
+            ->toContain('report-uri '.url('/csp-report'))
+            ->toContain('report-to csp-endpoint');
+        expect($response->headers->get('Reporting-Endpoints'))
+            ->toBe('csp-endpoint="'.url('/csp-report').'"');
+    });
 
     it('emet les headers de sécurité complémentaires', function () {
         $this->get(route('admin.entities.index'))
@@ -130,7 +155,91 @@ describe('Content Security Policy', function () {
             ->assertHeader('X-Frame-Options', 'SAMEORIGIN')
             ->assertHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
     });
-})->todo('Enable CSP');
+});
+
+describe('Content Security Policy — modes et infrastructure', function () {
+
+    it('est en report-only par défaut (observation sans blocage)', function () {
+        config(['mercator.csp.mode' => 'report-only']);
+
+        $response = $this->get(route('admin.entities.index'));
+
+        $response->assertHeaderMissing('Content-Security-Policy');
+        expect($response->headers->get('Content-Security-Policy-Report-Only'))
+            ->toMatch("/script-src 'self' 'nonce-[A-Za-z0-9+\/=]+'/");
+    });
+
+    it('n\'émet aucun header CSP en mode off, mais garde les headers complémentaires', function () {
+        config(['mercator.csp.mode' => 'off']);
+
+        $this->get(route('admin.entities.index'))
+            ->assertHeaderMissing('Content-Security-Policy')
+            ->assertHeaderMissing('Content-Security-Policy-Report-Only')
+            ->assertHeader('X-Content-Type-Options', 'nosniff');
+    });
+
+    it('la directive @nonce reprend le nonce de la requête', function () {
+        Vite::useCspNonce('dGVzdC1ub25jZQ==');
+
+        expect(Blade::render('<script @nonce></script>'))
+            ->toBe('<script nonce="dGVzdC1ub25jZQ=="></script>');
+    });
+
+    it('la directive @nonce ne produit rien sans nonce', function () {
+        expect(Blade::render('<script @nonce></script>'))->toBe('<script ></script>');
+    });
+
+    // Garde-fou statique : un <script> inline sans @nonce serait bloqué une fois CSP_MODE=enforce.
+    // Les <script src="…"> n'en ont pas besoin ('self') — et ne doivent pas en recevoir pour un
+    // domaine externe, ce qui reviendrait à l'autoriser.
+    it('aucune vue ne contient de script inline sans @nonce', function () {
+        $offenders = [];
+        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(resource_path('views')));
+
+        foreach ($files as $file) {
+            if (! str_ends_with($file->getFilename(), '.blade.php')) {
+                continue;
+            }
+            preg_match_all('/<script\b[^>]*>/i', file_get_contents($file->getPathname()), $tags);
+            foreach ($tags[0] as $tag) {
+                if (! str_contains($tag, 'src=') && ! str_contains($tag, '@nonce')) {
+                    $offenders[] = str_replace(resource_path('views').'/', '', $file->getPathname()).' : '.$tag;
+                }
+            }
+        }
+
+        expect($offenders)->toBe([]);
+    });
+
+    it('chaque script inline rendu porte le nonce du header CSP', function (string $routeName) {
+        config(['mercator.csp.mode' => 'enforce']);
+
+        $response = $this->get(route($routeName))->assertOk();
+
+        preg_match("/'nonce-([A-Za-z0-9+\\/=]+)'/", $response->headers->get('Content-Security-Policy'), $m);
+        preg_match_all('/<script\b[^>]*>/i', $response->getContent(), $tags);
+
+        $inline = array_filter($tags[0], fn (string $tag) => ! str_contains($tag, 'src='));
+
+        expect($inline)->not->toBeEmpty();
+        foreach ($inline as $tag) {
+            expect($tag)->toContain('nonce="'.$m[1].'"');
+        }
+    })->with(['admin.home', 'admin.entities.index', 'admin.report.maturity1']);
+
+    it('journalise un rapport de violation sans authentification ni CSRF', function () {
+        auth()->logout();
+
+        $channel = Mockery::mock();
+        $channel->shouldReceive('warning')->once()
+            ->with('CSP Violation', Mockery::on(fn (array $context) => str_contains($context['report'], 'inline')));
+        Log::shouldReceive('channel')->with('security')->andReturn($channel);
+
+        $this->call('POST', '/csp-report', [], [], [], ['CONTENT_TYPE' => 'application/csp-report'],
+            json_encode(['csp-report' => ['violated-directive' => 'script-src', 'blocked-uri' => 'inline']]))
+            ->assertNoContent();
+    });
+});
 
 // ============================================================
 //  2. Sanitisation des entités — champs texte purs
@@ -335,6 +444,7 @@ describe('Scénario attaque User → Admin', function () {
     });
 
     it('la page de détail d\'une entité porte un header CSP valide', function () {
+        config(['mercator.csp.mode' => 'enforce']);
         $entity = Entity::factory()->create();
 
         $response = $this->get(route('admin.entities.show', $entity));
@@ -344,7 +454,7 @@ describe('Scénario attaque User → Admin', function () {
         $csp = $response->headers->get('Content-Security-Policy');
         expect($csp)->toContain("object-src 'none'");
     });
-})->todo('Enable CSP');
+});
 
 // ============================================================
 //  6. API mass-store / mass-update (GHSA-v9jx-m9mc-689x)

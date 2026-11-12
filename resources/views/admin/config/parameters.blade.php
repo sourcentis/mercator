@@ -1144,7 +1144,7 @@
 {{-- ─── Persistance de l'onglet lors de la navigation manuelle ─────────── --}}
 @section('scripts')
 @parent
-<script>
+<script @nonce>
 (function () {
     'use strict';
     document.addEventListener('shown.bs.tab', function (e) {

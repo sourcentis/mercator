@@ -47,7 +47,7 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript">
+<script @nonce>
 document.addEventListener("DOMContentLoaded", function () {
 
   const ctx1 = document.getElementById('doughnut_chart1_div').getContext('2d');

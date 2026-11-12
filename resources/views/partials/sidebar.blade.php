@@ -619,7 +619,7 @@
     @endif
 </nav>
 
-<script>
+<script @nonce>
 document.addEventListener('DOMContentLoaded', function () {
     'use strict';
     var form = document.getElementById('active-perimeter-form');

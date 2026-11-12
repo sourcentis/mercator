@@ -75,7 +75,7 @@
 @endsection
 
 @section('scripts')
-<script>
+<script @nonce>
 document.addEventListener("DOMContentLoaded", function () {
     $(document.body).on("change","#source",function(){
         $(':checkbox').prop('checked', false);

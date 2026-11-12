@@ -206,7 +206,7 @@
 @section('scripts')
 
     @vite(['resources/js/vis-network.js'])
-    <script>
+    <script @nonce>
 
         let nodes       = null;
         let edges       = null;

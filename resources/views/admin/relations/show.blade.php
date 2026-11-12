@@ -175,7 +175,7 @@
 @section('scripts')
 @if ($relation->values()->count()>1)
 @vite(['resources/charts/chart-relation.js'])
-<script>
+<script @nonce>
 window.data = [
     @foreach($relation->values()->get() as $value)
     { x: new Date('{{ $value->date_price }}'), y: {{ $value->price }} },

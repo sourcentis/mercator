@@ -167,7 +167,7 @@
 @section('scripts')
 @vite(['resources/js/graphviz.js', 'resources/js/sql-parser.js'])
 @include('queries.engine-js')
-<script>
+<script @nonce>
 
 @include('partials.datatable', [
     'id'         => '#dataTable',

@@ -173,7 +173,7 @@
 
 @section('scripts')
 @parent
-<script>
+<script @nonce>
 document.addEventListener("DOMContentLoaded", function () {
 
 table = $('#table').DataTable({

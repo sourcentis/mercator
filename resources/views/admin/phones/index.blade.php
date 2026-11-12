@@ -142,7 +142,7 @@
 
 @section('scripts')
     @parent
-    <script>
+    <script @nonce>
         @include('partials.datatable', array(
             'id' => '#dataTable',
             'order' => auth()->user()->hasMultiplePerimeters() ? '[[2, "asc"]]' : '[[1, "asc"]]',

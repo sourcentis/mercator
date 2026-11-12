@@ -162,7 +162,7 @@
 @section('scripts')
     @vite('resources/BPMN/bpmn-show.ts')
 
-    <script>
+    <script @nonce>
         @include('partials.datatable', [
             'id'         => '#dataTable',
             'title'      => trans('cruds.bpmn.title_singular'),
