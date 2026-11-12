@@ -28,8 +28,7 @@
 @endsection
 
 @section('scripts')
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix@1.3.0/dist/chartjs-chart-matrix.min.js"></script>
+@vite(['resources/charts/chart-matrix.js'])
 
 <script @nonce>
   // --- IP de test dans 10.0.0.0/16 ---

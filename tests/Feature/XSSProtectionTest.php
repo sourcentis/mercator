@@ -246,7 +246,39 @@ describe('Content Security Policy — modes et infrastructure', function () {
         foreach ($inline as $tag) {
             expect($tag)->toContain('nonce="'.$m[1].'"');
         }
-    })->with(['admin.home', 'admin.entities.index', 'admin.report.maturity1']);
+    })->with(['admin.home', 'admin.entities.index', 'admin.report.maturity1', 'admin.report.view.heatmap']);
+
+    // Garde-fou statique : la CSP n'autorise aucune origine externe (script-src/style-src/font-src/
+    // img-src 'self'). Embarquer la dépendance dans le bundle Vite plutôt que la charger d'un CDN.
+    // Les simples liens <a href="https://…"> ne sont pas concernés.
+    it('aucune vue ne charge de ressource depuis une origine externe', function () {
+        $offenders = [];
+        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(resource_path('views')));
+
+        foreach ($files as $file) {
+            if (! str_ends_with($file->getFilename(), '.blade.php')) {
+                continue;
+            }
+            $content = file_get_contents($file->getPathname());
+            preg_match_all('/<(?:script|link|img|iframe|source|video|audio|embed|object)\b[^>]*\b(?:src|href|data)\s*=\s*["\']\s*(?:https?:)?\/\/[^"\']+/i', $content, $m);
+            preg_match_all('/url\(\s*["\']?(?:https?:)?\/\/[^)]+\)/i', $content, $u);
+            foreach (array_merge($m[0], $u[0]) as $hit) {
+                $offenders[] = str_replace(resource_path('views').'/', '', $file->getPathname()).' : '.$hit;
+            }
+        }
+
+        expect($offenders)->toBe([]);
+    });
+
+    it('les heatmaps chargent Chart.js depuis le bundle Vite', function (string $routeName) {
+        config(['mercator.csp.mode' => 'enforce']);
+
+        $html = $this->get(route($routeName))->assertOk()->getContent();
+
+        expect($html)
+            ->not->toContain('cdn.jsdelivr.net')
+            ->toMatch('#/build/assets/chart-matrix-[A-Za-z0-9_-]+\.js#');
+    })->with(['admin.report.view.heatmap', 'admin.report.view.heatmap2']);
 
     it('journalise un rapport de violation sans authentification ni CSRF', function () {
         auth()->logout();
