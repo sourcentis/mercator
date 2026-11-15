@@ -64,6 +64,19 @@ echo "[OK] Connexion établie."
 # ---------------------------------------------------------------------------
 # Création des fonctions utilitaires (supprimées en fin de script)
 # ---------------------------------------------------------------------------
+# Suppression garantie même en cas d'échec (set -e) : sinon les fonctions
+# restent dans la base et se retrouvent dans les dumps de schéma
+# (database/schema/*.sql) avec un DEFINER propre à cette machine.
+drop_rand_functions() {
+    $MYSQL_CMD -e "
+DROP FUNCTION IF EXISTS rand_word;
+DROP FUNCTION IF EXISTS rand_text;
+DROP FUNCTION IF EXISTS rand_person;
+DROP FUNCTION IF EXISTS rand_short;
+" || true
+}
+trap drop_rand_functions EXIT
+
 $MYSQL_CMD <<'SQL'
 DROP FUNCTION IF EXISTS rand_word;
 DROP FUNCTION IF EXISTS rand_text;
@@ -725,12 +738,7 @@ run_sql "oauth_refresh_tokens" "TRUNCATE TABLE oauth_refresh_tokens;"
 run_sql "oauth_device_codes"  "TRUNCATE TABLE oauth_device_codes;"
 
 echo "[59] Suppression des fonctions temporaires"
-$MYSQL_CMD -e "
-DROP FUNCTION IF EXISTS rand_word;
-DROP FUNCTION IF EXISTS rand_text;
-DROP FUNCTION IF EXISTS rand_person;
-DROP FUNCTION IF EXISTS rand_short;
-"
+drop_rand_functions
 
 echo ""
 echo "============================================================"
