@@ -150,6 +150,12 @@
             @php($permission = $permissions_sorted['explore'])
             @include('admin.roles.partials._checkbox', ['action' => [$permission['actions'][0][0], trans('panel.menu.explore')]])
         </div>
+        @isset($permissions_sorted['cairn'])
+        <div class="col-md-2">
+            @php($permission = $permissions_sorted['cairn'])
+            @include('admin.roles.partials._checkbox', ['action' => [$permission['actions'][0][0], trans('panel.menu.cairn')]])
+        </div>
+        @endisset
         @include('admin.roles.partials._group', ['permission' => $permissions_sorted['query'],    'label' => trans('cruds.tools.query.title')])
         {{-- @include('admin.roles.partials._group', ['permission' => $permissions_sorted['patching'], 'label' => trans('cruds.tools.patching'), 'indices' => [0, 1]]) --}}
         <div class="col-md-2">

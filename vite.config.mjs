@@ -42,7 +42,7 @@ export default defineConfig({
                 // Parser
                 'resources/js/sql-parser.js',
                 // Cairn
-                // 'resources/js/cairn.js',
+                'resources/js/cairn.js',
             ],
             refresh: true,
         }),

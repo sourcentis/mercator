@@ -111,13 +111,11 @@
                                         <i class="bi bi-map-fill"></i>{{ trans('cruds.graph.title') }}</a>
                                 </li>
                             @endcan
-                            {{--
                             @can('cairn_access')
                                 <li><a class="dropdown-item" href="/admin/cairn/create">
                                         <i class="bi bi-diagram-3-fill"></i>{{ trans('panel.menu.cairn') }}</a>
                                 </li>
                             @endcan
-                            --}}
                             @can('explore_access')
                                 <li><a class="dropdown-item" href="/admin/report/explore">
                                         <i class="bi bi-globe2"></i>{{ trans('panel.menu.explore') }}</a>
