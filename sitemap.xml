@@ -50,6 +50,13 @@
         <xhtml:link rel="alternate" hreflang="fr" href="https://sourcentis.github.io/mercator/fr/bpmn/"/>
     </url>
     <url>
+        <loc>https://sourcentis.github.io/mercator/cairn/</loc>
+        <lastmod>2026-11-15</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://sourcentis.github.io/mercator/cairn/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://sourcentis.github.io/mercator/fr/cairn/"/>
+    </url>
+    <url>
         <loc>https://sourcentis.github.io/mercator/cartographers/</loc>
         <lastmod>2026-11-15</lastmod>
         <changefreq>daily</changefreq>
@@ -216,6 +223,13 @@
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="fr" href="https://sourcentis.github.io/mercator/fr/bpmn/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://sourcentis.github.io/mercator/bpmn/"/>
+    </url>
+    <url>
+        <loc>https://sourcentis.github.io/mercator/fr/cairn/</loc>
+        <lastmod>2026-11-15</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://sourcentis.github.io/mercator/fr/cairn/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://sourcentis.github.io/mercator/cairn/"/>
     </url>
     <url>
         <loc>https://sourcentis.github.io/mercator/fr/cartographers/</loc>
