@@ -2690,7 +2690,7 @@ docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </spa
 <h3 id="variables-denvironnement">Variables d'environnement<a class="headerlink" href="#variables-denvironnement" title="Permanent link">&para;</a></h3>
 <p>Ajouter les lignes suivantes au fichier <code>.env</code> :</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># URL de l'API NVD (ne pas modifier)</span>
-<span class="na">CPE_API_URL</span><span class="o">=</span><span class="s">https://services.nvd.nist.gov/rest/json/cpes/2.0</span>
+<span class="na">NVD_API_URL</span><span class="o">=</span><span class="s">https://services.nvd.nist.gov/rest/json/cpes/2.0</span>
 
 <span class="c1"># Clé API NVD — fortement recommandée</span>
 <span class="na">NVD_API_KEY</span><span class="o">=</span><span class="s">votre-clé-ici</span>
@@ -2698,7 +2698,7 @@ docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </spa
 <h3 id="deploiement-docker">Déploiement Docker<a class="headerlink" href="#deploiement-docker" title="Permanent link">&para;</a></h3>
 <p>Dans <code>docker-compose.yml</code>, ajouter ces variables dans la section <code>environment</code> du service <code>app</code> :</p>
 <div class="highlight"><pre><span></span><code><span class="nt">environment</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CPE_API_URL=https://services.nvd.nist.gov/rest/json/cpes/2.0</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NVD_API_URL=https://services.nvd.nist.gov/rest/json/cpes/2.0</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NVD_API_KEY=votre-clé-ici</span>
 </code></pre></div>
 <p>Puis recharger la configuration :</p>
@@ -2845,7 +2845,7 @@ docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </spa
 <span class="na">API_RATE_LIMIT_DECAY</span><span class="o">=</span><span class="s">1</span>
 
 <span class="c1"># CPE / CVE</span>
-<span class="na">CPE_API_URL</span><span class="o">=</span><span class="s">https://services.nvd.nist.gov/rest/json/cpes/2.0</span>
+<span class="na">NVD_API_URL</span><span class="o">=</span><span class="s">https://services.nvd.nist.gov/rest/json/cpes/2.0</span>
 <span class="na">NVD_API_KEY</span><span class="o">=</span><span class="s">votre_clé_nvd_gratuite</span>
 </code></pre></div>
 
