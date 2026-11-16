@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rules\Password;
 
 class UpdatePasswordRequest extends BaseFormRequest
@@ -11,7 +12,8 @@ class UpdatePasswordRequest extends BaseFormRequest
      */
     public function authorize(): bool
     {
-        return $this->authorizeEdit();
+        // Pas d'objet lié à la route : authorizeEdit() refuserait toujours (#2774)
+        return Gate::allows('profile_password_edit');
     }
 
     /**
