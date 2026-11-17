@@ -77,7 +77,8 @@ class SecurityHeaders
 
             "connect-src 'self'".$viteOrigins.$viteWs,
 
-            "img-src 'self' data:",
+            // blob: : aperçu local des images avant upload (URL.createObjectURL dans resources/js/app.js)
+            "img-src 'self' data: blob:",
             "frame-src 'none'",
             "object-src 'none'",
             "worker-src 'self' blob:",
