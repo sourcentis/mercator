@@ -128,7 +128,7 @@
                         <div class="form-group">
                             <label for="description">{{ trans('cruds.physicalLink.fields.description') }}</label>
                             <textarea class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}"
-                                      name="description" id="description">{!! old('description', $link->description) !!}</textarea>
+                                      name="description" id="description">{{ old('description', $link->description) }}</textarea>
                             @if($errors->has('description'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('description') }}

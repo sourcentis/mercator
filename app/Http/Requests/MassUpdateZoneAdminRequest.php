@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Gate;
-use Illuminate\Foundation\Http\FormRequest;
-use Symfony\Component\HttpFoundation\Response;
 use App\Models\ZoneAdmin;
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 
-class MassUpdateZoneAdminRequest extends FormRequest
+class MassUpdateZoneAdminRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -19,14 +18,14 @@ class MassUpdateZoneAdminRequest extends FormRequest
     public function rules()
     {
         // Règles du UpdateZoneAdminRequest classique
-        $updateRules = (new UpdateZoneAdminRequest())->rules();
+        $updateRules = (new UpdateZoneAdminRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new ZoneAdmin();
+        $model = new ZoneAdmin;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdateZoneAdminRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -40,4 +39,3 @@ class MassUpdateZoneAdminRequest extends FormRequest
         return $rules;
     }
 }
-

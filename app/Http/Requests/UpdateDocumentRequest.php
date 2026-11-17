@@ -1,4 +1,5 @@
 <?php
+
 // ============================================================
 // UpdateDocumentRequest.php
 // App\Http\Requests\UpdateDocumentRequest
@@ -19,7 +20,7 @@ class UpdateDocumentRequest extends FormRequest
     {
         return [
             // Le fichier est optionnel : on peut renommer sans ré-uploader
-            'file'     => ['nullable', 'file', 'max:' . (config('mercator.max_upload_size', 51200))],
+            'file' => ['nullable', 'file', 'max:'.(config('mercator.max_upload_size', 51200))],
             'filename' => ['nullable', 'string', 'max:255'],
         ];
     }

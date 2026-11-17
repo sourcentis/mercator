@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BaseFormRequest;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\RedirectResponse;
@@ -95,6 +96,7 @@ class ImportController extends Controller
 
             // Exclure les colonnes inutiles
             unset($row['created_at'], $row['updated_at'], $row['deleted_at']);
+            unset($row['created_by'], $row['updated_by'], $row['deleted_by']);
 
             $data[] = $row;
         }
@@ -153,6 +155,9 @@ class ImportController extends Controller
 
                 try {
                     $attributes = $rowData->except('id');
+                    if ($storeRequestInstance instanceof BaseFormRequest) {
+                        $attributes = collect($storeRequestInstance->sanitizeAttributes($attributes->all()));
+                    }
                     $relations = [];
 
                     // Identify relations and remove them from attributes
@@ -175,6 +180,9 @@ class ImportController extends Controller
                         // Delete
                         $record = $modelClass::find($id);
                         if ($record) {
+                            if (Gate::denies($this->permission($modelName, 'delete'), $record)) {
+                                throw new \Exception("record {$id} : 403 Forbidden");
+                            }
                             $record->delete();
                             $deleteCount++;
                         }
@@ -197,6 +205,9 @@ class ImportController extends Controller
                         // Update
                         $record = $modelClass::find($id);
                         if ($record) {
+                            if (Gate::denies('edit-object', $record)) {
+                                throw new \Exception("record {$id} : 403 Forbidden");
+                            }
                             $updateRequestInstance->id = $id;
                             $updateRules = $updateRequestInstance->rules();
                             $validationAttributes = clone $attributes;

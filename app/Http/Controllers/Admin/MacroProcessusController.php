@@ -10,6 +10,7 @@ use App\Models\Cartographer;
 use App\Models\MacroProcessus;
 use App\Models\Process;
 use Gate;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class MacroProcessusController extends Controller
@@ -58,10 +59,10 @@ class MacroProcessusController extends Controller
         $macroProcessus = MacroProcessus::create($request->all());
 
         Process::where('macroprocess_id', $macroProcessus->id)
-            ->update(['macroprocess_id' => null]);
+            ->update(['macroprocess_id' => null, 'updated_by' => Auth::id()]);
 
         Process::whereIn('id', $request->input('processes', []))
-            ->update(['macroprocess_id' => $macroProcessus->id]);
+            ->update(['macroprocess_id' => $macroProcessus->id, 'updated_by' => Auth::id()]);
 
         return redirect()->route('admin.macro-processuses.index');
     }
@@ -94,10 +95,10 @@ class MacroProcessusController extends Controller
 
         // $macroProcessus->processes()->sync($request->input('processes', []));
         Process::where('macroprocess_id', $macroProcessus->id)
-            ->update(['macroprocess_id' => null]);
+            ->update(['macroprocess_id' => null, 'updated_by' => Auth::id()]);
 
         Process::whereIn('id', $request->input('processes', []))
-            ->update(['macroprocess_id' => $macroProcessus->id]);
+            ->update(['macroprocess_id' => $macroProcessus->id, 'updated_by' => Auth::id()]);
 
         return redirect()->route('admin.macro-processuses.index');
     }

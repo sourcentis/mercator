@@ -25,6 +25,7 @@ use App\Models\Subnetwork;
 use App\Models\Vlan;
 use App\Models\WifiTerminal;
 use App\Models\Workstation;
+use App\Services\Graph\GraphSize;
 use App\Services\Graph\LogicalInfrastructureGraphBuilder;
 use Gate;
 use Illuminate\Http\RedirectResponse;
@@ -395,8 +396,16 @@ class LogicalInfrastructureView extends Controller
                 $storageDevices
             );
 
+            // Compte les nœuds avant de construire le DOT : un graphe trop grand n'est ni construit ni envoyé
+            $graphTooLarge = GraphSize::tooLarge(GraphSize::count(
+                $networks, $subnetworks, $gateways, $externalConnectedEntities, $vlans, $networkSwitches,
+                $clusters, $logicalServers, $dhcpServers, $dnsservers, $certificates, $containers, $routers,
+                $securityDevices, $workstations, $wifiTerminals, $phones, $peripherals, $physicalSecurityDevices,
+                $storageDevices
+            ));
+
             $graphBuilder = new LogicalInfrastructureGraphBuilder;
-            $dotSrc = $graphBuilder->buildDot(
+            $dotSrc = $graphTooLarge ? '' : $graphBuilder->buildDot(
                 $networks,
                 $subnetworks,
                 $gateways,
@@ -447,6 +456,7 @@ class LogicalInfrastructureView extends Controller
                     'containers',
                     'vlans',
                     'dotSrc',
+                    'graphTooLarge',
                     'imageManifest'
                 )
             );

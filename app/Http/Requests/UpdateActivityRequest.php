@@ -6,7 +6,7 @@ use Illuminate\Validation\Rule;
 
 class UpdateActivityRequest extends BaseFormRequest
 {
-    protected array $htmlFields = ['description'];
+    protected array $htmlFields = ['description', 'drp'];
 
     public function authorize(): bool
     {

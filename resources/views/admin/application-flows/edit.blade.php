@@ -18,7 +18,7 @@
 
                 <div class="row">
 
-                    @if (auth()->user()->hasMultiplePerimeters())
+                    @if (auth()->user()->canChoosePerimeterOf($flow))
                 <div class="col-sm-2">
                     <div class="form-group">
                         <label for="perimeter_id">{{ trans('cruds.perimeter.title_short') }}</label>
@@ -26,7 +26,7 @@
                                 name="perimeter_id" id="perimeter_id">
                             @foreach (\App\Models\Perimeter::whereIn('id', auth()->user()->perimeterIds())->orderBy('name')->get() as $perimeterOption)
                                 <option value="{{ $perimeterOption->id }}"
-                                        {{ (int) old('perimeter_id', $applicationFlow->perimeter_id) === $perimeterOption->id ? 'selected' : '' }}>
+                                        {{ (int) old('perimeter_id', $flow->perimeter_id) === $perimeterOption->id ? 'selected' : '' }}>
                                     {{ $perimeterOption->name }}
                                 </option>
                             @endforeach
@@ -94,7 +94,7 @@
                             <select class="form-control select2-free-tags {{ $errors->has('patching_group') ? 'is-invalid' : '' }}"
                                     name="attributes[]" id="attributes" multiple>
                                 @foreach($attributes_list as $a)
-                                    <option {{ ( (old('attributes')!=null) && in_array($a,old('attributes'))) || str_contains($flow->attributes, $a) ? 'selected' : '' }}>{{$a}}</option>
+                                    <option {{ in_array($a, old('attributes', explode(' ', $flow->attributes ?? '')), true) ? 'selected' : '' }}>{{$a}}</option>
                                 @endforeach
                             </select>
                             @if($errors->has('attributes'))
@@ -115,7 +115,7 @@
                             <textarea
                                     class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}"
                                     name="description"
-                                    id="description">{!! old('description', $flow->description) !!}</textarea>
+                                    id="description">{{ old('description', $flow->description) }}</textarea>
                             @if($errors->has('description'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('description') }}
@@ -224,7 +224,7 @@
 @endsection
 
 @section('scripts')
-    <script>
+    <script @nonce>
         document.addEventListener("DOMContentLoaded", function () {
             var allEditors = document.querySelectorAll('.ckeditor');
             for (var i = 0; i < allEditors.length; ++i) {

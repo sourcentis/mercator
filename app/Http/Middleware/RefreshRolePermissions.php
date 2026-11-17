@@ -12,7 +12,7 @@ class RefreshRolePermissions
     {
         if ($request->user()) {
             $lastUpdate = Cache::get('roles_last_update', 0);
-            $sessionAt  = session('auth_permissions_at', 0);
+            $sessionAt = session('auth_permissions_at', 0);
 
             if ($sessionAt < $lastUpdate) {
                 session($request->user()->sessionPermissionData());

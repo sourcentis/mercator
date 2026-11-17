@@ -1,8 +1,13 @@
 
 <?php
 
+use App\Models\Network;
+use App\Models\Perimeter;
+use App\Models\Permission;
 use App\Models\PhysicalLink;
+use App\Models\Role;
 use App\Models\User;
+use App\Support\PerimeterSettings;
 use Database\Seeders\PermissionRoleTableSeeder;
 use Database\Seeders\PermissionsTableSeeder;
 use Database\Seeders\RolesTableSeeder;
@@ -10,6 +15,8 @@ use Database\Seeders\RoleUserTableSeeder;
 use Database\Seeders\UsersTableSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 uses(RefreshDatabase::class);
@@ -93,4 +100,95 @@ describe('import', function () {
         expect($link->attributes)->toBe('tag1 tag2');
     });
 
+});
+
+describe('delete', function () {
+    // Une ligne ne contenant que l'id supprime l'enregistrement
+    function importNetworkDeletion(int $id): UploadedFile
+    {
+        $spreadsheet = new Spreadsheet;
+        $spreadsheet->getActiveSheet()->fromArray([['id', 'name'], [$id, null]]);
+        $path = tempnam(sys_get_temp_dir(), 'imp').'.xlsx';
+        (new Xlsx($spreadsheet))->save($path);
+
+        return new UploadedFile($path, 'Network.xlsx', null, null, true);
+    }
+
+    /**
+     * @param  array<int, list<string>>  $permissionsByPerimeter
+     */
+    function actingAsNetworkUser(array $permissionsByPerimeter): void
+    {
+        $user = User::factory()->create();
+        foreach ($permissionsByPerimeter as $perimeterId => $permissions) {
+            $role = Role::query()->create(['title' => 'Network import '.$perimeterId, 'perimeter_id' => $perimeterId]);
+            $role->permissions()->sync(Permission::query()->whereIn('title', $permissions)->pluck('id'));
+            $user->roles()->attach($role->id);
+        }
+        test()->actingAs($user);
+    }
+
+    test('cannot delete through import without delete permission', function () {
+        $network = Network::factory()->create();
+        actingAsNetworkUser([Perimeter::DEFAULT_ID => ['network_access', 'network_edit']]);
+
+        $this->post(route('admin.config.import'), ['object' => 'Network', 'file' => importNetworkDeletion($network->id)])
+            ->assertSessionHasErrors();
+
+        expect(Network::query()->find($network->id))->not->toBeNull();
+    });
+
+    test('can delete through import with delete permission', function () {
+        $network = Network::factory()->create();
+        actingAsNetworkUser([Perimeter::DEFAULT_ID => ['network_access', 'network_edit', 'network_delete']]);
+
+        $this->post(route('admin.config.import'), ['object' => 'Network', 'file' => importNetworkDeletion($network->id)])
+            ->assertSessionDoesntHaveErrors();
+
+        expect(Network::query()->find($network->id))->toBeNull();
+    });
+});
+
+describe('update', function () {
+    function importNetworkRename(Network $network, string $name): UploadedFile
+    {
+        $spreadsheet = new Spreadsheet;
+        $spreadsheet->getActiveSheet()->fromArray([['id', 'name'], [$network->id, $name]]);
+        $path = tempnam(sys_get_temp_dir(), 'imp').'.xlsx';
+        (new Xlsx($spreadsheet))->save($path);
+
+        return new UploadedFile($path, 'Network.xlsx', null, null, true);
+    }
+
+    beforeEach(function () {
+        PerimeterSettings::setEnabled(true);
+        $this->perimeterB = Perimeter::factory()->create();
+        // Lecteur dans le périmètre par défaut, rédacteur dans le périmètre B
+        actingAsNetworkUser([
+            Perimeter::DEFAULT_ID => ['network_access', 'network_show'],
+            $this->perimeterB->id => ['network_access', 'network_show', 'network_edit'],
+        ]);
+    });
+
+    afterEach(fn () => PerimeterSettings::setEnabled(false));
+
+    test('cannot update through import a read-only object of another perimeter', function () {
+        $network = Network::factory()->create(['name' => 'Original']);
+        DB::table('networks')->where('id', $network->id)->update(['perimeter_id' => Perimeter::DEFAULT_ID]);
+
+        $this->post(route('admin.config.import'), ['object' => 'Network', 'file' => importNetworkRename($network, 'Renamed')])
+            ->assertSessionHasErrors();
+
+        expect($network->refresh()->name)->toBe('Original');
+    });
+
+    test('can update through import an object inside the edit perimeter', function () {
+        $network = Network::factory()->create(['name' => 'Original']);
+        DB::table('networks')->where('id', $network->id)->update(['perimeter_id' => $this->perimeterB->id]);
+
+        $this->post(route('admin.config.import'), ['object' => 'Network', 'file' => importNetworkRename($network, 'Renamed')])
+            ->assertSessionDoesntHaveErrors();
+
+        expect($network->refresh()->name)->toBe('Renamed');
+    });
 });

@@ -34,7 +34,7 @@
 
         @can('physical_server_delete')
             <form action="{{ route('admin.physical-servers.destroy', $physicalServer->id) }}" method="POST"
-                  onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                  data-confirm="{{ trans('global.areYouSure') }}" style="display: inline-block;">
                 <input type="hidden" name="_method" value="DELETE">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <input type="submit" class="btn btn-danger" value="{{ trans('global.delete') }}">
@@ -67,25 +67,25 @@
                         {{ trans('cruds.physicalServer.fields.cpu') }}
                     </th>
                     <td width="15%">
-                        {!! $physicalServer->cpu !!}
+                        {{ $physicalServer->cpu }}
                     </td>
                     <th width="10%">
                         {{ trans('cruds.physicalServer.fields.memory') }}
                     </th>
                     <td width="15%">
-                        {!! $physicalServer->memory !!}
+                        {{ $physicalServer->memory }}
                     </td>
                     <th width="10%">
                         {{ trans('cruds.physicalServer.fields.disk') }}
                     </th>
                     <td width="15%">
-                        {!! $physicalServer->disk !!}
+                        {{ $physicalServer->disk }}
                     </td>
                     <th width="10%">
                         {{ trans('cruds.physicalServer.fields.disk_used') }}
                     </th>
                     <td width="15%">
-                        {!! $physicalServer->disk_used !!}
+                        {{ $physicalServer->disk_used }}
                     </td>
                 </tr>
                 <tr>
@@ -142,19 +142,19 @@
                         {{ trans('cruds.physicalServer.fields.operating_system') }}
                     </th>
                     <td width="22%">
-                        {!! $physicalServer->operating_system !!}
+                        {{ $physicalServer->operating_system }}
                     </td>
                     <th width="10%">
                         {{ trans('cruds.physicalServer.fields.install_date') }}
                     </th>
                     <td width="22%">
-                        {!! $physicalServer->install_date !!}
+                        {{ $physicalServer->install_date }}
                     </td>
                     <th width="10%">
                         {{ trans('cruds.physicalServer.fields.update_date') }}
                     </th>
                     <td width="22%">
-                        {!! $physicalServer->update_date !!}
+                        {{ $physicalServer->update_date }}
                     </td>
                 </tr>
                 <tr>
@@ -198,10 +198,10 @@
                         @foreach($physicalServer->logicalServers as $logicalServer)
                             @canShow($logicalServer)
                                 <a href="{{ route('admin.logical-servers.show', $logicalServer->id) }}">
-                                    {!! $logicalServer->name !!}
+                                    {{ $logicalServer->name }}
                                 </a>
                             @elsecanShow
-                                {!! $logicalServer->name !!}
+                                {{ $logicalServer->name }}
                             @endcanShow
                             @if (!$loop->last)
                                 ,

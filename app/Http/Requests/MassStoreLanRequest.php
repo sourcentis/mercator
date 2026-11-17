@@ -3,10 +3,9 @@
 namespace App\Http\Requests;
 
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class MassStoreLanRequest extends FormRequest
+class MassStoreLanRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -18,10 +17,10 @@ class MassStoreLanRequest extends FormRequest
     public function rules()
     {
         // On récupère les règles du StoreLanRequest classique
-        $storeRules = (new StoreLanRequest())->rules();
+        $storeRules = (new StoreLanRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -30,13 +29,12 @@ class MassStoreLanRequest extends FormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.mans']   = ['sometimes', 'array'];
+        $rules['items.*.mans'] = ['sometimes', 'array'];
         $rules['items.*.mans.*'] = ['integer'];
 
-        $rules['items.*.wans']   = ['sometimes', 'array'];
+        $rules['items.*.wans'] = ['sometimes', 'array'];
         $rules['items.*.wans.*'] = ['integer'];
 
         return $rules;
     }
 }
-

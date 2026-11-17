@@ -6,6 +6,8 @@ use Illuminate\Validation\Rule;
 
 class UpdateManRequest extends BaseFormRequest
 {
+    protected array $htmlFields = ['description'];
+
     public function authorize(): bool
     {
         return $this->authorizeEdit();

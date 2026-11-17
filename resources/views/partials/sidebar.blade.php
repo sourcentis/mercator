@@ -30,7 +30,13 @@
     @endif
     <div class="search-box">
         <form id="search-form" action="/admin/global-search" method="GET">
-            <input type="text" name="search" class="form-control" placeholder="Rechercher...">
+            @if (\App\Support\TrashMode::active())
+                {{-- Recherche globale désactivée en mode corbeille --}}
+                <input type="text" name="search" class="form-control" disabled
+                       placeholder="{{ trans('cruds.trash.search_disabled') }}">
+            @else
+                <input type="text" name="search" class="form-control" placeholder="Rechercher...">
+            @endif
         </form>
     </div>
     <div class="flex-grow-1">
@@ -585,17 +591,35 @@
                 @endcanAccess
             </div>
         @endcanany
-        <a href="#" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
+        <a href="#" id="logout-link">
             <i class="bi bi-box-arrow-right"></i><span class="menu-text">{{ trans('global.logout') }}</span>
         </a>
     </div>
-    <div class="sidebar-footer">
-        Open Source<br>
-        Version {{ app('mercator.version') }}
-    </div>
+    @if (\App\Support\TrashMode::active())
+        {{-- Mode corbeille : bouton de sortie au-dessus du numéro de version --}}
+        <div class="sidebar-bottom" style="position: fixed; bottom: 0; width: 230px;">
+            <div class="bg-white border-top p-2">
+                <form method="POST" action="{{ route('admin.trash.exit') }}">
+                    @csrf
+                    <button type="submit" id="btn-trash-exit" class="btn btn-danger btn-sm w-100">
+                        <i class="bi bi-box-arrow-left me-1"></i>{{ trans('cruds.trash.exit') }}
+                    </button>
+                </form>
+            </div>
+            <div class="sidebar-footer" style="position: static;">
+                Open Source<br>
+                Version {{ app('mercator.version') }}
+            </div>
+        </div>
+    @else
+        <div class="sidebar-footer">
+            Open Source<br>
+            Version {{ app('mercator.version') }}
+        </div>
+    @endif
 </nav>
 
-<script>
+<script @nonce>
 document.addEventListener('DOMContentLoaded', function () {
     'use strict';
     var form = document.getElementById('active-perimeter-form');

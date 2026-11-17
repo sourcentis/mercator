@@ -7,7 +7,12 @@ use Carbon\Carbon;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PhpOffice\PhpSpreadsheet\Helper\Html;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Writer\Csv;
 use PhpOffice\PhpSpreadsheet\Writer\Exception;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\Response;
 
 class ApplicationList extends ReportController
@@ -59,7 +64,7 @@ class ApplicationList extends ReportController
             trans('cruds.database.title'),
         );
 
-        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet;
+        $spreadsheet = new Spreadsheet;
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->fromArray([$header], null, 'A1');
 
@@ -80,16 +85,16 @@ class ApplicationList extends ReportController
         $sheet->getColumnDimension(self::col($i++))->setAutoSize(true);  // external
         // CIAT
         $sheet->getColumnDimension(self::col($i))->setWidth(10, 'pt');
-        $sheet->getStyle(self::col($i++))->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle(self::col($i++))->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
         $sheet->getColumnDimension(self::col($i))->setWidth(10, 'pt');
-        $sheet->getStyle(self::col($i++))->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle(self::col($i++))->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
         $sheet->getColumnDimension(self::col($i))->setWidth(10, 'pt');
-        $sheet->getStyle(self::col($i++))->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle(self::col($i++))->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
         $sheet->getColumnDimension(self::col($i))->setWidth(10, 'pt');
-        $sheet->getStyle(self::col($i++))->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle(self::col($i++))->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
         if (config('mercator.parameters.security_need_auth')) {
             $sheet->getColumnDimension(self::col($i))->setWidth(10, 'pt');
-            $sheet->getStyle(self::col($i++))->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+            $sheet->getStyle(self::col($i++))->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
         }
         // RTO - RPO
         $sheet->getColumnDimension(self::col($i++))->setAutoSize(true);
@@ -105,7 +110,7 @@ class ApplicationList extends ReportController
         $sheet->getStyle('1')->getFont()->setBold(true);
 
         // converter
-        $html = new \PhpOffice\PhpSpreadsheet\Helper\Html;
+        $html = new Html;
 
         // Populate the sheet
         $row = 2;
@@ -196,12 +201,11 @@ class ApplicationList extends ReportController
             }
         }
 
-        if($request->get('format') == 'csv') {
-            $writer = new \PhpOffice\PhpSpreadsheet\Writer\Csv($spreadsheet);
+        if ($request->get('format') == 'csv') {
+            $writer = new Csv($spreadsheet);
             $path = storage_path('app/applications-'.Carbon::today()->format('Ymd').'.csv');
-        }
-        else {
-            $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+        } else {
+            $writer = new Xlsx($spreadsheet);
             $path = storage_path('app/applications-'.Carbon::today()->format('Ymd').'.xlsx');
         }
 

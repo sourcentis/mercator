@@ -196,7 +196,7 @@ Pas d'écran admin propre, imbriqué sous `Activity` uniquement (cf. ligne 8).
 | 1 | `cruds.information.fields.name` | texte | `name` | |
 | 2 | `cruds.information.fields.type` | texte | `type` | |
 | 3 | `cruds.information.fields.attributes` | badges | `attributes` | |
-| 4 | `cruds.information.fields.description` | HTML riche | `description` | |
+| 4 | `cruds.information.fields.description` | HTML riche + icône | `description`, `icon_id` (fallback `/images/information.png`) | |
 | 5 | "BPMN" | liste de liens (Graph) | `graphs()` | à omettre |
 
 **Contenu additionnel hors partial (important — le partial est très incomplet ici)** :

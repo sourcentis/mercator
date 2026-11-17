@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Gate;
-use Illuminate\Foundation\Http\FormRequest;
-use Symfony\Component\HttpFoundation\Response;
 use App\Models\Vlan;
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 
-class MassUpdateVlanRequest extends FormRequest
+class MassUpdateVlanRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -19,14 +18,14 @@ class MassUpdateVlanRequest extends FormRequest
     public function rules()
     {
         // Règles du UpdateVlanRequest classique
-        $updateRules = (new UpdateVlanRequest())->rules();
+        $updateRules = (new UpdateVlanRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new Vlan();
+        $model = new Vlan;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdateVlanRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -37,10 +36,9 @@ class MassUpdateVlanRequest extends FormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.subnetworks']   = ['sometimes', 'array'];
+        $rules['items.*.subnetworks'] = ['sometimes', 'array'];
         $rules['items.*.subnetworks.*'] = ['integer'];
 
         return $rules;
     }
 }
-

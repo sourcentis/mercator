@@ -84,7 +84,7 @@
                     <label class="recommended"
                            for="description">{{ trans('cruds.dataProcessing.fields.description') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}"
-                              name="description" id="description">{!! old('description') !!}</textarea>
+                              name="description" id="description">{{ old('description') }}</textarea>
                     @if($errors->has('description'))
                         <div class="invalid-feedback">
                             {{ $errors->first('description') }}
@@ -97,7 +97,7 @@
                     <label class="recommended"
                            for="responsible">{{ trans('cruds.dataProcessing.fields.responsible') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('responsible') ? 'is-invalid' : '' }}"
-                              name="responsible" id="responsible">{!! old('responsible') !!}</textarea>
+                              name="responsible" id="responsible">{{ old('responsible') }}</textarea>
                     @if($errors->has('responsible'))
                         <div class="invalid-feedback">
                             {{ $errors->first('responsible') }}
@@ -109,7 +109,7 @@
                 <div class="form-group">
                     <label class="recommended" for="purpose">{{ trans('cruds.dataProcessing.fields.purpose') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('purpose') ? 'is-invalid' : '' }}"
-                              name="purpose" id="purpose">{!! old('purpose') !!}</textarea>
+                              name="purpose" id="purpose">{{ old('purpose') }}</textarea>
                     @if($errors->has('purpose'))
                         <div class="invalid-feedback">
                             {{ $errors->first('purpose') }}
@@ -158,7 +158,7 @@
 
                     <textarea class="form-control ckeditor {{ $errors->has('lawfulness') ? 'is-invalid' : '' }}"
                               name="lawfulness"
-                              id="lawfulness">{!! old('lawfulness') !!}</textarea>
+                              id="lawfulness">{{ old('lawfulness') }}</textarea>
                     @if($errors->has('lawfulness'))
                         <div class="invalid-feedback">
                             {{ $errors->first('lawfulness') }}
@@ -172,7 +172,7 @@
                     <label class="recommended"
                            for="categories">{{ trans('cruds.dataProcessing.fields.categories') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('categories') ? 'is-invalid' : '' }}"
-                              name="categories" id="categories">{!! old('categories') !!}</textarea>
+                              name="categories" id="categories">{{ old('categories') }}</textarea>
                     @if($errors->has('categories'))
                         <div class="invalid-feedback">
                             {{ $errors->first('categories') }}
@@ -185,7 +185,7 @@
                     <label class="recommended"
                            for="dataSource">{{ trans('cruds.dataProcessing.fields.data_source') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('data_source') ? 'is-invalid' : '' }}"
-                              name="data_source" id="data_source">{!! old('data_source') !!}</textarea>
+                              name="data_source" id="data_source">{{ old('data_source') }}</textarea>
                     @if($errors->has('data_source'))
                         <div class="invalid-feedback">
                             {{ $errors->first('data_source') }}
@@ -198,7 +198,7 @@
                     <label class="recommended"
                            for="data_collection_obligation">{{ trans('cruds.dataProcessing.fields.data_collection_obligation') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('data_collection_obligation') ? 'is-invalid' : '' }}"
-                              name="data_collection_obligation" id="data_collection_obligation">{!! old('data_collection_obligation') !!}</textarea>
+                              name="data_collection_obligation" id="data_collection_obligation">{{ old('data_collection_obligation') }}</textarea>
                     @if($errors->has('data_collection_obligation'))
                         <div class="invalid-feedback">
                             {{ $errors->first('data_collection_obligation') }}
@@ -211,7 +211,7 @@
                     <label class="recommended"
                            for="recipients">{{ trans('cruds.dataProcessing.fields.recipients') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('recipients') ? 'is-invalid' : '' }}"
-                              name="recipients" id="recipients">{!! old('recipients') !!}</textarea>
+                              name="recipients" id="recipients">{{ old('recipients') }}</textarea>
                     @if($errors->has('recipients'))
                         <div class="invalid-feedback">
                             {{ $errors->first('recipients') }}
@@ -224,7 +224,7 @@
                     <label class="recommended"
                            for="transfert">{{ trans('cruds.dataProcessing.fields.transfert') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('transfert') ? 'is-invalid' : '' }}"
-                              name="transfert" id="transfert">{!! old('transfert') !!}</textarea>
+                              name="transfert" id="transfert">{{ old('transfert') }}</textarea>
                     @if($errors->has('transfert'))
                         <div class="invalid-feedback">
                             {{ $errors->first('transfert') }}
@@ -237,7 +237,7 @@
                     <label class="recommended"
                            for="automated_decision_making">{{ trans('cruds.dataProcessing.fields.automated_decision_making') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('automated_decision_making') ? 'is-invalid' : '' }}"
-                              name="automated_decision_making" id="automated_decision_making">{!! old('automated_decision_making') !!}</textarea>
+                              name="automated_decision_making" id="automated_decision_making">{{ old('automated_decision_making') }}</textarea>
                     @if($errors->has('automated_decision_making'))
                         <div class="invalid-feedback">
                             {{ $errors->first('automated_decision_making') }}
@@ -250,7 +250,7 @@
                     <label class="recommended"
                            for="retention">{{ trans('cruds.dataProcessing.fields.retention') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('retention') ? 'is-invalid' : '' }}"
-                              name="retention" id="retention">{!! old('retention') !!}</textarea>
+                              name="retention" id="retention">{{ old('retention') }}</textarea>
                     @if($errors->has('retention'))
                         <div class="invalid-feedback">
                             {{ $errors->first('retention') }}
@@ -263,7 +263,7 @@
                     <label class="recommended"
                            for="data_subject_rights">{{ trans('cruds.dataProcessing.fields.data_subject_rights') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('data_subject_rights') ? 'is-invalid' : '' }}"
-                              name="data_subject_rights" id="data_subject_rights">{!! old('data_subject_rights') !!}</textarea>
+                              name="data_subject_rights" id="data_subject_rights">{{ old('data_subject_rights') }}</textarea>
                     @if($errors->has('data_subject_rights'))
                         <div class="invalid-feedback">
                             {{ $errors->first('data_subject_rights') }}
@@ -382,7 +382,7 @@
 @endsection
 
 @section('scripts')
-    <script>
+    <script @nonce>
         document.addEventListener("DOMContentLoaded", function () {
 
             var image_uploader = new window.Dropzone("#dropzoneFileUpload", {

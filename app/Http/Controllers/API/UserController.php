@@ -8,6 +8,7 @@ use App\Http\Requests\MassUpdateUserRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use App\Support\RoleAssignment;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -27,6 +28,7 @@ class UserController extends APIController
     public function store(StoreUserRequest $request)
     {
         abort_if(Gate::denies('user_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        RoleAssignment::authorizeRoles($request->user(), null, $request->input('roles', []));
 
         /** @var User $user */
         $user = User::query()->create($request->all());
@@ -48,6 +50,10 @@ class UserController extends APIController
     public function update(UpdateUserRequest $request, User $user)
     {
         abort_if(Gate::denies('edit-object', $user), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        RoleAssignment::authorizeManage($request->user(), $user);
+        if ($request->has('roles')) {
+            RoleAssignment::authorizeRoles($request->user(), $user, $request->input('roles', []));
+        }
 
         $user->update($request->all());
 
@@ -58,9 +64,10 @@ class UserController extends APIController
         return response()->json();
     }
 
-    public function destroy(User $user)
+    public function destroy(Request $request, User $user)
     {
         abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        RoleAssignment::authorizeManage($request->user(), $user);
 
         $user->delete();
 
@@ -71,6 +78,9 @@ class UserController extends APIController
     {
         abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        User::whereIn('id', $request->input('ids', []))->get()
+            ->each(fn (User $user) => RoleAssignment::authorizeManage($request->user(), $user));
+
         User::whereIn('id', $request->input('ids', []))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
@@ -79,9 +89,13 @@ class UserController extends APIController
     public function massStore(MassStoreUserRequest $request)
     {
 
+        foreach ($request->input('items', []) as $item) {
+            RoleAssignment::authorizeRoles($request->user(), null, $item['roles'] ?? []);
+        }
+
         $createdIds = [];
-        $userModel  = new User();
-        $fillable   = $userModel->getFillable();
+        $userModel = new User;
+        $fillable = $userModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             $roles = $item['roles'] ?? null;
@@ -104,18 +118,27 @@ class UserController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateUserRequest $request)
     {
-        $userModel = new User();
-        $fillable  = $userModel->getFillable();
+        foreach ($request->input('items', []) as $rawItem) {
+            /** @var User $target */
+            $target = User::query()->findOrFail($rawItem['id']);
+            RoleAssignment::authorizeManage($request->user(), $target);
+            if (array_key_exists('roles', $rawItem)) {
+                RoleAssignment::authorizeRoles($request->user(), $target, $rawItem['roles'] ?? []);
+            }
+        }
+
+        $userModel = new User;
+        $fillable = $userModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
-            $id    = $rawItem['id'];
+            $id = $rawItem['id'];
             $roles = $rawItem['roles'] ?? null;
 
             /** @var User $user */

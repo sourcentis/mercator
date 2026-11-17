@@ -31,7 +31,7 @@
 
             @if(auth()->user()->can('application_delete'))
                 <form action="{{ route('admin.applications.destroy', $application->id) }}" method="POST"
-                      onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                      data-confirm="{{ trans('global.areYouSure') }}" style="display: inline-block;">
                     <input type="hidden" name="_method" value="DELETE">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input type="submit" class="btn btn-danger" value="{{ trans('global.delete') }}">
@@ -117,13 +117,12 @@
                     <th>
                         {{ trans('cruds.application.fields.administrators') }}
                     </th>
-                    <td>
+                    <td colspan=3>
                         @foreach($application->administrators as $administrator)
-                            <a href="{{ route('admin.admin-users.show', $administrator->id) }}">{{ $administrator->user_id }}</a>
-                            @if(!$loop->last)
-                                ,
-                            @endif
+                            <a href="{{ route('admin.admin-users.show', $administrator->id) }}">{{ $administrator->firstname }} {{ $administrator->lastname }} [{{ $administrator->user_id }}]</a>@if(!$loop->last),@endif
                         @endforeach
+                    </td>
+                    <td colspan=2>
                     </td>
                 </tbody>
             </table>
@@ -140,13 +139,13 @@
                     <th width="10%">
                         {{ trans('cruds.application.fields.technology') }}
                     </th>
-                    <td colspan="2">
+                    <td colspan="4">
                         {{ $application->technology }}
                     </td>
                     <th>
                         {{ trans('cruds.application.fields.external') }}
                     </th>
-                    <td colspan="4">
+                    <td colspan="2">
                         {{ $application->external }}
                     </td>
                 </tr>
@@ -698,9 +697,21 @@
 @endsection
 
 @section('scripts')
-    <script>
+    <script @nonce>
         document.addEventListener("DOMContentLoaded", function () {
             const events = @json($application->events);
+
+            function escapeHtml(value) {
+                if (value == null) {
+                    return '';
+                }
+                return String(value)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#039;');
+            }
 
             function renderEvents() {
                 if (!events.length) {
@@ -710,10 +721,10 @@
                 events.forEach(function (event) {
                     ret += `
                         <li class="mb-3 border-bottom pb-2">
-                            <div>${event.message}</div>
+                            <div>${escapeHtml(event.message)}</div>
                             <small class="text-muted">
                                 Date : ${moment(event.created_at).format('DD-MM-YYYY')}
-                                | Utilisateur : ${event.user.name}
+                                | Utilisateur : ${escapeHtml(event.user.name)}
                             </small>
                         </li>`;
                 });

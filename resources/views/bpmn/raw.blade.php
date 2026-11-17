@@ -14,7 +14,7 @@
                     <input name='name' type='text' value="{{ $name }}" id="name"/>
                 </div>
                 <div class="row">
-                    <textarea name='content' id="textarea" rows="80">{!! $content !!}</textarea>
+                    <textarea name='content' id="textarea" rows="80">{{ $content }}</textarea>
                 </div>
            </div>
         </div>

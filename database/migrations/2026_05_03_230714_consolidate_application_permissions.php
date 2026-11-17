@@ -36,7 +36,7 @@ return new class extends Migration
                 ->where('permission_id', $oldId)
                 ->whereNotIn('role_id', $existingRoles)
                 ->get()
-                ->map(fn($r) => ['role_id' => $r->role_id, 'permission_id' => $canonicalId])
+                ->map(fn ($r) => ['role_id' => $r->role_id, 'permission_id' => $canonicalId])
                 ->toArray();
 
             if (! empty($toInsert)) {

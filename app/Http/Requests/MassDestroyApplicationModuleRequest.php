@@ -8,14 +8,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MassDestroyApplicationModuleRequest extends FormRequest
 {
-    public function authorize() : bool
+    public function authorize(): bool
     {
         abort_if(Gate::denies('application_module_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
     }
 
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'ids' => 'required|array',

@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
+use App\Factories\RelationValueFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use App\Factories\ActivityImpactFactory;
-use App\Factories\RelationValueFactory;
 
 /**
  * App\RelationValue

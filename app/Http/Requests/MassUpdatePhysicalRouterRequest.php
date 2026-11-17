@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Gate;
-use Illuminate\Foundation\Http\FormRequest;
-use Symfony\Component\HttpFoundation\Response;
 use App\Models\PhysicalRouter;
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 
-class MassUpdatePhysicalRouterRequest extends FormRequest
+class MassUpdatePhysicalRouterRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -19,14 +18,14 @@ class MassUpdatePhysicalRouterRequest extends FormRequest
     public function rules()
     {
         // Règles du UpdatePhysicalRouterRequest classique
-        $updateRules = (new UpdatePhysicalRouterRequest())->rules();
+        $updateRules = (new UpdatePhysicalRouterRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new PhysicalRouter();
+        $model = new PhysicalRouter;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdatePhysicalRouterRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -37,10 +36,9 @@ class MassUpdatePhysicalRouterRequest extends FormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.vlans']   = ['sometimes', 'array'];
+        $rules['items.*.vlans'] = ['sometimes', 'array'];
         $rules['items.*.vlans.*'] = ['integer'];
 
         return $rules;
     }
 }
-

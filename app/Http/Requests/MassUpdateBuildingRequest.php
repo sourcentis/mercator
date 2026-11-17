@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Gate;
-use Illuminate\Foundation\Http\FormRequest;
-use Symfony\Component\HttpFoundation\Response;
 use App\Models\Building;
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 
-class MassUpdateBuildingRequest extends FormRequest
+class MassUpdateBuildingRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -19,14 +18,14 @@ class MassUpdateBuildingRequest extends FormRequest
     public function rules()
     {
         // Règles du UpdateBuildingRequest classique
-        $updateRules = (new UpdateBuildingRequest())->rules();
+        $updateRules = (new UpdateBuildingRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new Building();
+        $model = new Building;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdateBuildingRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -40,4 +39,3 @@ class MassUpdateBuildingRequest extends FormRequest
         return $rules;
     }
 }
-

@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Cartographer;
 use App\Models\User;
 use App\Support\PerimeterPermissions;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
@@ -25,8 +26,12 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        // Cache des permissions de rôle lues en base, par instance d'utilisateur.
+        // Hors du modèle : un attribut dynamique serait écrit en base au prochain save() (#2774).
+        $dbPermissionsCache = new \WeakMap;
+
         // 🧠 Hook global appelé AVANT toutes les autres règles Gate
-        Gate::before(function ($user, string $ability, array $arguments = []) {
+        Gate::before(function ($user, string $ability, array $arguments = []) use ($dbPermissionsCache) {
             if (! $user) {
                 return null;
             }
@@ -46,25 +51,26 @@ class AuthServiceProvider extends ServiceProvider
             }
 
             // 2. Contexte API : pas de session web → fallback base de données
-            // La présence de cartographer_permissions_at indique un contexte web (loadSessionFor appelé)
-            if (! session()->has('auth_permissions') && ! session()->has('cartographer_permissions_at')) {
+            // Repli base dès que la session ne porte pas les permissions de rôle, même si les
+            // permissions cartographe y ont été chargées (session ouverte hors login web, #2754).
+            if (! session()->has('auth_permissions')) {
 
                 // 2a. Permissions de rôle depuis la DB (cache par requête sur $user)
-                if (! isset($user->_dbPermissionsCache)) {
-                    $user->_dbPermissionsCache = $user->roles()
+                if (! isset($dbPermissionsCache[$user])) {
+                    $dbPermissionsCache[$user] = $user->roles()
                         ->with('permissions')
                         ->get()
                         ->flatMap->permissions
                         ->pluck('title')
                         ->all();
                 }
-                if (in_array($ability, $user->_dbPermissionsCache, true)) {
+                if (in_array($ability, $dbPermissionsCache[$user], true)) {
                     return true;
                 }
 
                 // 2b. Pour les droits _access : autoriser si l'utilisateur est cartographe de ce type
                 if (str_ends_with($ability, '_access')) {
-                    $class = 'App\\Models\\' . Str::studly(substr($ability, 0, -7));
+                    $class = 'App\\Models\\'.Str::studly(substr($ability, 0, -7));
                     if (class_exists($class) && Cartographer::hasAnyFor($user, $class)) {
                         return true;
                     }
@@ -74,12 +80,12 @@ class AuthServiceProvider extends ServiceProvider
             return null;
         });
 
-        Gate::define('edit-object', function (User $user, ?\Illuminate\Database\Eloquent\Model $object = null) {
+        Gate::define('edit-object', function (User $user, ?Model $object = null) {
             if (! $object) {
                 return false;
             }
 
-            $ability = Str::snake(class_basename($object)) . '_edit';
+            $ability = Str::snake(class_basename($object)).'_edit';
 
             // Permission de rôle, évaluée dans le périmètre de l'objet (voir Gate::before)
             if (Gate::forUser($user)->check($ability, $object)) {
@@ -89,12 +95,12 @@ class AuthServiceProvider extends ServiceProvider
             return Cartographer::isAllowed($user, $object);
         });
 
-        Gate::define('show-object', function (User $user, ?\Illuminate\Database\Eloquent\Model $object = null) {
+        Gate::define('show-object', function (User $user, ?Model $object = null) {
             if (! $object) {
                 return false;
             }
 
-            $ability = Str::snake(class_basename($object)) . '_show';
+            $ability = Str::snake(class_basename($object)).'_show';
 
             // Permission de rôle, évaluée dans le périmètre de l'objet (voir Gate::before)
             if (Gate::forUser($user)->check($ability, $object)) {

@@ -101,7 +101,7 @@
                             <select class="form-control select2-free-tags {{ $errors->has('attributes') ? 'is-invalid' : '' }}"
                                     name="attributes[]" id="attributes" multiple>
                                 @foreach($attributes_list as $a)
-                                    <option {{ str_contains(old('attributes'), $a) ? 'selected' : '' }}>{{$a}}</option>
+                                    <option {{ in_array($a, old('attributes', []), true) ? 'selected' : '' }}>{{$a}}</option>
                                 @endforeach
                             </select>
                             @if($errors->has('attributes'))
@@ -120,7 +120,7 @@
                             <label for="description">{{ trans('cruds.logicalServer.fields.description') }}</label>
                             <textarea
                                     class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}"
-                                    name="description" id="description">{!! old('description') !!}</textarea>
+                                    name="description" id="description">{{ old('description') }}</textarea>
                             @if($errors->has('description'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('description') }}
@@ -334,7 +334,7 @@
                                 <label for="configuration">{{ trans('cruds.logicalServer.fields.configuration') }}</label>
                                 <textarea
                                         class="form-control ckeditor {{ $errors->has('configuration') ? 'is-invalid' : '' }}"
-                                        name="configuration" id="configuration">{!! old('configuration') !!}</textarea>
+                                        name="configuration" id="configuration">{{ old('configuration') }}</textarea>
                                 @if($errors->has('configuration'))
                                     <div class="invalid-feedback">
                                         {{ $errors->first('configuration') }}

@@ -3,10 +3,9 @@
 namespace App\Http\Requests;
 
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class StorePermissionRequest extends FormRequest
+class StorePermissionRequest extends BaseFormRequest
 {
     public function authorize()
     {

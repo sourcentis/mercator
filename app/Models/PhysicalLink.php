@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Factories\PhysicalLinkFactory;
 use App\Scopes\PhysicalLinkPerimeterScope;
 use App\Traits\Auditable;
+use App\Traits\Blameable;
 use App\Traits\HasCartographers;
 use App\Traits\HasPerimeter;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -15,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PhysicalLink extends Model
 {
-    use Auditable, HasFactory, SoftDeletes;
+    use Auditable, Blameable, HasFactory, SoftDeletes;
     use HasCartographers;
     use HasPerimeter;
 
@@ -40,6 +41,7 @@ class PhysicalLink extends Model
     public static $searchable = [
         'type',
         'description',
+        'attributes',
     ];
 
     protected array $dates = [

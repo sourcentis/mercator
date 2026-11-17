@@ -17,7 +17,7 @@
             <div class="card-body">
 
                 <div class="row">
-                    @if (auth()->user()->hasMultiplePerimeters())
+                    @if (auth()->user()->canChoosePerimeterOf($dataProcessing))
                 <div class="col-2">
                     <div class="form-group">
                         <label for="perimeter_id">{{ trans('cruds.perimeter.title_short') }}</label>
@@ -74,7 +74,7 @@
                             <select class="form-control select2-free {{ $errors->has('responsible') ? 'is-invalid' : '' }}"
                                     name="legal_bases[]" id="legal_bases" multiple>
                                 @foreach($legal_basis_list as $lb)
-                                    <option {{ str_contains($dataProcessing->legal_basis ,$lb) ? 'selected' : '' }}>{{$lb}}</option>
+                                    <option {{ in_array($lb, old('legal_bases', array_map('trim', explode(',', $dataProcessing->legal_basis ?? ''))), true) ? 'selected' : '' }}>{{$lb}}</option>
                                 @endforeach
                             </select>
                             @if($errors->has('legal_basis'))
@@ -92,7 +92,7 @@
                            for="description">{{ trans('cruds.dataProcessing.fields.description') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}"
                               name="description"
-                              id="description">{!! old('description', $dataProcessing->description) !!}</textarea>
+                              id="description">{{ old('description', $dataProcessing->description) }}</textarea>
                     @if($errors->has('description'))
                         <div class="invalid-feedback">
                             {{ $errors->first('description') }}
@@ -106,7 +106,7 @@
                            for="responsible">{{ trans('cruds.dataProcessing.fields.responsible') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('responsible') ? 'is-invalid' : '' }}"
                               name="responsible"
-                              id="responsible">{!! old('responsible', $dataProcessing->responsible) !!}</textarea>
+                              id="responsible">{{ old('responsible', $dataProcessing->responsible) }}</textarea>
                     @if($errors->has('responsible'))
                         <div class="invalid-feedback">
                             {{ $errors->first('responsible') }}
@@ -118,7 +118,7 @@
                 <div class="form-group">
                     <label class="recommended" for="purpose">{{ trans('cruds.dataProcessing.fields.purpose') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('purpose') ? 'is-invalid' : '' }}"
-                              name="purpose" id="purpose">{!! old('purpose', $dataProcessing->purpose) !!}</textarea>
+                              name="purpose" id="purpose">{{ old('purpose', $dataProcessing->purpose) }}</textarea>
                     @if($errors->has('purpose'))
                         <div class="invalid-feedback">
                             {{ $errors->first('purpose') }}
@@ -167,7 +167,7 @@
 
                     <textarea class="form-control ckeditor {{ $errors->has('lawfulness') ? 'is-invalid' : '' }}"
                               name="lawfulness"
-                              id="lawfulness">{!! old('lawfulness', $dataProcessing->lawfulness) !!}</textarea>
+                              id="lawfulness">{{ old('lawfulness', $dataProcessing->lawfulness) }}</textarea>
                     @if($errors->has('lawfulness'))
                         <div class="invalid-feedback">
                             {{ $errors->first('lawfulness') }}
@@ -181,7 +181,7 @@
                            for="categories">{{ trans('cruds.dataProcessing.fields.categories') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('categories') ? 'is-invalid' : '' }}"
                               name="categories"
-                              id="categories">{!! old('categories', $dataProcessing->categories) !!}</textarea>
+                              id="categories">{{ old('categories', $dataProcessing->categories) }}</textarea>
                     @if($errors->has('categories'))
                         <div class="invalid-feedback">
                             {{ $errors->first('categories') }}
@@ -195,7 +195,7 @@
                            for="data_source">{{ trans('cruds.dataProcessing.fields.data_source') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('data_source') ? 'is-invalid' : '' }}"
                               name="data_source"
-                              id="data_source">{!! old('data_source', $dataProcessing->data_source) !!}</textarea>
+                              id="data_source">{{ old('data_source', $dataProcessing->data_source) }}</textarea>
                     @if($errors->has('data_source'))
                         <div class="invalid-feedback">
                             {{ $errors->first('data_source') }}
@@ -209,7 +209,7 @@
                            for="data_collection_obligation">{{ trans('cruds.dataProcessing.fields.data_collection_obligation') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('data_collection_obligation') ? 'is-invalid' : '' }}"
                               name="data_collection_obligation"
-                              id="data_collection_obligation">{!! old('data_collection_obligation', $dataProcessing->data_collection_obligation) !!}</textarea>
+                              id="data_collection_obligation">{{ old('data_collection_obligation', $dataProcessing->data_collection_obligation) }}</textarea>
                     @if($errors->has('data_collection_obligation'))
                         <div class="invalid-feedback">
                             {{ $errors->first('data_collection_obligation') }}
@@ -223,7 +223,7 @@
                            for="recipients">{{ trans('cruds.dataProcessing.fields.recipients') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('recipients') ? 'is-invalid' : '' }}"
                               name="recipients"
-                              id="recipients">{!! old('recipients', $dataProcessing->recipients) !!}</textarea>
+                              id="recipients">{{ old('recipients', $dataProcessing->recipients) }}</textarea>
                     @if($errors->has('recipients'))
                         <div class="invalid-feedback">
                             {{ $errors->first('recipients') }}
@@ -237,7 +237,7 @@
                            for="transfert">{{ trans('cruds.dataProcessing.fields.transfert') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('transfert') ? 'is-invalid' : '' }}"
                               name="transfert"
-                              id="transfert">{!! old('transfert', $dataProcessing->transfert) !!}</textarea>
+                              id="transfert">{{ old('transfert', $dataProcessing->transfert) }}</textarea>
                     @if($errors->has('transfert'))
                         <div class="invalid-feedback">
                             {{ $errors->first('transfert') }}
@@ -252,7 +252,7 @@
                            for="automated_decision_making">{{ trans('cruds.dataProcessing.fields.automated_decision_making') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('automated_decision_making') ? 'is-invalid' : '' }}"
                               name="automated_decision_making"
-                              id="automated_decision_making">{!! old('automated_decision_making', $dataProcessing->automated_decision_making) !!}</textarea>
+                              id="automated_decision_making">{{ old('automated_decision_making', $dataProcessing->automated_decision_making) }}</textarea>
                     @if($errors->has('automated_decision_making'))
                         <div class="invalid-feedback">
                             {{ $errors->first('automated_decision_making') }}
@@ -266,7 +266,7 @@
                            for="retention">{{ trans('cruds.dataProcessing.fields.retention') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('retention') ? 'is-invalid' : '' }}"
                               name="retention"
-                              id="retention">{!! old('retention', $dataProcessing->retention) !!}</textarea>
+                              id="retention">{{ old('retention', $dataProcessing->retention) }}</textarea>
                     @if($errors->has('retention'))
                         <div class="invalid-feedback">
                             {{ $errors->first('retention') }}
@@ -281,7 +281,7 @@
                            for="data_subject_rights">{{ trans('cruds.dataProcessing.fields.data_subject_rights') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('data_subject_rights') ? 'is-invalid' : '' }}"
                               name="data_subject_rights"
-                              id="data_subject_rights">{!! old('data_subject_rights', $dataProcessing->data_subject_rights) !!}</textarea>
+                              id="data_subject_rights">{{ old('data_subject_rights', $dataProcessing->data_subject_rights) }}</textarea>
                     @if($errors->has('data_subject_rights'))
                         <div class="invalid-feedback">
                             {{ $errors->first('data_subject_rights') }}
@@ -343,7 +343,7 @@
                     <select class="form-control select2 {{ $errors->has('applications') ? 'is-invalid' : '' }}"
                             name="applications[]" id="applications" multiple>
                         @foreach($applications as $app)
-                            <option value="{{ $app->id }}" {{ (in_array($app->id, old('processes', [])) || $dataProcessing->applications->contains($app->id)) ? 'selected' : '' }}>{{ $app->name }}</option>
+                            <option value="{{ $app->id }}" {{ (in_array($app->id, old('applications', [])) || $dataProcessing->applications->contains($app->id)) ? 'selected' : '' }}>{{ $app->name }}</option>
                         @endforeach
                     </select>
                     @if($errors->has('applications'))
@@ -365,7 +365,7 @@
                     <select class="form-control select2 {{ $errors->has('informations') ? 'is-invalid' : '' }}"
                             name="informations[]" id="informations" multiple>
                         @foreach($informations as $info)
-                            <option value="{{ $info->id }}" {{ (in_array($info->id, old('processes', [])) || $dataProcessing->informations->contains($info->id)) ? 'selected' : '' }}>{{ $info->name }}</option>
+                            <option value="{{ $info->id }}" {{ (in_array($info->id, old('informations', [])) || $dataProcessing->informations->contains($info->id)) ? 'selected' : '' }}>{{ $info->name }}</option>
                         @endforeach
                     </select>
                     @if($errors->has('informations'))
@@ -401,7 +401,7 @@
 @endsection
 
 @section('scripts')
-    <script>
+    <script @nonce>
         document.addEventListener("DOMContentLoaded", function () {
 
             var image_uploader = new window.Dropzone("#dropzoneFileUpload", {

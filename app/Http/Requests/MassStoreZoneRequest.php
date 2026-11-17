@@ -3,10 +3,9 @@
 namespace App\Http\Requests;
 
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class MassStoreZoneRequest extends FormRequest
+class MassStoreZoneRequest extends BaseMassFormRequest
 {
     public function authorize(): bool
     {
@@ -17,10 +16,10 @@ class MassStoreZoneRequest extends FormRequest
 
     public function rules(): array
     {
-        $storeRules = (new StoreZoneRequest())->rules();
+        $storeRules = (new StoreZoneRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 

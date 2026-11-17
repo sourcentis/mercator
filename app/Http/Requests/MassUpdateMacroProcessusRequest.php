@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Gate;
-use Illuminate\Foundation\Http\FormRequest;
-use Symfony\Component\HttpFoundation\Response;
 use App\Models\MacroProcessus;
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 
-class MassUpdateMacroProcessusRequest extends FormRequest
+class MassUpdateMacroProcessusRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -19,14 +18,14 @@ class MassUpdateMacroProcessusRequest extends FormRequest
     public function rules()
     {
         // Règles du UpdateMacroProcessusRequest classique
-        $updateRules = (new UpdateMacroProcessusRequest())->rules();
+        $updateRules = (new UpdateMacroProcessusRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new MacroProcessus();
+        $model = new MacroProcessus;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdateMacroProcessusRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -37,10 +36,9 @@ class MassUpdateMacroProcessusRequest extends FormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.processes']   = ['sometimes', 'array'];
+        $rules['items.*.processes'] = ['sometimes', 'array'];
         $rules['items.*.processes.*'] = ['integer'];
 
         return $rules;
     }
 }
-

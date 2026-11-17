@@ -9,11 +9,14 @@ use App\Http\Requests\UpdateInformationRequest;
 use App\Models\Cartographer;
 use App\Models\Information;
 use App\Models\Process;
+use App\Services\IconUploadService;
 use Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class InformationController extends Controller
 {
+    public function __construct(private readonly IconUploadService $iconUploadService) {}
+
     public function index()
     {
         $user = auth()->user();
@@ -50,7 +53,10 @@ class InformationController extends Controller
         $sensitivity_list = Information::select('sensitivity')->where('sensitivity', '<>', null)->distinct()->orderBy('sensitivity')->pluck('sensitivity');
         $administrator_list = Information::select('administrator')->where('administrator', '<>', null)->distinct()->orderBy('administrator')->pluck('administrator');
         $type_list = Information::query()->select('type')->where('type', '<>', null)->distinct()->orderBy('type')->pluck('type');
+        $retention_period_list = Information::query()->select('retention_period')->whereNotNull('retention_period')->distinct()->orderBy('retention_period')->pluck('retention_period');
+        $final_disposition_list = Information::query()->select('final_disposition')->whereNotNull('final_disposition')->distinct()->orderBy('final_disposition')->pluck('final_disposition');
         $attributes_list = $this->getAttributes();
+        $icons = Information::select('icon_id')->whereNotNull('icon_id')->orderBy('icon_id')->distinct()->pluck('icon_id');
 
         return view('admin.information.create', compact(
             'processes',
@@ -60,7 +66,10 @@ class InformationController extends Controller
             'administrator_list',
             'information_list',
             'type_list',
-            'attributes_list'
+            'attributes_list',
+            'retention_period_list',
+            'final_disposition_list',
+            'icons'
         ));
     }
 
@@ -69,6 +78,10 @@ class InformationController extends Controller
         $request['attributes'] = implode(' ', $request->get('attributes') !== null ? $request->get('attributes') : []);
 
         $information = Information::create($request->all());
+
+        // Save icon
+        $this->iconUploadService->handle($request, $information);
+        $information->save();
 
         $information->processes()->sync($request->input('processes', []));
         $information->parents()->sync($request->input('parents', []));
@@ -93,7 +106,10 @@ class InformationController extends Controller
         $sensitivity_list = Information::select('sensitivity')->where('sensitivity', '<>', null)->distinct()->orderBy('sensitivity')->pluck('sensitivity');
         $administrator_list = Information::select('administrator')->where('administrator', '<>', null)->distinct()->orderBy('administrator')->pluck('administrator');
         $type_list = Information::query()->select('type')->where('type', '<>', null)->distinct()->orderBy('type')->pluck('type');
+        $retention_period_list = Information::query()->select('retention_period')->whereNotNull('retention_period')->distinct()->orderBy('retention_period')->pluck('retention_period');
+        $final_disposition_list = Information::query()->select('final_disposition')->whereNotNull('final_disposition')->distinct()->orderBy('final_disposition')->pluck('final_disposition');
         $attributes_list = $this->getAttributes();
+        $icons = Information::select('icon_id')->whereNotNull('icon_id')->orderBy('icon_id')->distinct()->pluck('icon_id');
 
         return view('admin.information.edit', compact(
             'processes',
@@ -104,7 +120,10 @@ class InformationController extends Controller
             'administrator_list',
             'information_list',
             'type_list',
-            'attributes_list'
+            'attributes_list',
+            'retention_period_list',
+            'final_disposition_list',
+            'icons'
         ));
     }
 
@@ -113,6 +132,9 @@ class InformationController extends Controller
         abort_if(Gate::denies('edit-object', $information), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $request['attributes'] = implode(' ', $request->get('attributes') !== null ? $request->get('attributes') : []);
+
+        // Save icon
+        $this->iconUploadService->handle($request, $information);
 
         $information->update($request->all());
 

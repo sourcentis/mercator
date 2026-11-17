@@ -3,10 +3,9 @@
 namespace App\Http\Requests;
 
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class MassStoreSubnetworkRequest extends FormRequest
+class MassStoreSubnetworkRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -18,10 +17,10 @@ class MassStoreSubnetworkRequest extends FormRequest
     public function rules()
     {
         // On récupère les règles du StoreSubnetworkRequest classique
-        $storeRules = (new StoreSubnetworkRequest())->rules();
+        $storeRules = (new StoreSubnetworkRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -33,4 +32,3 @@ class MassStoreSubnetworkRequest extends FormRequest
         return $rules;
     }
 }
-

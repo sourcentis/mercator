@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Gate;
-use Illuminate\Foundation\Http\FormRequest;
-use Symfony\Component\HttpFoundation\Response;
 use App\Models\Gateway;
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 
-class MassUpdateGatewayRequest extends FormRequest
+class MassUpdateGatewayRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -19,14 +18,14 @@ class MassUpdateGatewayRequest extends FormRequest
     public function rules()
     {
         // Règles du UpdateGatewayRequest classique
-        $updateRules = (new UpdateGatewayRequest())->rules();
+        $updateRules = (new UpdateGatewayRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new Gateway();
+        $model = new Gateway;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdateGatewayRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -37,10 +36,9 @@ class MassUpdateGatewayRequest extends FormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.subnetworks']   = ['sometimes', 'array'];
+        $rules['items.*.subnetworks'] = ['sometimes', 'array'];
         $rules['items.*.subnetworks.*'] = ['integer'];
 
         return $rules;
     }
 }
-

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Services\MailerService;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\RedirectResponse;
@@ -73,14 +74,7 @@ class ForgotPasswordController extends Controller
 
         try {
             // Server settings
-            $mail->isSMTP();
-            $mail->Host = config('mail.mailers.smtp.host'); // env('MAIL_HOST');
-            $mail->SMTPAuth = config('mail.mailers.smtp.username') !== null;
-            $mail->Username = config('mail.mailers.smtp.username'); // env('MAIL_USERNAME');
-            $mail->Password = config('mail.mailers.smtp.password'); // env('MAIL_PASSWORD');
-            $mail->SMTPSecure = config('mail.mailers.smtp.encryption'); // env('MAIL_SMTP_SECURE', false) ?: false; // 'tls' | 'ssl' | false
-            $mail->SMTPAutoTLS = config('mail.mailers.smtp.auto_tls'); // filter_var(env('MAIL_SMTP_AUTO_TLS', false), FILTER_VALIDATE_BOOLEAN);
-            $mail->Port = (int) config('mail.mailers.smtp.port'); // (int) env('MAIL_PORT', 587);
+            MailerService::configure($mail);
 
             // Recipients
             $mail->setFrom(config('mail.from.address'));

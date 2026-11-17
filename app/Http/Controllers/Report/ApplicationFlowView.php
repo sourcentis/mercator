@@ -3,17 +3,18 @@
 namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
+use App\Models\Application;
+use App\Models\ApplicationBlock;
+use App\Models\ApplicationFlow;
+use App\Models\ApplicationModule;
+use App\Models\ApplicationService;
 use App\Models\Cartographer;
+use App\Models\Database;
+use App\Services\Graph\ApplicationFlowGraphBuilder;
+use App\Services\Graph\GraphSize;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\ApplicationBlock;
-use App\Models\ApplicationModule;
-use App\Models\ApplicationService;
-use App\Models\Database;
-use App\Models\ApplicationFlow;
-use App\Models\Application;
-use App\Services\Graph\ApplicationFlowGraphBuilder;
 use Symfony\Component\HttpFoundation\Response;
 
 class ApplicationFlowView extends Controller
@@ -21,9 +22,9 @@ class ApplicationFlowView extends Controller
     public function generate(Request $request)
     {
         $allowed = Gate::allows('explore_access') || Cartographer::canAccessAny([
-            \App\Models\ApplicationFlow::class, \App\Models\Application::class, \App\Models\ApplicationBlock::class,
+            ApplicationFlow::class, Application::class, ApplicationBlock::class,
         ]);
-        abort_if(!$allowed, Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(! $allowed, Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         // Blocks
         if ($request->applicationBlocks == null) {
@@ -172,6 +173,9 @@ class ApplicationFlowView extends Controller
         $all_applications = Cartographer::scopedQuery(Application::query())->orderBy('name')->pluck('name', 'id');
         $all_databases = Cartographer::scopedQuery(Database::query())->orderBy('name')->pluck('name', 'id');
 
+        // Compte les nœuds avant de construire le DOT : un graphe trop grand n'est ni construit ni envoyé
+        $graphTooLarge = GraphSize::tooLarge(GraphSize::count($applications, $applicationServices, $applicationModules, $databases));
+
         $graphBuilder = new ApplicationFlowGraphBuilder;
 
         // return
@@ -184,7 +188,8 @@ class ApplicationFlowView extends Controller
             ->with('applicationModules', $applicationModules)
             ->with('databases', $databases)
             ->with('flows', $flows)
-            ->with('dotSrc', $graphBuilder->buildDot($applications, $applicationServices, $applicationModules, $databases, $flows))
+            ->with('graphTooLarge', $graphTooLarge)
+            ->with('dotSrc', $graphTooLarge ? '' : $graphBuilder->buildDot($applications, $applicationServices, $applicationModules, $databases, $flows))
             ->with('imageManifest', $graphBuilder->imageManifest($applications));
     }
 }

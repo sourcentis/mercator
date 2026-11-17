@@ -3,10 +3,9 @@
 namespace App\Http\Requests;
 
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class MassStorePhysicalSwitchRequest extends FormRequest
+class MassStorePhysicalSwitchRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -18,10 +17,10 @@ class MassStorePhysicalSwitchRequest extends FormRequest
     public function rules()
     {
         // On récupère les règles du StorePhysicalSwitchRequest classique
-        $storeRules = (new StorePhysicalSwitchRequest())->rules();
+        $storeRules = (new StorePhysicalSwitchRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -33,4 +32,3 @@ class MassStorePhysicalSwitchRequest extends FormRequest
         return $rules;
     }
 }
-

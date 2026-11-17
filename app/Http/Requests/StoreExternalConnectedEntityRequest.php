@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class StoreExternalConnectedEntityRequest extends BaseFormRequest
 {
-    protected array $htmlFields = ['description'];
+    protected array $htmlFields = ['description', 'security'];
 
     public function authorize(): bool
     {

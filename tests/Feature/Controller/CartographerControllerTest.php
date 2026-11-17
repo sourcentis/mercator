@@ -35,10 +35,10 @@ beforeEach(function () {
 describe('associatedObjects', function () {
 
     test('returns objects associated with a given user_id', function () {
-        $user  = User::factory()->create();
+        $user = User::factory()->create();
         $other = User::factory()->create();
-        $app1  = Application::factory()->create(['name' => 'App A']);
-        $app2  = Application::factory()->create(['name' => 'App B']);
+        $app1 = Application::factory()->create(['name' => 'App A']);
+        $app2 = Application::factory()->create(['name' => 'App B']);
 
         Cartographer::create(['cartographiable_type' => Application::class, 'cartographiable_id' => $app1->id, 'user_id' => $user->id]);
         Cartographer::create(['cartographiable_type' => Application::class, 'cartographiable_id' => $app2->id, 'user_id' => $other->id]);
@@ -54,7 +54,7 @@ describe('associatedObjects', function () {
 
     test('returns objects associated with a given role_id', function () {
         $role = Role::factory()->create(['title' => 'testers']);
-        $app  = Application::factory()->create(['name' => 'Shared App']);
+        $app = Application::factory()->create(['name' => 'Shared App']);
 
         Cartographer::create(['cartographiable_type' => Application::class, 'cartographiable_id' => $app->id, 'role_id' => $role->id]);
 
@@ -83,7 +83,7 @@ describe('associatedObjects', function () {
 
     test('label combines type label and object name', function () {
         $user = User::factory()->create();
-        $app  = Application::factory()->create(['name' => 'My App']);
+        $app = Application::factory()->create(['name' => 'My App']);
 
         Cartographer::create(['cartographiable_type' => Application::class, 'cartographiable_id' => $app->id, 'user_id' => $user->id]);
 
@@ -124,7 +124,7 @@ describe('create', function () {
 
     test('index edit link points to create page with user_id', function () {
         $user = User::factory()->create(['name' => 'Alice']);
-        $app  = Application::factory()->create();
+        $app = Application::factory()->create();
         Cartographer::create(['cartographiable_type' => Application::class, 'cartographiable_id' => $app->id, 'user_id' => $user->id]);
 
         $response = $this->get(route('admin.cartographers.index'));
@@ -155,8 +155,8 @@ describe('store', function () {
         $response = $this->post(route('admin.cartographers.store'), [
             'user_id' => $user->id,
             'objects' => [
-                Application::class . '|' . $app1->id,
-                Application::class . '|' . $app2->id,
+                Application::class.'|'.$app1->id,
+                Application::class.'|'.$app2->id,
             ],
         ]);
 
@@ -173,7 +173,7 @@ describe('store', function () {
 
         $this->post(route('admin.cartographers.store'), [
             'user_id' => $user->id,
-            'objects' => [Application::class . '|' . $app2->id],
+            'objects' => [Application::class.'|'.$app2->id],
         ]);
 
         expect(Cartographer::where('user_id', $user->id)->count())->toBe(2);
@@ -182,13 +182,13 @@ describe('store', function () {
 
     test('does not create a duplicate if association already exists', function () {
         $user = User::factory()->create();
-        $app  = Application::factory()->create();
+        $app = Application::factory()->create();
 
         Cartographer::create(['cartographiable_type' => Application::class, 'cartographiable_id' => $app->id, 'user_id' => $user->id]);
 
         $this->post(route('admin.cartographers.store'), [
             'user_id' => $user->id,
-            'objects' => [Application::class . '|' . $app->id],
+            'objects' => [Application::class.'|'.$app->id],
         ]);
 
         expect(Cartographer::where('user_id', $user->id)->count())->toBe(1);
@@ -229,12 +229,12 @@ describe('store', function () {
     test('fails when both user and role are provided', function () {
         $user = User::factory()->create();
         $role = Role::factory()->create(['title' => 'editors']);
-        $app  = Application::factory()->create();
+        $app = Application::factory()->create();
 
         $response = $this->post(route('admin.cartographers.store'), [
             'user_id' => $user->id,
             'role_id' => $role->id,
-            'objects' => [Application::class . '|' . $app->id],
+            'objects' => [Application::class.'|'.$app->id],
         ]);
 
         $response->assertSessionHasErrors('user_id');
@@ -245,7 +245,7 @@ describe('store', function () {
         $app = Application::factory()->create();
 
         $response = $this->post(route('admin.cartographers.store'), [
-            'objects' => [Application::class . '|' . $app->id],
+            'objects' => [Application::class.'|'.$app->id],
         ]);
 
         $response->assertSessionHasErrors('user_id');

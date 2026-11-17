@@ -10,19 +10,33 @@ use App\Http\Requests\UpdateSavedQueryRequest;
 use App\Models\SavedQuery;
 use App\Services\QueryEngine\GraphResult;
 use App\Services\QueryEngine\ListResult;
+use App\Services\QueryEngine\QueryAccessChecker;
+use App\Services\QueryEngine\QueryDslValidator;
 use App\Services\QueryEngine\QueryResolver;
 use Gate;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Arr;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class QueryController extends APIController
 {
     protected string $modelClass = SavedQuery::class;
 
     public function __construct(protected QueryResolver $resolver) {}
+
+    /**
+     * Requêtes visibles (les siennes + les publiques) ; un administrateur voit tout.
+     */
+    protected function newQuery(): Builder
+    {
+        return auth()->user()->isAdmin() ? SavedQuery::query() : SavedQuery::visibleBy(auth()->id());
+    }
 
     public function index(Request $request)
     {
@@ -43,15 +57,18 @@ class QueryController extends APIController
     public function show(SavedQuery $query): JsonResource
     {
         abort_if(Gate::denies('query_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $this->authorizeRead($query);
 
         return $this->asJsonResource($query);
     }
 
     public function update(UpdateSavedQueryRequest $request, SavedQuery $query)
     {
-        abort_if(Gate::denies('edit-object', $query), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('query_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $this->authorizeWrite($query);
 
-        $query->update($request->all());
+        // validated() et non all() : user_id ne doit pas pouvoir être réaffecté.
+        $query->update($request->validated());
 
         return response()->json();
     }
@@ -64,8 +81,39 @@ class QueryController extends APIController
     public function execute(SavedQuery $query): StreamedResponse|JsonResponse
     {
         abort_if(Gate::denies('query_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $this->authorizeRead($query);
+
+        $denied = QueryAccessChecker::deniedModels($query->query ?? []);
+        if (! empty($denied)) {
+            return response()->json(
+                ['message' => QueryAccessChecker::deniedMessage($denied)],
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
+        }
 
         return $this->exportCsv($query);
+    }
+
+    /**
+     * Exécute un DSL libre, envoyé en JSON, sans l'enregistrer.
+     * Mêmes droits que l'éditeur web : query_create ou query_edit,
+     * plus le droit _show sur chaque objet lu par le DSL.
+     */
+    public function executeDsl(Request $request): JsonResponse
+    {
+        abort_if(Gate::none(['query_create', 'query_edit']), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $dsl = QueryDslValidator::validate($request->all());
+
+        $denied = QueryAccessChecker::deniedModels($dsl);
+        if (! empty($denied)) {
+            return response()->json(
+                ['message' => QueryAccessChecker::deniedMessage($denied)],
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
+        }
+
+        return response()->json($this->resolver->executeToArray($dsl));
     }
 
     /**
@@ -90,12 +138,12 @@ class QueryController extends APIController
 
         try {
             $result = $this->resolver->execute($dsl);
-        } catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (ValidationException $e) {
             return response()->json(
                 ['message' => 'DSL invalide.', 'errors' => $e->errors()],
                 Response::HTTP_UNPROCESSABLE_ENTITY
             );
-        } catch (\Symfony\Component\HttpKernel\Exception\HttpException $e) {
+        } catch (HttpException $e) {
             return response()->json(
                 ['message' => $e->getMessage()],
                 $e->getStatusCode()
@@ -146,7 +194,7 @@ class QueryController extends APIController
 
             fclose($handle);
         }, $filename, [
-            'Content-Type'        => 'text/csv; charset=UTF-8',
+            'Content-Type' => 'text/csv; charset=UTF-8',
             'Content-Disposition' => "attachment; filename=\"{$filename}\"",
         ]);
     }
@@ -154,6 +202,7 @@ class QueryController extends APIController
     public function destroy(SavedQuery $query)
     {
         abort_if(Gate::denies('query_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $this->authorizeWrite($query);
 
         $this->destroyResource($query);
 
@@ -164,29 +213,71 @@ class QueryController extends APIController
     {
         abort_if(Gate::denies('query_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        SavedQuery::whereIn('id', $request->input('ids', []))->delete();
+        $this->manageableQueries()->whereIn('id', $request->input('ids', []))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
 
     public function massStore(MassStoreSavedQueryRequest $request)
     {
-        $createdIds = $this->massStoreItems($request->input('items', []));
+        $items = array_map(
+            fn (array $item) => array_merge($item, ['user_id' => auth()->id()]),
+            $request->input('items', [])
+        );
+
+        $createdIds = $this->massStoreItems($items);
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateSavedQueryRequest $request)
     {
-        $this->massUpdateItems($request->input('items', []));
+        $items = $request->input('items', []);
+        $ids = collect($items)->pluck('id')->unique();
+
+        abort_if(
+            $this->manageableQueries()->whereIn('id', $ids)->count() !== $ids->count(),
+            Response::HTTP_FORBIDDEN,
+            '403 Forbidden'
+        );
+
+        $this->massUpdateItems(array_map(fn (array $item) => Arr::except($item, 'user_id'), $items));
 
         return response()->json([
             'status' => 'ok',
         ]);
     }
-}
 
+    private function authorizeRead(SavedQuery $query): void
+    {
+        abort_unless(
+            auth()->user()->isAdmin() || $query->isVisibleBy(auth()->id()),
+            Response::HTTP_FORBIDDEN,
+            '403 Forbidden'
+        );
+    }
+
+    private function authorizeWrite(SavedQuery $query): void
+    {
+        abort_unless(
+            auth()->user()->isAdmin() || $query->user_id === auth()->id(),
+            Response::HTTP_FORBIDDEN,
+            '403 Forbidden'
+        );
+    }
+
+    /**
+     * Requêtes modifiables : les siennes ; un administrateur les gère toutes.
+     */
+    private function manageableQueries(): Builder
+    {
+        return SavedQuery::query()->when(
+            ! auth()->user()->isAdmin(),
+            fn (Builder $query) => $query->where('user_id', auth()->id())
+        );
+    }
+}

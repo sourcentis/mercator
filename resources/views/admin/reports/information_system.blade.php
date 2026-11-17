@@ -26,7 +26,7 @@
                                 <td style="width: 50%">
                                     {{ trans('cruds.macroProcessus.title') }} :
                                     <select name="macroprocess" id="macroprocess"
-                                            onchange="this.form.process.value='';this.form.submit()"
+                                            data-autosubmit data-autosubmit-clear="process"
                                             class="form-control select2">
                                         <option value="">-- All --</option>
                                         @foreach ($all_macroprocess as $macroprocess)
@@ -36,7 +36,7 @@
                                 </td>
                                 <td style="width: 50%">
                                     {{ trans('cruds.process.title') }} :
-                                    <select name="process" id="process" onchange="this.form.submit()"
+                                    <select name="process" id="process" data-autosubmit
                                             class="form-control select2">
                                         <option value="">-- All --</option>
                                         @if ($all_process!=null)
@@ -50,7 +50,9 @@
                         </table>
                     </div>
                     <div id="graph-container">
-                        <div class="graphviz" id="graph"></div>
+                        <div class="graphviz" id="graph">
+                            @include('admin.reports._graph_too_large')
+                        </div>
                         <div class="graph-resize-handle"></div>
                     </div>
                     <div class="row p-1">
@@ -85,6 +87,8 @@
     </div>
 </div>
 
+{{-- Graphe trop grand : les objets ne sont pas listés non plus --}}
+@if(empty($graphTooLarge))
 <div class="report-scroll-area">
 
         @canAccess(App\Models\MacroProcessus::class)
@@ -254,12 +258,13 @@
             @endif
         @endcan
     </div>
+@endif
 @endsection
 
 @section('scripts')
     @vite(['resources/js/graphviz.js'])
-    <script>
-        let dotSrc = `{!! $dotSrc !!}`;
+    <script @nonce>
+        let dotSrc = @json($dotSrc);
 
         document.addEventListener('graphvizReady', () => {
             window.initGraphvizReport({ dotSrc, engine: @json($engine), images: @json($imageManifest) });

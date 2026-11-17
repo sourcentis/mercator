@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Str;
 use ReflectionClass;
 use ReflectionMethod;
+use ReflectionNamedType;
 
 class QueryEngineIntrospector
 {
@@ -52,12 +53,36 @@ class QueryEngineIntrospector
         ];
     }
 
+    /** @var array<class-string, array> */
+    private static array $relationsCache = [];
+
+    /** @var array<class-string, array> */
+    private static array $fillableCache = [];
+
+    /**
+     * Vide les caches d'introspection (relations, champs autorisés).
+     */
+    public static function flushCache(): void
+    {
+        self::$relationsCache = [];
+        self::$fillableCache = [];
+    }
+
     /**
      * Découverte des relations Eloquent par Reflection.
      * Le nom exposé est en snake_case (ex: logicalServers → logical_servers).
+     *
+     * Seules les méthodes dont le type de retour déclaré est une Relation sont
+     * invoquées : appeler aveuglément toutes les méthodes publiques exécutait
+     * aussi restore(), forceDelete()… (méthodes de traits) avec des écritures
+     * en base et des entrées d'audit parasites.
      */
     public static function getRelations(string $class): array
     {
+        if (isset(self::$relationsCache[$class])) {
+            return self::$relationsCache[$class];
+        }
+
         $instance = new $class;
         $relations = [];
 
@@ -65,7 +90,14 @@ class QueryEngineIntrospector
             if ($method->class !== $class) {
                 continue;
             }
-            if ($method->getNumberOfParameters() !== 0) {
+            if ($method->isStatic() || $method->getNumberOfParameters() !== 0) {
+                continue;
+            }
+
+            $returnType = $method->getReturnType();
+            if (! $returnType instanceof ReflectionNamedType
+                || $returnType->isBuiltin()
+                || ! is_a($returnType->getName(), Relation::class, true)) {
                 continue;
             }
 
@@ -94,7 +126,7 @@ class QueryEngineIntrospector
             }
         }
 
-        return $relations;
+        return self::$relationsCache[$class] = $relations;
     }
 
     /**
@@ -121,11 +153,9 @@ class QueryEngineIntrospector
      */
     public static function getFillable(string $class): array
     {
-        $instance = new $class;
-        $fillable = $instance->getFillable();
-
         // Toujours autoriser id et les clés primaires
-        return array_unique(array_merge(['id'], $fillable));
+        return self::$fillableCache[$class]
+            ??= array_unique(array_merge(['id'], (new $class)->getFillable()));
     }
 
     /**
@@ -134,15 +164,12 @@ class QueryEngineIntrospector
      */
     public static function validateField(string $class, string $field): void
     {
-        $instance = new $class;
-        $table = $instance->getTable();
-        $allowed = self::getFillable($class);
+        if (in_array($field, self::getFillable($class), true)) {
+            return;
+        }
 
-        abort_if(
-            ! in_array($field, $allowed, true),
-            422,
-            "Le champ [{$field}] n'existe pas dans la table [{$table}]."
-        );
+        $table = (new $class)->getTable();
+        abort(422, "Le champ [{$field}] n'existe pas dans la table [{$table}].");
     }
 
     /**

@@ -3,10 +3,9 @@
 namespace App\Http\Requests;
 
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class MassUpdateCartographerRequest extends FormRequest
+class MassUpdateCartographerRequest extends BaseMassFormRequest
 {
     public function authorize(): bool
     {
@@ -17,11 +16,11 @@ class MassUpdateCartographerRequest extends FormRequest
 
     public function rules(): array
     {
-        $updateRules = (new UpdateCartographerRequest())->rules();
+        $updateRules = (new UpdateCartographerRequest)->rules();
 
         $rules = [
-            'items'      => ['required', 'array', 'min:1'],
-            'items.*'    => ['required', 'array'],
+            'items' => ['required', 'array', 'min:1'],
+            'items.*' => ['required', 'array'],
             'items.*.id' => ['required', 'integer', 'exists:cartographers,id'],
         ];
 

@@ -2,12 +2,14 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Concerns\ValidatesMassSavedQueryDsl;
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class MassStoreSavedQueryRequest extends FormRequest
+class MassStoreSavedQueryRequest extends BaseMassFormRequest
 {
+    use ValidatesMassSavedQueryDsl;
+
     public function authorize(): true
     {
         abort_if(Gate::denies('query_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -21,7 +23,7 @@ class MassStoreSavedQueryRequest extends FormRequest
         $storeRules = new StoreSavedQueryRequest()->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -33,4 +35,3 @@ class MassStoreSavedQueryRequest extends FormRequest
         return $rules;
     }
 }
-

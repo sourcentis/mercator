@@ -76,7 +76,7 @@ $adminIdx  = Cartographer::canAccessAny([\App\Models\ZoneAdmin::class, \App\Mode
 $infraIdx  = Cartographer::canAccessAny([\App\Models\Network::class, \App\Models\Subnetwork::class, \App\Models\Gateway::class, \App\Models\ExternalConnectedEntity::class, \App\Models\NetworkSwitch::class, \App\Models\Router::class, \App\Models\SecurityDevice::class, \App\Models\Cluster::class, \App\Models\LogicalServer::class, \App\Models\Container::class, \App\Models\Vlan::class, \App\Models\Certificate::class])                   ? $gi++ : -1;
 $physIdx   = Cartographer::canAccessAny([\App\Models\Site::class, \App\Models\Building::class, \App\Models\Bay::class, \App\Models\Zone::class, \App\Models\PhysicalServer::class, \App\Models\Workstation::class, \App\Models\Phone::class, \App\Models\Peripheral::class, \App\Models\StorageDevice::class, \App\Models\PhysicalSwitch::class, \App\Models\PhysicalRouter::class, \App\Models\Wan::class, \App\Models\Man::class, \App\Models\Lan::class]) ? $gi++ : -1;
 @endphp
-<script>
+<script @nonce>
 window.chartData = {
 maturity1: {{ $maturity1  }},
 maturity2: {{ $maturity2  }},

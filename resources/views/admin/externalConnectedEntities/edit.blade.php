@@ -15,7 +15,7 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    @if (auth()->user()->hasMultiplePerimeters())
+                    @if (auth()->user()->canChoosePerimeterOf($externalConnectedEntity))
                 <div class="col-sm-2">
                     <div class="form-group">
                         <label for="perimeter_id">{{ trans('cruds.perimeter.title_short') }}</label>
@@ -111,7 +111,7 @@
                                for="description">{{ trans('cruds.externalConnectedEntity.fields.description') }}</label>
                         <textarea class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}"
                                   name="description"
-                                  id="description">{!! old('description', $externalConnectedEntity->description) !!}</textarea>
+                                  id="description">{{ old('description', $externalConnectedEntity->description) }}</textarea>
                         @if($errors->has('description'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('description') }}
@@ -288,7 +288,7 @@
                                for="security">{{ trans('cruds.externalConnectedEntity.fields.security') }}</label>
                         <textarea class="form-control ckeditor {{ $errors->has('security') ? 'is-invalid' : '' }}"
                                   name="security"
-                                  id="security">{!! old('security',$externalConnectedEntity->security) !!}</textarea>
+                                  id="security">{{ old('security',$externalConnectedEntity->security) }}</textarea>
                         @if($errors->has('security'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('security') }}
@@ -327,7 +327,7 @@
 @endsection
 
 @section('scripts')
-    <script>
+    <script @nonce>
         document.addEventListener("DOMContentLoaded", function () {
 
             var image_uploader = new window.Dropzone("#dropzoneFileUpload", {

@@ -142,11 +142,15 @@ The role contains permissions: *permission_roles*.
 To retrieve the role↔permission associations, you must use **/api/roles/{id}?include=permissions** — the permissions linked to each role will be embedded in the role’s response.
 The list of permissions and their corresponding {id} values is available via the **/api/permissions** API.
 
-- <img src="/mercator/images/get.png" width="30"> /api/perimeters
+- [<img src="/mercator/images/get.png" width="30"> /api/perimeters](./model.md#perimeters)
 
 Perimeters (`name`: 2–32 characters, unique) require the **configure** permission for every action, like the administration screen. The default perimeter (id 1) and any perimeter still referenced by a role cannot be deleted (`422`). **/api/perimeters/{id}** also returns the ids of the roles attached to the perimeter (`roles`).
 
 - [<img src="/mercator/images/get.png" width="30"> /api/cartographers](./model.md#cartography)
+- [<img src="/mercator/images/get.png" width="30"> /api/graphs](./model.md#tools)
+
+Graphs hold both maps (`class` = 1) and BPMN diagrams (`class` = 2). The `content` field is the raw XML of the diagram and is stored as is (it is not stripped of its tags like other text fields).
+
 - [<img src="/mercator/images/get.png" width="30"> /api/permissions](./model.md#permissions) `READ ONLY`
 - [<img src="/mercator/images/get.png" width="30"> /api/documents](./model.md#documents)
 
@@ -176,16 +180,39 @@ DOC_ID=$(echo "$RESPONSE" | jq -r '.id // empty' 2>/dev/null)
         -o "$OUTFILE" \
         -w "HTTP %{http_code}\n"
 ```
+---
 
-## Queries APIs
+## Tools APIs
 
-- <img src="/mercator/images/get.png" width="30"> /api/queries
+### Maps and BPMN API
+
+TBD
+
+## Queries API
+
+- [<img src="/mercator/images/get.png" width="30"> /api/queries](./model.md#queries)
 - <img src="/mercator/images/get.png" width="30"> /api/queries/***id***
 
 ### Requests can also be executed via the API
 - <img src="/mercator/images/get.png" width="30"> /api/queries/execute/1  
     - The **query ID** must be provided.  
     - The query must be of **list type**.
+    - The result is returned as a **CSV** file.
+
+### A query can also be executed without saving it
+- **POST** /api/queries/execute
+    - The DSL is sent as **JSON** in the request body.
+    - Requires the `query_create` or `query_edit` permission, plus the **show** permission on every object read by the query.
+    - The result is returned as **JSON**: `columns`, `rows` and `meta` for a list, `nodes`, `edges` and `meta` for a graph.
+
+```bash
+curl -X POST https://mercator/api/queries/execute \
+     -H "Authorization: Bearer <token>" \
+     -H "Content-Type: application/json" \
+     -d '{"from": "applications", "fields": ["name", "logical_servers.name"], "filters": [{"field": "name", "operator": "like", "value": "A%"}], "output": "list", "limit": 100}'
+```
+
+---
 
 ## Reports APIs
 
@@ -286,6 +313,7 @@ Mapping objects can refer to other objects. For example, we can link a process t
 The names of all extra fields
 are: ['actors', 'tasks', 'activities', 'entities', 'applications', 'informations', 'processes', 'databases', 'logical_servers', 'modules', 'domainesForestAds', 'servers', 'vlans', 'lans', 'mans', 'wans', 'operations', 'domaines', 'applicationServices', 'certificates', 'peripherals', 'physicalServers', 'networkSwitches', 'physicalSwitches', 'physicalRouters']
 
+---
 
 ## Examples
 

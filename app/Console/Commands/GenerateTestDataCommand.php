@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Services\DataScenario\ScenarioBuilder;
+use Faker\Factory;
 use Illuminate\Console\Command;
 use InvalidArgumentException;
 
@@ -56,6 +57,13 @@ class GenerateTestDataCommand extends Command
 
     public function handle(): int
     {
+        // Laravel only defines the fake() helper when Faker is installed
+        if (! class_exists(Factory::class)) {
+            $this->error('La librairie fakerphp/faker est introuvable. Installez-la avec "composer require fakerphp/faker" ou lancez "composer install" sans --no-dev.');
+
+            return self::FAILURE;
+        }
+
         $scenarios = (array) config('data-scenarios.scenarios', []);
         $scenarioName = $this->option('scenario');
 
@@ -99,13 +107,13 @@ class GenerateTestDataCommand extends Command
         $applicationServicesPerApplication = config('data-scenarios.application_services_per_application', ['min' => 0, 'max' => 5]);
         $applicationModulesPerService = config('data-scenarios.application_modules_per_service', ['min' => 0, 'max' => 3]);
         $macroProcessesPerPerimeter = config('data-scenarios.macro_processes_per_perimeter', ['min' => 3, 'max' => 5]);
-        $processesPerMacroProcess = config('data-scenarios.processes_per_macro_process', ['min' => 3, 'max' => 10]);
-        $activitiesPerProcess = config('data-scenarios.activities_per_process', ['min' => 5, 'max' => 10]);
-        $operationsPerActivity = config('data-scenarios.operations_per_activity', ['min' => 1, 'max' => 3]);
-        $tasksPerOperation = config('data-scenarios.tasks_per_operation', ['min' => 1, 'max' => 3]);
-        $actorsPerPerimeter = config('data-scenarios.actors_per_perimeter', ['min' => 5, 'max' => 20]);
+        $processesPerMacroProcess = config('data-scenarios.processes_per_macro_process', ['min' => 0, 'max' => 10]);
+        $activitiesPerProcess = config('data-scenarios.activities_per_process', ['min' => 0, 'max' => 10]);
+        $operationsPerActivity = config('data-scenarios.operations_per_activity', ['min' => 0, 'max' => 3]);
+        $tasksPerOperation = config('data-scenarios.tasks_per_operation', ['min' => 0, 'max' => 3]);
+        $actorsPerPerimeter = config('data-scenarios.actors_per_perimeter', ['min' => 1, 'max' => 10]);
         $actorOperationsPerActor = config('data-scenarios.actor_operations_per_actor', ['min' => 1, 'max' => 5]);
-        $informationsPerPerimeter = config('data-scenarios.informations_per_perimeter', ['min' => 5, 'max' => 20]);
+        $informationsPerPerimeter = config('data-scenarios.informations_per_perimeter', ['min' => 1, 'max' => 20]);
         $entitiesPerPerimeter = (int) config('data-scenarios.entities_per_perimeter', 100);
         $relationsPerEntity = config('data-scenarios.relations_per_entity', ['min' => 0, 'max' => 3]);
         $informationsPerDatabase = config('data-scenarios.informations_per_database', ['min' => 1, 'max' => 5]);

@@ -3,10 +3,9 @@
 namespace App\Http\Requests;
 
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class MassStoreStorageDeviceRequest extends FormRequest
+class MassStoreStorageDeviceRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -18,10 +17,10 @@ class MassStoreStorageDeviceRequest extends FormRequest
     public function rules()
     {
         // On récupère les règles du StoreStorageDeviceRequest classique
-        $storeRules = (new StoreStorageDeviceRequest())->rules();
+        $storeRules = (new StoreStorageDeviceRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -33,4 +32,3 @@ class MassStoreStorageDeviceRequest extends FormRequest
         return $rules;
     }
 }
-

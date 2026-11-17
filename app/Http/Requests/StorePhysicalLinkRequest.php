@@ -3,12 +3,13 @@
 namespace App\Http\Requests;
 
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
 
-class StorePhysicalLinkRequest extends FormRequest
+class StorePhysicalLinkRequest extends BaseFormRequest
 {
+    protected array $htmlFields = ['description'];
+
     public function authorize(): bool
     {
         abort_if(Gate::denies('physical_link_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');

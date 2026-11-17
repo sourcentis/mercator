@@ -18,7 +18,7 @@ class MassDestroyZoneRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'ids'   => 'required|array',
+            'ids' => 'required|array',
             'ids.*' => 'exists:zones,id',
         ];
     }

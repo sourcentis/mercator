@@ -21,7 +21,7 @@
                         <select name="per_page"
                                 id="per_page"
                                 class="form-control form-control-sm"
-                                onchange="document.getElementById('filterForm').submit()">
+                                data-autosubmit>
                             @foreach($perPageOptions as $option)
                                 <option value="{{ $option }}" @selected($option == $perPage)>
                                     {{ $option }}
@@ -125,7 +125,7 @@
 
 @section('scripts')
     @parent
-    <script>
+    <script @nonce>
         @include('partials.datatable-paginate', array(
             'id' => '#dataTable',
             'order' => "[1, 'desc']"

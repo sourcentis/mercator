@@ -15,7 +15,7 @@ return new class extends Migration
     public function up(): void
     {
         // 1) Table pivot
-        if (!Schema::hasTable("cluster_router")) {
+        if (! Schema::hasTable('cluster_router')) {
             Schema::create('cluster_router', function (Blueprint $table) {
                 $table->unsignedInteger('cluster_id');
                 $table->unsignedInteger('router_id');
@@ -62,13 +62,13 @@ return new class extends Migration
                     Schema::table('routers', function (Blueprint $table) {
                         $table->dropForeign(['cluster_id']); // portable
                     });
-                } catch (\Throwable $e) {
+                } catch (Throwable $e) {
                 }
                 try {
                     Schema::table('routers', function (Blueprint $table) {
                         $table->dropForeign('cluster_id_fk_4398834'); // ancien nom éventuel
                     });
-                } catch (\Throwable $e) {
+                } catch (Throwable $e) {
                 }
 
                 // 3.2 – supprimer les index liés (par NOM et par COLONNE)
@@ -76,19 +76,19 @@ return new class extends Migration
                     Schema::table('routers', function (Blueprint $table) {
                         $table->dropIndex('cluster_id_fk_4398834'); // index historique éventuel
                     });
-                } catch (\Throwable $e) {
+                } catch (Throwable $e) {
                 }
                 try {
                     Schema::table('routers', function (Blueprint $table) {
                         $table->dropIndex(['cluster_id']); // ex: routers_cluster_id_index
                     });
-                } catch (\Throwable $e) {
+                } catch (Throwable $e) {
                 }
                 try {
                     Schema::table('routers', function (Blueprint $table) {
                         $table->dropIndex('routers_cluster_id_index'); // convention Laravel MySQL
                     });
-                } catch (\Throwable $e) {
+                } catch (Throwable $e) {
                 }
 
                 // 3.3 – SQLite: purge défensive de tout index qui contient "cluster_id"
@@ -96,7 +96,7 @@ return new class extends Migration
                     $indexes = DB::select("PRAGMA index_list('routers')");
                     foreach ($indexes as $idx) {
                         if (isset($idx->name) && stripos($idx->name, 'cluster_id') !== false) {
-                            DB::statement('DROP INDEX IF EXISTS "' . $idx->name . '"');
+                            DB::statement('DROP INDEX IF EXISTS "'.$idx->name.'"');
                         }
                     }
                 }

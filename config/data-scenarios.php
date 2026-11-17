@@ -136,20 +136,20 @@ return [
     // processus/activité/opération, pas des compteurs globaux répartis sur
     // les périmètres.
     'macro_processes_per_perimeter' => ['min' => 3, 'max' => 5],
-    'processes_per_macro_process' => ['min' => 3, 'max' => 10],
-    'activities_per_process' => ['min' => 5, 'max' => 10],
-    'operations_per_activity' => ['min' => 1, 'max' => 3],
-    'tasks_per_operation' => ['min' => 1, 'max' => 3],
+    'processes_per_macro_process' => ['min' => 0, 'max' => 10],
+    'activities_per_process' => ['min' => 0, 'max' => 10],
+    'operations_per_activity' => ['min' => 0, 'max' => 3],
+    'tasks_per_operation' => ['min' => 0, 'max' => 3],
 
     // Nombre d'acteurs générés pour chaque périmètre (tirage direct), et
     // nombre d'opérations de ce même périmètre auxquelles chaque acteur est
     // affecté (actor_operation).
-    'actors_per_perimeter' => ['min' => 5, 'max' => 20],
+    'actors_per_perimeter' => ['min' => 1, 'max' => 10],
     'actor_operations_per_actor' => ['min' => 1, 'max' => 5],
 
     // Nombre d'informations générées pour chaque périmètre (tirage direct) —
     // aucune relation n'est créée avec les processus.
-    'informations_per_perimeter' => ['min' => 5, 'max' => 20],
+    'informations_per_perimeter' => ['min' => 1, 'max' => 20],
 
     // Nombre d'informations rattachées à chaque base de données, et à chaque
     // flux applicatif (toutes deux prises dans le même périmètre).

@@ -13,7 +13,7 @@
             {{ trans('global.edit') }} {{ trans('cruds.securityControl.title_singular') }}
         </div>
         <div class="card-body">
-            @if (auth()->user()->hasMultiplePerimeters())
+            @if (auth()->user()->canChoosePerimeterOf($securityControl))
                 <div class="form-group">
                     <label for="perimeter_id">{{ trans('cruds.perimeter.title_short') }}</label>
                     <select class="form-control select2 {{ $errors->has('perimeter_id') ? 'is-invalid' : '' }}"

@@ -1,8 +1,8 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Passport\Passport;
-use App\Models\User;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 const ZIP_SIGNATURE = 'PK';

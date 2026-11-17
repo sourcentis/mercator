@@ -23,7 +23,7 @@ beforeEach(function () {
         RoleUserTableSeeder::class,
     ]);
     $this->admin = User::query()->where('login', 'admin@admin.com')->first();
-    $this->application   = Application::factory()->create(['name' => 'App Test']);
+    $this->application = Application::factory()->create(['name' => 'App Test']);
     Passport::actingAs($this->admin);
 });
 
@@ -35,9 +35,9 @@ function makeCartographer(array $attrs = []): Cartographer
 
     return Cartographer::create(array_merge([
         'cartographiable_type' => Application::class,
-        'cartographiable_id'   => $app->id,
-        'user_id'              => null,
-        'role_id'              => null,
+        'cartographiable_id' => $app->id,
+        'user_id' => null,
+        'role_id' => null,
     ], $attrs));
 }
 
@@ -74,8 +74,8 @@ it('forbids creating a cartographer without permission', function () {
 
     $this->postJson('/api/cartographers', [
         'cartographiable_type' => Application::class,
-        'cartographiable_id'   => $this->application->id,
-        'user_id'              => $user->id,
+        'cartographiable_id' => $this->application->id,
+        'user_id' => $user->id,
     ])->assertForbidden();
 });
 
@@ -84,15 +84,15 @@ it('creates a cartographer assigned to a user', function () {
 
     $this->postJson('/api/cartographers', [
         'cartographiable_type' => Application::class,
-        'cartographiable_id'   => $this->application->id,
-        'user_id'              => $user->id,
+        'cartographiable_id' => $this->application->id,
+        'user_id' => $user->id,
     ])->assertCreated();
 
     $this->assertDatabaseHas('cartographers', [
         'cartographiable_type' => Application::class,
-        'cartographiable_id'   => $this->application->id,
-        'user_id'              => $user->id,
-        'role_id'              => null,
+        'cartographiable_id' => $this->application->id,
+        'user_id' => $user->id,
+        'role_id' => null,
     ]);
 });
 
@@ -101,40 +101,40 @@ it('creates a cartographer assigned to a role', function () {
 
     $this->postJson('/api/cartographers', [
         'cartographiable_type' => Application::class,
-        'cartographiable_id'   => $this->application->id,
-        'role_id'              => $role->id,
+        'cartographiable_id' => $this->application->id,
+        'role_id' => $role->id,
     ])->assertCreated();
 
     $this->assertDatabaseHas('cartographers', [
         'cartographiable_type' => Application::class,
-        'cartographiable_id'   => $this->application->id,
-        'role_id'              => $role->id,
+        'cartographiable_id' => $this->application->id,
+        'role_id' => $role->id,
     ]);
 });
 
 it('rejects creation when neither user_id nor role_id is provided', function () {
     $this->postJson('/api/cartographers', [
         'cartographiable_type' => Application::class,
-        'cartographiable_id'   => $this->application->id,
+        'cartographiable_id' => $this->application->id,
     ])->assertUnprocessable()
-      ->assertJsonValidationErrors('user_id');
+        ->assertJsonValidationErrors('user_id');
 });
 
 it('rejects an invalid cartographiable_type', function () {
     $this->postJson('/api/cartographers', [
         'cartographiable_type' => 'App\\Models\\User',
-        'cartographiable_id'   => 1,
-        'user_id'              => $this->admin->id,
+        'cartographiable_id' => 1,
+        'user_id' => $this->admin->id,
     ])->assertUnprocessable()
-      ->assertJsonValidationErrors('cartographiable_type');
+        ->assertJsonValidationErrors('cartographiable_type');
 });
 
 it('deduplicates via firstOrCreate on second store', function () {
     $user = User::factory()->create();
     $payload = [
         'cartographiable_type' => Application::class,
-        'cartographiable_id'   => $this->application->id,
-        'user_id'              => $user->id,
+        'cartographiable_id' => $this->application->id,
+        'user_id' => $user->id,
     ];
 
     $this->postJson('/api/cartographers', $payload)->assertCreated();
@@ -148,7 +148,7 @@ it('deduplicates via firstOrCreate on second store', function () {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 it('forbids showing a cartographer without permission', function () {
-    $user  = User::factory()->create();
+    $user = User::factory()->create();
     $carto = makeCartographer(['user_id' => $user->id]);
     Passport::actingAs($user);
 
@@ -156,7 +156,7 @@ it('forbids showing a cartographer without permission', function () {
 });
 
 it('shows a cartographer when permitted', function () {
-    $user  = User::factory()->create();
+    $user = User::factory()->create();
     $carto = makeCartographer(['user_id' => $user->id]);
 
     $this->getJson("/api/cartographers/{$carto->id}")
@@ -169,7 +169,7 @@ it('shows a cartographer when permitted', function () {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 it('forbids updating a cartographer without permission', function () {
-    $user  = User::factory()->create();
+    $user = User::factory()->create();
     $carto = makeCartographer(['user_id' => $user->id]);
     Passport::actingAs($user);
 
@@ -188,13 +188,13 @@ it('updates the user_id of a cartographer', function () {
     ])->assertOk();
 
     $this->assertDatabaseHas('cartographers', [
-        'id'      => $carto->id,
+        'id' => $carto->id,
         'user_id' => $userB->id,
     ]);
 });
 
 it('rejects update when neither user_id nor role_id is provided', function () {
-    $user  = User::factory()->create();
+    $user = User::factory()->create();
     $carto = makeCartographer(['user_id' => $user->id]);
 
     $this->putJson("/api/cartographers/{$carto->id}", [])
@@ -207,7 +207,7 @@ it('rejects update when neither user_id nor role_id is provided', function () {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 it('forbids deleting a cartographer without permission', function () {
-    $user  = User::factory()->create();
+    $user = User::factory()->create();
     $carto = makeCartographer(['user_id' => $user->id]);
     Passport::actingAs($user);
 
@@ -215,7 +215,7 @@ it('forbids deleting a cartographer without permission', function () {
 });
 
 it('deletes a cartographer when permitted', function () {
-    $user  = User::factory()->create();
+    $user = User::factory()->create();
     $carto = makeCartographer(['user_id' => $user->id]);
 
     $this->deleteJson("/api/cartographers/{$carto->id}")->assertOk();
@@ -228,7 +228,7 @@ it('deletes a cartographer when permitted', function () {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 it('forbids mass destroy without permission', function () {
-    $user  = User::factory()->create();
+    $user = User::factory()->create();
     $carto = makeCartographer(['user_id' => $user->id]);
     Passport::actingAs($user);
 
@@ -236,7 +236,7 @@ it('forbids mass destroy without permission', function () {
 });
 
 it('mass destroys cartographers when permitted', function () {
-    $user   = User::factory()->create();
+    $user = User::factory()->create();
     $cartoA = makeCartographer(['user_id' => $user->id]);
     $cartoB = makeCartographer(['user_id' => $user->id]);
 
@@ -259,8 +259,8 @@ it('forbids mass store without permission', function () {
     $this->postJson('/api/cartographers/mass-store', [
         'items' => [[
             'cartographiable_type' => Application::class,
-            'cartographiable_id'   => $this->application->id,
-            'user_id'              => $user->id,
+            'cartographiable_id' => $this->application->id,
+            'user_id' => $user->id,
         ]],
     ])->assertForbidden();
 });
@@ -268,28 +268,28 @@ it('forbids mass store without permission', function () {
 it('mass stores cartographers when permitted', function () {
     $userA = User::factory()->create();
     $userB = User::factory()->create();
-    $appB  = Application::factory()->create(['name' => 'App B']);
+    $appB = Application::factory()->create(['name' => 'App B']);
 
     $this->postJson('/api/cartographers/mass-store', [
         'items' => [
             [
                 'cartographiable_type' => Application::class,
-                'cartographiable_id'   => $this->application->id,
-                'user_id'              => $userA->id,
+                'cartographiable_id' => $this->application->id,
+                'user_id' => $userA->id,
             ],
             [
                 'cartographiable_type' => Application::class,
-                'cartographiable_id'   => $appB->id,
-                'user_id'              => $userB->id,
+                'cartographiable_id' => $appB->id,
+                'user_id' => $userB->id,
             ],
         ],
     ])->assertCreated()
-      ->assertJsonFragment(['count' => 2]);
+        ->assertJsonFragment(['count' => 2]);
 
     $this->assertDatabaseHas('cartographers', [
         'cartographiable_type' => Application::class,
-        'cartographiable_id'   => $this->application->id,
-        'user_id'              => $userA->id,
+        'cartographiable_id' => $this->application->id,
+        'user_id' => $userA->id,
     ]);
 });
 
@@ -298,7 +298,7 @@ it('mass stores cartographers when permitted', function () {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 it('forbids mass update without permission', function () {
-    $user  = User::factory()->create();
+    $user = User::factory()->create();
     $carto = makeCartographer(['user_id' => $user->id]);
     Passport::actingAs($user);
 
@@ -308,8 +308,8 @@ it('forbids mass update without permission', function () {
 });
 
 it('mass updates cartographers when permitted', function () {
-    $userA  = User::factory()->create();
-    $userB  = User::factory()->create();
+    $userA = User::factory()->create();
+    $userB = User::factory()->create();
     $cartoA = makeCartographer(['user_id' => $userA->id]);
     $cartoB = makeCartographer(['user_id' => $userA->id]);
 

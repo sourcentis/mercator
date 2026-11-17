@@ -35,13 +35,13 @@ beforeEach(function () {
 
 it('fills created_at when a backup is created via API', function () {
     $response = $this->postJson('/api/backups', [
-        'name'              => 'Daily backup',
-        'backup_frequency'  => 1,
-        'backup_cycle'      => 1,
-        'backup_retention'  => 30,
+        'name' => 'Daily backup',
+        'backup_frequency' => 1,
+        'backup_cycle' => 1,
+        'backup_retention' => 30,
     ])->assertCreated();
 
-    $id     = $response->json('id');
+    $id = $response->json('id');
     $backup = Backup::find($id);
 
     expect($backup)->not->toBeNull();
@@ -63,10 +63,10 @@ it('links a backup to a logical server and a storage device via API', function (
     $device = StorageDevice::factory()->create(['name' => 'NAS-01']);
 
     $response = $this->postJson('/api/backups', [
-        'name'               => 'WebServer NAS backup',
-        'backup_frequency'   => 1,
-        'backup_cycle'       => 1,
-        'backup_retention'   => 30,
+        'name' => 'WebServer NAS backup',
+        'backup_frequency' => 1,
+        'backup_cycle' => 1,
+        'backup_retention' => 30,
         'logical_server_ids' => [$server->id],
         'storage_device_ids' => [$device->id],
     ])->assertCreated();
@@ -85,12 +85,12 @@ it('rejects a store with a name already used by an active backup', function () {
     Backup::factory()->create(['name' => 'BACKUP-HEBDO']);
 
     $this->postJson('/api/backups', [
-        'name'             => 'BACKUP-HEBDO',
+        'name' => 'BACKUP-HEBDO',
         'backup_frequency' => 1,
-        'backup_cycle'     => 1,
+        'backup_cycle' => 1,
         'backup_retention' => 30,
     ])->assertUnprocessable()
-      ->assertJsonValidationErrors(['name']);
+        ->assertJsonValidationErrors(['name']);
 });
 
 it('allows creating a backup with the name of a soft-deleted backup', function () {
@@ -98,9 +98,9 @@ it('allows creating a backup with the name of a soft-deleted backup', function (
     $deleted->delete();
 
     $this->postJson('/api/backups', [
-        'name'             => 'BACKUP-HEBDO',
+        'name' => 'BACKUP-HEBDO',
         'backup_frequency' => 2,
-        'backup_cycle'     => 2,
+        'backup_cycle' => 2,
         'backup_retention' => 35,
     ])->assertCreated();
 
@@ -112,12 +112,12 @@ it('rejects an update with a name already used by another active backup', functi
     $b = Backup::factory()->create(['name' => 'BACKUP-B']);
 
     $this->putJson("/api/backups/{$b->id}", [
-        'name'             => 'BACKUP-A',
+        'name' => 'BACKUP-A',
         'backup_frequency' => 1,
-        'backup_cycle'     => 1,
+        'backup_cycle' => 1,
         'backup_retention' => 30,
     ])->assertUnprocessable()
-      ->assertJsonValidationErrors(['name']);
+        ->assertJsonValidationErrors(['name']);
 });
 
 it('allows updating a backup with the name of a soft-deleted backup', function () {
@@ -127,9 +127,9 @@ it('allows updating a backup with the name of a soft-deleted backup', function (
     $b = Backup::factory()->create(['name' => 'BACKUP-B']);
 
     $this->putJson("/api/backups/{$b->id}", [
-        'name'             => 'BACKUP-OLD',
+        'name' => 'BACKUP-OLD',
         'backup_frequency' => 1,
-        'backup_cycle'     => 1,
+        'backup_cycle' => 1,
         'backup_retention' => 30,
     ])->assertOk();
 
@@ -144,8 +144,8 @@ it('syncs backup links on admin update', function () {
     $this->actingAs($this->user);
 
     $logicalServer = LogicalServer::factory()->create(['name' => 'TestServer']);
-    $oldBackup     = Backup::factory()->create(['name' => 'Old Backup']);
-    $newBackup     = Backup::factory()->create(['name' => 'New Backup']);
+    $oldBackup = Backup::factory()->create(['name' => 'Old Backup']);
+    $newBackup = Backup::factory()->create(['name' => 'New Backup']);
 
     // Lier l'ancien backup au serveur
     $logicalServer->backups()->attach($oldBackup->id);

@@ -18,7 +18,7 @@
 
         @can('data_processing_delete')
             <form action="{{ route('admin.data-processings.destroy', $dataProcessing->id) }}" method="POST"
-                  onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                  data-confirm="{{ trans('global.areYouSure') }}" style="display: inline-block;">
                 <input type="hidden" name="_method" value="DELETE">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <input type="submit" class="btn btn-danger" value="{{ trans('global.delete') }}">
@@ -44,7 +44,7 @@
             {{ trans('cruds.dataProcessing.fields.responsible') }}
         </th>
         <td colspan='3'>
-            {!! $dataProcessing->responsible !!}
+            {!! clean($dataProcessing->responsible ?? '') !!}
         </td>
     </tr>
 
@@ -54,7 +54,7 @@
             {{ trans('cruds.dataProcessing.fields.purpose') }}
         </th>
         <td colspan='3'>
-            {!! $dataProcessing->purpose !!}
+            {!! clean($dataProcessing->purpose ?? '') !!}
         </td>
     </tr>
 
@@ -102,7 +102,7 @@
             &nbsp;
         </th>
         <td colspan='3'>
-            {!! $dataProcessing->lawfulness !!}
+            {!! clean($dataProcessing->lawfulness ?? '') !!}
         </td>
     </tr>
 
@@ -111,7 +111,7 @@
             {{ trans('cruds.dataProcessing.fields.categories') }}
         </th>
         <td colspan='3'>
-            {!! $dataProcessing->categories !!}
+            {!! clean($dataProcessing->categories ?? '') !!}
         </td>
     </tr>
 
@@ -120,7 +120,7 @@
             {{ trans('cruds.dataProcessing.fields.data_source') }}
         </th>
         <td colspan='3'>
-            {!! $dataProcessing->data_source !!}
+            {!! clean($dataProcessing->data_source ?? '') !!}
         </td>
     </tr>
 
@@ -129,7 +129,7 @@
             {{ trans('cruds.dataProcessing.fields.data_collection_obligation') }}
         </th>
         <td colspan='3'>
-            {!! $dataProcessing->data_collection_obligation !!}
+            {!! clean($dataProcessing->data_collection_obligation ?? '') !!}
         </td>
     </tr>
 
@@ -139,7 +139,7 @@
             {{ trans('cruds.dataProcessing.fields.recipients') }}
         </th>
         <td colspan='3'>
-            {!! $dataProcessing->recipients !!}
+            {!! clean($dataProcessing->recipients ?? '') !!}
         </td>
     </tr>
 
@@ -148,7 +148,7 @@
             {{ trans('cruds.dataProcessing.fields.transfert') }}
         </th>
         <td colspan='3'>
-            {!! $dataProcessing->transfert !!}
+            {!! clean($dataProcessing->transfert ?? '') !!}
         </td>
     </tr>
 
@@ -157,7 +157,7 @@
             {{ trans('cruds.dataProcessing.fields.automated_decision_making') }}
         </th>
         <td colspan='3'>
-            {!! $dataProcessing->automated_decision_making !!}
+            {!! clean($dataProcessing->automated_decision_making ?? '') !!}
         </td>
     </tr>
 
@@ -167,7 +167,7 @@
             {{ trans('cruds.dataProcessing.fields.retention') }}
         </th>
         <td colspan='3'>
-            {!! $dataProcessing->retention !!}
+            {!! clean($dataProcessing->retention ?? '') !!}
         </td>
     </tr>
 
@@ -176,7 +176,7 @@
             {{ trans('cruds.dataProcessing.fields.data_subject_rights') }}
         </th>
         <td colspan='3'>
-            {!! $dataProcessing->data_subject_rights !!}
+            {!! clean($dataProcessing->data_subject_rights ?? '') !!}
         </td>
     </tr>
 
@@ -236,6 +236,20 @@
             @endforeach
         </td>
     </tr>
+
+    <tr>
+        <th>
+            {{ trans('cruds.dataProcessing.fields.controls') }}
+        </th>
+        <td colspan='3'>
+            @foreach($dataProcessing->securityControls() as $control)
+                @canShow($control)<a href="{{ route('admin.security-controls.show', $control->id) }}">{{ $control->name }}</a>@elsecanShow{{ $control->name }}@endcanShow
+                @if (!$loop->last)
+                    ,
+                @endif
+            @endforeach
+        </td>
+    </tr>    
 
     <tr>
         <th>

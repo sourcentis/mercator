@@ -26,7 +26,7 @@
                             <td style="width: 50%;">
                                 {{ trans("cruds.site.title_singular") }} :
                                 <select name="site" id="site"
-                                        onchange="this.form.building.value='';this.form.submit()"
+                                        data-autosubmit data-autosubmit-clear="building"
                                         class="form-control select2">
                                     <option value="">-- All sites --</option>
                                     @foreach($all_sites as $id => $name)
@@ -36,7 +36,7 @@
                             </td>
                             <td style="width: 50%;">
                                 {{ trans("cruds.building.title_singular") }} :
-                                <select name="building" id="building" onchange="this.form.submit()"
+                                <select name="building" id="building" data-autosubmit
                                         class="form-control select2">
                                     <option value="">-- All buildings --</option>
                                     @if ($all_buildings!=null)
@@ -50,7 +50,9 @@
                     </table>
                 </div>
                 <div id="graph-container">
-                    <div id="graph" class="graphviz"></div>
+                    <div id="graph" class="graphviz">
+                        @include('admin.reports._graph_too_large')
+                    </div>
                     <div class="graph-resize-handle"></div>
                 </div>
 
@@ -87,6 +89,8 @@
     </div>
 </div>
 
+{{-- Graphe trop grand : les objets ne sont pas listés non plus --}}
+@if(empty($graphTooLarge))
 <div class="report-scroll-area">
     @canAccess(App\Models\Site::class)
         @if ($sites->count()>0)
@@ -377,13 +381,13 @@
         @endif
     @endcan
 </div>
-
+@endif
 @endsection
 
 @section('scripts')
 @vite(['resources/js/graphviz.js'])
-<script>
-let dotSrc = `{!! $dotSrc !!}`;
+<script @nonce>
+let dotSrc = @json($dotSrc);
 
 document.addEventListener('graphvizReady', () => {
     window.initGraphvizReport({ dotSrc, engine: @json($engine), images: @json($imageManifest) });

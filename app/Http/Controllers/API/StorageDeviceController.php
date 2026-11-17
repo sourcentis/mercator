@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreStorageDeviceRequest;
 use App\Http\Requests\MassUpdateStorageDeviceRequest;
 use App\Http\Requests\StoreStorageDeviceRequest;
 use App\Http\Requests\UpdateStorageDeviceRequest;
+use App\Models\StorageDevice;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\StorageDevice;
 use Symfony\Component\HttpFoundation\Response;
 
 class StorageDeviceController extends APIController
@@ -63,7 +63,7 @@ class StorageDeviceController extends APIController
     {
         abort_if(Gate::denies('storage_device_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        StorageDevice::query()->whereIn('id', $request->input('ids', []))->delete();
+        StorageDevice::query()->whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
@@ -72,9 +72,9 @@ class StorageDeviceController extends APIController
     {
         // L’authorize() du FormRequest gère déjà la permission `storage_device_create`
 
-        $createdIds          = [];
-        $storageDeviceModel  = new StorageDevice();
-        $fillable            = $storageDeviceModel->getFillable();
+        $createdIds = [];
+        $storageDeviceModel = new StorageDevice;
+        $fillable = $storageDeviceModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             // Colonnes du modèle uniquement
@@ -90,16 +90,16 @@ class StorageDeviceController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateStorageDeviceRequest $request)
     {
         // L’authorize() du FormRequest gère déjà la permission `storage_device_edit`
-        $storageDeviceModel = new StorageDevice();
-        $fillable           = $storageDeviceModel->getFillable();
+        $storageDeviceModel = new StorageDevice;
+        $fillable = $storageDeviceModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
             $id = $rawItem['id'];

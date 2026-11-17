@@ -1273,7 +1273,7 @@ class ExplorerController extends Controller
             // Add source <-> destination flows
             foreach ($sources as $source) {
                 foreach ($destinations as $destination) {
-                    $this->addFluxEdge($flow->name, false, $source, $destination);
+                    $this->addLogicalFluxEdge($flow->name, $source, $destination);
                 }
             }
         }
@@ -1621,7 +1621,7 @@ class ExplorerController extends Controller
     private function buildInformation(): void
     {
         $information = Cartographer::scopedQuery(Information::query())
-            ->select('id', 'name')
+            ->select('id', 'name', 'icon_id')
             ->get();
 
         foreach ($information as $info) {
@@ -1629,7 +1629,7 @@ class ExplorerController extends Controller
                 2,
                 $this->formatId(Information::$prefix, $info->id),
                 $info->name,
-                '/images/information.png',
+                $this->getIcon($info->icon_id, '/images/information.png'),
                 'information', 260
             );
         }
@@ -1903,6 +1903,11 @@ class ExplorerController extends Controller
     private function addFluxEdge(?string $name, bool $bidirectional, string $from, string $to): void
     {
         $this->addEdge($name, $bidirectional, $from, $to, 'FLUX', null);
+    }
+
+    private function addLogicalFluxEdge(?string $name, string $from, string $to): void
+    {
+        $this->addEdge($name, false, $from, $to, 'LFLUX', null);
     }
 
     private function formatId(string $prefix, $id): ?string

@@ -32,7 +32,7 @@
             {{ trans('cruds.dataProcessing.fields.description') }}
         </th>
         <td colspan='3'>
-            {!! $dataProcessing->description !!}
+            {!! clean($dataProcessing->description ?? '') !!}
         </td>
     </tr>
 

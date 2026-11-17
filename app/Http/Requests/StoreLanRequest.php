@@ -3,11 +3,10 @@
 namespace App\Http\Requests;
 
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
 
-class StoreLanRequest extends FormRequest
+class StoreLanRequest extends BaseFormRequest
 {
     public function authorize()
     {

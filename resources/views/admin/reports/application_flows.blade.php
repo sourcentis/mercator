@@ -32,7 +32,7 @@
                                 </div>
                                 <select class="form-control select2 " name="applicationBlocks[]"
                                         class="form-control select2"
-                                        id="applicationBlocks" multiple onchange="this.form.submit();">
+                                        id="applicationBlocks" multiple data-autosubmit>
                                     @foreach($all_applicationBlocks as $id => $name)
                                         <option value="{{ $id }}" {{ in_array($id, Session::get('applicationBlocks')) ? 'selected' : '' }}>{{ $name }}</option>
                                     @endforeach
@@ -47,7 +47,7 @@
                                           style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
                                 </div>
                                 <select class="form-control select2 " name="applications[]" id="applications"
-                                        multiple onchange="this.form.submit();" class="form-control select2">
+                                        multiple data-autosubmit class="form-control select2">
                                     @foreach($all_applications as $id => $name)
                                         <option value="{{ $id }}" {{ in_array($id, Session::get('applications')) ? 'selected' : '' }}>{{ $name }}</option>
                                     @endforeach
@@ -62,7 +62,7 @@
                                           style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
                                 </div>
                                 <select class="form-control select2 " name="databases[]" id="databases" multiple
-                                        onchange="this.form.submit();" class="form-control select2">
+                                        data-autosubmit class="form-control select2">
                                     @foreach($all_databases as $id => $name)
                                         <option value="{{ $id }}" {{ in_array($id, Session::get('databases')) ? 'selected' : '' }}>{{ $name }}</option>
                                     @endforeach
@@ -72,7 +72,9 @@
                     </table>
                 </div>
                 <div id="graph-container">
-                    <div class="graphviz" id="graph"></div>
+                    <div class="graphviz" id="graph">
+                        @include('admin.reports._graph_too_large')
+                    </div>
                     <div class="graph-resize-handle"></div>
                 </div>
                 <div class="row p-1">
@@ -106,6 +108,8 @@
     </div>
 </div>
 
+{{-- Graphe trop grand : les objets ne sont pas listés non plus --}}
+@if(empty($graphTooLarge))
 <div class="report-scroll-area">
 
     @canAccess(App\Models\ApplicationFlow::class)
@@ -228,12 +232,13 @@
         @endif
     @endcan
 </div>
+@endif
 @endsection
 
 @section('scripts')
     @vite(['resources/js/graphviz.js'])
-    <script>
-        let dotSrc = `{!! $dotSrc !!}`;
+    <script @nonce>
+        let dotSrc = @json($dotSrc);
 
         document.addEventListener('graphvizReady', () => {
             window.initGraphvizReport({ dotSrc, engine: @json($engine), images: @json($imageManifest) });

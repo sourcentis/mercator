@@ -78,6 +78,7 @@ plugins:
             PROCESS & ANALYSIS: PROCESSUS & ANALYSE
             -- Maps: -- Cartes
             -- BPMN: -- BPMN
+            -- Cairn Diagram: -- Diagramme Cairn
             -- Queries: -- Requêtes
             -- Reports: -- Rapports
             API & INTEGRATION: API & INTÉGRATION
@@ -123,6 +124,7 @@ nav:
   - PROCESS & ANALYSIS:
       - -- Maps: maps.md
       - -- BPMN: bpmn.md
+      - -- Cairn Diagram: cairn.md
       - -- Queries: queries.md
       - -- Reports: reports.md
   - API & INTEGRATION:

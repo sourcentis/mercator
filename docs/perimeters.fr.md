@@ -6,7 +6,7 @@ Cette documentation explique ce qu'est un périmètre, comment il se combine ave
 
 ## Introduction — Qu'est-ce qu'un périmètre ?
 
-Un **périmètre** regroupe un sous-ensemble des objets de la cartographie. Chaque objet (serveur, application, réseau, site…) n'appartient jamais qu'à un seul périmètre (par défaut le périmètre n° 1).
+Un **périmètre** regroupe un sous-ensemble des objets de la cartographie indépendamment de leur type. Chaque objet (serveur, application, réseau, site…) n'appartient jamais qu'à un seul périmètre.
 
 Les périmètres permettent de :
 
@@ -29,7 +29,7 @@ Les périmètres permettent de :
 !!! note "Modèle technique"
     - Chaque objet porte un entier `perimeter_id` (jamais NULL, toujours ≥ 1)
     - Un périmètre par défaut existe toujours avec `id = 1` (créé par la migration d'initialisation de la base de données)
-    - Les noms d'objets sont **uniques par (perimeter_id, name)** — deux établissements peuvent chacun avoir un « Serveur DNS »
+    - Les noms d'objets sont **uniques par (perimeter_id, name)** — deux entités peuvent chacun avoir un « ServeurDNS »
     - Les périmètres sont gérés dans une table dédiée `perimeters`
 
 ## Fonctionnement des périmètres : avant et après activation

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Concerns\ValidatesIcon;
 use App\Rules\UrlList;
 use Gate;
 use Illuminate\Validation\Rule;
@@ -9,6 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class StoreApplicationRequest extends BaseFormRequest
 {
+    use ValidatesIcon;
+
     protected array $htmlFields = ['description'];
 
     public function authorize(): bool
@@ -41,7 +44,6 @@ class StoreApplicationRequest extends BaseFormRequest
                 'required',
                 Rule::unique('applications')->where('perimeter_id', $perimeterId)->whereNull('deleted_at'),
             ],
-            'iconFile' => ['nullable', 'file', 'mimes:png', 'max:65535'],
             'entities.*' => [
                 'integer',
             ],

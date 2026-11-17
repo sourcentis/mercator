@@ -96,7 +96,7 @@
                 <div class="form-group">
                     <label class="label-maturity-1" for="description">{{ trans('cruds.router.fields.description') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}"
-                              name="description" id="description">{!! old('description') !!}</textarea>
+                              name="description" id="description">{{ old('description') }}</textarea>
                     @if($errors->has('description'))
                         <div class="invalid-feedback">
                             {{ $errors->first('description') }}
@@ -107,7 +107,7 @@
                 <div class="form-group">
                     <label for="ip_addresses">{{ trans('cruds.router.fields.ip_addresses') }}</label>
                     <textarea class="form-control {{ $errors->has('ip_addresses') ? 'is-invalid' : '' }}"
-                              name="ip_addresses" id="ip_addresses">{!! old('ip_addresses') !!}</textarea>
+                              name="ip_addresses" id="ip_addresses">{{ old('ip_addresses') }}</textarea>
                     @if($errors->has('ip_addresses'))
                         <div class="invalid-feedback">
                             {{ $errors->first('ip_addresses') }}
@@ -118,7 +118,7 @@
                 <div class="form-group">
                     <label for="rules">{{ trans('cruds.router.fields.rules') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('rules') ? 'is-invalid' : '' }}" name="rules"
-                              id="rules">{!! old('rules') !!}</textarea>
+                              id="rules">{{ old('rules') }}</textarea>
                     @if($errors->has('rules'))
                         <div class="invalid-feedback">
                             {{ $errors->first('rules') }}

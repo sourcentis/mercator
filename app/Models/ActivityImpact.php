@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
+use App\Factories\ActivityImpactFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use App\Factories\ActivityImpactFactory;
-use App\Factories\UserFactory;
 
 /**
  * App\Activity
@@ -29,7 +28,6 @@ class ActivityImpact extends Model
 
     public static array $searchable = [
     ];
-
 
     protected static function newFactory(): Factory
     {

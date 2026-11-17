@@ -6,7 +6,7 @@ This documentation explains what a perimeter is, how it combines with roles, and
 
 ## Introduction — What is a perimeter?
 
-A **perimeter** groups a subset of the objects in the cartography. Each object (server, application, network, site…) belongs to one and only one perimeter (by default, perimeter no. 1).
+A **scope** groups together a subset of the mapped objects, regardless of their type. Each object (server, application, network, site, etc.) belongs to only one scope.
 
 Perimeters allow you to:
 
@@ -29,7 +29,7 @@ Perimeters allow you to:
 !!! note "Technical model"
     - Each object carries a `perimeter_id` integer (never NULL, always ≥ 1)
     - A default perimeter always exists with `id = 1` (created by the database bootstrap migration)
-    - Object names are **unique per (perimeter_id, name)** — two establishments can each have a "DNS Server"
+    - Object names are **unique per (perimeter_id, name)** — two entities can each have a "DNSServer"
     - Perimeters are managed in a dedicated `perimeters` table
 
 ## How perimeters work: before and after activation

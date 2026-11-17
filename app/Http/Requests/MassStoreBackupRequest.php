@@ -3,10 +3,9 @@
 namespace App\Http\Requests;
 
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class MassStoreBackupRequest extends FormRequest
+class MassStoreBackupRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -18,10 +17,10 @@ class MassStoreBackupRequest extends FormRequest
     public function rules()
     {
         // On récupère les règles du StoreBayRequest classique
-        $storeRules = (new StoreBackupRequest())->rules();
+        $storeRules = (new StoreBackupRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -33,4 +32,3 @@ class MassStoreBackupRequest extends FormRequest
         return $rules;
     }
 }
-

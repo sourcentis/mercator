@@ -6,7 +6,7 @@ use Illuminate\Validation\Rule;
 
 class UpdateRelationRequest extends BaseFormRequest
 {
-    protected array $htmlFields = ['description'];
+    protected array $htmlFields = ['description', 'comments'];
 
     public function authorize(): bool
     {
@@ -40,6 +40,13 @@ class UpdateRelationRequest extends BaseFormRequest
             'destination_id' => [
                 'required',
                 'integer',
+            ],
+            'documents' => [
+                'array',
+            ],
+            'documents.*' => [
+                'integer',
+                'exists:documents,id',
             ],
             'start_validity' => [
                 'date',

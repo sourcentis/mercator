@@ -43,9 +43,12 @@
                                             @canAccessAny(\App\Models\Network::class, \App\Models\Subnetwork::class, \App\Models\NetworkSwitch::class, \App\Models\Gateway::class, \App\Models\ExternalConnectedEntity::class, \App\Models\Container::class, \App\Models\Cluster::class, \App\Models\LogicalServer::class, \App\Models\Backup::class, \App\Models\SecurityDevice::class, \App\Models\Router::class, \App\Models\Certificate::class, \App\Models\Vlan::class)
                                             <option value="5">{{ trans("cruds.report.cartography.logical_infrastructure") }}</option>
                                             @endcanAccessAny
-                                            @canAccessAny(\App\Models\ApplicationFlow::class, \App\Models\LogicalFlow::class)
+                                            @canAccess(\App\Models\LogicalFlow::class)
+                                            <option value="10">{{ trans("cruds.logicalFlow.title") }}</option>
+                                            @endcanAccess
+                                            @canAccess(\App\Models\ApplicationFlow::class)
                                             <option value="9">{{ trans("cruds.applicationFlow.title") }}</option>
-                                            @endcanAccessAny
+                                            @endcanAccess
                                             @canAccessAny(\App\Models\Site::class, \App\Models\Building::class, \App\Models\Bay::class, \App\Models\Zone::class, \App\Models\PhysicalServer::class, \App\Models\Workstation::class, \App\Models\Phone::class, \App\Models\Peripheral::class, \App\Models\StorageDevice::class, \App\Models\PhysicalSwitch::class, \App\Models\PhysicalRouter::class, \App\Models\WifiTerminal::class, \App\Models\PhysicalSecurityDevice::class, \App\Models\Wan::class, \App\Models\Man::class, \App\Models\Lan::class)
                                             <option value="6">{{ trans("cruds.report.cartography.physical_infrastructure") }}</option>
                                             @endcanAccessAny
@@ -78,14 +81,13 @@
                                     </div>
                                 </td>
                                 <td style="text-align: left; vertical-align: middle;">
-<button type="button" class="btn btn-success" onclick="addNode(document.getElementById('node').value)">
+<button type="button" class="btn btn-success" id="explore-add-node">
 <i class="bi bi-plus-square-fill"></i>&nbsp;{{ trans('global.add') }}
 </button>
                                 </td>
                                 <td style="text-align: right; vertical-align: top;">
                                     &nbsp;
-                                    <a onclick="needSavePNG=true; network.redraw();document.getElementById('canvasImg').click();"
-                                       href="#"><i class="bi bi-camera-fill"></i>
+                                    <a id="explore-photo" href="#"><i class="bi bi-camera-fill"></i>
                                         Photo
                                     </a>
                                     <a id="canvasImg" download="filename"></a>
@@ -93,11 +95,11 @@
                             </tr>
                             <tr>
                                 <td colspan="5">
-<button type="button" class="btn btn-danger" onclick="network.deleteSelected()">
+<button type="button" class="btn btn-danger" id="explore-delete">
 <i class="bi bi-dash-circle"></i>&nbsp;{{ trans("cruds.report.explorer.delete") }}
 </button>
 &nbsp;
-<button type="button" class="btn btn-warning" onclick="network.unselectAll(); nodes.clear(); edges.clear(); network.redraw();">
+<button type="button" class="btn btn-warning" id="explore-reload">
 <i class="bi bi-arrow-repeat"></i>&nbsp;{{ trans("cruds.report.explorer.reload") }}
 </button>
 &nbsp;&nbsp;
@@ -120,7 +122,7 @@
                                         <option value="5">9</option>
                                     </select>
                                     </div>
-<button type="button" class="btn btn-info" onclick="deployAll()">
+<button type="button" class="btn btn-info" id="explore-deploy">
 <i class="fas fa-star"></i>&nbsp;{{ trans("cruds.report.explorer.deploy") }}
 </button>
                                     &nbsp;
@@ -203,7 +205,7 @@
 @section('scripts')
 
     @vite(['resources/js/vis-network.js'])
-    <script>
+    <script @nonce>
 
         let nodes       = null;
         let edges       = null;
@@ -391,9 +393,10 @@
 
                 const passesFilter =
                     filter.length === 0
-                    || (filter.includes(targetNode.vue) && edge.edgeType !== 'CABLE' && edge.edgeType !== 'FLUX')
+                    || (filter.includes(targetNode.vue) && edge.edgeType !== 'CABLE' && edge.edgeType !== 'FLUX' && edge.edgeType !== 'LFLUX')
                     || (filter.includes("8") && edge.edgeType === 'CABLE')
                     || (filter.includes("9") && edge.edgeType === 'FLUX')
+                    || (filter.includes("10") && edge.edgeType === 'LFLUX')
                     || (filter.includes("1") && edge.edgeType === 'FLUX')
                     || (filter.includes("2") && edge.edgeType === 'FLUX');
 
@@ -447,9 +450,10 @@
                 const passesFilter =
                     (
                         filter.length === 0
-                        || (filter.includes(targetNode.vue) && edge.edgeType !== 'CABLE' && edge.edgeType !== 'FLUX')
+                        || (filter.includes(targetNode.vue) && edge.edgeType !== 'CABLE' && edge.edgeType !== 'FLUX' && edge.edgeType !== 'LFLUX')
                         || (filter.includes("8") && edge.edgeType === 'CABLE')
                         || (filter.includes("9") && edge.edgeType === 'FLUX')
+                        || (filter.includes("10") && edge.edgeType === 'LFLUX')
                         || (filter.includes("1") && edge.edgeType === 'FLUX')
                         || (filter.includes("2") && edge.edgeType === 'FLUX')
                     ) && matchAttr;
@@ -479,6 +483,7 @@
                         || neighborEdge.edgeType === 'LINK'
                         || (filter.includes("8") && neighborEdge.edgeType === 'CABLE')
                         || (filter.includes("9") && neighborEdge.edgeType === 'FLUX')
+                        || (filter.includes("10") && neighborEdge.edgeType === 'LFLUX')
                         || (filter.includes("1") && neighborEdge.edgeType === 'FLUX')
                         || (filter.includes("2") && neighborEdge.edgeType === 'FLUX');
 
@@ -538,7 +543,7 @@
             for (const edge of edgeList) {
                 if (edge.attachedNodeId !== targetNodeId) continue;
 
-                if (edge.edgeType === 'FLUX') {
+                if (edge.edgeType === 'FLUX' || edge.edgeType === 'LFLUX') {
                     const isFrom    = edge.edgeDirection === 'FROM';
                     const [from, to] = isFrom
                         ? [targetNodeId, sourceNodeId]
@@ -774,6 +779,28 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             loadGraphData();
+
+            // Boutons de la barre d'outils (pas de handlers inline : CSP)
+            document.getElementById('explore-add-node')
+                .addEventListener('click', () => addNode(document.getElementById('node').value));
+            document.getElementById('explore-photo')
+                .addEventListener('click', (event) => {
+                    event.preventDefault();
+                    needSavePNG = true;
+                    network.redraw();
+                    document.getElementById('canvasImg').click();
+                });
+            document.getElementById('explore-delete')
+                .addEventListener('click', () => network.deleteSelected());
+            document.getElementById('explore-reload')
+                .addEventListener('click', () => {
+                    network.unselectAll();
+                    nodes.clear();
+                    edges.clear();
+                    network.redraw();
+                });
+            document.getElementById('explore-deploy')
+                .addEventListener('click', () => deployAll());
 
             $('body').keydown(function (event) {
                 if (event.keyCode === 8 || event.keyCode === 46) {

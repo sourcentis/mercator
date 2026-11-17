@@ -2,6 +2,7 @@
 
 use App\Models\Activity;
 use App\Models\Actor;
+use App\Models\Document;
 use App\Models\Information;
 use App\Models\MacroProcessus;
 use App\Models\Operation;
@@ -75,4 +76,30 @@ test('imageManifest returns the fixed 7-entry icon list', function () {
             '/images/actor.png',
             '/images/information.png',
         ]);
+});
+
+test('buildDot and imageManifest use the process custom icon when set', function () {
+    $document = Document::factory()->create();
+    $process = Process::factory()->create(['icon_id' => $document->id]);
+    $processes = Process::with('activities', 'information', 'operations')->get();
+
+    $builder = new InformationSystemGraphBuilder;
+    $dot = $builder->buildDot(collect(), $processes, collect(), collect(), collect(), collect(), collect());
+    $iconUrl = route('admin.documents.show', $document->id);
+
+    expect($dot)->toContain($iconUrl)
+        ->and(collect($builder->imageManifest($processes))->pluck('path'))->toContain($iconUrl);
+});
+
+test('buildDot and imageManifest use the information custom icon when set', function () {
+    $document = Document::factory()->create();
+    Information::factory()->create(['icon_id' => $document->id]);
+    $informations = Information::with('children')->get();
+
+    $builder = new InformationSystemGraphBuilder;
+    $dot = $builder->buildDot(collect(), collect(), collect(), collect(), collect(), collect(), $informations);
+    $iconUrl = route('admin.documents.show', $document->id);
+
+    expect($dot)->toContain($iconUrl)
+        ->and(collect($builder->imageManifest(collect(), $informations))->pluck('path'))->toContain($iconUrl);
 });

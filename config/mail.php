@@ -46,7 +46,8 @@ return [
             'username' => env('MAIL_USERNAME'),
             'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
-            'auto_tls' => env('MAIL_SMTP_AUTO_TLS', false),
+            // 'tls' (STARTTLS obligatoire), 'ssl' (TLS implicite, port 465) ou vide (STARTTLS si proposé)
+            'encryption' => env('MAIL_SMTP_SECURE'),
             'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url((string) env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
         ],
 

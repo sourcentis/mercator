@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Gate;
-use Illuminate\Foundation\Http\FormRequest;
-use Symfony\Component\HttpFoundation\Response;
 use App\Models\LogicalFlow;
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 
-class MassUpdateLogicalFlowRequest extends FormRequest
+class MassUpdateLogicalFlowRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -19,14 +18,14 @@ class MassUpdateLogicalFlowRequest extends FormRequest
     public function rules()
     {
         // Règles du UpdateLogicalFlowRequest classique
-        $updateRules = (new UpdateLogicalFlowRequest())->rules();
+        $updateRules = (new UpdateLogicalFlowRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new LogicalFlow();
+        $model = new LogicalFlow;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdateLogicalFlowRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -40,4 +39,3 @@ class MassUpdateLogicalFlowRequest extends FormRequest
         return $rules;
     }
 }
-

@@ -6,13 +6,15 @@
       $queryDsl     array|null   – DSL à charger + exécuter au démarrage (null = aucun)
       $saveFormId   string|null  – id du <form> PUT de mise à jour (ex: 'form-save-update')
       $createRoute  string|null  – URL de création (redirect avec DSL en paramètre)
+      $runUrl       string|null  – URL d'exécution de la requête enregistrée (null = texte de l'éditeur)
 --}}
 @php
+    $runUrl      = $runUrl      ?? null;
     $queryDsl    = $queryDsl    ?? null;
     $saveFormId  = $saveFormId  ?? null;
     $createRoute = $createRoute ?? null;
 @endphp
-<script>
+<script @nonce>
 document.addEventListener('DOMContentLoaded', function () {
 (function () {
     'use strict';
@@ -31,6 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const statusMsg    = document.getElementById('status-msg');
     const statusCount  = document.getElementById('status-count');
 
+    let savedRunUrl       = @json($runUrl);
     let datatableInstance = null;
     let lastSvgContent    = '';
     let lastGraphData     = null;   // cache pour re-rendu lors du changement d'engine
@@ -182,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function () {
         setStatus('Exécution en cours…');
 
         try {
-            const res = await fetch('{!! route('admin.queries.execute') !!}', {
+            const res = await fetch(savedRunUrl ?? '{!! route('admin.queries.execute') !!}', {
                 method:  'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -231,7 +234,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 render:         (data, type, row) => row[c] ?? '',
             })),
             order:      [[0, 'asc']],
-            pageLength: 100,
+            pageLength: 250,
+            lengthMenu: [10, 100, 250, 1000],
             buttons: [
                 { extend: 'colvis', className: 'btn-default' },
                 { extend: 'copy',   className: 'btn-default' },
@@ -322,7 +326,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ── API publique (utilisée par l'index pour charger depuis la liste) ──
     window.QueryEngine = {
-        load(dsl) {
+        load(dsl, runUrl = savedRunUrl) {
+            savedRunUrl  = runUrl;
             const output = dsl.output ?? 'list';
             editor.value = dslToSql(dsl);
             clearParseError();

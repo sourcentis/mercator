@@ -17,7 +17,7 @@
             <!---------------------------------------------------------------------------------------------------->
             <div class="card-body">
                 <div class="row">
-                    @if (auth()->user()->hasMultiplePerimeters())
+                    @if (auth()->user()->canChoosePerimeterOf($logicalServer))
                 <div class="col-md-2">
                     <div class="form-group">
                         <label for="perimeter_id">{{ trans('cruds.perimeter.title_short') }}</label>
@@ -102,7 +102,7 @@
                             <select class="form-control select2-free-tags {{ $errors->has('patching_group') ? 'is-invalid' : '' }}"
                                     name="attributes[]" id="attributes" multiple>
                                 @foreach($attributes_list as $a)
-                                    <option {{ ( (old('attributes')!=null) && in_array($a,old('attributes'))) || str_contains($logicalServer->attributes, $a) ? 'selected' : '' }}>{{$a}}</option>
+                                    <option {{ in_array($a, old('attributes', explode(' ', $logicalServer->attributes ?? '')), true) ? 'selected' : '' }}>{{$a}}</option>
                                 @endforeach
                             </select>
                             @if($errors->has('attributes'))
@@ -123,7 +123,7 @@
                             <textarea
                                     class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}"
                                     name="description"
-                                    id="description">{!! old('description', $logicalServer->description) !!}</textarea>
+                                    id="description">{{ old('description', $logicalServer->description) }}</textarea>
                             @if($errors->has('description'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('description') }}
@@ -361,7 +361,7 @@
                             <textarea
                                     class="form-control ckeditor {{ $errors->has('configuration') ? 'is-invalid' : '' }}"
                                     name="configuration"
-                                    id="configuration">{!! old('configuration', $logicalServer->configuration) !!}</textarea>
+                                    id="configuration">{{ old('configuration', $logicalServer->configuration) }}</textarea>
                             @if($errors->has('configuration'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('configuration') }}

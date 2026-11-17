@@ -12,11 +12,17 @@
 }
 </style>
 
-{{-- ── Barre d'outils ─────────────────────────────────────────────── --}}
-<div class="card-header py-2 d-flex gap-2 align-items-center flex-wrap">
+{{-- $readOnly : compte sans droit d'édition, seuls le résultat et le lien d'export restent visibles --}}
+@php
+    $readOnly = $readOnly ?? false;
+    $readOnlyClass = $readOnly ? ' d-none' : '';
+@endphp
+
+{{-- ── Barre d'outils (conservée dans le DOM si masquée : le JS lit ses champs) --}}
+<div class="card-header py-2 d-flex gap-2 align-items-center flex-wrap{{ (($hideEditor ?? false) || ($readOnly && ! isset($exportUrl))) ? ' d-none' : '' }}">
 
     {{-- Mode sortie --}}
-    <div class="btn-group btn-group-sm" role="group">
+    <div class="btn-group btn-group-sm{{ $readOnlyClass }}" role="group">
         <input type="radio" class="btn-check" name="output" id="out-list"  value="list"  autocomplete="off" checked>
         <label class="btn btn-outline-secondary" for="out-list">
             <i class="fas fa-list"></i> @lang('Liste')
@@ -29,7 +35,7 @@
 
     <div class="flex-grow-1"></div>
 
-    <button class="btn btn-sm btn-outline-secondary" id="btn-toggle-editor"
+    <button class="btn btn-sm btn-outline-secondary{{ $readOnlyClass }}" id="btn-toggle-editor"
             title="@lang('Afficher/masquer l\'éditeur')">
         <i class="fas fa-code"></i> @lang('Éditeur')
     </button>
@@ -40,12 +46,12 @@
         </button>
     @endisset
 
-    <button class="btn btn-sm btn-outline-secondary" id="btn-format"
+    <button class="btn btn-sm btn-outline-secondary{{ $readOnlyClass }}" id="btn-format"
             title="@lang('Formater la requête')">
         <i class="fas fa-indent"></i> @lang('Format')
     </button>
 
-    <button class="btn btn-sm btn-primary" id="btn-run">
+    <button class="btn btn-sm btn-primary{{ $readOnlyClass }}" id="btn-run">
         <i class="fas fa-play"></i> @lang('Exécuter')
     </button>
 </div>
@@ -53,10 +59,11 @@
 {{-- ── Éditeur DSL ─────────────────────────────────────────────────── --}}
 <div id="editor-panel" class="border-bottom d-none">
     <textarea id="query-editor"
-              class="form-control font-monospace border-0 rounded-0"
+              class="form-control font-monospace border-0 rounded-0{{ ($hideEditor ?? false) ? ' d-none' : '' }}"
               rows="8"
               style="font-size:0.85rem; resize:vertical;"
               spellcheck="false"
+              @readonly($readOnly)
               placeholder="FROM logical-servers
 WHERE environment = &quot;production&quot;
 AND (operating_system LIKE &quot;%Linux%&quot; OR os LIKE &quot;%Windows%&quot;)
@@ -75,7 +82,11 @@ LIMIT 100"></textarea>
          style="position:absolute; inset:0;">
         <div class="text-center">
             <i class="fas fa-search fa-3x mb-3 opacity-25"></i>
-            <p>@lang('Écrivez une requête et cliquez sur Exécuter.')</p>
+            @if($hideEditor ?? false)
+                <p>@lang('Sélectionnez une requête dans la liste.')</p>
+            @elseif(! $readOnly)
+                <p>@lang('Écrivez une requête et cliquez sur Exécuter.')</p>
+            @endif
         </div>
     </div>
 

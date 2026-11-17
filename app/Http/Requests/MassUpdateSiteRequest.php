@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Gate;
-use Illuminate\Foundation\Http\FormRequest;
-use Symfony\Component\HttpFoundation\Response;
 use App\Models\Site;
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 
-class MassUpdateSiteRequest extends FormRequest
+class MassUpdateSiteRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -19,14 +18,14 @@ class MassUpdateSiteRequest extends FormRequest
     public function rules()
     {
         // Règles du UpdateSiteRequest classique
-        $updateRules = (new UpdateSiteRequest())->rules();
+        $updateRules = (new UpdateSiteRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new Site();
+        $model = new Site;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdateSiteRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -40,4 +39,3 @@ class MassUpdateSiteRequest extends FormRequest
         return $rules;
     }
 }
-

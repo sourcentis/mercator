@@ -41,7 +41,7 @@
                 {{ trans('cruds.network.fields.description') }}
             </th>
             <td colspan="5">
-                {!! $network->description !!}
+                {!! clean($network->description ?? '') !!}
             </td>
         </tr>
         <tr>

@@ -7,6 +7,7 @@
  *   [FIELDS <field>, <relation.field>, ...]
  *   [WHERE <conditions>]
  *   [WITH <relation>, <relation.relation>, ...]
+ *   [GROUP BY <field>, ...]            (OUTPUT list uniquement)
  *   [OUTPUT graph|list]
  *   [LIMIT <n>]
  *
@@ -41,6 +42,7 @@
         'FROM', 'WHERE', 'AND', 'OR', 'NOT', 'WITH', 'TRAVERSE',
         'OUTPUT', 'LIMIT', 'LIKE', 'IN', 'IS', 'EXISTS',
         'FIELDS', 'SELECT', 'NULL', 'TRUE', 'FALSE',
+        'GROUP', 'BY',
     ]);
 
     function tokenize(input) {
@@ -180,6 +182,10 @@
                 if (this.match('WHERE')) dsl.filters = this.parseWhereClause();
                 else if (this.match('WITH', 'TRAVERSE')) dsl.traverse = this.parseTraverseList();
                 else if (this.match('FIELDS', 'SELECT')) dsl.fields = this.parseIdentList();
+                else if (this.match('GROUP')) {
+                    this.expect('BY');
+                    dsl.group_by = this.parseIdentList();
+                }
                 else if (this.match('OUTPUT')) dsl.output = this.expect('IDENT').value.toLowerCase();
                 else if (this.match('LIMIT')) dsl.limit = this.expect('NUMBER').value;
                 else throw new Error(`Clause inconnue : "${this.peek().value ?? this.peek().type}"`);
@@ -331,7 +337,7 @@
         parseSubConditions() {
             const stopTokens = new Set([
                 'AND', 'OR', 'RPAREN', 'EOF',
-                'WITH', 'TRAVERSE', 'OUTPUT', 'LIMIT', 'FIELDS', 'SELECT', 'FROM',
+                'WITH', 'TRAVERSE', 'OUTPUT', 'LIMIT', 'FIELDS', 'SELECT', 'FROM', 'GROUP',
             ]);
             const conditions = [];
 
@@ -449,6 +455,7 @@
         if (dsl.fields?.length) lines.push(`FIELDS ${dsl.fields.join(', ')}`);
         if (dsl.filters?.length) lines.push(`WHERE ${filtersToSql(dsl.filters, '')}`);
         if (dsl.traverse?.length) lines.push(`WITH ${dsl.traverse.map(traverseItemToSql).join(', ')}`);
+        if (dsl.group_by?.length) lines.push(`GROUP BY ${dsl.group_by.join(', ')}`);
         if (dsl.output != null) lines.push(`OUTPUT ${dsl.output}`);
         if (dsl.limit != null) lines.push(`LIMIT ${dsl.limit}`);
 

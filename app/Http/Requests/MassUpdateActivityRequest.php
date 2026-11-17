@@ -3,10 +3,9 @@
 namespace App\Http\Requests;
 
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class MassUpdateActivityRequest extends FormRequest
+class MassUpdateActivityRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -18,10 +17,10 @@ class MassUpdateActivityRequest extends FormRequest
     public function rules()
     {
         // Règles du update classique
-        $updateRules = (new UpdateActivityRequest())->rules();
+        $updateRules = (new UpdateActivityRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             'items.*.id' => ['required', 'integer', 'exists:activities,id'],
         ];
@@ -32,10 +31,10 @@ class MassUpdateActivityRequest extends FormRequest
         }
 
         // Relations
-        $rules['items.*.operations']   = ['sometimes', 'array'];
+        $rules['items.*.operations'] = ['sometimes', 'array'];
         $rules['items.*.operations.*'] = ['integer'];
-        $rules['items.*.processes']    = ['sometimes', 'array'];
-        $rules['items.*.processes.*']  = ['integer'];
+        $rules['items.*.processes'] = ['sometimes', 'array'];
+        $rules['items.*.processes.*'] = ['integer'];
 
         return $rules;
     }

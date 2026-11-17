@@ -11,6 +11,7 @@ use App\Models\Domain;
 use App\Models\ForestAd;
 use App\Models\LogicalServer;
 use Gate;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class DomainController extends Controller
@@ -63,7 +64,7 @@ class DomainController extends Controller
         $domainAd->forestAds()->sync($request->input('forestAds', []));
 
         LogicalServer::whereIn('id', $request->input('logicalServers', []))
-            ->update(['domain_id' => $domainAd->id]);
+            ->update(['domain_id' => $domainAd->id, 'updated_by' => Auth::id()]);
 
         return redirect()->route('admin.domains.index');
     }
@@ -94,10 +95,10 @@ class DomainController extends Controller
         $domain->forestAds()->sync($request->input('forestAds', []));
 
         LogicalServer::where('domain_id', $domain->id)
-            ->update(['domain_id' => null]);
+            ->update(['domain_id' => null, 'updated_by' => Auth::id()]);
 
         LogicalServer::whereIn('id', $request->input('logicalServers', []))
-            ->update(['domain_id' => $domain->id]);
+            ->update(['domain_id' => $domain->id, 'updated_by' => Auth::id()]);
 
         return redirect()->route('admin.domains.index');
     }

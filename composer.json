@@ -12,6 +12,7 @@
     "ext-curl": "*",
     "ext-ldap": "*",
     "directorytree/ldaprecord-laravel": "^3.3",
+    "fakerphp/faker": "^1.23",
     "laravel/framework": "^13.0",
     "laravel/passport": "^13",
     "laravel/sanctum": "^4.2",
@@ -31,7 +32,7 @@
     "yajra/laravel-datatables-html": "^13.0"
   },
   "require-dev": {
-    "fakerphp/faker": "^1.23",
+    "baer-software/larabeacon": "^3.3",
     "larastan/larastan": "^3.8",
     "laravel/dusk": "^8.2",
     "laravel/pint": "^1.25",

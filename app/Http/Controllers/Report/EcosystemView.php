@@ -7,91 +7,80 @@ use App\Models\Cartographer;
 use App\Models\Entity;
 use App\Models\Relation;
 use App\Services\Graph\EcosystemGraphBuilder;
+use App\Services\Graph\GraphSize;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class EcosystemView extends Controller
 {
-    public const ALLOWED_PERIMETERS = ['All', 'Internes', 'Externes'];
-
-    public const SANITIZED_PERIMETER = 'All';
-
     /*
     * Ecosystem View
+    *
+    * Filtre : une liste d'entités de départ. Sans sélection, tout l'écosystème est
+    * affiché ; sinon, seules les entités de départ, leurs voisins directs et les
+    * relations qui les relient sont affichés.
     */
     public function generate(Request $request)
     {
         $allowed = Gate::allows('explore_access') || Cartographer::canAccessAny([Entity::class, Relation::class]);
         abort_if(! $allowed, Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $perimeter = in_array($request->perimeter, $this::ALLOWED_PERIMETERS) ?
-                   $request->perimeter : $this::SANITIZED_PERIMETER;
-        $typeFilter = $request->type ??= 'All';
-
         // Relations consumed by admin/entities/_details and admin/relations/_details,
         // eager-loaded up front to avoid per-row N+1 queries.
-        $entitiesGroups = Cartographer::scopedQuery(Entity::query())
+        $entities = Cartographer::scopedQuery(Entity::query())
             ->with([
                 'perimeter', 'parentEntity', 'entities', 'processes', 'respApplications', 'databases',
                 'sourceRelations.destination', 'destinationRelations.source',
             ])
-            ->get()
-            ->groupBy('type');
-        $entities = collect([]);
-        $entityTypes = collect([]);
-        $isTypeExists = false; /* sanitize type: si type inconnu pas d'entités */
-        foreach ($entitiesGroups as $type => $entOfGroup) {
-            $entities = $entities->concat($entOfGroup);
-            if ($type != null) {
-                $isTypeExists = $isTypeExists || ($type === $typeFilter);
-                $entityTypes->push($type);
-            }
-        }
-
-        $has_filter = false;
-        if ($typeFilter !== 'All') {
-            $has_filter = true;
-            $entities = $isTypeExists ? $entitiesGroups[$typeFilter] : collect([]);
-        }
-
-        if ($perimeter !== 'All') {
-            $has_filter = true;
-            $entities = $entities
-                ->filter(function ($item) use ($perimeter) {
-                    return $perimeter === 'Externes' ?
-                                       $item->isExternal() : ! $item->isExternal();
-                });
-        }
+            ->orderBy('name')
+            ->get();
 
         $relations = Cartographer::scopedQuery(Relation::query())
             ->with(['perimeter', 'source', 'destination'])
             ->orderBy('name')
             ->get();
-        if ($has_filter) {
-            /**
-             * Le "group by" semble résoudre les entités on doit travailler avec les ids ..
-             */
-            $ids = $entities->map(function ($item) {
-                return $item->id;
-            });
+
+        $all_entities = $entities->pluck('name', 'id');
+
+        // Entités de départ : on ne garde que des ids connus (et visibles)
+        $selectedEntities = collect((array) $request->input('entities', []))
+            ->map(fn ($id) => (int) $id)
+            ->filter(fn (int $id) => $all_entities->has($id))
+            ->unique()
+            ->values();
+
+        if ($selectedEntities->isNotEmpty()) {
+            $selected = $selectedEntities->flip();
+
+            // Connexions des entités de départ avec leurs voisins
             $relations = $relations
-                ->filter(function ($item) use ($ids) {
-                    return $ids->contains($item->source_id) &&
-                        $ids->contains($item->destination_id);
-                });
+                ->filter(fn (Relation $relation) => $selected->has($relation->source_id)
+                    || $selected->has($relation->destination_id))
+                ->values();
+
+            $ids = $selectedEntities
+                ->concat($relations->pluck('source_id'))
+                ->concat($relations->pluck('destination_id'))
+                ->flip();
+
+            $entities = $entities
+                ->filter(fn (Entity $entity) => $ids->has($entity->id))
+                ->values();
         }
 
-        $request->session()->put('perimeter', $perimeter);
-        $request->session()->put('type', $typeFilter);
+        // Compte les nœuds avant de construire le DOT : un graphe trop grand n'est ni construit ni envoyé
+        $graphTooLarge = GraphSize::tooLarge(GraphSize::count($entities));
 
         $graphBuilder = new EcosystemGraphBuilder;
 
         return view('admin/reports/ecosystem')
-            ->with('entityTypes', $entityTypes)
+            ->with('all_entities', $all_entities)
+            ->with('selectedEntities', $selectedEntities->all())
             ->with('entities', $entities)
             ->with('relations', $relations)
-            ->with('dotSrc', $graphBuilder->buildDot($entities, $relations))
+            ->with('graphTooLarge', $graphTooLarge)
+            ->with('dotSrc', $graphTooLarge ? '' : $graphBuilder->buildDot($entities, $relations))
             ->with('imageManifest', $graphBuilder->imageManifest($entities));
     }
 }

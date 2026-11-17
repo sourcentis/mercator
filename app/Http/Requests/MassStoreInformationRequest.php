@@ -3,10 +3,9 @@
 namespace App\Http\Requests;
 
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class MassStoreInformationRequest extends FormRequest
+class MassStoreInformationRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -18,10 +17,10 @@ class MassStoreInformationRequest extends FormRequest
     public function rules()
     {
         // On récupère les règles du StoreInformationRequest classique
-        $storeRules = (new StoreInformationRequest())->rules();
+        $storeRules = (new StoreInformationRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -30,10 +29,9 @@ class MassStoreInformationRequest extends FormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.processes']   = ['sometimes', 'array'];
+        $rules['items.*.processes'] = ['sometimes', 'array'];
         $rules['items.*.processes.*'] = ['integer'];
 
         return $rules;
     }
 }
-

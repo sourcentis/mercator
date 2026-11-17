@@ -6,10 +6,10 @@
 <table class="table table-bordered table-striped table-report" id="{{ $information->getUID() }}">
     <tbody>
         <tr>
-            <th width="10%">
+            <th style="width: 10%">
                 {{ auth()->user()->hasMultiplePerimeters() ? trans('cruds.perimeter.title_short').' / ' : '' }}{{ trans('cruds.information.fields.name') }}
             </th>
-            <td width="20%">
+            <td style="width: 20%">
                 @if (auth()->user()->hasMultiplePerimeters()){{ $information->perimeter->name }} / @endif
             @if ($withLink)
                 @canShow($information)
@@ -21,16 +21,16 @@
                 {{ $information->name }}
             @endif
             </td>
-            <th width="10%">
+            <th style="width: 10%">
                 {{ trans('cruds.information.fields.type') }}
             </th>
-            <td width="20%">
+            <td style="width: 20%">
                 {{ $information->type }}
             </td>
-            <th width="10%">
+            <th style="width: 10%">
                 {{ trans('cruds.information.fields.attributes') }}
             </th>
-            <td width="30%">
+            <td style="width: 30%;" colspan="2">
                 @foreach(explode(" ", $information->attributes) as $attribute)
                     <span class="badge badge-info">{{ $attribute }}</span>
                 @endforeach
@@ -41,7 +41,14 @@
                 {{ trans('cruds.information.fields.description') }}
             </th>
             <td colspan="5">
-                {!! $information->description !!}
+                {!! clean($information->description ?? '') !!}
+            </td>
+            <td style="text-align: center; width: 10%">
+                @if ($information->icon_id === null)
+                    <img src='/images/information.png' width='60' height='60'>
+                @else
+                    <img src='{{ route('admin.documents.show', $information->icon_id) }}' width='60' height='60'>
+                @endif
             </td>
         </tr>
 
@@ -61,7 +68,7 @@
                     <span style="color: black;">BPMN</span>
                 </span>
             </th>
-            <td colspan="5" style="vertical-align: middle;">
+            <td colspan="6" style="vertical-align: middle;">
                 @foreach($information->graphs() as $graph)
                     @canShow($graph)
                         <a href="{{ route('admin.bpmn.show', $graph->id) }}">
@@ -79,7 +86,3 @@
         @endif
     </tbody>
 </table>
-
-
-
-

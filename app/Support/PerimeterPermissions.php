@@ -154,8 +154,16 @@ class PerimeterPermissions
             return;
         }
 
+        // Une délégation cartographe porte sur l'objet, pas sur son rattachement : changer de
+        // périmètre exige le droit d'écriture de rôle dans le périmètre d'origine ET de destination.
+        $moving = $verb === 'edit' && $model->exists && $model->isDirty('perimeter_id');
+
         $ability = Str::snake(class_basename($model)).'_'.$verb;
         if (! self::can($user, $ability, null)) {
+            if ($moving) {
+                throw new AuthorizationException('403 Forbidden');
+            }
+
             return; // pas une permission de rôle : les Gates historiques ont déjà tranché
         }
 
@@ -169,8 +177,8 @@ class PerimeterPermissions
             if (self::can($user, $ability, (int) $perimeterId)) {
                 continue;
             }
-            // Un cartographe désigné sur l'objet peut le modifier hors de ses périmètres.
-            if ($verb === 'edit' && $model->exists && Cartographer::isAllowed($user, $model)) {
+            // Un cartographe désigné sur l'objet peut le modifier hors de ses périmètres, sans le déplacer.
+            if ($verb === 'edit' && $model->exists && ! $moving && Cartographer::isAllowed($user, $model)) {
                 continue;
             }
 

@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\Contracts\OAuthenticatable;
 use Laravel\Passport\HasApiTokens;
@@ -154,10 +155,10 @@ class User extends Authenticatable implements HasIconContract, OAuthenticatable
     }
 
     /**
-     * @param  \Illuminate\Support\Collection<int, Role>  $roles  rôles avec `permissions` chargées
+     * @param  Collection<int, Role>  $roles  rôles avec `permissions` chargées
      * @return array<int, list<string>>
      */
-    private static function groupPermissionsByPerimeter(\Illuminate\Support\Collection $roles): array
+    private static function groupPermissionsByPerimeter(Collection $roles): array
     {
         $byPerimeter = [];
         foreach ($roles as $role) {
@@ -178,6 +179,18 @@ class User extends Authenticatable implements HasIconContract, OAuthenticatable
     public function hasMultiplePerimeters(): bool
     {
         return count($this->perimeterIds()) >= 2;
+    }
+
+    /**
+     * Vrai si le formulaire d'édition de $object doit proposer le choix du périmètre :
+     * plusieurs périmètres, et l'objet appartient à l'un d'eux. Un cartographe désigné sur
+     * un objet hors de ses périmètres ne voit pas le sélecteur, qui ne pourrait proposer que
+     * ses propres périmètres et déplacerait l'objet à l'enregistrement.
+     */
+    public function canChoosePerimeterOf(Model $object): bool
+    {
+        return $this->hasMultiplePerimeters()
+            && in_array((int) $object->getAttribute('perimeter_id'), $this->perimeterIds(), true);
     }
 
     /**

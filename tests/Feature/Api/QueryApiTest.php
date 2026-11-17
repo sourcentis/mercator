@@ -27,10 +27,10 @@ beforeEach(function () {
 function makeQuery(array $overrides = []): SavedQuery
 {
     return SavedQuery::create(array_merge([
-        'name'      => 'Test Query',
-        'query'     => ['from' => 'applications', 'output' => 'list'],
+        'name' => 'Test Query',
+        'query' => ['from' => 'applications', 'output' => 'list'],
         'is_public' => false,
-        'user_id'   => null,
+        'user_id' => null,
     ], $overrides));
 }
 
@@ -52,7 +52,7 @@ it('mass destroys saved queries when permitted', function () {
 });
 
 it('does not delete unrelated saved queries on mass destroy', function () {
-    $target   = makeQuery(['name' => 'To Delete']);
+    $target = makeQuery(['name' => 'To Delete']);
     $survivor = makeQuery(['name' => 'To Keep']);
 
     $this->deleteJson('/api/queries/mass-destroy', ['ids' => [$target->id]])

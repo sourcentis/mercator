@@ -1,5 +1,7 @@
 # Mercator
 
+[<img src="/public/images/mercator.png" width="200">](/public/images/mercator.png)
+
 [![Latest Release](https://img.shields.io/github/release/sourcentis/mercator.svg?style=flat-square)](https://github.com/sourcentis/mercator/releases/latest)
 ![License](https://img.shields.io/github/license/sourcentis/mercator.svg?style=flat-square)
 ![Contributors](https://img.shields.io/github/contributors/sourcentis/mercator.svg?style=flat-square)

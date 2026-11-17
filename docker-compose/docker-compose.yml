@@ -27,6 +27,11 @@ services:
       - ./config/mercator.php:/var/www/mercator/config/mercator.php
       - ./docs:/var/www/mercator/storage/docs
       - ./app:/var/www/mercator/storage/app
+    configs:
+      # Le client mariadb (>= 11.4) exige TLS par défaut : désactivé pour
+      # `php artisan db` car le serveur interne n'expose pas SSL
+      - source: mariadb-client
+        target: /etc/my.cnf.d/mercator-client.cnf
     expose:
       - 8080
     ports:
@@ -51,6 +56,12 @@ services:
     depends_on:
       mercator-db:
         condition: service_healthy
+
+configs:
+  mariadb-client:
+    content: |
+      [client]
+      ssl = 0
 
 volumes:
   mercator_db_data:

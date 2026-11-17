@@ -127,7 +127,7 @@
                                     name="description"
                                     id="description"
                                     rows="4"
-                            >{!! old('description') !!}</textarea>
+                            >{{ old('description') }}</textarea>
                             @if($errors->has('description'))
                                 <div class="invalid-feedback">{{ $errors->first('description') }}</div>
                             @endif

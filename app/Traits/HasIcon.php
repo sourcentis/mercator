@@ -21,6 +21,6 @@ trait HasIcon
     {
         return $this->icon_id === null
             ? static::$icon
-            : '/admin/documents/' . $this->icon_id;
+            : '/admin/documents/'.$this->icon_id;
     }
 }

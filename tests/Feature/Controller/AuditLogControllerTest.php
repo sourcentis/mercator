@@ -2,9 +2,11 @@
 <?php
 
 use App\Models\Activity;
+use App\Models\Application;
 use App\Models\AuditLog;
 use App\Models\LogicalServer;
-use App\Models\Application;
+use App\Models\PhysicalRouter;
+use App\Models\Process;
 use App\Models\User;
 use Database\Seeders\PermissionRoleTableSeeder;
 use Database\Seeders\PermissionsTableSeeder;
@@ -25,7 +27,7 @@ beforeEach(function () {
         RoleUserTableSeeder::class,
     ]);
 
-    $this->user = User::query()->where('login','admin@admin.com')->first();
+    $this->user = User::query()->where('login', 'admin@admin.com')->first();
     $this->actingAs($this->user);
 
 });
@@ -37,8 +39,8 @@ describe('index', function () {
         // create some objets
         Activity::factory()->count(3)->create();
         Application::factory()->count(3)->create();
-        \App\Models\Process::factory()->count(3)->create();
-        \App\Models\PhysicalRouter::factory()->count(3)->create();
+        Process::factory()->count(3)->create();
+        PhysicalRouter::factory()->count(3)->create();
 
         // Test audit log page
         $response = $this->get(route('admin.audit-logs.index'));
@@ -65,11 +67,11 @@ describe('show', function () {
 
         // create an object
         $logicalServer = LogicalServer::factory()->create();
-        $auditLog = AuditLog::query()->orderBy('id','desc')->first();
+        $auditLog = AuditLog::query()->orderBy('id', 'desc')->first();
         expect($auditLog)->not->toBeNull('No audit log was created for LogicalServer');
 
         // Test audit log page
-        $response = $this->get(route('admin.audit-logs.show',  $auditLog->id));
+        $response = $this->get(route('admin.audit-logs.show', $auditLog->id));
 
         $response->assertOk();
         $response->assertViewIs('admin.auditLogs.show')
@@ -89,9 +91,9 @@ describe('history', function () {
 
         // Test audit log page
         $response = $this->get(route('admin.audit-logs.history', [
-                'type'=> 'App\\Models\\Activity',
-                'id' => $activity->id
-                ]
+            'type' => 'App\\Models\\Activity',
+            'id' => $activity->id,
+        ]
         ));
 
         $response->assertOk();
@@ -100,4 +102,3 @@ describe('history', function () {
     });
 
 });
-

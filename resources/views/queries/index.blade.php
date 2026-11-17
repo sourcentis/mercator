@@ -40,15 +40,20 @@
                             data-name="{{ e($q->name) }}"
                             data-query-dsl='{{ json_encode($q->query ?? [], JSON_HEX_APOS | JSON_HEX_TAG) }}'
                             data-url-show="{{ route('admin.queries.show', $q->id) }}"
+                            data-url-run="{{ route('admin.queries.run', $q->id) }}"
                             data-url-edit="{{ route('admin.queries.edit', $q->id) }}"
                             data-url-destroy="{{ route('admin.queries.destroy', $q->id) }}"
                             data-is-owner="{{ $isOwner ? '1' : '0' }}">
                             <td></td>
                             <td>
-                                <a href="{{ route('admin.queries.show', $q->id) }}"
-                                   title="@lang('Ouvrir')">
+                                @canany(['query_create', 'query_edit'])
+                                    <a href="{{ route('admin.queries.show', $q->id) }}"
+                                       title="@lang('Ouvrir')">
+                                        {{ $q->name }}
+                                    </a>
+                                @else
                                     {{ $q->name }}
-                                </a>
+                                @endcanany
                                 @if($q->description)
                                     <small class="d-block text-muted">{{ $q->description }}</small>
                                 @endif
@@ -84,7 +89,7 @@
                                     @can('query_delete')
                                         <form action="{{ route('admin.queries.destroy', $q->id) }}"
                                               method="POST"
-                                              onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
+                                              data-confirm="{{ trans('global.areYouSure') }}"
                                               style="display:inline-block;">
                                             @csrf
                                             @method('DELETE')
@@ -124,7 +129,7 @@
                     @can('query_delete')
                         <form id="form-panel-destroy" action="#" method="POST"
                               style="display:inline-block;"
-                              onsubmit="return confirm('{{ trans('global.areYouSure') }}');">
+                              data-confirm="{{ trans('global.areYouSure') }}">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-xs btn-danger">
@@ -136,7 +141,7 @@
             </div>
 
             {{-- Moteur --}}
-            @include('queries._engine')
+            @include('queries._engine', ['hideEditor' => true])
 
         </div>
     </div>
@@ -162,7 +167,7 @@
 @section('scripts')
 @vite(['resources/js/graphviz.js', 'resources/js/sql-parser.js'])
 @include('queries.engine-js')
-<script>
+<script @nonce>
 
 @include('partials.datatable', [
     'id'         => '#dataTable',
@@ -245,13 +250,10 @@ document.addEventListener('DOMContentLoaded', function () {
         panelActions.classList.remove('d-none');
         panelActions.classList.add('show');
 
-        // Forcer l'éditeur visible
-        editorPanel?.classList.remove('d-none');
-
         // 5. Appel load
         // console.log('→ Appel QueryEngine.load(dsl)');
         try {
-            window.QueryEngine.load(dsl);
+            window.QueryEngine.load(dsl, row.dataset.urlRun);
             // console.log('✅ QueryEngine.load() terminé');
             // console.log('query-editor valeur après load :', editor?.value);
         } catch (err) {

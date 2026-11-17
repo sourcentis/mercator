@@ -7,11 +7,12 @@ use App\Http\Requests\MassStoreMacroProcessusRequest;
 use App\Http\Requests\MassUpdateMacroProcessusRequest;
 use App\Http\Requests\StoreMacroProcessusRequest;
 use App\Http\Requests\UpdateMacroProcessusRequest;
+use App\Models\MacroProcessus;
+use App\Models\Process;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\MacroProcessus;
-use App\Models\Process;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class MacroProcessusController extends APIController
@@ -33,7 +34,7 @@ class MacroProcessusController extends APIController
         $macroProcessus = MacroProcessus::query()->create($request->all());
 
         Process::whereIn('id', $request->input('processes', []))
-            ->update(['macroprocess_id' => $macroProcessus->id]);
+            ->update(['macroprocess_id' => $macroProcessus->id, 'updated_by' => Auth::id()]);
 
         return response()->json($macroProcessus, 201);
     }
@@ -53,8 +54,9 @@ class MacroProcessusController extends APIController
 
         if ($request->has('processes')) {
             Process::whereIn('id', $request->input('processes', []))
-                ->update(['macroprocess_id' => $macroProcessus->id]);
+                ->update(['macroprocess_id' => $macroProcessus->id, 'updated_by' => Auth::id()]);
         }
+
         return response()->json();
     }
 
@@ -71,7 +73,7 @@ class MacroProcessusController extends APIController
     {
         abort_if(Gate::denies('macro_processus_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        MacroProcessus::whereIn('id', $request->input('ids', []))->delete();
+        MacroProcessus::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
@@ -80,9 +82,9 @@ class MacroProcessusController extends APIController
     {
         // L’authorize() du FormRequest gère déjà le Gate::denies('macro_processus_create')
 
-        $createdIds         = [];
-        $macroProcessusModel = new MacroProcessus();
-        $fillable            = $macroProcessusModel->getFillable();
+        $createdIds = [];
+        $macroProcessusModel = new MacroProcessus;
+        $fillable = $macroProcessusModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             $processes = $item['processes'] ?? null;
@@ -98,7 +100,7 @@ class MacroProcessusController extends APIController
 
             if (array_key_exists('processes', $item) && ! empty($processes)) {
                 Process::whereIn('id', $processes)
-                    ->update(['macroprocess_id' => $macroProcessus->id]);
+                    ->update(['macroprocess_id' => $macroProcessus->id, 'updated_by' => Auth::id()]);
             }
 
             $createdIds[] = $macroProcessus->id;
@@ -106,19 +108,19 @@ class MacroProcessusController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateMacroProcessusRequest $request)
     {
         // L’authorize() du FormRequest gère déjà le Gate::denies('macro_processus_edit')
-        $macroProcessusModel = new MacroProcessus();
-        $fillable            = $macroProcessusModel->getFillable();
+        $macroProcessusModel = new MacroProcessus;
+        $fillable = $macroProcessusModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
-            $id        = $rawItem['id'];
+            $id = $rawItem['id'];
             $processes = $rawItem['processes'] ?? null;
 
             /** @var MacroProcessus $macroProcessus */
@@ -136,7 +138,7 @@ class MacroProcessusController extends APIController
 
             if (array_key_exists('processes', $rawItem) && ! empty($processes)) {
                 Process::whereIn('id', $processes)
-                    ->update(['macroprocess_id' => $macroProcessus->id]);
+                    ->update(['macroprocess_id' => $macroProcessus->id, 'updated_by' => Auth::id()]);
             }
         }
 

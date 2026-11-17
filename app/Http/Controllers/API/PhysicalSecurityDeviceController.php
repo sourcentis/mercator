@@ -7,10 +7,10 @@ use App\Http\Requests\MassStorePhysicalSecurityDeviceRequest;
 use App\Http\Requests\MassUpdatePhysicalSecurityDeviceRequest;
 use App\Http\Requests\StorePhysicalSecurityDeviceRequest;
 use App\Http\Requests\UpdatePhysicalSecurityDeviceRequest;
+use App\Models\PhysicalSecurityDevice;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\PhysicalSecurityDevice;
 use Symfony\Component\HttpFoundation\Response;
 
 class PhysicalSecurityDeviceController extends APIController
@@ -40,7 +40,7 @@ class PhysicalSecurityDeviceController extends APIController
         abort_if(Gate::denies('show-object', $physicalSecurityDevice), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $physicalSecurityDevice['security_devices'] = $physicalSecurityDevice->securityDevices()->pluck('id');
-        
+
         return new JsonResource($physicalSecurityDevice);
     }
 
@@ -70,7 +70,7 @@ class PhysicalSecurityDeviceController extends APIController
     {
         abort_if(Gate::denies('physical_security_device_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        PhysicalSecurityDevice::whereIn('id', $request->input('ids', []))->delete();
+        PhysicalSecurityDevice::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
@@ -79,9 +79,9 @@ class PhysicalSecurityDeviceController extends APIController
     {
         // L’authorize() du FormRequest gère déjà la permission `physical_security_device_create`
 
-        $createdIds             = [];
-        $deviceModel            = new PhysicalSecurityDevice();
-        $fillable               = $deviceModel->getFillable();
+        $createdIds = [];
+        $deviceModel = new PhysicalSecurityDevice;
+        $fillable = $deviceModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             // Colonnes du modèle uniquement
@@ -97,16 +97,16 @@ class PhysicalSecurityDeviceController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdatePhysicalSecurityDeviceRequest $request)
     {
         // L’authorize() du FormRequest gère déjà la permission `physical_security_device_edit`
-        $deviceModel = new PhysicalSecurityDevice();
-        $fillable    = $deviceModel->getFillable();
+        $deviceModel = new PhysicalSecurityDevice;
+        $fillable = $deviceModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
             $id = $rawItem['id'];

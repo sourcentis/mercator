@@ -72,9 +72,9 @@ return new class extends Migration
     public function down(): void
     {
         // Drop FKs pointing to domains
-        $this->dropForeignIfExists('admin_users',     'domain_id_fk_69385935');
-        $this->dropForeignIfExists('logical_servers',  'domain_id_fk_493844');
-        $this->dropForeignIfExists('workstations',    'workstations_domain_id_foreign');
+        $this->dropForeignIfExists('admin_users', 'domain_id_fk_69385935');
+        $this->dropForeignIfExists('logical_servers', 'domain_id_fk_493844');
+        $this->dropForeignIfExists('workstations', 'workstations_domain_id_foreign');
         $this->dropForeignIfExists('domain_forest_ad', 'domain_id_fk_1492084');
 
         // Rename back to domaine_ads (canonical prior state)

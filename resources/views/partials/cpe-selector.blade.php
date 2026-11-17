@@ -81,7 +81,7 @@
 </div>
 
 {{-- ===================== Script ===================== --}}
-<script>
+<script @nonce>
 document.addEventListener("DOMContentLoaded", function () {
 
     const cpePart = @json($part ?? 'a');

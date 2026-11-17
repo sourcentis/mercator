@@ -20,7 +20,7 @@ class DataProcessingController extends Controller
         abort_if(Gate::denies('data_processing_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $processingRegister = DataProcessing::query()
-            ->with('processes', 'informations', 'applications')
+            ->with('processes.securityControls', 'informations', 'applications.securityControls')
             ->when(request('search'), function ($q, $search) {
                 $q->where(function ($q) use ($search) {
                     foreach (DataProcessing::$searchable as $field) {
@@ -104,16 +104,7 @@ class DataProcessingController extends Controller
 
         $processes = Process::select(['id', 'name'])->orderBy('name')->get();
         $informations = Information::select(['id', 'name'])->orderBy('name')->get();
-        $applications = Application::select(['id', 'name'])
-            ->when(request('search'), function ($q, $search) {
-                $q->where(function ($q) use ($search) {
-                    foreach (DataProcessing::$searchable as $field) {
-                        $q->orWhereRaw('LOWER('.$field.') LIKE ?', ['%'.mb_strtolower($search).'%']);
-                    }
-                });
-            })
-            ->orderBy('name')
-            ->paginate($this->resolvePerPage());
+        $applications = Application::select(['id', 'name'])->orderBy('name')->get();
 
         // Get Legal Basis
         $legal_basis_list = DataProcessing::select('legal_basis')
@@ -182,7 +173,7 @@ class DataProcessingController extends Controller
     {
         abort_if(Gate::denies('data_processing_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $dataProcessing->load('applications', 'informations', 'processes');
+        $dataProcessing->load('applications.securityControls', 'informations', 'processes.securityControls');
 
         return view('admin.dataProcessing.show', compact('dataProcessing'));
     }

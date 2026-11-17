@@ -10,6 +10,7 @@ use App\Models\MacroProcessus;
 use App\Models\Operation;
 use App\Models\Process;
 use App\Models\Task;
+use App\Support\TrashMode;
 use Gate;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -26,18 +27,18 @@ class BPMNController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function index() : View
+    public function index(): View
     {
         abort_if(Gate::denies('graph_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $graphs = Graph::query()->orderBy('name')
-            ->where('class','=', 2)
+            ->where('class', '=', 2)
             ->get();
 
         return view('bpmn.index', compact('graphs'));
     }
 
-    public function create() : View
+    public function create(): View
     {
         abort_if(Gate::denies('graph_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -45,7 +46,7 @@ class BPMNController extends Controller
         $type_list = Graph::query()
             ->select('type')
             ->whereNotNull('type')
-            ->where('class','=',2)
+            ->where('class', '=', 2)
             ->distinct()
             ->orderBy('type')
             ->pluck('type');
@@ -60,7 +61,7 @@ class BPMNController extends Controller
             ->with('content', '');
     }
 
-    public function clone(Request $request) : View
+    public function clone(Request $request): View
     {
         abort_if(Gate::denies('graph_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -79,7 +80,7 @@ class BPMNController extends Controller
         $type_list = Graph::query()
             ->select('type')
             ->whereNotNull('type')
-            ->where('class','=', 2)
+            ->where('class', '=', 2)
             ->distinct()
             ->orderBy('type')
             ->pluck('type');
@@ -106,7 +107,7 @@ class BPMNController extends Controller
         $type_list = Graph::query()
             ->select('type')
             ->whereNotNull('type')
-            ->where('class','=', 2)
+            ->where('class', '=', 2)
             ->distinct()
             ->orderBy('type')
             ->pluck('type');
@@ -118,7 +119,7 @@ class BPMNController extends Controller
         return view(
             'bpmn.raw',
             compact('type_list',
-                /*'nodes', 'edges'*/)
+                /* 'nodes', 'edges' */)
         )
             ->with('id', $graph->id)
             ->with('name', $graph->name)
@@ -138,7 +139,7 @@ class BPMNController extends Controller
         $type_list = Graph::query()
             ->select('type')
             ->whereNotNull('type')
-            ->where('class','=', 2)
+            ->where('class', '=', 2)
             ->distinct()
             ->orderBy('type')
             ->pluck('type');
@@ -154,7 +155,7 @@ class BPMNController extends Controller
             ->with('content', $graph->content);
     }
 
-    public function update(Request $request) : RedirectResponse|JsonResponse
+    public function update(Request $request): RedirectResponse|JsonResponse
     {
         abort_if(Gate::denies('graph_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -171,55 +172,56 @@ class BPMNController extends Controller
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,
-                'graph_id' => $graph->id
+                'graph_id' => $graph->id,
             ]);
         }
 
         return redirect()->route('admin.bpmn.show', $graph->id);
     }
 
-    public function show(Request $request) : View
+    public function show(Request $request): View
     {
         abort_if(Gate::denies('graph_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $graph = Graph::query()->find($request->id);
+        $graph = $this->findForDisplay($request->id);
 
         abort_if($graph->class !== 2, Response::HTTP_NOT_ACCEPTABLE, '406 Not a graph');
 
         // Get the URLS
-        if ($graph->content!==null)
+        if ($graph->content !== null) {
             $urls = $this->getCellUrls($graph->content);
-        else
+        } else {
             $urls = [];
+        }
 
         // Get the associated objects
         $macroProcessuses = collect($urls)
-            ->filter(fn($url) => Str::startsWith($url, '#' . MacroProcessus::$prefix))
-            ->map(fn($url) => MacroProcessus::query()->find(substr($url, strlen(MacroProcessus::$prefix)+1)));
+            ->filter(fn ($url) => Str::startsWith($url, '#'.MacroProcessus::$prefix))
+            ->map(fn ($url) => MacroProcessus::query()->find(substr($url, strlen(MacroProcessus::$prefix) + 1)));
 
         $processes = collect($urls)
-            ->filter(fn($url) => Str::startsWith($url, '#' . Process::$prefix))
-            ->map(fn($url) => Process::query()->find(substr($url, strlen(Process::$prefix)+1)));
+            ->filter(fn ($url) => Str::startsWith($url, '#'.Process::$prefix))
+            ->map(fn ($url) => Process::query()->find(substr($url, strlen(Process::$prefix) + 1)));
 
         $activities = collect($urls)
-            ->filter(fn($url) => Str::startsWith($url, '#' . Activity::$prefix))
-            ->map(fn($url) => Activity::query()->find(substr($url, strlen(Activity::$prefix)+1)));
+            ->filter(fn ($url) => Str::startsWith($url, '#'.Activity::$prefix))
+            ->map(fn ($url) => Activity::query()->find(substr($url, strlen(Activity::$prefix) + 1)));
 
         $operations = collect($urls)
-            ->filter(fn($url) => Str::startsWith($url, '#' . Operation::$prefix))
-            ->map(fn($url) => Operation::query()->find(substr($url, strlen(Operation::$prefix)+1)));
+            ->filter(fn ($url) => Str::startsWith($url, '#'.Operation::$prefix))
+            ->map(fn ($url) => Operation::query()->find(substr($url, strlen(Operation::$prefix) + 1)));
 
         $tasks = collect($urls)
-            ->filter(fn($url) => Str::startsWith($url, '#' . Task::$prefix))
-            ->map(fn($url) => Task::query()->find(substr($url, strlen(Task::$prefix)+1)));
+            ->filter(fn ($url) => Str::startsWith($url, '#'.Task::$prefix))
+            ->map(fn ($url) => Task::query()->find(substr($url, strlen(Task::$prefix) + 1)));
 
         $actors = collect($urls)
-            ->filter(fn($url) => Str::startsWith($url, '#' . Actor::$prefix))
-            ->map(fn($url) => Actor::query()->find(substr($url, strlen(Actor::$prefix)+1)));
+            ->filter(fn ($url) => Str::startsWith($url, '#'.Actor::$prefix))
+            ->map(fn ($url) => Actor::query()->find(substr($url, strlen(Actor::$prefix) + 1)));
 
         $informations = collect($urls)
-            ->filter(fn($url) => Str::startsWith($url, '#' . Information::$prefix))
-            ->map(fn($url) => Information::query()->find(substr($url, strlen(Information::$prefix)+1)));
+            ->filter(fn ($url) => Str::startsWith($url, '#'.Information::$prefix))
+            ->map(fn ($url) => Information::query()->find(substr($url, strlen(Information::$prefix) + 1)));
 
         return view('bpmn.show',
             compact('graph',
@@ -230,7 +232,22 @@ class BPMNController extends Controller
                 'tasks',
                 'actors',
                 'informations'
-            ));
+            ) + [
+                // Bandeau « objet supprimé » et bouton de restauration (admin/trash/_banner)
+                'trashObject' => $graph->trashed() ? $graph : null,
+            ]);
+    }
+
+    /**
+     * Graphe à afficher : en mode corbeille, les graphes supprimés sont aussi consultables
+     * (fiche et aperçu dans la liste), comme les fiches résolues par TrashModeMiddleware.
+     */
+    private function findForDisplay(mixed $id): Graph
+    {
+        /** @var Graph */
+        return Graph::query()
+            ->when(TrashMode::active(), fn ($query) => $query->withTrashed())
+            ->findOrFail($id);
     }
 
     private function getCellUrls(string $xmlString): array
@@ -248,7 +265,7 @@ class BPMNController extends Controller
         return $urls;
     }
 
-    public function destroy(Request $request) : RedirectResponse
+    public function destroy(Request $request): RedirectResponse
     {
         abort_if(Gate::denies('graph_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -280,30 +297,30 @@ class BPMNController extends Controller
             ->select('id', 'name')
             ->get()
             ->map(fn ($a) => [
-                'id'   => Activity::$prefix . $a->id,
+                'id' => Activity::$prefix.$a->id,
                 'name' => $a->name,
                 // 'url' => '/admin/activities/' . $a->id
-                'url' => '#'. Activity::$prefix . $a->id
+                'url' => '#'.Activity::$prefix.$a->id,
             ]);
 
         $operations = Operation::query()
             ->select('id', 'name')
             ->get()
             ->map(fn ($o) => [
-                'id'   => Operation::$prefix . $o->id,
+                'id' => Operation::$prefix.$o->id,
                 'name' => $o->name,
                 // 'url' => '/admin/operations/' . $o->id
-                'url' => '#'. Operation::$prefix . $o->id
+                'url' => '#'.Operation::$prefix.$o->id,
             ]);
 
         $tasks = Task::query()
             ->select('id', 'name')
             ->get()
             ->map(fn ($t) => [
-                'id'   => Task::$prefix . $t->id,
+                'id' => Task::$prefix.$t->id,
                 'name' => $t->name,
                 // 'url' => '/admin/tasks/' . $t->id
-                'url' => '#'. Task::$prefix . $t->id
+                'url' => '#'.Task::$prefix.$t->id,
             ]);
 
         $all = $activities
@@ -326,10 +343,10 @@ class BPMNController extends Controller
             ->select('id', 'name')
             ->get()
             ->map(fn ($i) => [
-                'id'   => Information::$prefix . $i->id,
+                'id' => Information::$prefix.$i->id,
                 'name' => $i->name,
                 // 'url' => '/admin/information/' . $i->id
-                'url' => '#' . Information::$prefix . $i->id
+                'url' => '#'.Information::$prefix.$i->id,
             ]);
 
         $all = $information
@@ -350,10 +367,10 @@ class BPMNController extends Controller
             ->select('id', 'name')
             ->get()
             ->map(fn ($p) => [
-                'id'   => Actor::$prefix . $p->id,
+                'id' => Actor::$prefix.$p->id,
                 'name' => $p->name,
                 // 'url' => '/admin/actors/' . $p->id
-                'url' => '#' . Actor::$prefix . $p->id
+                'url' => '#'.Actor::$prefix.$p->id,
             ]);
 
         $all = $information
@@ -372,22 +389,22 @@ class BPMNController extends Controller
 
         $graphs = Graph::query()
             ->select('id', 'name')
-            ->where('class','=', 2)
+            ->where('class', '=', 2)
             ->get()
             ->map(fn ($g) => [
-                'id'   => Graph::$prefix . $g->id,
+                'id' => Graph::$prefix.$g->id,
                 'name' => $g->name,
-                'url' => '/admin/bpmn/' . $g->id
+                'url' => '/admin/bpmn/'.$g->id,
             ]);
 
         $process = Process::query()
             ->select('id', 'name')
             ->get()
             ->map(fn ($p) => [
-                'id'   => Process::$prefix . $p->id,
+                'id' => Process::$prefix.$p->id,
                 'name' => $p->name,
                 // 'url' => '/admin/processes/' . $p->id
-                'url' => '#'. Process::$prefix . $p->id
+                'url' => '#'.Process::$prefix.$p->id,
             ])->toArray();
 
         return response()->json(
@@ -395,7 +412,7 @@ class BPMNController extends Controller
                 ->concat($process)
                 ->sortBy('name')
                 ->values()
-            );
+        );
     }
 
     /**
@@ -405,11 +422,10 @@ class BPMNController extends Controller
     {
         abort_if(Gate::denies('graph_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $graph = Graph::query()->findOrFail($request->id);
+        $graph = $this->findForDisplay($request->id);
 
         abort_if($graph->class !== 2, Response::HTTP_NOT_ACCEPTABLE, '406 Not BPMN');
 
         return response()->json(['content' => $graph->content]);
     }
-    
 }

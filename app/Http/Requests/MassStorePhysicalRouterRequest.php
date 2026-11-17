@@ -3,10 +3,9 @@
 namespace App\Http\Requests;
 
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class MassStorePhysicalRouterRequest extends FormRequest
+class MassStorePhysicalRouterRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -18,10 +17,10 @@ class MassStorePhysicalRouterRequest extends FormRequest
     public function rules()
     {
         // On récupère les règles du StorePhysicalRouterRequest classique
-        $storeRules = (new StorePhysicalRouterRequest())->rules();
+        $storeRules = (new StorePhysicalRouterRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -30,10 +29,9 @@ class MassStorePhysicalRouterRequest extends FormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.vlans']   = ['sometimes', 'array'];
+        $rules['items.*.vlans'] = ['sometimes', 'array'];
         $rules['items.*.vlans.*'] = ['integer'];
 
         return $rules;
     }
 }
-

@@ -20,7 +20,7 @@
                             <td>
                                 {{ trans('cruds.zone.title') }} :
                                 <select name="zones[]" id="zones" class="form-control select2" multiple
-                                        onchange="this.form.submit()">
+                                        data-autosubmit>
                                     @foreach($allZones as $id => $name)
                                         <option value="{{ $id }}" {{ in_array($id, $selectedIds) ? 'selected' : '' }}>{{ $name }}</option>
                                     @endforeach
@@ -31,7 +31,9 @@
                 </div>
 
                 <div id="graph-container">
-                    <div id="graph" class="graphviz"></div>
+                    <div id="graph" class="graphviz">
+                        @include('admin.reports._graph_too_large')
+                    </div>
                     <div class="graph-resize-handle"></div>
                 </div>
 
@@ -61,6 +63,8 @@
     </div>
 </div>
 
+{{-- Graphe trop grand : les objets ne sont pas listés non plus --}}
+@if(empty($graphTooLarge))
 <div class="report-scroll-area">
 
     @canAccess(App\Models\Zone::class)
@@ -120,12 +124,13 @@
     @endcan
 
 </div>
+@endif
 @endsection
 
 @section('scripts')
 @vite(['resources/js/graphviz.js'])
-<script>
-let dotSrc = `{!! $dotSrc !!}`;
+<script @nonce>
+let dotSrc = @json($dotSrc);
 
 document.addEventListener('graphvizReady', () => {
     window.initGraphvizReport({ dotSrc, engine: @json($engine), images: @json($imageManifest) });

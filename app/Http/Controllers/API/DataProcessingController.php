@@ -5,10 +5,10 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\MassDestroyDataProcessingRequest;
 use App\Http\Requests\StoreDataProcessingRequest;
 use App\Http\Requests\UpdateDataProcessingRequest;
+use App\Models\DataProcessing;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\DataProcessing;
 use Symfony\Component\HttpFoundation\Response;
 
 class DataProcessingController extends APIController
@@ -40,7 +40,7 @@ class DataProcessingController extends APIController
     {
         abort_if(Gate::denies('show-object', $dataProcessing), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $dataProcessing['processes']    = $dataProcessing->processes()->pluck('id');
+        $dataProcessing['processes'] = $dataProcessing->processes()->pluck('id');
         $dataProcessing['informations'] = $dataProcessing->informations()->pluck('id');
         $dataProcessing['applications'] = $dataProcessing->applications()->pluck('id');
 
@@ -52,12 +52,15 @@ class DataProcessingController extends APIController
         abort_if(Gate::denies('edit-object', $dataProcessing), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $dataProcessing->update($request->all());
-        if ($request->has('processes'))
+        if ($request->has('processes')) {
             $dataProcessing->processes()->sync($request->input('processes', []));
-        if ($request->has('informations'))
+        }
+        if ($request->has('informations')) {
             $dataProcessing->informations()->sync($request->input('informations', []));
-        if ($request->has('applications'))
+        }
+        if ($request->has('applications')) {
             $dataProcessing->applications()->sync($request->input('applications', []));
+        }
 
         return response()->json();
     }
@@ -75,9 +78,8 @@ class DataProcessingController extends APIController
     {
         abort_if(Gate::denies('data_processing_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        DataProcessing::query()->whereIn('id', $request->input('ids', []))->delete();
+        DataProcessing::query()->whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
-
 }

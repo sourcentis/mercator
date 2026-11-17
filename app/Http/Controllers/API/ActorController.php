@@ -7,16 +7,16 @@ use App\Http\Requests\MassStoreActorRequest;
 use App\Http\Requests\MassUpdateActorRequest;
 use App\Http\Requests\StoreActorRequest;
 use App\Http\Requests\UpdateActorRequest;
+use App\Models\Actor;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Actor;
 use Symfony\Component\HttpFoundation\Response;
 
 class ActorController extends APIController
 {
-    protected string $modelClass     = Actor::class;
-    
+    protected string $modelClass = Actor::class;
+
     public function index(Request $request)
     {
         abort_if(Gate::denies('actor_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -74,8 +74,8 @@ class ActorController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 

@@ -13,6 +13,7 @@ use App\Http\Middleware\RefreshCartographerPermissions;
 use App\Http\Middleware\RefreshRolePermissions;
 use App\Http\Middleware\SecurityHeaders;
 use App\Http\Middleware\SetLocale;
+use App\Http\Middleware\TrashModeMiddleware;
 use App\Http\Middleware\UseCachedAuthUser;
 use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Auth\Middleware\AuthenticateWithBasicAuth;
@@ -24,11 +25,13 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
+use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance;
 use Illuminate\Foundation\Http\Middleware\TrimStrings;
 use Illuminate\Http\Middleware\HandleCors;
 use Illuminate\Http\Middleware\SetCacheHeaders;
 use Illuminate\Http\Middleware\ValidatePostSize;
+use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Routing\Middleware\ValidateSignature;
 use Illuminate\Session\Middleware\StartSession;
@@ -55,17 +58,22 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         // Middlewares spécifiques au groupe 'web'
-        $middleware->web(append: [
-            ForceXForwardedProto::class,
-            VerifyCsrfToken::class,
-            UseCachedAuthUser::class,
-            SetLocale::class,
-            LicenseWarning::class,
-            SecurityHeaders::class,
-            CreateFreshApiToken::class, // ✅
-            RefreshCartographerPermissions::class,
-            RefreshRolePermissions::class,
-        ]);
+        $middleware->web(
+            append: [
+                ForceXForwardedProto::class,
+                UseCachedAuthUser::class,
+                SetLocale::class,
+                LicenseWarning::class,
+                SecurityHeaders::class,
+                CreateFreshApiToken::class, // ✅
+                RefreshCartographerPermissions::class,
+                RefreshRolePermissions::class,
+            ],
+            replace: [
+                // Replace the framework's PreventRequestForgery with VerifyCsrfToken (HttpOnly XSRF)
+                PreventRequestForgery::class => VerifyCsrfToken::class,
+            ],
+        );
 
         $middleware->api(prepend: [
             ForceJsonResponse::class,   // ✅ force les erreurs en JSON sur l'API
@@ -104,7 +112,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'auth',
             'gates',
             EnsureActivePerimeter::class,
+            TrashModeMiddleware::class,
         ]);
+
+        // Le mode corbeille doit autoriser les objets supprimés avant la résolution des liaisons de route.
+        $middleware->prependToPriorityList(SubstituteBindings::class, TrashModeMiddleware::class);
 
         // Configurer les trusted proxies
         $middleware->trustProxies(

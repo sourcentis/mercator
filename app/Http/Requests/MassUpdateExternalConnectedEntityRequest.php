@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Gate;
-use Illuminate\Foundation\Http\FormRequest;
-use Symfony\Component\HttpFoundation\Response;
 use App\Models\ExternalConnectedEntity;
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 
-class MassUpdateExternalConnectedEntityRequest extends FormRequest
+class MassUpdateExternalConnectedEntityRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -19,14 +18,14 @@ class MassUpdateExternalConnectedEntityRequest extends FormRequest
     public function rules()
     {
         // Règles du UpdateExternalConnectedEntityRequest classique
-        $updateRules = (new UpdateExternalConnectedEntityRequest())->rules();
+        $updateRules = (new UpdateExternalConnectedEntityRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new ExternalConnectedEntity();
+        $model = new ExternalConnectedEntity;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdateExternalConnectedEntityRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -37,10 +36,9 @@ class MassUpdateExternalConnectedEntityRequest extends FormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.roles']   = ['sometimes', 'array'];
+        $rules['items.*.roles'] = ['sometimes', 'array'];
         $rules['items.*.roles.*'] = ['integer'];
 
         return $rules;
     }
 }
-

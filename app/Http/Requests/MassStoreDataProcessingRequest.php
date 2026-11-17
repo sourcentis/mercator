@@ -3,10 +3,9 @@
 namespace App\Http\Requests;
 
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class MassStoreDataProcessingRequest extends FormRequest
+class MassStoreDataProcessingRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -18,10 +17,10 @@ class MassStoreDataProcessingRequest extends FormRequest
     public function rules()
     {
         // On récupère les règles du StoreDataProcessingRequest classique
-        $storeRules = (new StoreDataProcessingRequest())->rules();
+        $storeRules = (new StoreDataProcessingRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -30,16 +29,15 @@ class MassStoreDataProcessingRequest extends FormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.applications']   = ['sometimes', 'array'];
+        $rules['items.*.applications'] = ['sometimes', 'array'];
         $rules['items.*.applications.*'] = ['integer'];
 
-        $rules['items.*.informations']   = ['sometimes', 'array'];
+        $rules['items.*.informations'] = ['sometimes', 'array'];
         $rules['items.*.informations.*'] = ['integer'];
 
-        $rules['items.*.processes']   = ['sometimes', 'array'];
+        $rules['items.*.processes'] = ['sometimes', 'array'];
         $rules['items.*.processes.*'] = ['integer'];
 
         return $rules;
     }
 }
-

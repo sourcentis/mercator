@@ -6,6 +6,7 @@ use App\Contracts\HasIconContract;
 use App\Contracts\HasUniqueIdentifierContract;
 use App\Factories\BackupFactory;
 use App\Traits\Auditable;
+use App\Traits\Blameable;
 use App\Traits\HasCartographers;
 use App\Traits\HasIcon;
 use App\Traits\HasPerimeter;
@@ -18,7 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Backup extends Model implements HasIconContract, HasUniqueIdentifierContract
 {
-    use Auditable, HasFactory, HasIcon, HasUniqueIdentifier, SoftDeletes;
+    use Auditable, Blameable, HasFactory, HasIcon, HasUniqueIdentifier, SoftDeletes;
     use HasCartographers;
     use HasPerimeter;
 

@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Gate;
-use Illuminate\Foundation\Http\FormRequest;
-use Symfony\Component\HttpFoundation\Response;
 use App\Models\Application;
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 
-class MassUpdateApplicationRequest extends FormRequest
+class MassUpdateApplicationRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -19,14 +18,14 @@ class MassUpdateApplicationRequest extends FormRequest
     public function rules()
     {
         // Règles du UpdateApplicationRequest classique
-        $updateRules = (new UpdateApplicationRequest())->rules();
+        $updateRules = (new UpdateApplicationRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new Application();
+        $model = new Application;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
 
             // l'id n'est pas dans UpdateApplicationRequest (route model binding),
@@ -39,23 +38,23 @@ class MassUpdateApplicationRequest extends FormRequest
         }
 
         // Relations many-to-many / attach par IDs
-        $rules['items.*.entities']              = ['sometimes', 'array'];
-        $rules['items.*.entities.*']            = ['integer'];
+        $rules['items.*.entities'] = ['sometimes', 'array'];
+        $rules['items.*.entities.*'] = ['integer'];
 
-        $rules['items.*.processes']             = ['sometimes', 'array'];
-        $rules['items.*.processes.*']           = ['integer'];
+        $rules['items.*.processes'] = ['sometimes', 'array'];
+        $rules['items.*.processes.*'] = ['integer'];
 
-        $rules['items.*.activities']            = ['sometimes', 'array'];
-        $rules['items.*.activities.*']          = ['integer'];
+        $rules['items.*.activities'] = ['sometimes', 'array'];
+        $rules['items.*.activities.*'] = ['integer'];
 
-        $rules['items.*.databases']             = ['sometimes', 'array'];
-        $rules['items.*.databases.*']           = ['integer'];
+        $rules['items.*.databases'] = ['sometimes', 'array'];
+        $rules['items.*.databases.*'] = ['integer'];
 
-        $rules['items.*.logical_servers']       = ['sometimes', 'array'];
-        $rules['items.*.logical_servers.*']     = ['integer'];
+        $rules['items.*.logical_servers'] = ['sometimes', 'array'];
+        $rules['items.*.logical_servers.*'] = ['integer'];
 
-        $rules['items.*.application_services']  = ['sometimes', 'array'];
-        $rules['items.*.application_services.*']= ['integer'];
+        $rules['items.*.application_services'] = ['sometimes', 'array'];
+        $rules['items.*.application_services.*'] = ['integer'];
 
         return $rules;
     }

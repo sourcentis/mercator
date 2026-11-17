@@ -36,25 +36,24 @@ class PatchingController extends Controller
             }
         }
 
-        // Select
+        // Two separate queries (instead of a UNION) so that each row is hydrated as its
+        // real model: links and permission checks then target the right object, and the
+        // servers' applications can be eager-loaded in a single query (no N+1).
         $servers = LogicalServer::select(
             DB::raw("'SRV' as type"),
             'id',
             'name',
-            DB::raw('null as vendor'),
-            DB::raw('null as product'),
             'operating_system as version',
-            DB::raw('null as responsible'),
             'attributes',
             'update_date',
-            'next_update'
+            'next_update',
+            'perimeter_id'
         )
-            ->where('active', '=', '1');
+            ->where('active', '=', '1')
+            ->with('applications:applications.id,applications.name,applications.responsible,applications.perimeter_id');
 
         $applications = Application::select(
-            DB::raw(
-                "'APP' as type"
-            ),
+            DB::raw("'APP' as type"),
             'id',
             'name',
             'vendor',
@@ -63,7 +62,8 @@ class PatchingController extends Controller
             'responsible',
             'attributes',
             'update_date',
-            'next_update'
+            'next_update',
+            'perimeter_id'
         );
 
         // Filter on attributes
@@ -76,8 +76,10 @@ class PatchingController extends Controller
                 $applications->where('attributes', 'like', '%'.$a.'%');
             }
         }
-        // Union
-        $patches = $servers->union($applications)->orderBy('name')->get();
+        $patches = $servers->get()
+            ->concat($applications->get())
+            ->sortBy('name', SORT_STRING | SORT_FLAG_CASE)
+            ->values();
 
         return view('admin.patching.index', compact('patches', 'attributes_list', 'attributes_filter'));
     }

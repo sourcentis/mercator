@@ -106,7 +106,7 @@
                                    for="description">{{ trans('cruds.physicalServer.fields.description') }}</label>
                             <textarea
                                     class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}"
-                                    name="description" id="description">{!! old('description') !!}</textarea>
+                                    name="description" id="description">{{ old('description') }}</textarea>
                             @if($errors->has('description'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('description') }}
@@ -201,7 +201,7 @@
                                    for="configuration">{{ trans('cruds.physicalServer.fields.configuration') }}</label>
                             <textarea
                                     class="form-control ckeditor {{ $errors->has('configuration') ? 'is-invalid' : '' }}"
-                                    name="configuration" id="configuration">{!! old('configuration') !!}</textarea>
+                                    name="configuration" id="configuration">{{ old('configuration') }}</textarea>
                             @if($errors->has('configuration'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('configuration') }}

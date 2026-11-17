@@ -101,7 +101,7 @@
                             <label class="label-description"
                                    for="description">{{ trans('cruds.storageDevice.fields.description') }}</label>
                             <textarea class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}"
-                                      name="description" id="description">{!! old('description') !!}</textarea>
+                                      name="description" id="description">{{ old('description') }}</textarea>
                             @if($errors->has('description'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('description') }}
@@ -285,7 +285,7 @@
 
 
 @section('scripts')
-<script>
+<script @nonce>
     document.addEventListener("DOMContentLoaded", function () {
 
         // Options générées côté serveur pour réutilisation dans les lignes dynamiques

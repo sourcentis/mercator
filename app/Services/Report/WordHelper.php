@@ -61,11 +61,13 @@ use App\Models\Workstation;
 use App\Models\Zone;
 use App\Models\ZoneAdmin;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use PhpOffice\PhpWord\Element\Cell;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Element\TextRun;
+use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Html;
@@ -632,6 +634,36 @@ class WordHelper
         $naturalWidthPt = $widthPx * 72 / $dpi * self::NARROW_GRAPH_SCALE;
 
         return min($naturalWidthPt, self::MAX_GRAPH_WIDTH_PT);
+    }
+
+    /**
+     * Writes $phpWord to $path as a Word2007 (.docx) file. Every report export must go through here
+     * rather than calling IOFactory::createWriter()->save() directly.
+     *
+     * With the PclZip zip class (forced in AppServiceProvider), PhpWord stages each package part
+     * under a FIXED name in Settings::getTempDir() ("document.xml", "styles.xml", ...) before
+     * adding it to the archive. With the shared default temp dir, two concurrent exports (two
+     * php-fpm workers, or parallel test processes) overwrite each other's parts: one user could
+     * receive another user's report content, or a corrupt docx. A private temp directory per save
+     * makes those staging files unique; it is removed afterwards.
+     */
+    public static function saveDocx(PhpWord $phpWord, string $path): void
+    {
+        $previousTempDir = Settings::getTempDir();
+        $tempDir = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR)
+            .DIRECTORY_SEPARATOR.'mercator-phpword-'.bin2hex(random_bytes(8));
+
+        if (! mkdir($tempDir, 0700) && ! is_dir($tempDir)) {
+            throw new \RuntimeException("Unable to create PhpWord temp directory '{$tempDir}'.");
+        }
+
+        Settings::setTempDir($tempDir);
+        try {
+            IOFactory::createWriter($phpWord, 'Word2007')->save($path);
+        } finally {
+            Settings::setTempDir($previousTempDir);
+            File::deleteDirectory($tempDir);
+        }
     }
 
     /**

@@ -99,7 +99,7 @@
                     <label class="label-maturity-2"
                            for="description">{{ trans('cruds.macroProcessus.fields.description') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}"
-                              name="description" id="description">{!! old('description') !!}</textarea>
+                              name="description" id="description">{{ old('description') }}</textarea>
                     @if($errors->has('description'))
                         <div class="invalid-feedback">
                             {{ $errors->first('description') }}
@@ -111,7 +111,7 @@
                     <label class="label-maturity-2"
                            for="io_elements">{{ trans('cruds.macroProcessus.fields.io_elements') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('io_elements') ? 'is-invalid' : '' }}"
-                              name="io_elements" id="io_elements">{!! old('io_elements') !!}</textarea>
+                              name="io_elements" id="io_elements">{{ old('io_elements') }}</textarea>
                     @if($errors->has('io_elements'))
                         <div class="invalid-feedback">
                             {{ $errors->first('io_elements') }}

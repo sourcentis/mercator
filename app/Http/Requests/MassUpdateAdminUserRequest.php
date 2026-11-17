@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Gate;
-use Illuminate\Foundation\Http\FormRequest;
-use Symfony\Component\HttpFoundation\Response;
 use App\Models\AdminUser;
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 
-class MassUpdateAdminUserRequest extends FormRequest
+class MassUpdateAdminUserRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -19,14 +18,14 @@ class MassUpdateAdminUserRequest extends FormRequest
     public function rules()
     {
         // Règles du UpdateAdminUserRequest classique
-        $updateRules = (new UpdateAdminUserRequest())->rules();
+        $updateRules = (new UpdateAdminUserRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new AdminUser();
+        $model = new AdminUser;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdateAdminUserRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -40,4 +39,3 @@ class MassUpdateAdminUserRequest extends FormRequest
         return $rules;
     }
 }
-

@@ -110,7 +110,7 @@
                                 @if($module['installed'])
                                     <form action="{{ route('admin.modules.uninstall', $module['name']) }}" method="POST"
                                           class="d-inline"
-                                          onsubmit="return confirm('{{ trans('cruds.module.confirm_uninstall') }}');">
+                                          data-confirm="{{ trans('cruds.module.confirm_uninstall') }}">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-sm btn-outline-danger">{{ trans('cruds.module.labels.uninstall') }}</button>

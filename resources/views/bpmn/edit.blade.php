@@ -276,7 +276,7 @@ input[type="file"] {
 @section('scripts')
 @vite('resources/BPMN/bpmn.ts')
 
-<script>
+<script @nonce>
 document.addEventListener("DOMContentLoaded", function () {
 
     //--------------------------------------------------------------
@@ -298,7 +298,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Chargement du graphe
     //--------------------------------------------------------------
     @if (!empty($content))
-        loadGraph(`{!! $content !!}`);
+        loadGraph(@json($content));
     @endif
 
     //--------------------------------------------------------------

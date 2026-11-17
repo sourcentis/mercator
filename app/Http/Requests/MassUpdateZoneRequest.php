@@ -4,10 +4,9 @@ namespace App\Http\Requests;
 
 use App\Models\Zone;
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class MassUpdateZoneRequest extends FormRequest
+class MassUpdateZoneRequest extends BaseMassFormRequest
 {
     public function authorize(): bool
     {
@@ -18,12 +17,12 @@ class MassUpdateZoneRequest extends FormRequest
 
     public function rules(): array
     {
-        $updateRules = (new UpdateZoneRequest())->rules();
+        $updateRules = (new UpdateZoneRequest)->rules();
 
         $rules = [
-            'items'      => ['required', 'array', 'min:1'],
-            'items.*'    => ['required', 'array'],
-            'items.*.id' => ['required', 'integer', "exists:zones,id"],
+            'items' => ['required', 'array', 'min:1'],
+            'items.*' => ['required', 'array'],
+            'items.*.id' => ['required', 'integer', 'exists:zones,id'],
         ];
 
         foreach ($updateRules as $field => $rule) {
@@ -40,7 +39,7 @@ class MassUpdateZoneRequest extends FormRequest
     {
         $validator->after(function ($validator) {
             foreach ($this->input('items', []) as $index => $item) {
-                $id   = $item['id'] ?? null;
+                $id = $item['id'] ?? null;
                 $name = $item['name'] ?? null;
                 if ($name === null) {
                     continue;

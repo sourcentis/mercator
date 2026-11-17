@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\AuditLog;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Laravel\Socialite\AbstractUser;
 use Laravel\Socialite\Facades\Socialite;
-use App\Models\AuditLog;
-use App\Models\Role;
-use App\Models\User;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class SsoController extends Controller
@@ -18,7 +19,7 @@ class SsoController extends Controller
     public function redirectToKeycloak(): RedirectResponse
     {
         // Vérifier si Keycloak est activé
-        if (!config('services.keycloak.enabled', false)) {
+        if (! config('services.keycloak.enabled', false)) {
             return redirect()->route('login')
                 ->with('error', 'SSO Keycloak is not enabled.');
         }
@@ -64,14 +65,16 @@ class SsoController extends Controller
         $name = $keycloakUser->getName() ?? $login;
 
         // Récupérer les rôles de Keycloak
-        $keycloakRoles = $keycloakUser['user']['realm_access']['roles'] ?? [];
+        $keycloakRoles = $keycloakUser instanceof AbstractUser
+            ? ($keycloakUser->getRaw()['realm_access']['roles'] ?? [])
+            : [];
 
         // Chercher l'utilisateur local par login OU par email
         $existingUser = User::where('login', $login)->first()
             ?? User::where('email', $email)->first();
 
-        if (!$existingUser) {
-            if (!$autoProvision) {
+        if (! $existingUser) {
+            if (! $autoProvision) {
                 Log::info('Keycloak user not found locally and auto-provision disabled', [
                     'login' => $login,
                 ]);
@@ -151,9 +154,9 @@ class SsoController extends Controller
      */
     protected function syncKeycloakRoles(User $user, array $keycloakRoles): void
     {
-        $syncRoles = (bool) config('services.keycloak.sync_roles', true);
+        $syncRoles = (bool) config('services.keycloak.sync_roles', false);
 
-        if (!$syncRoles || empty($keycloakRoles)) {
+        if (! $syncRoles || empty($keycloakRoles)) {
             return;
         }
 
@@ -161,7 +164,7 @@ class SsoController extends Controller
             ->pluck('id')
             ->all();
 
-        if (!empty($localRoleIds)) {
+        if (! empty($localRoleIds)) {
             // Option 1 : Sync sans détacher (préserve les rôles locaux existants)
             $user->roles()->syncWithoutDetaching($localRoleIds);
 

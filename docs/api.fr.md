@@ -135,21 +135,25 @@ Retourne la **Resource** complète correspondant à l’ID fourni.
 
 ## Les API de la Configuration
 
-- [<img src="/mercator/images/get.png" width="30"> /api/users](./model.md#utilisateurs)
-- [<img src="/mercator/images/get.png" width="30"> /api/roles](./model.md#roles)
+- [<img src="/mercator/images/get.png" width="30"> /api/users](./model.fr.md#utilisateurs)
+- [<img src="/mercator/images/get.png" width="30"> /api/roles](./model.fr.md#roles)
 
 Le rôle contient des permissions: *permission_roles*
 *permission_roles* n'existe pas comme endpoint API. C'est une table pivot gérée en interne par Laravel. Pour récupérer les associations rôle↔permission, on doit passer par **/api/roles/{id}?include=permissions** — les permissions liées à chaque rôle seront imbriquées dans la réponse du rôle.
 La liste des permissions de de leurs {id} se trouve par l'api **/api/permissions**
 
 
-- <img src="/mercator/images/get.png" width="30"> /api/perimeters
+- [<img src="/mercator/images/get.png" width="30"> /api/perimeters](./model.fr.md#perimetres)
 
 Les périmètres (`name` : 2 à 32 caractères, unique) exigent la permission **configure** pour toute action, comme l'écran d'administration. Le périmètre par défaut (id 1) et tout périmètre encore référencé par un rôle ne peuvent pas être supprimés (`422`). **/api/perimeters/{id}** renvoie aussi les ids des rôles rattachés au périmètre (`roles`).
 
-- [<img src="/mercator/images/get.png" width="30"> /api/cartographers](./model.md#cartographie)
-- [<img src="/mercator/images/get.png" width="30"> /api/permissions](./model.md#permissions) `LECTURE UNIQUEMENT`
-- [<img src="/mercator/images/get.png" width="30"> /api/documents](./model.md#documents)
+- [<img src="/mercator/images/get.png" width="30"> /api/cartographers](./model.fr.md#cartographie)
+- [<img src="/mercator/images/get.png" width="30"> /api/graphs](./model.fr.md#outils)
+
+Les graphes regroupent les cartes (`class` = 1) et les diagrammes BPMN (`class` = 2). Le champ `content` contient le XML brut du diagramme et est enregistré tel quel (ses balises ne sont pas supprimées comme pour les autres champs texte).
+
+- [<img src="/mercator/images/get.png" width="30"> /api/permissions](./model.fr.md#permissions) `LECTURE UNIQUEMENT`
+- [<img src="/mercator/images/get.png" width="30"> /api/documents](./model.fr.md#documents)
 
 La particularité du point de terminaison **documents** est qu'il permet d'ajouter ou de télécharger un document.
 
@@ -177,15 +181,38 @@ DOC_ID=$(echo "$RESPONSE" | jq -r '.id // empty' 2>/dev/null)
         -o "$OUTFILE" \
         -w "HTTP %{http_code}\n"
 ```
-## Les APIs des requêtes
-- <img src="/mercator/images/get.png" width="30"> /api/queries
+---
+## Les API des Outils
+
+### Cartes et BPMN
+
+N/C
+
+### requêtes
+- [<img src="/mercator/images/get.png" width="30"> /api/queries](./model.fr#requetes)
 - <img src="/mercator/images/get.png" width="30"> /api/queries/***id***
 
-### Les requêtes peuvent aussi être exécutées par api
+#### Les requêtes peuvent aussi être exécutées par api
 - <img src="/mercator/images/get.png" width="30"> /api/queries/execute/1
     - l'id de la requête doit être fourni.
     - La requête doit être de type liste.
-    
+    - Le résultat est renvoyé au format **CSV**.
+
+#### Une requête peut aussi être exécutée sans être enregistrée
+- **POST** /api/queries/execute
+    - Le DSL est envoyé en **JSON** dans le corps de la requête.
+    - Nécessite le droit `query_create` ou `query_edit`, ainsi que le droit **show** sur chaque objet lu par la requête.
+    - Le résultat est renvoyé en **JSON** : `columns`, `rows` et `meta` pour une liste, `nodes`, `edges` et `meta` pour un graphe.
+
+```bash
+curl -X POST https://mercator/api/queries/execute \
+     -H "Authorization: Bearer <token>" \
+     -H "Content-Type: application/json" \
+     -d '{"from": "applications", "fields": ["name", "logical_servers.name"], "filters": [{"field": "name", "operator": "like", "value": "A%"}], "output": "list", "limit": 100}'
+```
+
+---
+
 ## Les APIs des rapports
 - <img src="/mercator/images/get.png" width="30"> /api/report/cartography
 - <img src="/mercator/images/get.png" width="30"> /api/report/entities

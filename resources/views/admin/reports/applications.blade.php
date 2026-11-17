@@ -27,7 +27,7 @@
                                 {{ trans("cruds.applicationBlock.title") }} :
                                 <select name="applicationBlock" id="applicationBlock"
                                         class="form-control select2"
-                                        onchange="this.form.application.value='';this.form.submit()">
+                                        data-autosubmit data-autosubmit-clear="application">
                                     <option value="">-- All --</option>
                                     @foreach ($all_applicationBlocks as $applicationBlock)
                                         <option value="{{$applicationBlock->id}}" {{ Session::get('applicationBlock')==$applicationBlock->id ? "selected" : "" }}>{{ $applicationBlock->name }}</option>
@@ -37,7 +37,7 @@
                             <td style="min-width: 280px;">
                                 {{ trans("cruds.application.title") }} :
                                 <select name="application" id="application" class="form-control select2"
-                                        onchange="this.form.submit()">
+                                        data-autosubmit>
                                     <option value="">-- All --</option>
                                     @if ($all_applications!=null)
                                         @foreach ($all_applications as $application)
@@ -50,7 +50,9 @@
                     </table>
                 </div>
                 <div id="graph-container">
-                    <div class="graphviz" id="graph"></div>
+                    <div class="graphviz" id="graph">
+                        @include('admin.reports._graph_too_large')
+                    </div>
                     <div class="graph-resize-handle"></div>
                 </div>
                 <div class="row p-1">
@@ -83,6 +85,8 @@
         </form>
     </div>
 </div>
+{{-- Graphe trop grand : les objets ne sont pas listés non plus --}}
+@if(empty($graphTooLarge))
 <div class="report-scroll-area">
 @canAccess(App\Models\ApplicationBlock::class)
     @if ($applicationBlocks->count()>0)
@@ -241,12 +245,13 @@
             @endif
         @endcan
     </div>
+@endif
 @endsection
 
 @section('scripts')
 @vite(['resources/js/graphviz.js'])
-<script>
-const dotSrc = `{!! $dotSrc !!}`;
+<script @nonce>
+const dotSrc = @json($dotSrc);
 
 document.addEventListener('graphvizReady', () => {
     window.initGraphvizReport({ dotSrc, engine: @json($engine), images: @json($imageManifest) });

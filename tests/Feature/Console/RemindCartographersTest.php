@@ -57,12 +57,12 @@ it('sends no mail when all objects are recent', function (): void {
     $this->app->instance(MailerService::class, $mailer);
 
     $user = User::factory()->create();
-    $app  = Application::factory()->create(['updated_at' => now()->subMonths(1)]);
+    $app = Application::factory()->create(['updated_at' => now()->subMonths(1)]);
 
     Cartographer::create([
         'cartographiable_type' => Application::class,
-        'cartographiable_id'   => $app->id,
-        'user_id'              => $user->id,
+        'cartographiable_id' => $app->id,
+        'user_id' => $user->id,
     ]);
 
     $this->artisan('mercator:remind-cartographers')->assertExitCode(0);
@@ -74,12 +74,12 @@ it('sends one mail per cartographer with outdated objects', function (): void {
     $this->app->instance(MailerService::class, $mailer);
 
     $user = User::factory()->create(['email' => 'carto@example.com']);
-    $app  = Application::factory()->create(['updated_at' => now()->subMonths(7)]);
+    $app = Application::factory()->create(['updated_at' => now()->subMonths(7)]);
 
     Cartographer::create([
         'cartographiable_type' => Application::class,
-        'cartographiable_id'   => $app->id,
-        'user_id'              => $user->id,
+        'cartographiable_id' => $app->id,
+        'user_id' => $user->id,
     ]);
 
     $this->artisan('mercator:remind-cartographers')->assertExitCode(0);
@@ -93,17 +93,18 @@ it('substitutes placeholders in the mail body', function (): void {
         ->once()
         ->withArgs(function (string $from, string $to, string $subject, string $body) use (&$captured) {
             $captured = compact('from', 'to', 'subject', 'body');
+
             return true;
         });
     $this->app->instance(MailerService::class, $mailer);
 
     $user = User::factory()->create(['name' => 'Alice Dupont', 'email' => 'alice@example.com']);
-    $app  = Application::factory()->create(['updated_at' => now()->subMonths(7)]);
+    $app = Application::factory()->create(['updated_at' => now()->subMonths(7)]);
 
     Cartographer::create([
         'cartographiable_type' => Application::class,
-        'cartographiable_id'   => $app->id,
-        'user_id'              => $user->id,
+        'cartographiable_id' => $app->id,
+        'user_id' => $user->id,
     ]);
 
     $this->artisan('mercator:remind-cartographers')->assertExitCode(0);
@@ -126,14 +127,14 @@ it('sends one mail per distinct cartographer when multiple cartographers exist',
 
     Cartographer::create([
         'cartographiable_type' => Application::class,
-        'cartographiable_id'   => $app1->id,
-        'user_id'              => $userA->id,
+        'cartographiable_id' => $app1->id,
+        'user_id' => $userA->id,
     ]);
 
     Cartographer::create([
         'cartographiable_type' => Application::class,
-        'cartographiable_id'   => $app2->id,
-        'user_id'              => $userB->id,
+        'cartographiable_id' => $app2->id,
+        'user_id' => $userB->id,
     ]);
 
     $this->artisan('mercator:remind-cartographers')->assertExitCode(0);
@@ -152,8 +153,8 @@ it('groups all outdated objects for the same cartographer into a single mail', f
     foreach ([$app1, $app2] as $app) {
         Cartographer::create([
             'cartographiable_type' => Application::class,
-            'cartographiable_id'   => $app->id,
-            'user_id'              => $user->id,
+            'cartographiable_id' => $app->id,
+            'user_id' => $user->id,
         ]);
     }
 
@@ -170,17 +171,18 @@ it('sends the reminder with the configured bcc address', function (): void {
         ->once()
         ->withArgs(function (string $from, string $to, string $subject, string $body, string $bcc) use (&$captured) {
             $captured = $bcc;
+
             return true;
         });
     $this->app->instance(MailerService::class, $mailer);
 
     $user = User::factory()->create(['email' => 'carto@example.com']);
-    $app  = Application::factory()->create(['updated_at' => now()->subMonths(7)]);
+    $app = Application::factory()->create(['updated_at' => now()->subMonths(7)]);
 
     Cartographer::create([
         'cartographiable_type' => Application::class,
-        'cartographiable_id'   => $app->id,
-        'user_id'              => $user->id,
+        'cartographiable_id' => $app->id,
+        'user_id' => $user->id,
     ]);
 
     $this->artisan('mercator:remind-cartographers')->assertExitCode(0);
@@ -194,12 +196,12 @@ it('updates reminder_last_sent after sending', function (): void {
     $this->app->instance(MailerService::class, $mailer);
 
     $user = User::factory()->create();
-    $app  = Application::factory()->create(['updated_at' => now()->subMonths(7)]);
+    $app = Application::factory()->create(['updated_at' => now()->subMonths(7)]);
 
     Cartographer::create([
         'cartographiable_type' => Application::class,
-        'cartographiable_id'   => $app->id,
-        'user_id'              => $user->id,
+        'cartographiable_id' => $app->id,
+        'user_id' => $user->id,
     ]);
 
     $this->artisan('mercator:remind-cartographers')->assertExitCode(0);

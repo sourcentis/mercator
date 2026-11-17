@@ -35,7 +35,7 @@
         @endcan
 
         @can('workstation_delete')
-            <form action="{{ route('admin.workstations.destroy', $workstation->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+            <form action="{{ route('admin.workstations.destroy', $workstation->id) }}" method="POST" data-confirm="{{ trans('global.areYouSure') }}" style="display: inline-block;">
                 <input type="hidden" name="_method" value="DELETE">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <input type="submit" class="btn btn-danger" value="{{ trans('global.delete') }}">
@@ -205,9 +205,9 @@
                         <th width="10%">{{ trans('cruds.workstation.fields.address_ip') }}</th>
                         <td width="15%">{{ $workstation->address_ip }}</td>
                         <th width="10%">{{ trans('cruds.workstation.fields.mac_address') }}</th>
-                        <td width="15%">{!! $workstation->mac_address !!}</td>
+                        <td width="15%">{{ $workstation->mac_address }}</td>
                         <th width="10%">{{ trans('cruds.workstation.fields.network_port_type') }}</th>
-                        <td width="15%">{!! $workstation->network_port_type !!}</td>
+                        <td width="15%">{{ $workstation->network_port_type }}</td>
                    </tr>
                </tbody>
             </table>

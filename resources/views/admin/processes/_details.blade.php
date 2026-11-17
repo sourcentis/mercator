@@ -43,7 +43,7 @@
                 {{ trans('cruds.process.fields.description') }}
             </th>
             <td colspan="5">
-                {!! $process->description !!}
+                {!! clean($process->description ?? '') !!}
             </td>
             <td align="center" width="10%">
                 @if ($process->icon_id === null)
@@ -58,7 +58,7 @@
                 {{ trans('cruds.process.fields.in_out') }}
             </th>
             <td colspan="6">
-                {!! $process->in_out !!}
+                {!! clean($process->in_out ?? '') !!}
             </td>
         </tr>
         <tr>

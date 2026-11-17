@@ -7,11 +7,11 @@ use App\Http\Requests\MassStoreClusterRequest;
 use App\Http\Requests\MassUpdateClusterRequest;
 use App\Http\Requests\StoreClusterRequest;
 use App\Http\Requests\UpdateClusterRequest;
+use App\Models\Cluster;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Log;
-use App\Models\Cluster;
 use Symfony\Component\HttpFoundation\Response;
 
 class ClusterController extends APIController
@@ -55,12 +55,15 @@ class ClusterController extends APIController
 
         $cluster->update($request->all());
 
-        if ($request->has('logical_servers'))
+        if ($request->has('logical_servers')) {
             $cluster->logicalServers()->sync($request->input('logical_servers', []));
-        if ($request->has('physical_servers'))
+        }
+        if ($request->has('physical_servers')) {
             $cluster->physicalServers()->sync($request->input('physical_servers', []));
-        if ($request->has('routers'))
-           $cluster->routers()->sync($request->input('routers', []));
+        }
+        if ($request->has('routers')) {
+            $cluster->routers()->sync($request->input('routers', []));
+        }
 
         return response()->json();
     }
@@ -78,7 +81,7 @@ class ClusterController extends APIController
     {
         abort_if(Gate::denies('cluster_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        Cluster::query()->whereIn('id', request('ids'))->delete();
+        Cluster::query()->whereIn('id', request('ids'))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
@@ -88,7 +91,7 @@ class ClusterController extends APIController
         // L’authorize() du FormRequest gère déjà le Gate::denies('logical_server_create')
         $createdIds = [];
 
-        $model    = new Cluster();
+        $model = new Cluster;
         $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $item) {
@@ -113,15 +116,15 @@ class ClusterController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateClusterRequest $request)
     {
         // L’authorize() du FormRequest gère déjà le Gate::denies('logical_server_edit')
-        $model    = new Cluster();
+        $model = new Cluster;
         $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {

@@ -12,9 +12,9 @@ class ZoneFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'        => $this->faker->unique()->words(2, true),
-            'type'        => $this->faker->optional()->word(),
-            'attributes'  => null,
+            'name' => $this->faker->unique()->words(2, true),
+            'type' => $this->faker->optional()->word(),
+            'attributes' => null,
             'description' => $this->faker->optional()->sentence(),
         ];
     }

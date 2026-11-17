@@ -5,18 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', trans('panel.page.untitled')) | {{ trans('panel.site_title') }}</title>
-    <script>
+    <script @nonce>
         window._lang = {
             colvis:  "{{ trans('global.datatables.colvis') }}",
             copy:    "{{ trans('global.datatables.copy') }}",
             print:   "{{ trans('global.datatables.print') }}",
-            delete:  "{{ trans('global.datatables.delete') }}"
+            delete:  "{{ trans('global.datatables.delete') }}",
+            graphTooLarge: @json(trans('global.graph_too_large'))
+        };
+        window.mercatorGraph = {
+            maxNodes: @json((int) config('mercator.parameters.max_nodes', 500))
         };
     </script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @yield('styles')
-    <script>
+    @if (\App\Support\TrashMode::active())
+    <style>
+        /* Mode corbeille : fond hachuré pour signaler que seuls les objets supprimés sont affichés */
+        body.trash-mode #content-home {
+            min-height: calc(100vh - 56px);
+            background-color: #f3dede;
+            background-image: repeating-linear-gradient(-45deg, transparent 0 18px, rgba(176, 42, 55, .06) 18px 36px);
+        }
+    </style>
+    @endif
+    <script @nonce>
     try {
         if (localStorage.getItem('sidebar_hidden') === 'true') {
             document.documentElement.classList.add('sidebar-preload-hidden');
@@ -26,7 +40,7 @@
     }
     </script>
 </head>
-<body>
+<body class="{{ \App\Support\TrashMode::active() ? 'trash-mode' : '' }}">
     @include('partials.navbar')
     <div class="d-flex">
     @include('partials.sidebar')
@@ -48,10 +62,14 @@
                 </div>
             @endif
 
+            @if (\App\Support\TrashMode::active())
+                @include('admin.trash._banner')
+            @endif
+
             @yield('content')
         </div>
     </div>
-    <script>
+    <script @nonce>
         (function() {
             const isHidden = localStorage.getItem('sidebar_hidden') === 'true';
             if (isHidden) {
@@ -73,6 +91,9 @@
         }
     </script>
     @yield('scripts')
+    @if (\App\Support\TrashMode::active())
+        @include('admin.trash._script')
+    @endif
     <form id="logoutform" action="{{ route('logout') }}" method="POST" style="display: none;">
         {{ csrf_field() }}
     </form>

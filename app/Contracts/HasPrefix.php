@@ -1,4 +1,5 @@
 <?php
+
 // app/Contracts/HasPrefix.php
 
 namespace App\Contracts;

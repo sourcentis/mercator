@@ -179,7 +179,7 @@ class InformationSystemSection implements ReportSection
             $ownInformations,
             [
                 'withHref' => false,
-                'iconPathResolver' => fn (string $webPath) => public_path(ltrim($webPath, '/')),
+                'iconResolver' => fn (?int $iconId, string $fallback) => $helper->resolveIconPath($iconId, ltrim($fallback, '/')),
             ]
         );
         $helper->insertGraph($section, $dot);
@@ -403,7 +403,7 @@ class InformationSystemSection implements ReportSection
 
             $helper->addTextRow($table, trans('cruds.information.fields.type'), $information->type);
             $helper->addTextRow($table, trans('cruds.information.fields.attributes'), $this->formatAttributes($information->attributes));
-            $helper->addHTMLRow($table, trans('cruds.information.fields.description'), $information->description);
+            $helper->addDescriptionCellWithIcon($table, trans('cruds.information.fields.description'), $information->description, $information, '/images/information.png');
             $helper->addTextRow($table, trans('cruds.information.fields.owner'), $information->owner);
             $helper->addTextRow($table, trans('cruds.information.fields.administrator'), $information->administrator);
             $helper->addTextRow($table, trans('cruds.information.fields.storage'), $information->storage);
@@ -431,6 +431,9 @@ class InformationSystemSection implements ReportSection
             }
 
             $helper->addHTMLRow($table, trans('cruds.information.fields.constraints'), $information->constraints);
+            $helper->addTextRow($table, trans('cruds.information.fields.retention_period'), $information->retention_period);
+            $helper->addTextRow($table, trans('cruds.information.fields.final_disposition'), $information->final_disposition);
+            $helper->addHTMLRow($table, trans('cruds.information.fields.retention_notes'), $information->retention_notes);
         }
     }
 

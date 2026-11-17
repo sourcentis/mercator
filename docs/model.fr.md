@@ -394,6 +394,7 @@ erDiagram
         string name
         string type
         string attributes
+        int icon_id
         text description
         string owner
         string administrator
@@ -405,7 +406,9 @@ erDiagram
         int security_need_t
         int security_need_auth
         text constraints
-        string retention
+        string retention_period
+        string final_disposition
+        text retention_notes
         list parents
         list children
         list processes
@@ -670,6 +673,7 @@ Les informations peuvent former des hiérarchies parent-enfant via des liaisons 
 | name               | varchar(255) | Nom de l'information                                 |
 | type               | varchar(255) | Type de l'information                                |
 | attributes         | varchar(255) | Attributs (#tag...)                                  |
+| icon_id            | int unsigned | Référence vers une image spécifique                  |
 | description        | longtext     | Description de l'information                         |
 | owner              | varchar(255) | Propriétaire de l'information                        |
 | administrator      | varchar(255) | Administrateur de l'information                      |
@@ -681,7 +685,9 @@ Les informations peuvent former des hiérarchies parent-enfant via des liaisons 
 | security_need_t    | int          | Traçabilité                                          |
 | security_need_auth | int          | Authenticité                                         |
 | constraints        | longtext     | Contraintes légales et réglementaires                |
-| retention          | varchar(255) | Durée de rétention de l'information                  |
+| retention_period   | varchar(255) | Durée de rétention (durée d'utilité administrative)  |
+| final_disposition  | varchar(255) | Sort final une fois la durée de rétention atteinte   |
+| retention_notes    | longtext     | Observations sur la rétention (critères de tri...)   |
 | parents            | List int [,] | Liste d'id des informations parentes liées           |
 | children           | List int [,] | Liste d'id des informations enfants liées            |
 | processes          | List int [,] | Liste d'id des processus utilisant cette information |
@@ -689,7 +695,16 @@ Les informations peuvent former des hiérarchies parent-enfant via des liaisons 
 | updated_at         | timestamp    | Date de mise à jour                                  |
 | deleted_at         | timestamp    | Date de suppression                                  |
 
-Le champ "retention" n'est pas utilisé pour le moment et est donc absent de l'application.
+La section « Rétention » documente l'archivage légal de l'information :
+
+- la durée de rétention ou durée d'utilité administrative (DUA) ("retention_period"), ex. : « 6 mois » ou « Durée de la
+  convention + 5 ans » ;
+- le sort final réservé à l'information une fois cette durée atteinte ("final_disposition"), ex. : destruction, tri,
+  versement aux archives ;
+- des observations libres ("retention_notes") décrivant les critères de tri ou toute autre précision utile.
+
+Dans l'application, la durée de rétention et le sort final sont des listes déroulantes proposant les valeurs déjà
+utilisées, dans lesquelles une nouvelle valeur peut aussi être saisie.
 
 Dans l'application, le besoin en authenticité est masqué par défaut. Il est obligatoire dans le cas
 d'une entité soumise à la directive UE 2022/2554 (DORA).  
@@ -763,6 +778,7 @@ erDiagram
         list logical_servers
         list activities
         list containers
+        list administrators
         timestamp created_at
         timestamp updated_at
         timestamp deleted_at
@@ -931,8 +947,9 @@ a un serveur logique par serveur physique.
 | services             | List int [,] | Liste d'id de(s) service(s) lié(s)                                  |
 | databases            | List int [,] | Liste d'id de(s) database(s) liée(s)                                |
 | logical_servers      | List int [,] | Liste d'id de(s) serveur(s) logique(s) servant(s) cette application |
-| activities           | List int [,] | Liste d'id de(s) activité(s) associée(s)                           |
-| containers           | List int [,] | Liste d'id de(s) containers associé(s)                              |
+| activities           | List int [,] | Liste d'id de(s) activité(s) associée(s)                            |
+| containers           | List int [,] | Liste d'id de(s) container(s) associé(s)                            |
+| administrators       | List int [,] | Liste d'id de(s) admin-user(s) associé(s)                           |
 | created_at           | timestamp    | Date de création                                                    |
 | updated_at           | timestamp    | Date de mise à jour                                                 |
 | deleted_at           | timestamp    | Date de suppression                                                 |
@@ -2744,6 +2761,7 @@ réseau (NAS), réseau de stockage (SAN), disque dur…
 | name        | varchar(255) | Nom de l'infrastructure de stockage         |
 | type        | varchar(255) | Type de l’infrastructure de stockage        |
 | description | longtext     | Description de l'infrastructure de stockage |
+| icon_id     | int unsigned | Référence vers une image spécifique         |
 | vendor      | varchar(255) | Vendeur / éditeur pour recherche CPE        |
 | product     | varchar(255) | Produit d'un éditeur pour recherche CPE     |
 | version     | varchar(255) | Version d'un produit pour recherche CPE     |
@@ -3063,6 +3081,48 @@ Les LAN (Local Area Network) sont des réseaux informatiques reliant des équipe
 L'export du modèle de données référence les MAN et les WAN rattachés à un LAN.  
 Dans l'application, un LAN peut être rattaché à un MAN ou un WAN depuis les objets MAN et WAN.
 
+---
+
+## Outils
+
+### BPMN ou Carte
+Dans outils on trouve BPMN et Cartes.Ces 2 groupes d'objets sont dans la même table:
+
+| Table                                    | api         |
+|:-----------------------------------------|:------------|
+| <span style="color: blue;">*graphs*</span> | `/api/graphs` |
+
+| Champ       | Type         | Description         |
+|:------------|:-------------|:--------------------|
+| id          | int unsigned | auto_increment      |
+| class       | int          | **1** pour **Cartes** <br> **2** pour  **BPMN**     |
+| name        | varchar(255) | Nom de la carte ou du process BPMN         |
+| type        | varchar(255) | Type de l'objet     |
+| content     | longtext     | Contenu             |
+| created_at  | timestamp    | Date de création    |
+| updated_at  | timestamp    | Date de mise à jour |
+| deleted_at  | timestamp    | Date de suppression |
+
+
+### Requêtes
+| Table                                    | api         |
+|:-----------------------------------------|:------------|
+| <span style="color: blue;">*saved_queries*</span> | `/api/queries` |
+
+| Champ       | Type         | Description         |
+|:------------|:-------------|:--------------------|
+| id          | int unsigned | auto_increment      |
+| name        | varchar(255) | Nom de la requête   |
+| description | text         | Description de la requête |
+| query       | longtext     | Requête sql |
+| is_public   | tinyint      | requête personnelle ou accessible à tous |
+| user_id     | int unsigned | id du propriétaire de la requête |
+| created_at  | timestamp    | Date de création    |
+| updated_at  | timestamp    | Date de mise à jour |
+| deleted_at  | timestamp    | Date de suppression |
+
+---
+
 ## Configuration
 
 Dans le menu configuration, on trouve la partie documents.
@@ -3156,7 +3216,7 @@ Cette partie permet de voir les documents attachés, mais aussi les icônes pers
 #### Exemple d'information d'un document pour une icône de firewall:
 
 ```json
-    "id": 1,
+"id": 1,
 "filename": "fw.png",
 "mimetype": "image/png",
 "size": 5295,
@@ -3228,6 +3288,18 @@ Cette section permet de définir des règles d’accès sur des objets, applicab
 | created_at | timestamp        | Date de création     |
 | updated_at | timestamp        | Date de mise à jour  |
 | deleted_at | timestamp        | Date de suppression  |
+
+### Périmètres
+Cette section permet de créer des périmètres
+
+| Table                                         | api              |
+|:----------------------------------------------|:-----------------|
+| <span style="color: blue;">*perimeters*</span> | `/api/perimeters` |
+
+| Champ      | Type             | Description          |
+|------------|------------------|----------------------|
+| id         | int(10) unsigned | auto_increment       |
+| name       | varchar(32)      | nom du périmètre     |     
 
 ### Permissions
 

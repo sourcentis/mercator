@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreLanRequest;
 use App\Http\Requests\MassUpdateLanRequest;
 use App\Http\Requests\StoreLanRequest;
 use App\Http\Requests\UpdateLanRequest;
+use App\Models\Lan;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Lan;
 use Symfony\Component\HttpFoundation\Response;
 
 class LanController extends APIController
@@ -48,7 +48,7 @@ class LanController extends APIController
 
         $lan['mans'] = $lan->mans()->pluck('id');
         $lan['wans'] = $lan->wans()->pluck('id');
-        
+
         return new JsonResource($lan);
     }
 
@@ -82,7 +82,7 @@ class LanController extends APIController
     {
         abort_if(Gate::denies('lan_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        Lan::query()->whereIn('id', $request->input('ids', []))->delete();
+        Lan::query()->whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
@@ -92,8 +92,8 @@ class LanController extends APIController
         // L’authorize() du FormRequest gère déjà le Gate::denies('lan_create')
 
         $createdIds = [];
-        $lanModel   = new Lan();
-        $fillable   = $lanModel->getFillable();
+        $lanModel = new Lan;
+        $fillable = $lanModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             $mans = $item['mans'] ?? null;
@@ -121,19 +121,19 @@ class LanController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateLanRequest $request)
     {
         // L’authorize() du FormRequest gère déjà le Gate::denies('lan_edit')
-        $lanModel = new Lan();
+        $lanModel = new Lan;
         $fillable = $lanModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
-            $id   = $rawItem['id'];
+            $id = $rawItem['id'];
             $mans = $rawItem['mans'] ?? null;
             $wans = $rawItem['wans'] ?? null;
 

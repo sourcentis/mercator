@@ -22,6 +22,7 @@ use App\Models\Database;
 use App\Models\DataProcessing;
 use App\Models\DhcpServer;
 use App\Models\Dnsserver;
+use App\Models\Document;
 use App\Models\Domain;
 use App\Models\Entity;
 use App\Models\ExternalConnectedEntity;
@@ -170,6 +171,70 @@ final class ModelRegistry
         Role::class,
         SecurityControl::class,
         User::class,
+    ];
+
+    /**
+     * The models that use the Blameable trait (created_by / updated_by / deleted_by).
+     * Must stay equal to the set of models using the Auditable trait.
+     */
+    public const array BLAMEABLE_MODELS = [
+        Activity::class,
+        Actor::class,
+        AdminUser::class,
+        Annuaire::class,
+        Application::class,
+        ApplicationBlock::class,
+        ApplicationFlow::class,
+        ApplicationModule::class,
+        ApplicationService::class,
+        Backup::class,
+        Bay::class,
+        Building::class,
+        Certificate::class,
+        Cluster::class,
+        Container::class,
+        DataProcessing::class,
+        Database::class,
+        DhcpServer::class,
+        Dnsserver::class,
+        Document::class,
+        Domain::class,
+        Entity::class,
+        ExternalConnectedEntity::class,
+        ForestAd::class,
+        Gateway::class,
+        Graph::class,
+        Information::class,
+        Lan::class,
+        LogicalFlow::class,
+        LogicalServer::class,
+        MacroProcessus::class,
+        Man::class,
+        Network::class,
+        NetworkSwitch::class,
+        Operation::class,
+        Peripheral::class,
+        Phone::class,
+        PhysicalLink::class,
+        PhysicalRouter::class,
+        PhysicalSecurityDevice::class,
+        PhysicalServer::class,
+        PhysicalSwitch::class,
+        Process::class,
+        Relation::class,
+        Router::class,
+        SecurityControl::class,
+        SecurityDevice::class,
+        Site::class,
+        StorageDevice::class,
+        Subnetwork::class,
+        Task::class,
+        Vlan::class,
+        Wan::class,
+        WifiTerminal::class,
+        Workstation::class,
+        Zone::class,
+        ZoneAdmin::class,
     ];
 
     /**

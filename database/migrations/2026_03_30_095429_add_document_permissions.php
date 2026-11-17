@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\DB;
 use App\Models\Permission;
 use App\Models\Role;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -44,22 +44,25 @@ return new class extends Migration
             $roleId = DB::table('roles')
                 ->where('title', 'Admin')
                 ->value('id');
-            if ($roleId)
+            if ($roleId) {
                 Role::query()->findOrFail($roleId)->permissions()->sync([310, 311, 312, 313, 314], false);
+            }
 
             // User
             $roleId = DB::table('roles')
                 ->where('title', 'User')
                 ->value('id');
-            if ($roleId)
+            if ($roleId) {
                 Role::query()->findOrFail($roleId)->permissions()->sync([310, 311, 312, 313, 314], false);
+            }
 
             // Auditor
             $roleId = DB::table('roles')
                 ->where('title', 'Auditor')
                 ->value('id');
-            if ($roleId)
+            if ($roleId) {
                 Role::query()->findOrFail($roleId)->permissions()->sync([312, 314], false);
+            }
         }
 
     }

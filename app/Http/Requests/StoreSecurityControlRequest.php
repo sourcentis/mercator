@@ -3,12 +3,13 @@
 namespace App\Http\Requests;
 
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
 
-class StoreSecurityControlRequest extends FormRequest
+class StoreSecurityControlRequest extends BaseFormRequest
 {
+    protected array $htmlFields = ['description'];
+
     public function authorize()
     {
         abort_if(Gate::denies('security_control_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');

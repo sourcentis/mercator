@@ -92,6 +92,12 @@ class ApplicationController extends Controller
         $formData = $application->only($application->getFillable());
         $formData['name'] = $application->name.' (copy)';
 
+        // Champs multi-valeurs stockés en chaîne : la vue attend des tableaux
+        $formData['attributes'] = array_values(array_filter(explode(' ', $application->attributes ?? '')));
+        $formData['responsibles'] = array_values(array_filter(array_map('trim', explode(',', $application->responsible ?? ''))));
+        $formData['technologies'] = array_values(array_filter(array_map('trim', explode(',', $application->technology ?? ''))));
+        $formData['externals'] = array_values(array_filter(array_map('trim', explode(',', $application->external ?? ''))));
+
         // Ajouter les IDs des relations pour pré-sélection
         $formData['entities'] = $application->entities->pluck('id')->toArray();
         $formData['processes'] = $application->processes->pluck('id')->toArray();

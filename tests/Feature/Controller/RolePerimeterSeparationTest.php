@@ -279,6 +279,65 @@ describe('cartographers keep object-level delegation across perimeters', functio
     });
 });
 
+describe('a cartographer outside the object perimeter edits it without moving it', function () {
+    beforeEach(function () {
+        // Alice (rédactrice P1, lectrice P2, aucun rôle dans P3) est cartographe de e3 (P3).
+        Cartographer::create([
+            'cartographiable_type' => Entity::class,
+            'cartographiable_id' => $this->e3->id,
+            'user_id' => $this->alice->id,
+        ]);
+        $this->actingAs($this->alice);
+        $this->asAll = fn () => $this->withSession(['active_perimeter' => Perimeter::ALL_ID]);
+    });
+
+    test('the edit form hides the perimeter selector, which only lists her own perimeters', function () {
+        ($this->asAll)()->get(route('admin.entities.edit', $this->e3))
+            ->assertOk()
+            ->assertDontSee('name="perimeter_id"', false);
+
+        ($this->asAll)()->get(route('admin.entities.edit', $this->e1))
+            ->assertOk()
+            ->assertSee('name="perimeter_id"', false);
+    });
+
+    test('saving the form updates the object and keeps it in its perimeter', function () {
+        ($this->asAll)()
+            ->put(route('admin.entities.update', $this->e3), ['name' => 'Edited by cartographer'])
+            ->assertRedirect();
+
+        expect(entityNameInDb($this->e3))->toBe('Edited by cartographer')
+            ->and(entityPerimeterInDb($this->e3))->toBe($this->p3->id);
+    });
+
+    test('moving the object into one of her perimeters is refused', function () {
+        $name = entityNameInDb($this->e3);
+
+        ($this->asAll)()
+            ->put(route('admin.entities.update', $this->e3), ['name' => 'Moved', 'perimeter_id' => $this->p1->id])
+            ->assertForbidden();
+
+        expect(entityNameInDb($this->e3))->toBe($name)
+            ->and(entityPerimeterInDb($this->e3))->toBe($this->p3->id);
+    });
+
+    test('a cartographer holding no edit permission at all cannot move it either', function () {
+        $dave = User::factory()->create();
+        $dave->roles()->attach($this->readerP2);
+        Cartographer::create([
+            'cartographiable_type' => Entity::class,
+            'cartographiable_id' => $this->e3->id,
+            'user_id' => $dave->id,
+        ]);
+
+        $this->actingAs($dave)->withSession(['active_perimeter' => Perimeter::ALL_ID])
+            ->put(route('admin.entities.update', $this->e3), ['name' => 'Moved', 'perimeter_id' => $this->p2->id])
+            ->assertForbidden();
+
+        expect(entityPerimeterInDb($this->e3))->toBe($this->p3->id);
+    });
+});
+
 describe('HTTP writes (web)', function () {
     beforeEach(function () {
         $this->actingAs($this->alice);

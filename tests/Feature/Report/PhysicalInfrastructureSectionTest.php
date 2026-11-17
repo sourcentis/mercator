@@ -19,7 +19,6 @@ use Database\Seeders\RolesTableSeeder;
 use Database\Seeders\RoleUserTableSeeder;
 use Database\Seeders\UsersTableSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use PhpOffice\PhpWord\IOFactory;
 
 uses(RefreshDatabase::class);
 
@@ -47,7 +46,7 @@ function renderPhysicalInfrastructureSectionXml(array $selectedVues = ['6']): ar
     (new PhysicalInfrastructureSection)->build($section, $helper, $selectedVues);
 
     $path = tempnam(sys_get_temp_dir(), 'docx');
-    IOFactory::createWriter($phpWord, 'Word2007')->save($path);
+    WordHelper::saveDocx($phpWord, $path);
     $helper->cleanupTempFiles();
 
     $zip = new ZipArchive;

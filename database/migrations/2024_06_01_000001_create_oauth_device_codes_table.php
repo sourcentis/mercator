@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         if (Schema::hasTable('oauth_device_codes')) {
-            schema::dropIfExists('oauth_device_codes');
+            Schema::dropIfExists('oauth_device_codes');
         }
 
         Schema::create('oauth_device_codes', function (Blueprint $table) {

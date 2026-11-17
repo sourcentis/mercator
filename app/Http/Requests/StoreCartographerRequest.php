@@ -4,10 +4,9 @@ namespace App\Http\Requests;
 
 use App\Models\Cartographer;
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class StoreCartographerRequest extends FormRequest
+class StoreCartographerRequest extends BaseFormRequest
 {
     public function authorize(): bool
     {
@@ -22,9 +21,9 @@ class StoreCartographerRequest extends FormRequest
 
         return [
             'cartographiable_type' => ['required', 'string', "in:{$allowedTypes}"],
-            'cartographiable_id'   => ['required', 'integer', 'min:1'],
-            'user_id'              => ['nullable', 'integer', 'exists:users,id'],
-            'role_id'              => ['nullable', 'integer', 'exists:roles,id'],
+            'cartographiable_id' => ['required', 'integer', 'min:1'],
+            'user_id' => ['nullable', 'integer', 'exists:users,id'],
+            'role_id' => ['nullable', 'integer', 'exists:roles,id'],
         ];
     }
 

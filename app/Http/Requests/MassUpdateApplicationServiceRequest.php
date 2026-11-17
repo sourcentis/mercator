@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Gate;
-use Illuminate\Foundation\Http\FormRequest;
-use Symfony\Component\HttpFoundation\Response;
 use App\Models\ApplicationService;
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 
-class MassUpdateApplicationServiceRequest extends FormRequest
+class MassUpdateApplicationServiceRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -19,14 +18,14 @@ class MassUpdateApplicationServiceRequest extends FormRequest
     public function rules()
     {
         // Règles du UpdateApplicationServiceRequest classique
-        $updateRules = (new UpdateApplicationServiceRequest())->rules();
+        $updateRules = (new UpdateApplicationServiceRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new ApplicationService();
+        $model = new ApplicationService;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdateApplicationServiceRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -37,13 +36,12 @@ class MassUpdateApplicationServiceRequest extends FormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.applications']   = ['sometimes', 'array'];
+        $rules['items.*.applications'] = ['sometimes', 'array'];
         $rules['items.*.applications.*'] = ['integer'];
 
-        $rules['items.*.modules']   = ['sometimes', 'array'];
+        $rules['items.*.modules'] = ['sometimes', 'array'];
         $rules['items.*.modules.*'] = ['integer'];
 
         return $rules;
     }
 }
-

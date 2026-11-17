@@ -32,6 +32,9 @@ class InformationFactory extends Factory
             'security_need_auth' => $this->faker->numberBetween(0, 4),
             'sensitivity' => $this->faker->word(),
             'constraints' => $this->faker->word(),
+            'retention_period' => $this->faker->randomElement(['6 mois', '1 an', '5 ans', '10 ans', 'Durée du contrat + 5 ans']),
+            'final_disposition' => $this->faker->randomElement(['Destruction', 'Tri', 'Versement aux archives']),
+            'retention_notes' => $this->faker->sentence(),
         ];
     }
 }

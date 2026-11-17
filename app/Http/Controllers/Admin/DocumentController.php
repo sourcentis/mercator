@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cartographer;
 use App\Models\Document;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class DocumentController extends Controller
 {
@@ -15,6 +19,9 @@ class DocumentController extends Controller
         // Find the document
         $document = Document::Find($id);
         abort_if($document === null, Response::HTTP_NOT_FOUND, '404 Not Found');
+
+        // Check the user may see this document
+        abort_if(! $this->canAccess($document), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         // Get the path to the file
         $path = storage_path('docs/'.$id);
@@ -37,6 +44,18 @@ class DocumentController extends Controller
 
     public function store(Request $request)
     {
+        // GHSA-f6g2-8x59-5xjq : seuls les utilisateurs pouvant créer ou modifier un objet
+        // peuvent déposer un document (pas les rôles en lecture seule comme l'auditeur).
+        abort_if(! $this->canUpload(), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        // Taille maximale en kilo-octets (51200 Ko = 50 Mo par défaut)
+        $validator = Validator::make($request->all(), [
+            'file' => ['required', 'file', 'max:'.config('mercator.max_upload_size', 51200)],
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()->first('file')], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
         $file = $request->file('file');
 
         if (! $file) {
@@ -87,6 +106,13 @@ class DocumentController extends Controller
 
     public function delete(int $id)
     {
+        // Only documents of the object being created/edited (put in session by its controller)
+        abort_if(
+            ! in_array($id, session('documents', [])) && Gate::denies('configure'),
+            Response::HTTP_FORBIDDEN,
+            '403 Forbidden'
+        );
+
         // Find the document
         $document = Document::Find($id);
         if ($document === null) {
@@ -120,6 +146,8 @@ class DocumentController extends Controller
 
     public function stats()
     {
+        abort_if(Gate::denies('configure'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $count = Document::count();
         $sum = Document::sum('size');
 
@@ -130,9 +158,45 @@ class DocumentController extends Controller
 
     public function check()
     {
+        abort_if(Gate::denies('configure'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $documents = Document::All();
 
         return view('admin.config.check')
             ->with('documents', $documents);
+    }
+
+    /**
+     * Upload is reserved to users holding at least one `_create` or `_edit` permission,
+     * or assigned as cartographer of some object.
+     */
+    private function canUpload(): bool
+    {
+        /** @var User $user */
+        $user = auth()->user();
+
+        $permissions = collect($user->permissionsByPerimeter())->flatten();
+        if ($permissions->contains(fn (string $p) => str_ends_with($p, '_create') || str_ends_with($p, '_edit'))) {
+            return true;
+        }
+
+        $roleIds = $user->roles()->pluck('id')->all();
+
+        return Cartographer::query()
+            ->where(fn ($q) => $q->where('user_id', $user->id)->orWhereIn('role_id', $roleIds))
+            ->exists();
+    }
+
+    /**
+     * A document is accessible when it has just been uploaded or is being edited
+     * in this session, when it is a custom icon (shown on the maps), or when the user
+     * may see one of the objects it is attached to.
+     */
+    private function canAccess(Document $document): bool
+    {
+        return in_array($document->id, session('documents', []))
+            || Gate::allows('configure')
+            || $document->isIcon()
+            || $document->isVisibleBy(auth()->user());
     }
 }

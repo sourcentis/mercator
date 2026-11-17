@@ -8,6 +8,7 @@ use App\Http\Requests\MassUpdateRoleRequest;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Models\Role;
+use App\Support\RoleAssignment;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -45,6 +46,14 @@ class RoleController extends APIController
     public function update(UpdateRoleRequest $request, Role $role)
     {
         abort_if(Gate::denies('edit-object', $role), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        RoleAssignment::authorizeManageRole($request->user(), $role);
+        RoleAssignment::authorizeRolePermissions(
+            $request->user(),
+            $request->has('permissions')
+                ? $request->input('permissions', [])
+                : $role->permissions()->pluck('permissions.id')->all(),
+            (int) $request->input('perimeter_id', $role->perimeter_id)
+        );
 
         $role->update($request->all());
 
@@ -55,9 +64,10 @@ class RoleController extends APIController
         return response()->json();
     }
 
-    public function destroy(Role $role)
+    public function destroy(Request $request, Role $role)
     {
         abort_if(Gate::denies('role_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        RoleAssignment::authorizeManageRole($request->user(), $role);
 
         $role->delete();
 
@@ -67,6 +77,9 @@ class RoleController extends APIController
     public function massDestroy(MassDestroyRoleRequest $request)
     {
         abort_if(Gate::denies('role_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        Role::whereIn('id', $request->input('ids', []))->get()
+            ->each(fn (Role $role) => RoleAssignment::authorizeManageRole($request->user(), $role));
 
         Role::whereIn('id', $request->input('ids', []))->delete();
 
@@ -78,8 +91,8 @@ class RoleController extends APIController
         // L’authorize() du FormRequest gère déjà la permission `role_create`
 
         $createdIds = [];
-        $roleModel  = new Role();
-        $fillable   = $roleModel->getFillable();
+        $roleModel = new Role;
+        $fillable = $roleModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             // Colonnes du modèle uniquement
@@ -95,16 +108,27 @@ class RoleController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateRoleRequest $request)
     {
         // L’authorize() du FormRequest gère déjà la permission `role_edit`
-        $roleModel = new Role();
-        $fillable  = $roleModel->getFillable();
+        foreach ($request->input('items', []) as $rawItem) {
+            /** @var Role $target */
+            $target = Role::query()->findOrFail($rawItem['id']);
+            RoleAssignment::authorizeManageRole($request->user(), $target);
+            RoleAssignment::authorizeRolePermissions(
+                $request->user(),
+                $target->permissions()->pluck('permissions.id')->all(),
+                (int) ($rawItem['perimeter_id'] ?? $target->perimeter_id)
+            );
+        }
+
+        $roleModel = new Role;
+        $fillable = $roleModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
             $id = $rawItem['id'];

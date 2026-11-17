@@ -141,13 +141,13 @@ To import the test database (optional)
 
 ## CPE Database (optional)
 
-An Artisan command **`mecator:cpe-sync`**  **synchronizes CPEs (Common Platform Enumeration)** from the NVD (National
+An Artisan command **`mercator:cpe-sync`**  **synchronizes CPEs (Common Platform Enumeration)** from the NVD (National
 Vulnerability Database) and populates the
 `cpe_vendors`, `cpe_products`, and `cpe_versions` tables.
 
 ### Scheduling
 
-The command is **scheduled daily at 03:30** via Laravel’s scheduler.
+The command is **scheduled daily at 00:30** via Laravel’s scheduler.
 ➡️ If your **Laravel scheduler is already configured** (cron running `php artisan schedule:run`), **no
 action is required**. Synchronization will happen automatically.
 
@@ -157,11 +157,26 @@ Add the following parameters to your `.env` file:
 
 ```dotenv
 # NVD CPE 2.0 API endpoint
-CPE_API_URL=https://services.nvd.nist.gov/rest/json/cpes/2.0
+NVD_API_URL=https://services.nvd.nist.gov/rest/json/cpes/2.0
 
 # (Optional but recommended) NVD API key to benefit from higher request quotas
 NVD_API_KEY=
 ```
+
+### First synchronization
+
+The first run downloads the whole CPE dictionary (~1.9 million entries). It can be started manually:
+
+```bash
+php artisan mercator:cpe-sync --now
+```
+
+Requests are throttled to respect NVD rate limits (one request every 6 s without API key, 1 s with one) and
+transient NVD errors (403, 429, 5xx) are retried with an increasing delay. Without API key, a full synchronization
+takes 1 to 2 hours.
+
+If the NVD API remains unavailable, the command stops and saves its progress: simply run it again to resume where
+it stopped (`--restart` forces a new synchronization from the beginning).
 
 ## Start
 
@@ -198,12 +213,13 @@ If you wish to send notification e-mails from Mercator.
 You have to configure the SMTP server access in .env
 
     MAIL_HOST='smtp.localhost'
-    MAIL_PORT=2525
+    MAIL_PORT=587
     MAIL_AUTH=true
-    MAIL_SMTP_SECURE='ssl'
-    MAIL_SMTP_AUTO_TLS=false
+    MAIL_SMTP_SECURE='tls'
     MAIL_USERNAME=
     MAIL_PASSWORD=
+
+MAIL_SMTP_SECURE accepts 'tls' (mandatory STARTTLS, port 587), 'ssl' (implicit TLS, port 465) or an empty value (STARTTLS when the server offers it). The SMTP server certificate is always verified.
 
 You may also configure DKIM :
 

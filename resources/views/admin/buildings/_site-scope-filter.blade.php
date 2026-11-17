@@ -5,7 +5,7 @@
     Paramètre :
       - $buildingSiteMap : [building_id => site_id]
 --}}
-<script>
+<script @nonce>
     document.addEventListener('DOMContentLoaded', function () {
         'use strict';
 

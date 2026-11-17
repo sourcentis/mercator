@@ -3,10 +3,9 @@
 namespace App\Http\Requests;
 
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class MassStoreCartographerRequest extends FormRequest
+class MassStoreCartographerRequest extends BaseMassFormRequest
 {
     public function authorize(): bool
     {
@@ -17,10 +16,10 @@ class MassStoreCartographerRequest extends FormRequest
 
     public function rules(): array
     {
-        $storeRules = (new StoreCartographerRequest())->rules();
+        $storeRules = (new StoreCartographerRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 

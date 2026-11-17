@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class StoreActivityRequest extends BaseFormRequest
 {
-    protected array $htmlFields = ['description'];
+    protected array $htmlFields = ['description', 'drp'];
 
     public function authorize(): bool
     {

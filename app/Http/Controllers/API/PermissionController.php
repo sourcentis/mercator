@@ -73,9 +73,9 @@ class PermissionController extends APIController
     {
         // authorize() in the FormRequest already checks `permission_create`
 
-        $createdIds      = [];
-        $permissionModel = new Permission();
-        $fillable        = $permissionModel->getFillable();
+        $createdIds = [];
+        $permissionModel = new Permission;
+        $fillable = $permissionModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             // Model columns only
@@ -91,16 +91,16 @@ class PermissionController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdatePermissionRequest $request)
     {
         // authorize() in the FormRequest already checks `permission_edit`
-        $permissionModel = new Permission();
-        $fillable        = $permissionModel->getFillable();
+        $permissionModel = new Permission;
+        $fillable = $permissionModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
             $id = $rawItem['id'];

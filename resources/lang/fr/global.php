@@ -16,6 +16,8 @@ return [
     'copyPath' => 'Copier le chemin',
     'create' => 'Créer',
     'created_at' => 'Créé le',
+    'by' => 'par',
+    'deleted_user' => 'utilisateur supprimé',
     'dashboard' => 'Tableau de bord',
     'day' => 'jour',
     'days' => 'jours',
@@ -100,4 +102,5 @@ return [
     'page' => 'page',
     'elements_per_page' => 'éléments par page',
     'search' => 'Rechercher',
+    'graph_too_large' => 'Graphe trop grand : :count nœuds (maximum :max).',
 ];

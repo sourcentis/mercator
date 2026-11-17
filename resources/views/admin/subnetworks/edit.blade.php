@@ -15,7 +15,7 @@
             </div>
             <div class="card-body">
                     <div class="row">
-                        @if (auth()->user()->hasMultiplePerimeters())
+                        @if (auth()->user()->canChoosePerimeterOf($subnetwork))
                 <div class="col-md-2">
                     <div class="form-group">
                         <label for="perimeter_id">{{ trans('cruds.perimeter.title_short') }}</label>
@@ -108,7 +108,7 @@
                             <textarea
                                     class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}"
                                     name="description" rows="4"
-                                    id="description">{!! old('description', $subnetwork->description) !!}</textarea>
+                                    id="description">{{ old('description', $subnetwork->description) }}</textarea>
                             @if($errors->has('description'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('description') }}

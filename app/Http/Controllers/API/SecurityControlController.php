@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreSecurityControlRequest;
 use App\Http\Requests\MassUpdateSecurityControlRequest;
 use App\Http\Requests\StoreSecurityControlRequest;
 use App\Http\Requests\UpdateSecurityControlRequest;
+use App\Models\SecurityControl;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\SecurityControl;
 use Symfony\Component\HttpFoundation\Response;
 
 class SecurityControlController extends APIController
@@ -63,7 +63,7 @@ class SecurityControlController extends APIController
     {
         abort_if(Gate::denies('security_control_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        SecurityControl::whereIn('id', $request->input('ids', []))->delete();
+        SecurityControl::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
@@ -72,9 +72,9 @@ class SecurityControlController extends APIController
     {
         // L’authorize() du FormRequest gère déjà la permission `security_control_create`
 
-        $createdIds          = [];
-        $securityControlModel = new SecurityControl();
-        $fillable             = $securityControlModel->getFillable();
+        $createdIds = [];
+        $securityControlModel = new SecurityControl;
+        $fillable = $securityControlModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             // Colonnes du modèle uniquement
@@ -90,16 +90,16 @@ class SecurityControlController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateSecurityControlRequest $request)
     {
         // L’authorize() du FormRequest gère déjà la permission `security_control_edit`
-        $securityControlModel = new SecurityControl();
-        $fillable             = $securityControlModel->getFillable();
+        $securityControlModel = new SecurityControl;
+        $fillable = $securityControlModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
             $id = $rawItem['id'];

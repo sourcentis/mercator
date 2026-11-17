@@ -3,19 +3,21 @@
 namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
-use App\Models\Cartographer;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\View\View;
 use App\Models\Activity;
 use App\Models\Actor;
+use App\Models\Cartographer;
 use App\Models\Information;
 use App\Models\MacroProcessus;
 use App\Models\Operation;
 use App\Models\Process;
 use App\Models\Task;
+use App\Services\Graph\GraphSize;
 use App\Services\Graph\InformationSystemGraphBuilder;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class InformationSystemView extends Controller
 {
@@ -38,12 +40,12 @@ class InformationSystemView extends Controller
      *              - `actors`: filtered Actor collection
      *              - `informations`: filtered Information collection
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\HttpException If the current user is denied the 'reports_access' permission (responds with 403).
+     * @throws HttpException If the current user is denied the 'reports_access' permission (responds with 403).
      */
     public function generate(Request $request): View
     {
         $allowed = Gate::allows('explore_access') || Cartographer::canAccessAny([MacroProcessus::class, Process::class, Activity::class, Operation::class, Task::class, Actor::class, Information::class]);
-        abort_if(!$allowed, Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(! $allowed, Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->macroprocess == null) {
             $request->session()->put('macroprocess', null);
@@ -135,11 +137,11 @@ class InformationSystemView extends Controller
             $allIds = $directIds->toArray();
             $toProcess = $directIds->toArray();
 
-            while (!empty($toProcess)) {
+            while (! empty($toProcess)) {
                 $childIds = Information::query()->whereIn('id', $toProcess)
                     ->with('children:id')
                     ->get()
-                    ->flatMap(fn($info) => $info->children->pluck('id'))
+                    ->flatMap(fn ($info) => $info->children->pluck('id'))
                     ->diff($allIds)   // évite les cycles et les doublons
                     ->unique()
                     ->values();
@@ -164,6 +166,9 @@ class InformationSystemView extends Controller
             $all_process = null;
         }
 
+        // Compte les nœuds avant de construire le DOT : un graphe trop grand n'est ni construit ni envoyé
+        $graphTooLarge = GraphSize::tooLarge(GraphSize::count($macroProcessuses, $processes, $activities, $operations, $tasks, $actors, $informations));
+
         $graphBuilder = new InformationSystemGraphBuilder;
 
         return view('admin/reports/information_system')
@@ -176,7 +181,8 @@ class InformationSystemView extends Controller
             ->with('tasks', $tasks)
             ->with('actors', $actors)
             ->with('informations', $informations)
-            ->with('dotSrc', $graphBuilder->buildDot($macroProcessuses, $processes, $activities, $operations, $tasks, $actors, $informations))
-            ->with('imageManifest', $graphBuilder->imageManifest());
+            ->with('graphTooLarge', $graphTooLarge)
+            ->with('dotSrc', $graphTooLarge ? '' : $graphBuilder->buildDot($macroProcessuses, $processes, $activities, $operations, $tasks, $actors, $informations))
+            ->with('imageManifest', $graphBuilder->imageManifest($processes, $informations));
     }
 }

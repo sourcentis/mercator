@@ -5,16 +5,19 @@ namespace App\Http\Controllers\Report;
 use App\Http\Controllers\Controller;
 use App\Services\Report\WordHelper;
 use Illuminate\Support\Facades\Log;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Element\Table;
+use PhpOffice\PhpWord\Shared\Html;
+use PhpOffice\PhpWord\SimpleType\JcTable;
 
 class ReportController extends Controller
 {
     protected static function addText(Section $section, ?string $value = null): void
     {
         try {
-            \PhpOffice\PhpWord\Shared\Html::addHtml($section, str_replace('<br>', '<br/>', $value));
+            Html::addHtml($section, str_replace('<br>', '<br/>', $value));
         } catch (\Exception $e) {
             $section->addText('Invalid text');
             Log::error('CartographyController - Invalid HTML '.$value);
@@ -26,7 +29,7 @@ class ReportController extends Controller
         static $colors = [-1 => 'FFFFFF', 0 => 'FFFFFF', 1 => '8CD17D', 2 => 'F1CE63', 3 => 'F28E2B', 4 => 'E15759'];
         $sheet->getStyle($cell)
             ->getFill()
-            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+            ->setFillType(Fill::FILL_SOLID)
             ->getStartColor()
             ->setRGB($colors[$i === null ? 0 : $i]);
     }
@@ -38,7 +41,7 @@ class ReportController extends Controller
                 'borderSize' => 2,
                 'borderColor' => '006699',
                 'cellMargin' => 80,
-                'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                'alignment' => JcTable::CENTER,
             ]
         );
         $table->addRow();
@@ -66,7 +69,7 @@ class ReportController extends Controller
         $table->addRow();
         $table->addCell(2000)->addText($title, WordHelper::FANCY_LEFT_TABLE_CELL_STYLE, WordHelper::NO_SPACE);
         try {
-            \PhpOffice\PhpWord\Shared\Html::addHtml($table->addCell(6000), str_replace('<br>', '<br/>', $value));
+            Html::addHtml($table->addCell(6000), str_replace('<br>', '<br/>', $value));
         } catch (\Exception $e) {
             Log::error('CartographyController - Invalid HTML '.$value);
         }

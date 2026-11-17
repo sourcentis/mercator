@@ -33,7 +33,7 @@ function monarcSyncFakeAuth(): array
  * POST /api/client-anr (createAnr) returns the new id; any other verb to the
  * same URL (anrExists's GET list) reports the given ids as still existing.
  */
-function monarcSyncClientAnrFake(int $createdAnrId = 18, array $existingAnrIds = [18]): \Closure
+function monarcSyncClientAnrFake(int $createdAnrId = 18, array $existingAnrIds = [18]): Closure
 {
     return function ($request) use ($createdAnrId, $existingAnrIds) {
         if ($request->method() === 'POST') {

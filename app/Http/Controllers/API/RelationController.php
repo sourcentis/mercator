@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreRelationRequest;
 use App\Http\Requests\MassUpdateRelationRequest;
 use App\Http\Requests\StoreRelationRequest;
 use App\Http\Requests\UpdateRelationRequest;
+use App\Models\Relation;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Relation;
 use Symfony\Component\HttpFoundation\Response;
 
 class RelationController extends APIController
@@ -30,6 +30,7 @@ class RelationController extends APIController
 
         /** @var Relation $relation */
         $relation = Relation::query()->create($request->all());
+        $relation->documents()->sync($request->input('documents', []));
 
         return response()->json($relation, Response::HTTP_CREATED);
     }
@@ -37,6 +38,8 @@ class RelationController extends APIController
     public function show(Relation $relation)
     {
         abort_if(Gate::denies('show-object', $relation), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $relation['documents'] = $relation->documents()->pluck('id');
 
         return new JsonResource($relation);
     }
@@ -46,6 +49,10 @@ class RelationController extends APIController
         abort_if(Gate::denies('edit-object', $relation), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $relation->update($request->all());
+
+        if ($request->has('documents')) {
+            $relation->documents()->sync($request->input('documents', []));
+        }
 
         return response()->json();
     }
@@ -63,7 +70,7 @@ class RelationController extends APIController
     {
         abort_if(Gate::denies('relation_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        Relation::whereIn('id', $request->input('ids', []))->delete();
+        Relation::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
@@ -72,9 +79,9 @@ class RelationController extends APIController
     {
         // L’authorize() du FormRequest gère déjà la permission `relation_create`
 
-        $createdIds    = [];
-        $relationModel = new Relation();
-        $fillable      = $relationModel->getFillable();
+        $createdIds = [];
+        $relationModel = new Relation;
+        $fillable = $relationModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             $attributes = collect($item)
@@ -89,16 +96,16 @@ class RelationController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateRelationRequest $request)
     {
         // L’authorize() du FormRequest gère déjà la permission `relation_edit`
-        $relationModel = new Relation();
-        $fillable      = $relationModel->getFillable();
+        $relationModel = new Relation;
+        $fillable = $relationModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
             $id = $rawItem['id'];

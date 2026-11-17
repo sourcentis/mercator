@@ -16,7 +16,7 @@
         </div>
         <div class="card-body">
             <div class="row">
-                @if (auth()->user()->hasMultiplePerimeters())
+                @if (auth()->user()->canChoosePerimeterOf($information))
                 <div class="col-2">
                     <div class="form-group">
                         <label for="perimeter_id">{{ trans('cruds.perimeter.title_short') }}</label>
@@ -100,18 +100,39 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="label-maturity-1"
-                       for="description">{{ trans('cruds.information.fields.description') }}</label>
-                <textarea class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}"
-                          name="description"
-                          id="description">{!! old('description', $information->description) !!}</textarea>
-                @if($errors->has('description'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('description') }}
+            <div class="row">
+                <div class="col-9">
+                    <div class="form-group">
+                        <label class="label-maturity-1"
+                               for="description">{{ trans('cruds.information.fields.description') }}</label>
+                        <textarea class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}"
+                                  name="description"
+                                  id="description">{{ old('description', $information->description) }}</textarea>
+                        @if($errors->has('description'))
+                            <div class="invalid-feedback">
+                                {{ $errors->first('description') }}
+                            </div>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.information.fields.description_helper') }}</span>
                     </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.information.fields.description_helper') }}</span>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label for="iconSelect">{{ trans('global.icon_select') }}</label>
+                        <select id="iconSelect"
+                                name="iconSelect"
+                                class="form-control js-icon-picker"
+                                data-icons='@json($icons)'
+                                data-selected="{{ $information->icon_id ?? '-1' }}"
+                                data-default-img="{{ asset('images/information.png') }}"
+                                data-url-template="{{ route('admin.documents.show', ':id') }}"
+                                data-upload="#iconFile">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="file" id="iconFile" name="iconFile" accept="image/png"/>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -370,13 +391,73 @@
                 <label for="constraints">{{ trans('cruds.information.fields.constraints') }}</label>
                 <textarea class="form-control ckeditor {{ $errors->has('constraints') ? 'is-invalid' : '' }}"
                           name="constraints"
-                          id="constraints">{!! old('constraints', $information->constraints) !!}</textarea>
+                          id="constraints">{{ old('constraints', $information->constraints) }}</textarea>
                 @if($errors->has('constraints'))
                     <div class="invalid-feedback">
                         {{ $errors->first('constraints') }}
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.information.fields.constraints_helper') }}</span>
+            </div>
+        </div>
+        <!---------------------------------------------------------------------------------------------------->
+        <div class="card-header">
+            {{ trans('cruds.information.fields.retention') }}
+        </div>
+        <!---------------------------------------------------------------------------------------------------->
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="retention_period">{{ trans('cruds.information.fields.retention_period') }}</label>
+                        <select class="form-control select2-free {{ $errors->has('retention_period') ? 'is-invalid' : '' }}"
+                                name="retention_period" id="retention_period">
+                            @if (!$retention_period_list->contains(old('retention_period', $information->retention_period)))
+                                <option>{{ old('retention_period', $information->retention_period) }}</option>
+                            @endif
+                            @foreach($retention_period_list as $t)
+                                <option {{ old('retention_period', $information->retention_period) == $t ? 'selected' : '' }}>{{ $t }}</option>
+                            @endforeach
+                        </select>
+                        @if($errors->has('retention_period'))
+                            <div class="invalid-feedback">
+                                {{ $errors->first('retention_period') }}
+                            </div>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.information.fields.retention_period_helper') }}</span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="final_disposition">{{ trans('cruds.information.fields.final_disposition') }}</label>
+                        <select class="form-control select2-free {{ $errors->has('final_disposition') ? 'is-invalid' : '' }}"
+                                name="final_disposition" id="final_disposition">
+                            @if (!$final_disposition_list->contains(old('final_disposition', $information->final_disposition)))
+                                <option>{{ old('final_disposition', $information->final_disposition) }}</option>
+                            @endif
+                            @foreach($final_disposition_list as $t)
+                                <option {{ old('final_disposition', $information->final_disposition) == $t ? 'selected' : '' }}>{{ $t }}</option>
+                            @endforeach
+                        </select>
+                        @if($errors->has('final_disposition'))
+                            <div class="invalid-feedback">
+                                {{ $errors->first('final_disposition') }}
+                            </div>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.information.fields.final_disposition_helper') }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="retention_notes">{{ trans('cruds.information.fields.retention_notes') }}</label>
+                <textarea class="form-control ckeditor {{ $errors->has('retention_notes') ? 'is-invalid' : '' }}"
+                          name="retention_notes" id="retention_notes">{{ old('retention_notes', $information->retention_notes) }}</textarea>
+                @if($errors->has('retention_notes'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('retention_notes') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.information.fields.retention_notes_helper') }}</span>
             </div>
         </div>
     </div>

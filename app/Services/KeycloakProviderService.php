@@ -5,6 +5,7 @@ namespace App\Services;
 use Laravel\Socialite\Two\AbstractProvider;
 use Laravel\Socialite\Two\InvalidStateException;
 use Laravel\Socialite\Two\ProviderInterface;
+use Laravel\Socialite\Two\User;
 use Laravel\Socialite\Two\User as SocialiteUser;
 
 class KeycloakProviderService extends AbstractProvider implements ProviderInterface
@@ -16,9 +17,9 @@ class KeycloakProviderService extends AbstractProvider implements ProviderInterf
      * maps the info into a SocialiteUser, and attaches the access token plus any refresh token
      * and expiration returned by Keycloak.
      *
-     * @return \Laravel\Socialite\Two\User The mapped SocialiteUser with `token`, optional `refreshToken`, and optional `expiresIn` set.
+     * @return User The mapped SocialiteUser with `token`, optional `refreshToken`, and optional `expiresIn` set.
      *
-     * @throws \Laravel\Socialite\Two\InvalidStateException If the OAuth state is invalid.
+     * @throws InvalidStateException If the OAuth state is invalid.
      */
     public function user(): SocialiteUser
     {

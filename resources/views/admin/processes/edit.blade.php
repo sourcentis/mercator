@@ -15,7 +15,7 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    @if (auth()->user()->hasMultiplePerimeters())
+                    @if (auth()->user()->canChoosePerimeterOf($process))
                 <div class="col-2">
                     <div class="form-group">
                         <label for="perimeter_id">{{ trans('cruds.perimeter.title_short') }}</label>
@@ -107,7 +107,7 @@
                             <textarea
                                     class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}"
                                     name="description"
-                                    id="description">{!! old('description', $process->description) !!}</textarea>
+                                    id="description">{{ old('description', $process->description) }}</textarea>
                             @if($errors->has('description'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('description') }}
@@ -140,7 +140,7 @@
                     <div class="form-group">
                         <label class="label-maturity-1" for="in_out">{{ trans('cruds.process.fields.in_out') }}</label>
                         <textarea class="form-control ckeditor {{ $errors->has('in_out') ? 'is-invalid' : '' }}"
-                                  name="in_out" id="in_out">{!! old('in_out', $process->in_out) !!}</textarea>
+                                  name="in_out" id="in_out">{{ old('in_out', $process->in_out) }}</textarea>
                         @if($errors->has('in_out'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('in_out') }}

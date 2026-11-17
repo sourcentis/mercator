@@ -3,10 +3,9 @@
 namespace App\Http\Requests;
 
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class MassStoreLogicalFlowRequest extends FormRequest
+class MassStoreLogicalFlowRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -18,10 +17,10 @@ class MassStoreLogicalFlowRequest extends FormRequest
     public function rules()
     {
         // On récupère les règles du StoreLogicalFlowRequest classique
-        $storeRules = (new StoreLogicalFlowRequest())->rules();
+        $storeRules = (new StoreLogicalFlowRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -33,4 +32,3 @@ class MassStoreLogicalFlowRequest extends FormRequest
         return $rules;
     }
 }
-

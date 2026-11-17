@@ -29,12 +29,12 @@ beforeEach(function () {
 
 it('creates a cartographer entry for a user', function () {
     $user = User::factory()->create();
-    $app  = Application::factory()->create();
+    $app = Application::factory()->create();
 
     Cartographer::create([
         'cartographiable_type' => Application::class,
-        'cartographiable_id'   => $app->id,
-        'user_id'              => $user->id,
+        'cartographiable_id' => $app->id,
+        'user_id' => $user->id,
     ]);
 
     expect(Cartographer::count())->toBe(1);
@@ -42,12 +42,12 @@ it('creates a cartographer entry for a user', function () {
 
 it('creates a cartographer entry for a role', function () {
     $role = Role::factory()->create();
-    $app  = Application::factory()->create();
+    $app = Application::factory()->create();
 
     Cartographer::create([
         'cartographiable_type' => Application::class,
-        'cartographiable_id'   => $app->id,
-        'role_id'              => $role->id,
+        'cartographiable_id' => $app->id,
+        'role_id' => $role->id,
     ]);
 
     expect(Cartographer::count())->toBe(1);
@@ -56,24 +56,24 @@ it('creates a cartographer entry for a role', function () {
 it('updates cartographers_last_update cache on save', function () {
     Cache::forget('cartographers_last_update');
     $user = User::factory()->create();
-    $app  = Application::factory()->create();
+    $app = Application::factory()->create();
 
     Cartographer::create([
         'cartographiable_type' => Application::class,
-        'cartographiable_id'   => $app->id,
-        'user_id'              => $user->id,
+        'cartographiable_id' => $app->id,
+        'user_id' => $user->id,
     ]);
 
     expect(Cache::has('cartographers_last_update'))->toBeTrue();
 });
 
 it('updates cartographers_last_update cache on delete', function () {
-    $user  = User::factory()->create();
-    $app   = Application::factory()->create();
+    $user = User::factory()->create();
+    $app = Application::factory()->create();
     $entry = Cartographer::create([
         'cartographiable_type' => Application::class,
-        'cartographiable_id'   => $app->id,
-        'user_id'              => $user->id,
+        'cartographiable_id' => $app->id,
+        'user_id' => $user->id,
     ]);
 
     Cache::forget('cartographers_last_update');
@@ -103,7 +103,7 @@ it('loadSessionFor stores permissions grouped by type', function () {
 
 it('isAllowed returns true for directly assigned user', function () {
     $user = User::factory()->create();
-    $app  = Application::factory()->create();
+    $app = Application::factory()->create();
 
     Cartographer::create(['cartographiable_type' => Application::class, 'cartographiable_id' => $app->id, 'user_id' => $user->id]);
     $this->actingAs($user);
@@ -114,7 +114,7 @@ it('isAllowed returns true for directly assigned user', function () {
 
 it('isAllowed returns false for non-assigned user', function () {
     $user = User::factory()->create();
-    $app  = Application::factory()->create();
+    $app = Application::factory()->create();
 
     $this->actingAs($user);
     Cartographer::loadSessionFor($user);
@@ -126,7 +126,7 @@ it('isAllowed returns true via role assignment', function () {
     $role = Role::factory()->create();
     $user = User::factory()->create();
     $user->roles()->attach($role);
-    $app  = Application::factory()->create();
+    $app = Application::factory()->create();
 
     Cartographer::create(['cartographiable_type' => Application::class, 'cartographiable_id' => $app->id, 'role_id' => $role->id]);
     $this->actingAs($user);

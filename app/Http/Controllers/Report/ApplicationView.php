@@ -12,6 +12,7 @@ use App\Models\ApplicationService;
 use App\Models\Cartographer;
 use App\Models\Database;
 use App\Services\Graph\ApplicationGraphBuilder;
+use App\Services\Graph\GraphSize;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -124,6 +125,9 @@ class ApplicationView extends Controller
 
         $this->autoloadRelations($applicationBlocks, $applications, $applicationServices, $applicationModules, $databases, $flows);
 
+        // Compte les nœuds avant de construire le DOT : un graphe trop grand n'est ni construit ni envoyé
+        $graphTooLarge = GraphSize::tooLarge(GraphSize::count($applicationBlocks, $applications, $applicationServices, $applicationModules, $databases));
+
         $graphBuilder = new ApplicationGraphBuilder;
 
         return view('admin/reports/applications')
@@ -135,7 +139,8 @@ class ApplicationView extends Controller
             ->with('applicationModules', $applicationModules)
             ->with('databases', $databases)
             ->with('flows', $flows)
-            ->with('dotSrc', $graphBuilder->buildDot($applicationBlocks, $applications, $applicationServices, $applicationModules, $databases))
+            ->with('graphTooLarge', $graphTooLarge)
+            ->with('dotSrc', $graphTooLarge ? '' : $graphBuilder->buildDot($applicationBlocks, $applications, $applicationServices, $applicationModules, $databases))
             ->with('imageManifest', $graphBuilder->imageManifest($applications, $databases));
     }
 

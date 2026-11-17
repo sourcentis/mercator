@@ -524,7 +524,7 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript">
+<script @nonce>
 window.chartData = {
     maturity: {{ $maturity2 }},
 };

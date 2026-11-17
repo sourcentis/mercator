@@ -53,7 +53,7 @@
                             <select class="form-control select2-free-tags {{ $errors->has('attributes') ? 'is-invalid' : '' }}"
                                     name="attributes[]" id="attributes" multiple>
                                 @foreach($attributes_list as $a)
-                                    <option {{ str_contains(old('attributes'), $a) ? 'selected' : '' }}>{{$a}}</option>
+                                    <option {{ in_array($a, old('attributes', []), true) ? 'selected' : '' }}>{{$a}}</option>
                                 @endforeach
                             </select>
                             @if($errors->has('attributes'))
@@ -101,7 +101,7 @@
                             <select class="form-control select2-free {{ $errors->has('responsible') ? 'is-invalid' : '' }}"
                                     name="responsibles[]" id="responsibles" multiple>
                                 @foreach($responsibles_list as $resp)
-                                    <option {{ str_contains(old('responsible'), $resp) ? 'selected' : '' }}>{{$resp}}</option>
+                                    <option {{ in_array($resp, old('responsibles', []), true) ? 'selected' : '' }}>{{$resp}}</option>
                                 @endforeach
                             </select>
                             @if($errors->has('responsible'))
@@ -159,7 +159,7 @@
                     <label class="label-maturity-1"
                            for="description">{{ trans('cruds.relation.fields.description') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}"
-                              name="description" id="description">{!! old('description') !!}</textarea>
+                              name="description" id="description">{{ old('description') }}</textarea>
                     @if($errors->has('description'))
                         <div class="invalid-feedback">
                             {{ $errors->first('description') }}
@@ -263,7 +263,7 @@
                         <div class="form-group">
                             <label for="comments">{{ trans('cruds.relation.fields.comments') }}</label>
                             <textarea class="form-control ckeditor {{ $errors->has('comments') ? 'is-invalid' : '' }}"
-                                      name="comments" id="comments">{!! old('comments') !!}</textarea>
+                                      name="comments" id="comments">{{ old('comments') }}</textarea>
                             @if($errors->has('comments'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('comments') }}
@@ -303,7 +303,7 @@
 @endsection
 
 @section('scripts')
-    <script>
+    <script @nonce>
 
         //=============================================================================
         document.addEventListener("DOMContentLoaded", function () {

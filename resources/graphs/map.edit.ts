@@ -1352,7 +1352,7 @@ function refreshParallelEdges(onlyPairs?: Set<string>): void {
 }
 
 function buildEdgeStyle(edge: Edge): CellStateStyle {
-    const isFlux = edge.edgeType === 'FLUX';
+    const isFlux = edge.edgeType === 'FLUX' || edge.edgeType === 'LFLUX';
     const isCable = edge.edgeType === 'CABLE';
     const isLink = edge.edgeType === 'LINK';
     return {
@@ -1904,7 +1904,8 @@ graph.addListener(InternalEvent.DOUBLE_CLICK, (_sender: unknown, evt: EventObjec
                         filter.length === 0 ||
                         filter.includes(targetNode.vue) ||
                         (filter.includes('8') && edge.edgeType === 'CABLE') ||
-                        (filter.includes('9') && edge.edgeType === 'FLUX')
+                        (filter.includes('9') && edge.edgeType === 'FLUX') ||
+                        (filter.includes('10') && edge.edgeType === 'LFLUX')
                     ) &&
                     matchesAttrFilter(targetNode, attrFilter) &&
                     matchesDirection(direction, node, targetNode)
@@ -2010,7 +2011,8 @@ function deployFromNode(
             filter.length === 0 ||
             filter.includes(targetNode.vue) ||
             (filter.includes('8') && edge.edgeType === 'CABLE') ||
-            (filter.includes('9') && edge.edgeType === 'FLUX');
+            (filter.includes('9') && edge.edgeType === 'FLUX') ||
+            (filter.includes('10') && edge.edgeType === 'LFLUX');
 
         if (
             !passesFilter ||

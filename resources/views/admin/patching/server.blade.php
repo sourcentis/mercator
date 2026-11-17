@@ -65,7 +65,7 @@
                         <label class="recommended" for="attributes">{{ trans('cruds.logicalServer.fields.attributes') }}</label>
                         <select class="form-control select2-free {{ $errors->has('patching_group') ? 'is-invalid' : '' }}" name="attributes[]" id="attributes[]" multiple>
                             @foreach($attributes_list as $a)
-                                <option {{ str_contains(old('attributes') ? old('attributes') : $server->attributes, $a) ? 'selected' : '' }}>{{$a}}</option>
+                                <option {{ in_array($a, old('attributes', explode(' ', $server->attributes ?? '')), true) ? 'selected' : '' }}>{{$a}}</option>
                             @endforeach
                         </select>
                         @if($errors->has('attributes'))
@@ -267,7 +267,7 @@
         <div class="row">
             <div class="col-sm">
                 <div class="form-group">
-                    <textarea class="form-control ckeditor {{ $errors->has('configuration') ? 'is-invalid' : '' }}" name="configuration" id="configuration">{!! old('configuration', $server->configuration) !!}</textarea>
+                    <textarea class="form-control ckeditor {{ $errors->has('configuration') ? 'is-invalid' : '' }}" name="configuration" id="configuration">{{ old('configuration', $server->configuration) }}</textarea>
                     @if($errors->has('configuration'))
                         <div class="invalid-feedback">
                             {{ $errors->first('configuration') }}
@@ -311,7 +311,7 @@
 @endsection
 
 @section('scripts')
-<script>
+<script @nonce>
 document.addEventListener("DOMContentLoaded", function () {
 
     const update_date = document.getElementById('update_date');

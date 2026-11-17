@@ -6,7 +6,7 @@ use Illuminate\Validation\Rule;
 
 class UpdateExternalConnectedEntityRequest extends BaseFormRequest
 {
-    protected array $htmlFields = ['description'];
+    protected array $htmlFields = ['description', 'security'];
 
     public function authorize(): bool
     {

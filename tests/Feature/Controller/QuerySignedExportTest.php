@@ -27,10 +27,10 @@ beforeEach(function () {
 function makeSignedQuery(array $overrides = []): SavedQuery
 {
     return SavedQuery::create(array_merge([
-        'name'      => 'Test Query',
-        'query'     => ['from' => 'applications', 'output' => 'list'],
+        'name' => 'Test Query',
+        'query' => ['from' => 'applications', 'output' => 'list'],
         'is_public' => false,
-        'user_id'   => null,
+        'user_id' => null,
     ], $overrides));
 }
 
@@ -63,7 +63,7 @@ it('forbids export when the signature is missing or tampered', function () {
     $unsignedUrl = strtok($signedUrl, '?');
     $this->get($unsignedUrl)->assertForbidden();
 
-    $tamperedUrl = $signedUrl . '0';
+    $tamperedUrl = $signedUrl.'0';
     $this->get($tamperedUrl)->assertForbidden();
 });
 

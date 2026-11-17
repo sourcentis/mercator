@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Models\Cartographer;
 use App\Models\Role;
 use App\Models\User;
+use App\Support\RoleAssignment;
 use Gate;
 use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,13 +31,15 @@ class UsersController extends Controller
     {
         abort_if(Gate::denies('user_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $roles = Role::all()->sortBy('title')->pluck('title', 'id');
+        $roles = $this->grantableRoles();
 
         return view('admin.users.create', compact('roles'));
     }
 
     public function store(StoreUserRequest $request)
     {
+        RoleAssignment::authorizeRoles(auth()->user(), null, $request->input('roles', []));
+
         $user = User::create($request->all());
 
         $user->roles()->sync($request->input('roles', []));
@@ -48,8 +51,9 @@ class UsersController extends Controller
     public function edit(User $user)
     {
         abort_if(Gate::denies('edit-object', $user), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        RoleAssignment::authorizeManage(auth()->user(), $user);
 
-        $roles = Role::all()->sortBy('title')->pluck('title', 'id');
+        $roles = $this->grantableRoles();
 
         $user->load('roles');
 
@@ -59,6 +63,8 @@ class UsersController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         abort_if(Gate::denies('edit-object', $user), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        RoleAssignment::authorizeManage(auth()->user(), $user);
+        RoleAssignment::authorizeRoles(auth()->user(), $user, $request->input('roles', []));
 
         $data = $request->all();
         if (empty($data['password'])) {
@@ -93,6 +99,7 @@ class UsersController extends Controller
     public function destroy(User $user)
     {
         abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        RoleAssignment::authorizeManage(auth()->user(), $user);
 
         $user->delete();
 
@@ -101,8 +108,24 @@ class UsersController extends Controller
 
     public function massDestroy(MassDestroyUserRequest $request)
     {
-        User::whereIn('id', request('ids'))->get()->each->delete();
+        $users = User::whereIn('id', request('ids'))->get();
+        $users->each(fn (User $user) => RoleAssignment::authorizeManage(auth()->user(), $user));
+        $users->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * Rôles proposés dans les formulaires : seulement ceux que l'utilisateur courant peut attribuer.
+     */
+    private function grantableRoles()
+    {
+        $grantable = RoleAssignment::grantableRoleIds(auth()->user());
+
+        return Role::query()
+            ->when($grantable !== null, fn ($query) => $query->whereKey($grantable))
+            ->get()
+            ->sortBy('title')
+            ->pluck('title', 'id');
     }
 }

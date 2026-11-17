@@ -111,7 +111,7 @@
                                    for="description">{{ trans('cruds.entity.fields.description') }}</label>
                             <textarea
                                     class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}"
-                                    name="description" id="description">{!! old('description') !!}</textarea>
+                                    name="description" id="description">{{ old('description') }}</textarea>
                             @if($errors->has('description'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('description') }}
@@ -181,7 +181,7 @@
                     <label class="label-maturity-1"
                            for="contact_point">{{ trans('cruds.entity.fields.contact_point') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('contact_point') ? 'is-invalid' : '' }}"
-                              name="contact_point" id="contact_point">{!! old('contact_point') !!}</textarea>
+                              name="contact_point" id="contact_point">{{ old('contact_point') }}</textarea>
                     @if($errors->has('contact_point'))
                         <div class="invalid-feedback">
                             {{ $errors->first('contact_point') }}
@@ -193,7 +193,7 @@
                     <label class="label-maturity-1"
                            for="seurity_level">{{ trans('cruds.entity.fields.security_level') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('security_level') ? 'is-invalid' : '' }}"
-                              name="security_level" id="security_level">{!! old('security_level') !!}</textarea>
+                              name="security_level" id="security_level">{{ old('security_level') }}</textarea>
                     @if($errors->has('security_level'))
                         <div class="invalid-feedback">
                             {{ $errors->first('security_level') }}

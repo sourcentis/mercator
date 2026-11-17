@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\QueryException;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
@@ -16,7 +17,7 @@ return new class extends Migration
             Schema::table($tableName, function (Blueprint $table) use ($constraintName) {
                 $table->dropUnique($constraintName);
             });
-        } catch (\Illuminate\Database\QueryException $e) {
+        } catch (QueryException $e) {
             // Ici on peut logger l'erreur si besoin ou simplement ignorer
             // Contrainte absente sans impact, on continue
         }

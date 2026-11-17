@@ -1,13 +1,15 @@
 <?php
 
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Laravel\Socialite\Facades\Socialite;
-use App\Models\Role;
-use App\Models\User;
+use Laravel\Socialite\Two\User as SocialiteUser;
+use Tests\TestCase;
 
-uses(Tests\TestCase::class, RefreshDatabase::class);
+uses(TestCase::class, RefreshDatabase::class);
 
 beforeEach(function () {
     // Créer des rôles de test
@@ -75,7 +77,7 @@ it('redirects to local login when keycloak fails and fallback enabled', function
     Config::set('services.keycloak.enabled', true);
     Config::set('services.keycloak.fallback_local', true);
 
-    mockSocialiteKeycloakException(new \Exception('Keycloak unreachable'));
+    mockSocialiteKeycloakException(new Exception('Keycloak unreachable'));
 
     $response = $this->get(route('keycloak.callback'));
 
@@ -87,7 +89,7 @@ it('shows error when keycloak fails and fallback disabled', function () {
     Config::set('services.keycloak.enabled', true);
     Config::set('services.keycloak.fallback_local', false);
 
-    mockSocialiteKeycloakException(new \Exception('Keycloak unreachable'));
+    mockSocialiteKeycloakException(new Exception('Keycloak unreachable'));
 
     $response = $this->get(route('keycloak.callback'));
 
@@ -295,64 +297,25 @@ it('creates audit log on successful sso login', function () {
 // ============================================================================
 
 /**
- * Crée un mock de Keycloak user qui implémente ArrayAccess
- * pour supporter $keycloakUser['user']['realm_access']['roles']
+ * Crée un mock de Keycloak user reproduisant Socialite\Two\User :
+ * les rôles sont dans les données brutes du userinfo (getRaw()['realm_access']['roles'])
  */
-function mockKeycloakUser(array $attributes): object
+function mockKeycloakUser(array $attributes): SocialiteUser
 {
-    return new class($attributes) implements \ArrayAccess {
-        private $attributes;
-
-        public function __construct(array $attributes)
-        {
-            $this->attributes = $attributes;
-        }
-
-        public function getNickname()
-        {
-            return $this->attributes['nickname'] ?? null;
-        }
-
-        public function getEmail()
-        {
-            return $this->attributes['email'] ?? null;
-        }
-
-        public function getName()
-        {
-            return $this->attributes['name'] ?? $this->attributes['nickname'] ?? null;
-        }
-
-        public function offsetExists($offset): bool
-        {
-            return $offset === 'user';
-        }
-
-        #[\ReturnTypeWillChange]
-        public function offsetGet($offset)
-        {
-            if ($offset === 'user') {
-                return [
-                    'realm_access' => [
-                        'roles' => $this->attributes['roles'] ?? [],
-                    ],
-                ];
-            }
-            return null;
-        }
-
-        #[\ReturnTypeWillChange]
-        public function offsetSet($offset, $value)
-        {
-            // Not implemented
-        }
-
-        #[\ReturnTypeWillChange]
-        public function offsetUnset($offset)
-        {
-            // Not implemented
-        }
-    };
+    return (new SocialiteUser)
+        ->setRaw([
+            'preferred_username' => $attributes['nickname'] ?? null,
+            'email' => $attributes['email'] ?? null,
+            'name' => $attributes['name'] ?? null,
+            'realm_access' => [
+                'roles' => $attributes['roles'] ?? [],
+            ],
+        ])
+        ->map([
+            'nickname' => $attributes['nickname'] ?? null,
+            'email' => $attributes['email'] ?? null,
+            'name' => $attributes['name'] ?? $attributes['nickname'] ?? null,
+        ]);
 }
 
 function mockSocialiteKeycloak(object $keycloakUser): void
@@ -364,7 +327,7 @@ function mockSocialiteKeycloak(object $keycloakUser): void
         ->andReturn($keycloakUser);
 }
 
-function mockSocialiteKeycloakException(\Exception $exception): void
+function mockSocialiteKeycloakException(Exception $exception): void
 {
     Socialite::shouldReceive('driver')
         ->with('keycloak')

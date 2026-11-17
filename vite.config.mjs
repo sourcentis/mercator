@@ -2,7 +2,6 @@
 import {defineConfig} from 'vite';
 import path from 'path';
 import laravel from 'laravel-vite-plugin';
-import {viteStaticCopy} from 'vite-plugin-static-copy';
 import fs from 'fs';
 
 const version = fs.readFileSync('version.txt', 'utf-8').trim();
@@ -28,6 +27,7 @@ export default defineConfig({
                 'resources/charts/chart-maturity.js',
                 'resources/charts/chart-relation.js',
                 'resources/charts/chart-patching.js',
+                'resources/charts/chart-matrix.js',
                 // Mapping
                 'resources/css/mapping.css',
                 // D3 / Viz
@@ -42,18 +42,24 @@ export default defineConfig({
                 // Parser
                 'resources/js/sql-parser.js',
                 // Cairn
-                // 'resources/js/cairn.js',
+                'resources/js/cairn.js',
             ],
             refresh: true,
         }),
-        viteStaticCopy({
-            targets: [
-                {
-                    src: 'resources/fonts/bpmn.ttf',
-                    dest: 'fonts',
-                },
-            ],
-        }),
+        // Copies the BPMN icon font to build/fonts/ (referenced by the bpmn
+        // Blade views as /build/fonts/bpmn.ttf). Replaces vite-plugin-static-copy,
+        // whose chokidar 3 dependency pulls in a vulnerable `braces`.
+        {
+            name: 'copy-bpmn-font',
+            apply: 'build',
+            generateBundle() {
+                this.emitFile({
+                    type: 'asset',
+                    fileName: 'fonts/bpmn.ttf',
+                    source: fs.readFileSync('resources/fonts/bpmn.ttf'),
+                });
+            },
+        },
     ],
 
     resolve: {

@@ -169,8 +169,19 @@ body {
 }
 
 .toggle-sidebar-btn {
-    color: #000000 !important;
+    color: #800000 !important;
     border: 1px;
+}
+
+/* container-fluid (12px) + btn padding (12px) - 9px = 15px, aligned with .sidebar a padding.
+   Higher specificity needed to override .btn { margin-left: 5px !important } */
+.btn.toggle-sidebar-btn {
+    margin-left: -9px !important;
+}
+
+.toggle-sidebar-btn i {
+    font-size: 20px;
+    font-weight: bold;
 }
 
 /***************************************************************************/

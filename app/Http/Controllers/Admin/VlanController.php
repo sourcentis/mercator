@@ -12,6 +12,7 @@ use App\Models\Vlan;
 use App\Services\SubnetworkDeviceLocator;
 use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -75,11 +76,11 @@ class VlanController extends Controller
 
         DB::table('subnetworks')
             ->where('vlan_id', $vlan->id)
-            ->update(['vlan_id' => null]);
+            ->update(['vlan_id' => null, 'updated_by' => Auth::id()]);
 
         DB::table('subnetworks')
             ->whereIn('id', $request->input('subnetworks', []))
-            ->update(['vlan_id' => $vlan->id]);
+            ->update(['vlan_id' => $vlan->id, 'updated_by' => Auth::id()]);
 
         return redirect()->route('admin.vlans.index');
     }
@@ -105,11 +106,11 @@ class VlanController extends Controller
 
         DB::table('subnetworks')
             ->where('vlan_id', $vlan->id)
-            ->update(['vlan_id' => null]);
+            ->update(['vlan_id' => null, 'updated_by' => Auth::id()]);
 
         DB::table('subnetworks')
             ->whereIn('id', $request->input('subnetworks', []))
-            ->update(['vlan_id' => $vlan->id]);
+            ->update(['vlan_id' => $vlan->id, 'updated_by' => Auth::id()]);
 
         return redirect()->route('admin.vlans.index');
     }

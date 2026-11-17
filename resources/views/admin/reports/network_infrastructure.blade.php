@@ -49,12 +49,14 @@
                     </table>
                     <div class="col-sm-8">
                         <input name="show_ports" id='show_ports' type="checkbox" value="1" class="form-check-input"
-                               {{ Session::get('show_ports') ? 'checked' : '' }} onchange="this.form.submit()">
+                               {{ Session::get('show_ports') ? 'checked' : '' }} data-autosubmit>
                         <label for="show_ports">Afficher les ports source/destination</label>
                     </div>
                 </div>
                 <div id="graph-container">
-                    <div id="graph" class="graphviz"></div>
+                    <div id="graph" class="graphviz">
+                        @include('admin.reports._graph_too_large')
+                    </div>
                     <div class="graph-resize-handle"></div>
                 </div>
                 <div class="row p-1">
@@ -88,6 +90,8 @@
     </div>
 </div>
 
+{{-- Graphe trop grand : les objets ne sont pas listés non plus --}}
+@if(empty($graphTooLarge))
 <div class="report-scroll-area">
     @canAccess(App\Models\Site::class)
         @if ($sites->count()>0)
@@ -507,12 +511,13 @@
         @endif
     @endcan
 </div>
+@endif
 @endsection
 
 @section('scripts')
     @vite(['resources/js/graphviz.js'])
-    <script>
-        let dotSrc = `{!! $dotSrc !!}`;
+    <script @nonce>
+        let dotSrc = @json($dotSrc);
 
         // ─── Listeners formulaire (DOM uniquement, pas besoin du WASM) ────────
         document.addEventListener("DOMContentLoaded", function () {

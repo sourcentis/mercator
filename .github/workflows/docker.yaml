@@ -4,6 +4,17 @@ on:
   push:
     branches:
       - "master"
+  workflow_dispatch:
+    inputs:
+      overwrite_version_tag:
+        description: "Écraser le tag de version s'il existe déjà sur ghcr.io"
+        type: boolean
+        default: false
+
+# Deux pushes rapprochés ne doivent pas publier chacun le tag de version.
+concurrency:
+  group: docker-image
+  cancel-in-progress: false
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -34,6 +45,28 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # Le tag de version est immuable : il n'est publié qu'une seule fois, au
+      # premier build de cette version. Les builds suivants sur master ne mettent
+      # à jour que latest (sauf écrasement demandé explicitement).
+      - name: Check if version tag already exists
+        id: tags
+        env:
+          IMAGE: ghcr.io/${{ github.repository }}
+          VERSION: ${{ steps.version.outputs.version }}
+          OVERWRITE: ${{ inputs.overwrite_version_tag || false }}
+        run: |
+          {
+            echo "tags<<EOF"
+            if [ "$OVERWRITE" = "true" ] || ! docker buildx imagetools inspect "$IMAGE:$VERSION" >/dev/null 2>&1; then
+              echo "Publication du tag de version $VERSION" >&2
+              echo "$IMAGE:$VERSION"
+            else
+              echo "Le tag $VERSION existe déjà : seul latest est mis à jour" >&2
+            fi
+            echo "$IMAGE:latest"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
@@ -42,6 +75,4 @@ jobs:
           push: true
           build-args: |
             APP_VERSION=${{ steps.version.outputs.version }}
-          tags: |
-            ghcr.io/${{ github.repository }}:${{ steps.version.outputs.version }}
-            ghcr.io/${{ github.repository }}:latest
+          tags: ${{ steps.tags.outputs.tags }}

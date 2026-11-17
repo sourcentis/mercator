@@ -3,10 +3,9 @@
 namespace App\Http\Requests;
 
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class MassStoreZoneAdminRequest extends FormRequest
+class MassStoreZoneAdminRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -18,10 +17,10 @@ class MassStoreZoneAdminRequest extends FormRequest
     public function rules()
     {
         // On récupère les règles du StoreZoneAdminRequest classique
-        $storeRules = (new StoreZoneAdminRequest())->rules();
+        $storeRules = (new StoreZoneAdminRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -33,4 +32,3 @@ class MassStoreZoneAdminRequest extends FormRequest
         return $rules;
     }
 }
-

@@ -56,5 +56,4 @@ class Permission extends Model
     {
         return $this->belongsToMany(User::class);
     }
-
 }

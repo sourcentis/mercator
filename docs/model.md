@@ -346,6 +346,7 @@ erDiagram
         string name
         string type
         string attributes
+        int icon_id
         text description
         string owner
         string administrator
@@ -357,7 +358,9 @@ erDiagram
         int security_need_t
         int security_need_auth
         text constraints
-        string retention
+        string retention_period
+        string final_disposition
+        text retention_notes
         list parents
         list children
         list processes
@@ -628,6 +631,7 @@ Information can be linked to multiple information.
 | name               | varchar(255) | Name of information                            |
 | type               | varchar(255) | Type of information                            |
 | attributes         | varchar(255) | Attributes (#tag...)                           |
+| icon_id            | int unsigned | Reference to a specific icon                   |
 | description        | longtext     | Description of information                     |
 | owner              | varchar(255) | Owner of information                           |
 | administrator      | varchar(255) | Information administrator                      |
@@ -639,7 +643,9 @@ Information can be linked to multiple information.
 | security_need_t    | int          | Traceability                                   |
 | security_need_auth | int          | Authenticity                                   |
 | constraints        | longtext     | Legal and regulatory constraints               |
-| retention          | varchar(255) | Information retention period                   |
+| retention_period   | varchar(255) | Retention period                               |
+| final_disposition  | varchar(255) | Final disposition after the retention period   |
+| retention_notes    | longtext     | Notes on retention (sorting criteria...)       |
 | parents            | List int [,] | IDs list of linked parents information         |
 | children           | List int [,] | IDs list of linked children information        |
 | processes          | List int [,] | IDs list of used processes by this information |
@@ -647,7 +653,15 @@ Information can be linked to multiple information.
 | updated_at         | timestamp    | Date of update                                 |
 | deleted_at         | timestamp    | Date of deletion                               |
 
-The field "retention" is not used and therefore is absent in the app.
+The "Retention" section documents the legal archiving of the information:
+
+- the retention period ("retention_period"), e.g. "6 months" or "Agreement duration + 5 years";
+- the final disposition once this period is over ("final_disposition"), e.g. destruction, sorting, transfer to the
+  archives;
+- free-text notes ("retention_notes") describing sorting criteria or any other useful detail.
+
+In the app, the retention period and the final disposition are drop-down lists offering the values already in use,
+in which a new value can also be typed.
 
 In the app, the field for the authenticity need ("security_need_auth") is hidden by default. It is mandatory for
 entities subject to the regulation (EU) 2022/2554 (DORA).  
@@ -893,6 +907,7 @@ server per physical server.
 | logical_servers      | List int [,] | IDs list of related logical_servers |
 | activities           | List int [,] | IDs list of related activities      |
 | containers           | List int [,] | IDs list of related containers      |
+| administrators       | List int [,] | IDs list of related admin-users     |
 | created_at           | timestamp    | Date of creation                    |
 | updated_at           | timestamp    | Date of update                      |
 | deleted_at           | timestamp    | Date of deletion                    |
@@ -2702,6 +2717,7 @@ network (SAN), hard disk...
 | name        | varchar(255) | Name of storage infrastructure                    |
 | type        | varchar(255) | Storage infrastructure type (NAS, SAN, HDD, etc.) |
 | description | longtext     | Description of the storage infrastructure         |
+| icon_id     | int unsigned | Reference to a specific icon                      |
 | site_id     | int unsigned | Reference to the site                             |
 | building_id | int unsigned | Reference to building / room                      |
 | bay_id      | int unsigned | Reference to the rack                             |
@@ -3020,6 +3036,48 @@ The data model export lists MANs and WANs linked to a LAN.
 In the app, a MAN can be linked to a LAN from a MAN object.  
 A WAN can be linked to a LAN from a WAN object.
 
+---
+
+## Tools
+
+### BPMN or MapsInside Tools we find BPMN and Maps. Thses 2 objets grousp are stored in the same table
+
+
+| Table                                    | api         |
+|:-----------------------------------------|:------------|
+| <span style="color: blue;">*graphs*</span> | `/api/graphs` |
+
+| Champ       | Type         | Description         |
+|:------------|:-------------|:--------------------|
+| id          | int unsigned | auto_increment      |
+| class       | int          | **1** for **Maps** <br> **2** for  **BPMN**     |
+| name        | varchar(255) | MAP or BPMN Name    |
+| type        | varchar(255) | Object Type         |
+| content     | longtext     | Content             |
+| created_at  | timestamp    | Date of creation   |
+| updated_at  | timestamp    | Date of update     |
+| deleted_at  | timestamp    | Date of deletion   |
+
+
+### Queries
+| Table                                    | api         |
+|:-----------------------------------------|:------------|
+| <span style="color: blue;">*saved_queries*</span> | `/api/queries` |
+
+| Champ       | Type         | Description         |
+|:------------|:-------------|:--------------------|
+| id          | int unsigned | auto_increment      |
+| name        | varchar(255) | Query name   |
+| description | text         | Query description |
+| query       | longtext     | Query |
+| is_public   | tinyint      | Set personal or public query |
+| user_id     | int unsigned | id of query owner |
+| created_at  | timestamp    | Date of creation   |
+| updated_at  | timestamp    | Date of update     |
+| deleted_at  | timestamp    | Date of deletion   |
+
+---
+
 ## Configuration
 
 The "documents" section can be found in the configuration menu.
@@ -3112,7 +3170,7 @@ This part allow to see all attached documents, including specific image (icons)
 ### Example of a document fields for a specific image of firewall:
 
 ```json
-    "id": 1,
+"id": 1,
 "filename": "fw.png",
 "mimetype": "image/png",
 "size": 5295,
@@ -3183,6 +3241,18 @@ This section allows you to define access rules on objects, applicable to roles o
 | created_at | timestamp        | Date of creation     |
 | updated_at | timestamp        | Date of deletion  |
 | deleted_at | timestamp        | Date of deletion     |
+
+### Perimeters
+This sections allows you te create perimeters
+
+| Table                                         | api              |
+|:----------------------------------------------|:-----------------|
+| <span style="color: blue;">*perimeters*</span> | `/api/perimeters` |
+
+| Champ      | Type             | Description          |
+|------------|------------------|----------------------|
+| id         | int(10) unsigned | auto_increment       |
+| name       | varchar(32)      | nom du périmètre     |     
 
 ### Permissions
 

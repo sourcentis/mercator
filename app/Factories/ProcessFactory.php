@@ -7,7 +7,7 @@ use App\Models\Process;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Process>
+ * @extends Factory<Process>
  */
 class ProcessFactory extends Factory
 {

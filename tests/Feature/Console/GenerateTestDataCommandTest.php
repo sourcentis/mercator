@@ -1062,17 +1062,26 @@ it('chains macro-processes, processes, activities, operations and tasks coherent
 
     expect($macroProcessesByPerimeter)->toHaveCount(2);
 
+    // Les bornes viennent de la config : seuls les parents ayant au moins un
+    // enfant apparaissent dans les regroupements ci-dessous, un minimum à 0
+    // reste donc compatible.
+    $macroProcessRange = config('data-scenarios.macro_processes_per_perimeter');
+    $processRange = config('data-scenarios.processes_per_macro_process');
+    $activityRange = config('data-scenarios.activities_per_process');
+    $operationRange = config('data-scenarios.operations_per_activity');
+    $taskRange = config('data-scenarios.tasks_per_operation');
+
     foreach ($macroProcessesByPerimeter as $macroProcesses) {
-        expect($macroProcesses->count())->toBeGreaterThanOrEqual(3)
-            ->and($macroProcesses->count())->toBeLessThanOrEqual(5);
+        expect($macroProcesses->count())->toBeGreaterThanOrEqual($macroProcessRange['min'])
+            ->and($macroProcesses->count())->toBeLessThanOrEqual($macroProcessRange['max']);
     }
 
     $macroProcessPerimeterById = DB::table('macro_processuses')->pluck('perimeter_id', 'id');
     $processesByMacroProcess = DB::table('processes')->get()->groupBy('macroprocess_id');
 
     foreach ($processesByMacroProcess as $macroProcessId => $processes) {
-        expect($processes->count())->toBeGreaterThanOrEqual(3)
-            ->and($processes->count())->toBeLessThanOrEqual(10);
+        expect($processes->count())->toBeGreaterThanOrEqual($processRange['min'])
+            ->and($processes->count())->toBeLessThanOrEqual($processRange['max']);
 
         foreach ($processes as $process) {
             expect($process->perimeter_id)->toBe($macroProcessPerimeterById[$macroProcessId]);
@@ -1088,8 +1097,8 @@ it('chains macro-processes, processes, activities, operations and tasks coherent
     expect(DB::table('activity_process')->count())->toBe(DB::table('activities')->count());
 
     foreach ($activitiesByProcess as $processId => $links) {
-        expect($links->count())->toBeGreaterThanOrEqual(5)
-            ->and($links->count())->toBeLessThanOrEqual(10);
+        expect($links->count())->toBeGreaterThanOrEqual($activityRange['min'])
+            ->and($links->count())->toBeLessThanOrEqual($activityRange['max']);
 
         foreach ($links as $link) {
             expect($activityPerimeterById[$link->activity_id])->toBe($processPerimeterById[$processId]);
@@ -1107,8 +1116,8 @@ it('chains macro-processes, processes, activities, operations and tasks coherent
     $activityProcessByActivity = DB::table('activity_process')->pluck('process_id', 'activity_id');
 
     foreach ($operationsByActivity as $activityId => $links) {
-        expect($links->count())->toBeGreaterThanOrEqual(1)
-            ->and($links->count())->toBeLessThanOrEqual(3);
+        expect($links->count())->toBeGreaterThanOrEqual($operationRange['min'])
+            ->and($links->count())->toBeLessThanOrEqual($operationRange['max']);
 
         foreach ($links as $link) {
             expect($operationPerimeterById[$link->operation_id])->toBe($activityPerimeterById[$activityId]);
@@ -1125,8 +1134,8 @@ it('chains macro-processes, processes, activities, operations and tasks coherent
     expect(DB::table('operation_task')->count())->toBe(DB::table('tasks')->count());
 
     foreach ($tasksByOperation as $operationId => $links) {
-        expect($links->count())->toBeGreaterThanOrEqual(1)
-            ->and($links->count())->toBeLessThanOrEqual(3);
+        expect($links->count())->toBeGreaterThanOrEqual($taskRange['min'])
+            ->and($links->count())->toBeLessThanOrEqual($taskRange['max']);
 
         foreach ($links as $link) {
             expect($taskPerimeterById[$link->task_id])->toBe($operationPerimeterById[$operationId]);
@@ -1134,7 +1143,7 @@ it('chains macro-processes, processes, activities, operations and tasks coherent
     }
 });
 
-it('creates 5 to 20 actors per perimeter, each assigned to 1 to 5 operations of its own perimeter', function () {
+it('creates actors per perimeter, each assigned to operations of its own perimeter', function () {
     $this->artisan('mercator:generate-test-data', [
         '--perimeters' => 2,
         '--applications' => 0,
@@ -1145,9 +1154,11 @@ it('creates 5 to 20 actors per perimeter, each assigned to 1 to 5 operations of 
 
     expect($actorsByPerimeter)->toHaveCount(2);
 
+    $actorRange = config('data-scenarios.actors_per_perimeter');
+
     foreach ($actorsByPerimeter as $actors) {
-        expect($actors->count())->toBeGreaterThanOrEqual(5)
-            ->and($actors->count())->toBeLessThanOrEqual(20);
+        expect($actors->count())->toBeGreaterThanOrEqual($actorRange['min'])
+            ->and($actors->count())->toBeLessThanOrEqual($actorRange['max']);
     }
 
     $actorPerimeterById = DB::table('actors')->pluck('perimeter_id', 'id');
@@ -1157,7 +1168,7 @@ it('creates 5 to 20 actors per perimeter, each assigned to 1 to 5 operations of 
     foreach ($actorsByPerimeter->flatten(1) as $actor) {
         $links = $operationsByActor->get($actor->id) ?? collect();
 
-        expect($links->count())->toBeLessThanOrEqual(5);
+        expect($links->count())->toBeLessThanOrEqual(config('data-scenarios.actor_operations_per_actor.max'));
 
         foreach ($links as $link) {
             expect($operationPerimeterById[$link->operation_id])->toBe($actorPerimeterById[$actor->id]);
@@ -1165,7 +1176,7 @@ it('creates 5 to 20 actors per perimeter, each assigned to 1 to 5 operations of 
     }
 });
 
-it('creates 5 to 20 informations per perimeter', function () {
+it('creates informations per perimeter within the configured range', function () {
     $this->artisan('mercator:generate-test-data', [
         '--perimeters' => 3,
         '--applications' => 0,
@@ -1176,9 +1187,11 @@ it('creates 5 to 20 informations per perimeter', function () {
 
     expect($informationsByPerimeter)->toHaveCount(3);
 
+    $informationRange = config('data-scenarios.informations_per_perimeter');
+
     foreach ($informationsByPerimeter as $informations) {
-        expect($informations->count())->toBeGreaterThanOrEqual(5)
-            ->and($informations->count())->toBeLessThanOrEqual(20);
+        expect($informations->count())->toBeGreaterThanOrEqual($informationRange['min'])
+            ->and($informations->count())->toBeLessThanOrEqual($informationRange['max']);
     }
 });
 

@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreForestAdRequest;
 use App\Http\Requests\MassUpdateForestAdRequest;
 use App\Http\Requests\StoreForestAdRequest;
 use App\Http\Requests\UpdateForestAdRequest;
+use App\Models\ForestAd;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\ForestAd;
 use Symfony\Component\HttpFoundation\Response;
 
 class ForestAdController extends APIController
@@ -70,7 +70,7 @@ class ForestAdController extends APIController
     {
         abort_if(Gate::denies('forest_ad_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        ForestAd::query()->whereIn('id', $request->input('ids', []))->delete();
+        ForestAd::query()->whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
@@ -79,8 +79,8 @@ class ForestAdController extends APIController
     {
 
         $createdIds = [];
-        $model      = new ForestAd();
-        $fillable   = $model->getFillable();
+        $model = new ForestAd;
+        $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $item) {
             $attributes = collect($item)->only($fillable)->toArray();
@@ -93,14 +93,14 @@ class ForestAdController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateForestAdRequest $request)
     {
-        $model    = new ForestAd();
+        $model = new ForestAd;
         $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {

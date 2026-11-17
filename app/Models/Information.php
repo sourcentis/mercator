@@ -7,6 +7,7 @@ use App\Contracts\HasPrefix;
 use App\Contracts\HasUniqueIdentifierContract;
 use App\Factories\InformationFactory;
 use App\Traits\Auditable;
+use App\Traits\Blameable;
 use App\Traits\HasCartographers;
 use App\Traits\HasIcon;
 use App\Traits\HasPerimeter;
@@ -27,6 +28,7 @@ use Illuminate\Support\Collection;
  * @property string $name
  * @property string|null $type
  * @property string|null $attributes
+ * @property int|null $icon_id
  * @property string|null $description
  * @property string|null $owner
  * @property string|null $administrator
@@ -38,14 +40,16 @@ use Illuminate\Support\Collection;
  * @property int|null $security_need_auth
  * @property string|null $sensitivity
  * @property string|null $constraints
- * @property string|null $retention
+ * @property string|null $retention_period
+ * @property string|null $final_disposition
+ * @property string|null $retention_notes
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
  */
 class Information extends Model implements HasIconContract, HasPrefix, HasUniqueIdentifierContract
 {
-    use Auditable, HasFactory, HasIcon, HasUniqueIdentifier, SoftDeletes;
+    use Auditable, Blameable, HasFactory, HasIcon, HasUniqueIdentifier, SoftDeletes;
     use HasCartographers;
     use HasPerimeter;
 
@@ -60,6 +64,11 @@ class Information extends Model implements HasIconContract, HasPrefix, HasUnique
         'description',
         'owner',
         'constraints',
+        'type',
+        'attributes',
+        'retention_period',
+        'final_disposition',
+        'retention_notes',
     ];
 
     protected array $dates = [
@@ -74,6 +83,7 @@ class Information extends Model implements HasIconContract, HasPrefix, HasUnique
         'name',
         'type',
         'attributes',
+        'icon_id',
         'description',
         'owner',
         'administrator',
@@ -85,6 +95,9 @@ class Information extends Model implements HasIconContract, HasPrefix, HasUnique
         'security_need_auth',
         'sensitivity',
         'constraints',
+        'retention_period',
+        'final_disposition',
+        'retention_notes',
         'created_at',
         'updated_at',
         'deleted_at',

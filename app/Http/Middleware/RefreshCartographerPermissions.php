@@ -13,7 +13,7 @@ class RefreshCartographerPermissions
     {
         if ($request->user()) {
             $lastUpdate = Cache::get('cartographers_last_update', 0);
-            $sessionAt  = session('cartographer_permissions_at', 0);
+            $sessionAt = session('cartographer_permissions_at', 0);
 
             if ($sessionAt < $lastUpdate) {
                 Cartographer::loadSessionFor($request->user());

@@ -12,7 +12,7 @@
             <label class="recommended" for="patching_group">{{ trans('cruds.logicalServer.fields.attributes') }}</label>
             <select name="attributes_filter[]" class="form-control select2-free"
                     id="attributes_filter"
-                    multiple onchange="if (this.value.length==0) document.myform.clear.value = '1'; this.form.submit()">
+                    multiple data-autosubmit data-autosubmit-if-empty="clear">
                 @foreach($attributes_filter as $a)
                     @if (!in_array($a, $attributes_list))
                         <option selected>{{$a}}</option>
@@ -47,7 +47,7 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript">
+<script @nonce>
 document.addEventListener("DOMContentLoaded", function () {
 
   const ctx1 = document.getElementById('doughnut_chart1_div').getContext('2d');
@@ -235,7 +235,7 @@ document.addEventListener("DOMContentLoaded", function () {
             foreach($active_attributes_list as $attribute) {
                 $count = 0;
                 foreach($patches as $patch) {
-                    if (str_contains($patch->attributes, $attribute)) {
+                    if (in_array($attribute, explode(' ', $patch->attributes ?? ''), true)) {
                         if (
                             ($patch->next_update!==null) &&
                             (!Carbon\Carbon::parse($patch->next_update)->lt(today()))
@@ -258,7 +258,7 @@ document.addEventListener("DOMContentLoaded", function () {
             foreach($active_attributes_list as $attribute) {
                 $count = 0;
                 foreach($patches as $patch) {
-                    if (str_contains($patch->attributes, $attribute)) {
+                    if (in_array($attribute, explode(' ', $patch->attributes ?? ''), true)) {
                         if (
                         ($patch->next_update!==null) &&
                         (Carbon\Carbon::parse($patch->next_update)->lt(today()))
@@ -283,7 +283,7 @@ document.addEventListener("DOMContentLoaded", function () {
             foreach($active_attributes_list as $attribute) {
                 $count = 0;
                 foreach($patches as $patch) {
-                    if (str_contains($patch->attributes, $attribute)) {
+                    if (in_array($attribute, explode(' ', $patch->attributes ?? ''), true)) {
                         if (
                             ($patch->next_update===null)
                         )

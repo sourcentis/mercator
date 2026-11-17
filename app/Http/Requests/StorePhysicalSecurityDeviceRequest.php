@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Concerns\ValidatesIcon;
 use App\Rules\IPList;
 use Gate;
 use Illuminate\Validation\Rule;
@@ -9,6 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class StorePhysicalSecurityDeviceRequest extends BaseFormRequest
 {
+    use ValidatesIcon;
+
     protected array $htmlFields = ['description'];
 
     public function authorize(): bool

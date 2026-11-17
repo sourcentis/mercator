@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Gate;
-use Illuminate\Foundation\Http\FormRequest;
-use Symfony\Component\HttpFoundation\Response;
 use App\Models\Network;
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 
-class MassUpdateNetworkRequest extends FormRequest
+class MassUpdateNetworkRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -19,14 +18,14 @@ class MassUpdateNetworkRequest extends FormRequest
     public function rules()
     {
         // Règles du UpdateNetworkRequest classique
-        $updateRules = (new UpdateNetworkRequest())->rules();
+        $updateRules = (new UpdateNetworkRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new Network();
+        $model = new Network;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdateNetworkRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -37,10 +36,9 @@ class MassUpdateNetworkRequest extends FormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.roles']   = ['sometimes', 'array'];
+        $rules['items.*.roles'] = ['sometimes', 'array'];
         $rules['items.*.roles.*'] = ['integer'];
 
         return $rules;
     }
 }
-

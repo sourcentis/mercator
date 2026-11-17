@@ -3,141 +3,6 @@ CREATE TABLE IF NOT EXISTS "migrations"(
   "migration" varchar not null,
   "batch" integer not null
 );
-CREATE TABLE IF NOT EXISTS "activities"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "drp" text,
-  "drp_link" varchar,
-  "recovery_time_objective" integer,
-  "maximum_tolerable_downtime" integer,
-  "recovery_point_objective" integer,
-  "maximum_tolerable_data_loss" integer
-);
-CREATE TABLE IF NOT EXISTS "actors"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "nature" varchar,
-  "type" varchar,
-  "contact" varchar,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime
-);
-CREATE TABLE IF NOT EXISTS "application_blocks"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "responsible" varchar,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime
-);
-CREATE TABLE IF NOT EXISTS "application_modules"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "vendor" varchar,
-  "product" varchar,
-  "version" varchar
-);
-CREATE TABLE IF NOT EXISTS "application_services"(
-  "id" integer primary key autoincrement not null,
-  "description" text,
-  "exposition" varchar,
-  "name" varchar not null,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime
-);
-CREATE TABLE IF NOT EXISTS "dhcp_servers"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "address_ip" varchar
-);
-CREATE TABLE IF NOT EXISTS "dnsservers"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "address_ip" varchar
-);
-CREATE TABLE IF NOT EXISTS "domains"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "domain_ctrl_cnt" integer,
-  "user_count" integer,
-  "machine_count" integer,
-  "relation_inter_domaine" varchar,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime
-);
-CREATE TABLE IF NOT EXISTS "gateways"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "ip" varchar,
-  "authentification" varchar,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime
-);
-CREATE TABLE IF NOT EXISTS "information"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "owner" varchar,
-  "administrator" varchar,
-  "storage" varchar,
-  "security_need_c" integer,
-  "sensitivity" varchar,
-  "constraints" text,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "security_need_i" integer,
-  "security_need_a" integer,
-  "security_need_t" integer,
-  "retention" varchar,
-  "security_need_auth" integer
-);
-CREATE TABLE IF NOT EXISTS "lans"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" varchar,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime
-);
-CREATE TABLE IF NOT EXISTS "macro_processuses"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "io_elements" text,
-  "security_need_c" integer,
-  "owner" varchar,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "security_need_i" integer,
-  "security_need_a" integer,
-  "security_need_t" integer,
-  "security_need_auth" integer
-);
 CREATE TABLE IF NOT EXISTS "media"(
   "id" integer primary key autoincrement not null,
   "model_type" varchar not null,
@@ -159,31 +24,6 @@ CREATE INDEX "media_model_type_model_id_index" on "media"(
   "model_type",
   "model_id"
 );
-CREATE TABLE IF NOT EXISTS "network_switches"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "ip" varchar,
-  "description" text,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime
-);
-CREATE TABLE IF NOT EXISTS "networks"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "protocol_type" varchar,
-  "responsible" varchar,
-  "responsible_sec" varchar,
-  "security_need_c" integer,
-  "description" text,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "security_need_i" integer,
-  "security_need_a" integer,
-  "security_need_t" integer,
-  "security_need_auth" integer
-);
 CREATE TABLE IF NOT EXISTS "password_resets"(
   "email" varchar not null,
   "token" varchar not null,
@@ -196,45 +36,8 @@ CREATE TABLE IF NOT EXISTS "permissions"(
   "created_at" datetime,
   "updated_at" datetime,
   "module" varchar
-);
-CREATE TABLE IF NOT EXISTS "roles"(
-  "id" integer primary key autoincrement not null,
-  "title" varchar,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime
-);
-CREATE TABLE IF NOT EXISTS "tasks"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime
-);
-CREATE TABLE IF NOT EXISTS "vlans"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" varchar,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "vlan_id" integer
-);
-CREATE TABLE IF NOT EXISTS "wans"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime
-);
-CREATE TABLE IF NOT EXISTS "zone_admins"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime
+  ,
+  "ext_refs" varchar
 );
 CREATE TABLE IF NOT EXISTS "activity_operation"(
   "activity_id" integer not null,
@@ -260,19 +63,6 @@ CREATE TABLE IF NOT EXISTS "actor_operation"(
 );
 CREATE INDEX "actor_id_fk_1472680" on "actor_operation"("actor_id");
 CREATE INDEX "operation_id_fk_1472680" on "actor_operation"("operation_id");
-CREATE TABLE IF NOT EXISTS "annuaires"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "solution" varchar,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "zone_admin_id" integer,
-  foreign key("zone_admin_id") references "zone_admins"("id") on delete NO ACTION on update NO ACTION
-);
-CREATE UNIQUE INDEX "annuaires_name_unique" on "annuaires"("name");
-CREATE INDEX "zone_admin_fk_1482666" on "annuaires"("zone_admin_id");
 CREATE TABLE IF NOT EXISTS "application_module_application_service"(
   "application_service_id" integer not null,
   "application_module_id" integer not null,
@@ -307,17 +97,6 @@ CREATE INDEX "bay_id_fk_1485509" on "bay_wifi_terminal"("bay_id");
 CREATE INDEX "wifi_terminal_id_fk_1485509" on "bay_wifi_terminal"(
   "wifi_terminal_id"
 );
-CREATE TABLE IF NOT EXISTS "bays"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "room_id" integer,
-  foreign key("room_id") references "buildings"("id") on delete NO ACTION on update NO ACTION
-);
-CREATE INDEX "room_fk_1483441" on "bays"("room_id");
 CREATE TABLE IF NOT EXISTS "database_entity"(
   "database_id" integer not null,
   "entity_id" integer not null,
@@ -364,67 +143,6 @@ CREATE TABLE IF NOT EXISTS "entity_process"(
 );
 CREATE INDEX "entity_id_fk_1627958" on "entity_process"("entity_id");
 CREATE INDEX "process_id_fk_1627958" on "entity_process"("process_id");
-CREATE TABLE IF NOT EXISTS "application_flows"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "application_source_id" integer,
-  "service_source_id" integer,
-  "module_source_id" integer,
-  "database_source_id" integer,
-  "application_dest_id" integer,
-  "service_dest_id" integer,
-  "module_dest_id" integer,
-  "database_dest_id" integer,
-  "crypted" tinyint(1),
-  "bidirectional" tinyint(1),
-  "nature" varchar,
-  "attributes" varchar,
-  foreign key("application_dest_id") references "applications"("id") on delete NO ACTION on update NO ACTION,
-  foreign key("application_source_id") references "applications"("id") on delete NO ACTION on update NO ACTION,
-  foreign key("database_dest_id") references "databases"("id") on delete NO ACTION on update NO ACTION,
-  foreign key("database_source_id") references "databases"("id") on delete NO ACTION on update NO ACTION,
-  foreign key("module_dest_id") references "application_modules"("id") on delete NO ACTION on update NO ACTION,
-  foreign key("module_source_id") references "application_modules"("id") on delete NO ACTION on update NO ACTION,
-  foreign key("service_dest_id") references "application_services"("id") on delete NO ACTION on update NO ACTION,
-  foreign key("service_source_id") references "application_services"("id") on delete NO ACTION on update NO ACTION
-);
-CREATE INDEX "application_dest_fk_1485549" on "application_flows"(
-  "application_dest_id"
-);
-CREATE INDEX "application_source_fk_1485545" on "application_flows"(
-  "application_source_id"
-);
-CREATE INDEX "database_dest_fk_1485552" on "application_flows"(
-  "database_dest_id"
-);
-CREATE INDEX "database_source_fk_1485548" on "application_flows"(
-  "database_source_id"
-);
-CREATE INDEX "module_dest_fk_1485551" on "application_flows"("module_dest_id");
-CREATE INDEX "module_source_fk_1485547" on "application_flows"(
-  "module_source_id"
-);
-CREATE INDEX "service_dest_fk_1485550" on "application_flows"(
-  "service_dest_id"
-);
-CREATE INDEX "service_source_fk_1485546" on "application_flows"(
-  "service_source_id"
-);
-CREATE TABLE IF NOT EXISTS "forest_ads"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "zone_admin_id" integer,
-  foreign key("zone_admin_id") references "zone_admins"("id") on delete NO ACTION on update NO ACTION
-);
-CREATE INDEX "zone_admin_fk_1482667" on "forest_ads"("zone_admin_id");
 CREATE TABLE IF NOT EXISTS "information_process"(
   "information_id" integer not null,
   "process_id" integer not null,
@@ -509,28 +227,6 @@ CREATE TABLE IF NOT EXISTS "permission_role"(
 );
 CREATE INDEX "permission_id_fk_1470794" on "permission_role"("permission_id");
 CREATE INDEX "role_id_fk_1470794" on "permission_role"("role_id");
-CREATE TABLE IF NOT EXISTS "phones"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "type" varchar,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "site_id" integer,
-  "building_id" integer,
-  "physical_switch_id" integer,
-  "vendor" varchar,
-  "product" varchar,
-  "version" varchar,
-  "address_ip" varchar,
-  foreign key("building_id") references "buildings"("id") on delete NO ACTION on update NO ACTION,
-  foreign key("physical_switch_id") references "physical_switches"("id") on delete NO ACTION on update NO ACTION,
-  foreign key("site_id") references "sites"("id") on delete NO ACTION on update NO ACTION
-);
-CREATE INDEX "building_fk_1485480" on "phones"("building_id");
-CREATE INDEX "physical_switch_fk_5738332" on "phones"("physical_switch_id");
-CREATE INDEX "site_fk_1485479" on "phones"("site_id");
 CREATE TABLE IF NOT EXISTS "physical_router_vlan"(
   "physical_router_id" integer not null,
   "vlan_id" integer not null,
@@ -541,35 +237,6 @@ CREATE INDEX "physical_router_id_fk_1658250" on "physical_router_vlan"(
   "physical_router_id"
 );
 CREATE INDEX "vlan_id_fk_1658250" on "physical_router_vlan"("vlan_id");
-CREATE TABLE IF NOT EXISTS "relations"(
-  "id" integer primary key autoincrement not null,
-  "importance" integer,
-  "name" varchar not null,
-  "type" varchar,
-  "description" text,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "source_id" integer not null,
-  "destination_id" integer not null,
-  "attributes" varchar,
-  "reference" varchar,
-  "responsible" varchar,
-  "order_number" varchar,
-  "active" tinyint(1) not null default '1',
-  "start_date" date,
-  "end_date" date,
-  "comments" text,
-  "security_need_c" integer,
-  "security_need_i" integer,
-  "security_need_a" integer,
-  "security_need_t" integer,
-  "security_need_auth" integer,
-  foreign key("destination_id") references "entities"("id") on delete NO ACTION on update NO ACTION,
-  foreign key("source_id") references "entities"("id") on delete NO ACTION on update NO ACTION
-);
-CREATE INDEX "destination_fk_1494373" on "relations"("destination_id");
-CREATE INDEX "source_fk_1494372" on "relations"("source_id");
 CREATE TABLE IF NOT EXISTS "role_user"(
   "user_id" integer not null,
   "role_id" integer not null,
@@ -578,70 +245,6 @@ CREATE TABLE IF NOT EXISTS "role_user"(
 );
 CREATE INDEX "role_id_fk_1470803" on "role_user"("role_id");
 CREATE INDEX "user_id_fk_1470803" on "role_user"("user_id");
-CREATE TABLE IF NOT EXISTS "storage_devices"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "site_id" integer,
-  "building_id" integer,
-  "bay_id" integer,
-  "physical_switch_id" integer,
-  "vendor" varchar,
-  "product" varchar,
-  "version" varchar,
-  "address_ip" varchar,
-  "type" varchar,
-  foreign key("bay_id") references "bays"("id") on delete NO ACTION on update NO ACTION,
-  foreign key("building_id") references "buildings"("id") on delete NO ACTION on update NO ACTION,
-  foreign key("physical_switch_id") references "physical_switches"("id") on delete NO ACTION on update NO ACTION,
-  foreign key("site_id") references "sites"("id") on delete NO ACTION on update NO ACTION
-);
-CREATE INDEX "bay_fk_1485363" on "storage_devices"("bay_id");
-CREATE INDEX "building_fk_1485362" on "storage_devices"("building_id");
-CREATE INDEX "physical_switch_fk_4025543" on "storage_devices"(
-  "physical_switch_id"
-);
-CREATE INDEX "site_fk_1485361" on "storage_devices"("site_id");
-CREATE TABLE IF NOT EXISTS "wifi_terminals"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "type" varchar,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "site_id" integer,
-  "building_id" integer,
-  "physical_switch_id" integer,
-  "vendor" varchar,
-  "product" varchar,
-  "version" varchar,
-  "address_ip" varchar,
-  foreign key("building_id") references "buildings"("id") on delete NO ACTION on update NO ACTION,
-  foreign key("physical_switch_id") references "physical_switches"("id") on delete NO ACTION on update NO ACTION,
-  foreign key("site_id") references "sites"("id") on delete NO ACTION on update NO ACTION
-);
-CREATE INDEX "building_fk_1485508" on "wifi_terminals"("building_id");
-CREATE INDEX "physical_switch_fk_593584" on "wifi_terminals"(
-  "physical_switch_id"
-);
-CREATE INDEX "site_fk_1485507" on "wifi_terminals"("site_id");
-CREATE TABLE IF NOT EXISTS "certificates"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "type" varchar,
-  "description" text,
-  "start_validity" date,
-  "end_validity" date,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "status" integer,
-  "last_notification" datetime
-);
 CREATE TABLE IF NOT EXISTS "certificate_logical_server"(
   "certificate_id" integer not null,
   "logical_server_id" integer not null,
@@ -666,27 +269,6 @@ CREATE INDEX "certificate_id_fk_4584393" on "application_certificate"(
 CREATE INDEX "m_application_id_fk_4584393s" on "application_certificate"(
   "application_id"
 );
-CREATE TABLE IF NOT EXISTS "physical_routers"(
-  "id" integer primary key autoincrement not null,
-  "description" text,
-  "type" varchar,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "site_id" integer,
-  "building_id" integer,
-  "bay_id" integer,
-  "name" varchar not null,
-  "vendor" varchar,
-  "product" varchar,
-  "version" varchar,
-  foreign key("site_id") references sites("id") on delete no action on update no action,
-  foreign key("building_id") references buildings("id") on delete no action on update no action,
-  foreign key("bay_id") references bays("id") on delete no action on update no action
-);
-CREATE INDEX "bay_fk_1485499" on "physical_routers"("bay_id");
-CREATE INDEX "building_fk_1485498" on "physical_routers"("building_id");
-CREATE INDEX "site_fk_1485497" on "physical_routers"("site_id");
 CREATE TABLE IF NOT EXISTS "application_events"(
   "id" integer primary key autoincrement not null,
   "user_id" integer not null,
@@ -694,6 +276,7 @@ CREATE TABLE IF NOT EXISTS "application_events"(
   "message" text not null,
   "created_at" datetime,
   "updated_at" datetime,
+  "ext_refs" varchar,
   foreign key("user_id") references "users"("id"),
   foreign key("application_id") references "applications"("id") on delete cascade
 );
@@ -709,42 +292,6 @@ CREATE INDEX "m_application_id_fk_1486547" on "application_workstation"(
 CREATE INDEX "workstation_id_fk_1486547" on "application_workstation"(
   "workstation_id"
 );
-CREATE TABLE IF NOT EXISTS "operations"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "process_id" integer,
-  foreign key("process_id") references "processes"("id") on delete CASCADE on update NO ACTION
-);
-CREATE INDEX "process_id_fk_7945129" on "operations"("process_id");
-CREATE TABLE IF NOT EXISTS "external_connected_entities"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "contacts" varchar,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "description" text,
-  "type" varchar,
-  "entity_id" integer,
-  "network_id" integer,
-  "src" varchar,
-  "dest" varchar,
-  "src_desc" varchar,
-  "dest_desc" varchar,
-  "security" text,
-  foreign key("entity_id") references "entities"("id") on delete CASCADE on update NO ACTION,
-  foreign key("network_id") references "networks"("id") on delete CASCADE on update NO ACTION
-);
-CREATE INDEX "entity_id_fk_1295034" on "external_connected_entities"(
-  "entity_id"
-);
-CREATE INDEX "network_id_fk_8596554" on "external_connected_entities"(
-  "network_id"
-);
 CREATE TABLE IF NOT EXISTS "database_logical_server"(
   "database_id" integer not null,
   "logical_server_id" integer not null
@@ -754,132 +301,6 @@ CREATE INDEX "database_id_fk_1542475" on "database_logical_server"(
 );
 CREATE INDEX "logical_server_id_fk_1542475" on "database_logical_server"(
   "logical_server_id"
-);
-CREATE TABLE IF NOT EXISTS "physical_links"(
-  "id" integer primary key autoincrement not null,
-  "src_port" varchar,
-  "dest_port" varchar,
-  "peripheral_src_id" integer,
-  "phone_src_id" integer,
-  "physical_router_src_id" integer,
-  "physical_security_device_src_id" integer,
-  "physical_server_src_id" integer,
-  "physical_switch_src_id" integer,
-  "storage_device_src_id" integer,
-  "wifi_terminal_src_id" integer,
-  "workstation_src_id" integer,
-  "peripheral_dest_id" integer,
-  "phone_dest_id" integer,
-  "physical_router_dest_id" integer,
-  "physical_security_device_dest_id" integer,
-  "physical_server_dest_id" integer,
-  "physical_switch_dest_id" integer,
-  "storage_device_dest_id" integer,
-  "wifi_terminal_dest_id" integer,
-  "workstation_dest_id" integer,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "router_src_id" integer,
-  "router_dest_id" integer,
-  "network_switch_src_id" integer,
-  "network_switch_dest_id" integer,
-  "logical_server_src_id" integer,
-  "logical_server_dest_id" integer,
-  "type" varchar,
-  "color" varchar,
-  foreign key("workstation_dest_id") references workstations("id") on delete cascade on update no action,
-  foreign key("wifi_terminal_dest_id") references wifi_terminals("id") on delete cascade on update no action,
-  foreign key("storage_device_dest_id") references storage_devices("id") on delete cascade on update no action,
-  foreign key("physical_switch_dest_id") references physical_switches("id") on delete cascade on update no action,
-  foreign key("physical_server_dest_id") references physical_servers("id") on delete cascade on update no action,
-  foreign key("physical_security_device_dest_id") references physical_security_devices("id") on delete cascade on update no action,
-  foreign key("physical_router_dest_id") references physical_routers("id") on delete cascade on update no action,
-  foreign key("phone_dest_id") references phones("id") on delete cascade on update no action,
-  foreign key("peripheral_dest_id") references peripherals("id") on delete cascade on update no action,
-  foreign key("workstation_src_id") references workstations("id") on delete cascade on update no action,
-  foreign key("wifi_terminal_src_id") references wifi_terminals("id") on delete cascade on update no action,
-  foreign key("storage_device_src_id") references storage_devices("id") on delete cascade on update no action,
-  foreign key("physical_switch_src_id") references physical_switches("id") on delete cascade on update no action,
-  foreign key("physical_server_src_id") references physical_servers("id") on delete cascade on update no action,
-  foreign key("physical_security_device_src_id") references physical_security_devices("id") on delete cascade on update no action,
-  foreign key("physical_router_src_id") references physical_routers("id") on delete cascade on update no action,
-  foreign key("phone_src_id") references phones("id") on delete cascade on update no action,
-  foreign key("peripheral_src_id") references peripherals("id") on delete cascade on update no action,
-  foreign key("router_src_id") references "routers"("id") on delete CASCADE on update NO ACTION,
-  foreign key("router_dest_id") references "routers"("id") on delete CASCADE on update NO ACTION,
-  foreign key("network_switch_src_id") references "network_switches"("id") on delete CASCADE on update NO ACTION,
-  foreign key("network_switch_dest_id") references "network_switches"("id") on delete CASCADE on update NO ACTION,
-  foreign key("logical_server_src_id") references "logical_servers"("id") on delete CASCADE on update NO ACTION,
-  foreign key("logical_server_dest_id") references "logical_servers"("id") on delete CASCADE on update NO ACTION
-);
-CREATE INDEX "peripheral_dest_id_fk" on "physical_links"("peripheral_dest_id");
-CREATE INDEX "peripheral_src_id_fk" on "physical_links"("peripheral_src_id");
-CREATE INDEX "phone_dest_id_fk" on "physical_links"("phone_dest_id");
-CREATE INDEX "phone_src_id_fk" on "physical_links"("phone_src_id");
-CREATE INDEX "physical_router_dest_id_fk" on "physical_links"(
-  "physical_router_dest_id"
-);
-CREATE INDEX "physical_router_src_id_fk" on "physical_links"(
-  "physical_router_src_id"
-);
-CREATE INDEX "physical_security_device_dest_id_fk" on "physical_links"(
-  "physical_security_device_dest_id"
-);
-CREATE INDEX "physical_security_device_src_id_fk" on "physical_links"(
-  "physical_security_device_src_id"
-);
-CREATE INDEX "physical_server_dest_id_fk" on "physical_links"(
-  "physical_server_dest_id"
-);
-CREATE INDEX "physical_server_src_id_fk" on "physical_links"(
-  "physical_server_src_id"
-);
-CREATE INDEX "physical_switch_dest_id_fk" on "physical_links"(
-  "physical_switch_dest_id"
-);
-CREATE INDEX "physical_switch_src_id_fk" on "physical_links"(
-  "physical_switch_src_id"
-);
-CREATE INDEX "storage_device_dest_id_fk" on "physical_links"(
-  "storage_device_dest_id"
-);
-CREATE INDEX "storage_device_src_id_fk" on "physical_links"(
-  "storage_device_src_id"
-);
-CREATE INDEX "wifi_terminal_dest_id_fk" on "physical_links"(
-  "wifi_terminal_dest_id"
-);
-CREATE INDEX "wifi_terminal_src_id_fk" on "physical_links"(
-  "wifi_terminal_src_id"
-);
-CREATE INDEX "workstation_dest_id_fk" on "physical_links"(
-  "workstation_dest_id"
-);
-CREATE INDEX "workstation_src_id_fk" on "physical_links"("workstation_src_id");
-CREATE INDEX "router_src_id_fk" on "physical_links"("router_src_id");
-CREATE INDEX "router_dest_id_fk" on "physical_links"("router_dest_id");
-CREATE INDEX "network_switches_src_id_fk" on "physical_links"(
-  "network_switch_src_id"
-);
-CREATE INDEX "network_switches_dest_id_fk" on "physical_links"(
-  "network_switch_dest_id"
-);
-CREATE INDEX "logical_server_src_id_fk" on "physical_links"(
-  "logical_server_src_id"
-);
-CREATE INDEX "logical_server_dest_id_fk" on "physical_links"(
-  "logical_server_dest_id"
-);
-CREATE TABLE IF NOT EXISTS "documents"(
-  "id" integer primary key autoincrement not null,
-  "filename" varchar not null,
-  "mimetype" varchar not null,
-  "size" integer not null,
-  "hash" varchar not null,
-  "deleted_at" datetime,
-  "created_at" datetime,
-  "updated_at" datetime
 );
 CREATE TABLE IF NOT EXISTS "activity_document"(
   "activity_id" integer not null,
@@ -927,42 +348,6 @@ CREATE INDEX "cpe_version_fk_1485479" on "cpe_versions"("cpe_product_id");
 CREATE UNIQUE INDEX "cpe_versions_cpe_product_id_name_unique" on "cpe_versions"(
   "cpe_product_id",
   "name"
-);
-CREATE TABLE IF NOT EXISTS "security_controls"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime
-);
-CREATE TABLE IF NOT EXISTS "data_processing"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "responsible" text,
-  "purpose" text,
-  "categories" text,
-  "recipients" text,
-  "transfert" text,
-  "retention" text,
-  "controls" text,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "legal_basis" varchar,
-  "lawfulness" text,
-  "lawfulness_legitimate_interest" tinyint(1),
-  "lawfulness_public_interest" tinyint(1),
-  "lawfulness_vital_interest" tinyint(1),
-  "lawfulness_legal_obligation" tinyint(1),
-  "lawfulness_contract" tinyint(1),
-  "lawfulness_consent" tinyint(1),
-  "data_source" text,
-  "data_collection_obligation" text,
-  "data_subject_rights" text,
-  "automated_decision_making" text,
-  "update_date" date
 );
 CREATE TABLE IF NOT EXISTS "data_processing_document"(
   "data_processing_id" integer not null,
@@ -1109,47 +494,6 @@ CREATE INDEX "network_switch_id_fk_543323" on "network_switch_physical_switch"(
 CREATE INDEX "physical_switch_id_fk_4543143" on "network_switch_physical_switch"(
   "physical_switch_id"
 );
-CREATE TABLE IF NOT EXISTS "peripherals"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "type" varchar,
-  "description" text,
-  "responsible" varchar,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "site_id" integer,
-  "building_id" integer,
-  "bay_id" integer,
-  "vendor" varchar,
-  "product" varchar,
-  "version" varchar,
-  "address_ip" varchar,
-  "domain" varchar,
-  "provider_id" integer,
-  "icon_id" integer,
-  foreign key("provider_id") references entities("id") on delete no action on update no action,
-  foreign key("bay_id") references bays("id") on delete no action on update no action,
-  foreign key("building_id") references buildings("id") on delete no action on update no action,
-  foreign key("site_id") references sites("id") on delete no action on update no action,
-  foreign key("icon_id") references "documents"("id") on update NO ACTION
-);
-CREATE INDEX "bay_fk_1485451" on "peripherals"("bay_id");
-CREATE INDEX "building_fk_1485450" on "peripherals"("building_id");
-CREATE INDEX "entity_id_fk_4383234" on "peripherals"("provider_id");
-CREATE INDEX "site_fk_1485449" on "peripherals"("site_id");
-CREATE INDEX "document_id_fk_129484" on "peripherals"("icon_id");
-CREATE TABLE IF NOT EXISTS "sites"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "icon_id" integer,
-  foreign key("icon_id") references "documents"("id") on update NO ACTION
-);
-CREATE INDEX "document_id_fk_129485" on "sites"("icon_id");
 CREATE TABLE IF NOT EXISTS "audit_logs"(
   "id" integer primary key autoincrement not null,
   "description" varchar not null,
@@ -1161,53 +505,6 @@ CREATE TABLE IF NOT EXISTS "audit_logs"(
   "created_at" datetime,
   "updated_at" datetime
 );
-CREATE TABLE IF NOT EXISTS "graphs"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "type" varchar,
-  "content" text,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "class" integer
-);
-CREATE TABLE IF NOT EXISTS "processes"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "owner" varchar,
-  "security_need_c" integer,
-  "in_out" text,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "macroprocess_id" integer,
-  "security_need_i" integer,
-  "security_need_a" integer,
-  "security_need_t" integer,
-  "security_need_auth" integer,
-  "icon_id" integer,
-  foreign key("macroprocess_id") references macro_processuses("id") on delete no action on update no action,
-  foreign key("icon_id") references "documents"("id") on update NO ACTION
-);
-CREATE INDEX "process_fk_4342342" on "processes"("macroprocess_id");
-CREATE INDEX "document_id_fk_5938654" on "processes"("icon_id");
-CREATE TABLE IF NOT EXISTS "containers"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "type" varchar,
-  "description" text,
-  "icon_id" integer,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  foreign key("icon_id") references "documents"("id") on update NO ACTION
-);
-CREATE UNIQUE INDEX "container_name_unique" on "containers"(
-  "name",
-  "deleted_at"
-);
-CREATE INDEX "document_id_fk_43948593" on "containers"("icon_id");
 CREATE TABLE IF NOT EXISTS "container_logical_server"(
   "container_id" integer not null,
   "logical_server_id" integer not null,
@@ -1244,71 +541,6 @@ CREATE INDEX "application_id_fk_0394834858" on "activity_application"(
 CREATE INDEX "process_id_fk_394823838" on "activity_application"(
   "activity_id"
 );
-CREATE TABLE IF NOT EXISTS "applications"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "security_need_c" integer,
-  "responsible" varchar,
-  "type" varchar,
-  "technology" varchar,
-  "external" varchar,
-  "users" varchar,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "entity_resp_id" integer,
-  "application_block_id" integer,
-  "documentation" varchar,
-  "security_need_i" integer,
-  "security_need_a" integer,
-  "security_need_t" integer,
-  "version" varchar,
-  "functional_referent" varchar,
-  "editor" varchar,
-  "install_date" date,
-  "update_date" date,
-  "rto" integer,
-  "rpo" integer,
-  "vendor" varchar,
-  "product" varchar,
-  "attributes" varchar,
-  "patching_frequency" integer,
-  "next_update" date,
-  "icon_id" integer,
-  "security_need_auth" integer,
-  foreign key("icon_id") references documents("id") on delete no action on update no action,
-  foreign key("application_block_id") references application_blocks("id") on delete no action on update no action,
-  foreign key("entity_resp_id") references entities("id") on delete no action on update no action
-);
-CREATE INDEX "application_block_fk_1644592" on "applications"(
-  "application_block_id"
-);
-CREATE INDEX "document_id_fk_4394343" on "applications"("icon_id");
-CREATE INDEX "entity_resp_fk_1488612" on "applications"("entity_resp_id");
-CREATE TABLE IF NOT EXISTS "entities"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "security_level" text,
-  "contact_point" text,
-  "description" text,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "is_external" tinyint(1),
-  "entity_type" varchar,
-  "attributes" varchar,
-  "reference" varchar,
-  "parent_entity_id" integer,
-  "icon_id" integer,
-  "external_ref_id" varchar,
-  foreign key("icon_id") references documents("id") on delete no action on update no action,
-  foreign key("parent_entity_id") references entities("id") on delete set null on update no action
-);
-CREATE INDEX "document_id_fk_129486" on "entities"("icon_id");
-CREATE INDEX "entity_id_fk_4398013" on "entities"("parent_entity_id");
-CREATE INDEX "is_external" on "entities"("is_external");
-CREATE INDEX "type" on "entities"("entity_type");
 CREATE TABLE IF NOT EXISTS "container_database"(
   "database_id" integer not null,
   "container_id" integer not null,
@@ -1357,6 +589,8 @@ CREATE TABLE IF NOT EXISTS "users"(
   "updated_at" datetime,
   "deleted_at" datetime,
   "login" varchar not null
+  ,
+  "flow_label" varchar
 );
 CREATE UNIQUE INDEX "users_email_unique" on "users"("email", "deleted_at");
 CREATE TABLE IF NOT EXISTS "document_external_connected_entity"(
@@ -1383,24 +617,6 @@ CREATE INDEX "external_connected_entity_idx_59458458" on "external_connected_ent
 CREATE INDEX "subnetwork_idx_4343848" on "external_connected_entity_subnetwork"(
   "subnetwork_id"
 );
-CREATE TABLE IF NOT EXISTS "buildings"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "site_id" integer,
-  "attributes" varchar,
-  "type" varchar,
-  "building_id" integer,
-  "icon_id" integer,
-  foreign key("site_id") references sites("id") on delete no action on update no action,
-  foreign key("building_id") references "buildings"("id") on delete set null,
-  foreign key("icon_id") references "documents"("id")
-);
-CREATE INDEX "site_fk_1483431" on "buildings"("site_id");
-CREATE INDEX "document_id_fk_49574431" on "buildings"("icon_id");
 CREATE TABLE IF NOT EXISTS "cluster_logical_server"(
   "cluster_id" integer not null,
   "logical_server_id" integer not null,
@@ -1411,20 +627,6 @@ CREATE TABLE IF NOT EXISTS "cluster_logical_server"(
 CREATE INDEX "cluster_logical_server_logical_server_id_index" on "cluster_logical_server"(
   "logical_server_id"
 );
-CREATE TABLE IF NOT EXISTS "clusters"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "type" varchar,
-  "description" text,
-  "address_ip" varchar,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "attributes" varchar,
-  "icon_id" integer,
-  foreign key("icon_id") references "documents"("id")
-);
-CREATE INDEX "document_id_fk_495432841" on "clusters"("icon_id");
 CREATE TABLE IF NOT EXISTS "cluster_physical_server"(
   "cluster_id" integer not null,
   "physical_server_id" integer not null,
@@ -1435,48 +637,6 @@ CREATE TABLE IF NOT EXISTS "cluster_physical_server"(
 CREATE INDEX "cluster_physical_server_physical_server_id_index" on "cluster_physical_server"(
   "physical_server_id"
 );
-CREATE TABLE IF NOT EXISTS "physical_servers"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "responsible" varchar,
-  "configuration" text,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "site_id" integer,
-  "building_id" integer,
-  "bay_id" integer,
-  "physical_switch_id" integer,
-  "type" varchar,
-  "vendor" varchar,
-  "product" varchar,
-  "version" varchar,
-  "address_ip" varchar,
-  "cpu" varchar,
-  "memory" varchar,
-  "disk" varchar,
-  "disk_used" varchar,
-  "operating_system" varchar,
-  "install_date" datetime,
-  "update_date" datetime,
-  "patching_group" varchar,
-  "paching_frequency" integer,
-  "next_update" date,
-  "icon_id" integer,
-  foreign key("icon_id") references documents("id") on delete no action on update no action,
-  foreign key("site_id") references sites("id") on delete no action on update no action,
-  foreign key("physical_switch_id") references physical_switches("id") on delete no action on update no action,
-  foreign key("building_id") references buildings("id") on delete no action on update no action,
-  foreign key("bay_id") references bays("id") on delete no action on update no action
-);
-CREATE INDEX "bay_fk_1485324" on "physical_servers"("bay_id");
-CREATE INDEX "building_fk_1485323" on "physical_servers"("building_id");
-CREATE INDEX "document_id_fk_5328384" on "physical_servers"("icon_id");
-CREATE INDEX "physical_switch_fk_8732342" on "physical_servers"(
-  "physical_switch_id"
-);
-CREATE INDEX "site_fk_1485322" on "physical_servers"("site_id");
 CREATE TABLE IF NOT EXISTS "cluster_router"(
   "cluster_id" integer not null,
   "router_id" integer not null,
@@ -1485,19 +645,6 @@ CREATE TABLE IF NOT EXISTS "cluster_router"(
   primary key("cluster_id", "router_id")
 );
 CREATE INDEX "cluster_router_router_id_index" on "cluster_router"("router_id");
-CREATE TABLE IF NOT EXISTS "routers"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "rules" text,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "ip_addresses" text,
-  "type" varchar,
-  "cluster_id" integer
-);
-CREATE INDEX "cluster_id_fk_4398834" on "routers"("cluster_id");
 CREATE TABLE IF NOT EXISTS "application_security_device"(
   "security_device_id" integer not null,
   "application_id" integer not null,
@@ -1510,50 +657,6 @@ CREATE INDEX "m_application_id_fk_41923483" on "application_security_device"(
 CREATE INDEX "security_device_id_fk_304832731" on "application_security_device"(
   "security_device_id"
 );
-CREATE TABLE IF NOT EXISTS "physical_security_devices"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "type" varchar,
-  "description" text,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "site_id" integer,
-  "building_id" integer,
-  "bay_id" integer,
-  "address_ip" varchar,
-  "attributes" varchar,
-  "icon_id" integer,
-  foreign key("site_id") references sites("id") on delete no action on update no action,
-  foreign key("building_id") references buildings("id") on delete no action on update no action,
-  foreign key("bay_id") references bays("id") on delete no action on update no action,
-  foreign key("icon_id") references "documents"("id")
-);
-CREATE INDEX "bay_fk_1485519" on "physical_security_devices"("bay_id");
-CREATE INDEX "building_fk_1485518" on "physical_security_devices"(
-  "building_id"
-);
-CREATE INDEX "site_fk_1485517" on "physical_security_devices"("site_id");
-CREATE INDEX "document_id_fk_493827312" on "physical_security_devices"(
-  "icon_id"
-);
-CREATE TABLE IF NOT EXISTS "security_devices"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "vendor" varchar,
-  "product" varchar,
-  "version" varchar,
-  "type" varchar,
-  "attributes" varchar,
-  "icon_id" integer,
-  "address_ip" varchar,
-  foreign key("icon_id") references "documents"("id")
-);
-CREATE INDEX "document_id_fk_432938439" on "security_devices"("icon_id");
 CREATE TABLE IF NOT EXISTS "network_switch_vlan"(
   "network_switch_id" integer not null,
   "vlan_id" integer not null,
@@ -1566,40 +669,6 @@ CREATE INDEX "network_switch_vlan_network_switch_id_index" on "network_switch_vl
 );
 CREATE INDEX "network_switch_vlan_vlan_id_index" on "network_switch_vlan"(
   "vlan_id"
-);
-CREATE TABLE IF NOT EXISTS "subnetworks"(
-  "id" integer primary key autoincrement not null,
-  "description" text,
-  "address" varchar,
-  "ip_allocation_type" varchar,
-  "responsible_exp" varchar,
-  "dmz" varchar,
-  "wifi" varchar,
-  "name" varchar not null,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "connected_subnets_id" integer,
-  "gateway_id" integer,
-  "zone" varchar,
-  "vlan_id" integer,
-  "network_id" integer,
-  "default_gateway" varchar,
-  "subnetwork_id" integer,
-  foreign key("network_id") references networks("id") on delete no action on update no action,
-  foreign key("vlan_id") references vlans("id") on delete no action on update no action,
-  foreign key("connected_subnets_id") references subnetworks("id") on delete no action on update no action,
-  foreign key("gateway_id") references gateways("id") on delete no action on update no action,
-  foreign key("subnetwork_id") references "subnetworks"("id") on delete set null
-);
-CREATE INDEX "connected_subnets_fk_1483256" on "subnetworks"(
-  "connected_subnets_id"
-);
-CREATE INDEX "gateway_fk_1492376" on "subnetworks"("gateway_id");
-CREATE INDEX "network_fk_5476544" on "subnetworks"("network_id");
-CREATE INDEX "vlan_fk_6844934" on "subnetworks"("vlan_id");
-CREATE INDEX "subnetworks_subnetwork_id_index" on "subnetworks"(
-  "subnetwork_id"
 );
 CREATE TABLE IF NOT EXISTS "oauth_device_codes"(
   "id" varchar not null,
@@ -1631,27 +700,6 @@ CREATE TABLE IF NOT EXISTS "mercator_modules"(
   "updated_at" datetime,
   primary key("name")
 );
-CREATE TABLE IF NOT EXISTS "databases"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "responsible" varchar,
-  "type" varchar,
-  "security_need_c" integer,
-  "external" varchar,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "entity_resp_id" integer,
-  "security_need_i" integer,
-  "security_need_a" integer,
-  "security_need_t" integer,
-  "security_need_auth" integer,
-  "icon_id" integer,
-  foreign key("entity_resp_id") references entities("id") on delete no action on update no action,
-  foreign key("icon_id") references "documents"("id")
-);
-CREATE INDEX "entity_resp_fk_1485569" on "databases"("entity_resp_id");
 CREATE TABLE IF NOT EXISTS "application_flow_information"(
   "id" integer primary key autoincrement not null,
   "flux_id" integer not null,
@@ -1721,40 +769,976 @@ CREATE TABLE IF NOT EXISTS "oauth_personal_access_clients"(
   "created_at" datetime,
   "updated_at" datetime
 );
-CREATE TABLE IF NOT EXISTS "mans"(
+CREATE TABLE IF NOT EXISTS "information_information"(
+  "information_id" integer not null,
+  "child_information_id" integer not null,
+  foreign key("information_id") references "information"("id") on delete cascade,
+  foreign key("child_information_id") references "information"("id") on delete cascade,
+  primary key("information_id", "child_information_id")
+);
+CREATE TABLE IF NOT EXISTS "application_module_entity"(
+  "application_module_id" integer not null,
+  "entity_id" integer not null,
+  foreign key("application_module_id") references "application_modules"("id") on delete cascade,
+  foreign key("entity_id") references "entities"("id") on delete cascade,
+  primary key("application_module_id", "entity_id")
+);
+CREATE TABLE IF NOT EXISTS "saved_queries"(
   "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
+  "query" text not null,
+  "is_public" tinyint(1) not null default '0',
+  "user_id" integer,
+  "created_at" datetime,
+  "updated_at" datetime,
+  foreign key("user_id") references "users"("id") on delete set null
+);
+CREATE INDEX "saved_queries_user_id_is_public_index" on "saved_queries"(
+  "user_id",
+  "is_public"
+);
+CREATE TABLE IF NOT EXISTS "domain_forest_ad"(
+  "forest_ad_id" integer not null,
+  "domain_id" integer not null,
+  foreign key("forest_ad_id") references forest_ads("id") on delete cascade on update no action,
+  foreign key("domain_id") references domains("id") on delete cascade on update no action,
+  foreign key("domain_id") references "domains"("id") on delete CASCADE on update NO ACTION
+);
+CREATE INDEX "domaine_ad_id_fk_1492084" on "domain_forest_ad"("domain_id");
+CREATE INDEX "forest_ad_id_fk_1492084" on "domain_forest_ad"("forest_ad_id");
+CREATE TABLE IF NOT EXISTS "parameters"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "value" text,
+  "created_at" datetime,
+  "updated_at" datetime
+);
+CREATE UNIQUE INDEX "parameters_name_unique" on "parameters"("name");
+CREATE TABLE IF NOT EXISTS "zone_zone"(
+  "zone_id" integer not null,
+  "related_zone_id" integer not null,
+  foreign key("zone_id") references "zones"("id") on delete cascade,
+  foreign key("related_zone_id") references "zones"("id") on delete cascade,
+  primary key("zone_id", "related_zone_id")
+);
+CREATE TABLE IF NOT EXISTS "building_zone"(
+  "building_id" integer not null,
+  "zone_id" integer not null,
+  foreign key("building_id") references "buildings"("id") on delete cascade,
+  foreign key("zone_id") references "zones"("id") on delete cascade,
+  primary key("building_id", "zone_id")
+);
+CREATE TABLE IF NOT EXISTS "admin_user_zone"(
+  "admin_user_id" integer not null,
+  "zone_id" integer not null,
+  foreign key("admin_user_id") references "admin_users"("id") on delete cascade,
+  foreign key("zone_id") references "zones"("id") on delete cascade,
+  primary key("admin_user_id", "zone_id")
+);
+CREATE TABLE IF NOT EXISTS "backup_logical_server"(
+  "backup_id" integer not null,
+  "logical_server_id" integer not null,
+  foreign key("backup_id") references "backups"("id") on delete cascade,
+  foreign key("logical_server_id") references "logical_servers"("id") on delete cascade,
+  primary key("backup_id", "logical_server_id")
+);
+CREATE TABLE IF NOT EXISTS "backup_storage_device"(
+  "backup_id" integer not null,
+  "storage_device_id" integer not null,
+  foreign key("backup_id") references "backups"("id") on delete cascade,
+  foreign key("storage_device_id") references "storage_devices"("id") on delete cascade,
+  primary key("backup_id", "storage_device_id")
+);
+CREATE TABLE IF NOT EXISTS "cartographers"(
+  "id" integer primary key autoincrement not null,
+  "cartographiable_type" varchar not null,
+  "cartographiable_id" integer not null,
+  "user_id" integer,
+  "role_id" integer,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime
+);
+CREATE INDEX "cartographers_cartographiable_type_cartographiable_id_index" on "cartographers"(
+  "cartographiable_type",
+  "cartographiable_id"
+);
+CREATE INDEX "cartographers_user_id_index" on "cartographers"("user_id");
+CREATE INDEX "cartographers_role_id_index" on "cartographers"("role_id");
+CREATE TABLE IF NOT EXISTS "jobs"(
+  "id" integer primary key autoincrement not null,
+  "queue" varchar not null,
+  "payload" text not null,
+  "attempts" integer not null,
+  "reserved_at" integer,
+  "available_at" integer not null,
+  "created_at" integer not null
+);
+CREATE INDEX "jobs_queue_index" on "jobs"("queue");
+CREATE TABLE IF NOT EXISTS "application_document"(
+  "application_id" integer not null,
+  "document_id" integer not null
+);
+CREATE INDEX "application_id_fk_7812341" on "application_document"(
+  "application_id"
+);
+CREATE INDEX "document_id_fk_7812342" on "application_document"("document_id");
+CREATE TABLE IF NOT EXISTS "monarc_sync_items"(
+  "id" integer primary key autoincrement not null,
+  "model" varchar not null,
+  "mercator_id" integer not null,
+  "object_uuid" varchar not null,
+  "anr_id" integer not null,
+  "sent_at" datetime,
+  "created_at" datetime,
+  "updated_at" datetime
+);
+CREATE UNIQUE INDEX "monarc_sync_items_unique" on "monarc_sync_items"(
+  "anr_id",
+  "model",
+  "mercator_id"
+);
+CREATE TABLE IF NOT EXISTS "perimeters"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "created_at" datetime,
+  "updated_at" datetime
+);
+CREATE TABLE IF NOT EXISTS "roles"(
+  "id" integer primary key autoincrement not null,
+  "title" varchar,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "perimeter_id" integer not null default('1'),
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update NO ACTION
+);
+CREATE INDEX "roles_perimeter_id_index" on "roles"("perimeter_id");
+CREATE INDEX "saved_queries_name_index" on "saved_queries"("name");
+CREATE UNIQUE INDEX "perimeters_name_unique" on "perimeters"("name");
+CREATE TABLE IF NOT EXISTS "activities"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "drp" text,
+  "drp_link" varchar,
+  "recovery_time_objective" integer,
+  "maximum_tolerable_downtime" integer,
+  "recovery_point_objective" integer,
+  "maximum_tolerable_data_loss" integer,
+  "ext_refs" varchar,
+  "type" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "activities_name_index" on "activities"("name");
+CREATE INDEX "activities_perimeter_id_index" on "activities"("perimeter_id");
+CREATE TABLE IF NOT EXISTS "actors"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "nature" varchar,
+  "type" varchar,
+  "contact" varchar,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "ext_refs" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "actors_name_index" on "actors"("name");
+CREATE INDEX "actors_perimeter_id_index" on "actors"("perimeter_id");
+CREATE TABLE IF NOT EXISTS "admin_users"(
+  "id" integer primary key autoincrement not null,
+  "user_id" varchar not null,
+  "firstname" varchar,
+  "lastname" varchar,
+  "type" varchar,
+  "description" text,
+  "domain_id" integer,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "icon_id" integer,
+  "attributes" varchar,
+  "ext_refs" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("icon_id") references "documents"("id") on delete no action on update no action,
+  foreign key("domain_id") references "domains"("id") on delete cascade on update no action,
+  foreign key("domain_id") references "domains"("id") on delete cascade on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "admin_users_perimeter_id_index" on "admin_users"("perimeter_id");
+CREATE INDEX "document_id_fk_129487" on "admin_users"("icon_id");
+CREATE INDEX "domain_id_fk_69385935" on "admin_users"("domain_id");
+CREATE UNIQUE INDEX "domain_id_user_id_unique" on "admin_users"(
+  "domain_id",
+  "user_id",
+  "deleted_at"
+);
+CREATE TABLE IF NOT EXISTS "annuaires"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
+  "solution" varchar,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "zone_admin_id" integer,
+  "ext_refs" varchar,
+  "application_id" integer,
+  "type" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("zone_admin_id") references "zone_admins"("id") on delete no action on update no action,
+  foreign key("application_id") references "applications"("id") on delete no action on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "annuaires_name_index" on "annuaires"("name");
+CREATE INDEX "annuaires_perimeter_id_index" on "annuaires"("perimeter_id");
+CREATE INDEX "zone_admin_fk_1482666" on "annuaires"("zone_admin_id");
+CREATE TABLE IF NOT EXISTS "application_blocks"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
+  "responsible" varchar,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "ext_refs" varchar,
+  "type" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "application_blocks_name_index" on "application_blocks"("name");
+CREATE INDEX "application_blocks_perimeter_id_index" on "application_blocks"(
+  "perimeter_id"
+);
+CREATE TABLE IF NOT EXISTS "application_flows"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "application_source_id" integer,
+  "service_source_id" integer,
+  "module_source_id" integer,
+  "database_source_id" integer,
+  "application_dest_id" integer,
+  "service_dest_id" integer,
+  "module_dest_id" integer,
+  "database_dest_id" integer,
+  "crypted" tinyint(1),
+  "bidirectional" tinyint(1),
+  "type" varchar,
+  "attributes" varchar,
+  "ext_refs" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("application_dest_id") references "applications"("id") on delete no action on update no action,
+  foreign key("application_source_id") references "applications"("id") on delete no action on update no action,
+  foreign key("database_dest_id") references "databases"("id") on delete no action on update no action,
+  foreign key("database_source_id") references "databases"("id") on delete no action on update no action,
+  foreign key("module_dest_id") references "application_modules"("id") on delete no action on update no action,
+  foreign key("module_source_id") references "application_modules"("id") on delete no action on update no action,
+  foreign key("service_dest_id") references "application_services"("id") on delete no action on update no action,
+  foreign key("service_source_id") references "application_services"("id") on delete no action on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "application_dest_fk_1485549" on "application_flows"(
+  "application_dest_id"
+);
+CREATE INDEX "application_flows_name_index" on "application_flows"("name");
+CREATE INDEX "application_flows_perimeter_id_index" on "application_flows"(
+  "perimeter_id"
+);
+CREATE INDEX "application_source_fk_1485545" on "application_flows"(
+  "application_source_id"
+);
+CREATE INDEX "database_dest_fk_1485552" on "application_flows"(
+  "database_dest_id"
+);
+CREATE INDEX "database_source_fk_1485548" on "application_flows"(
+  "database_source_id"
+);
+CREATE INDEX "module_dest_fk_1485551" on "application_flows"("module_dest_id");
+CREATE INDEX "module_source_fk_1485547" on "application_flows"(
+  "module_source_id"
+);
+CREATE INDEX "service_dest_fk_1485550" on "application_flows"(
+  "service_dest_id"
+);
+CREATE INDEX "service_source_fk_1485546" on "application_flows"(
+  "service_source_id"
+);
+CREATE TABLE IF NOT EXISTS "application_modules"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "vendor" varchar,
+  "product" varchar,
+  "version" varchar,
+  "ext_refs" varchar,
+  "type" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "comments" text,
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "application_modules_name_index" on "application_modules"("name");
+CREATE INDEX "application_modules_perimeter_id_index" on "application_modules"(
+  "perimeter_id"
+);
+CREATE TABLE IF NOT EXISTS "application_services"(
+  "id" integer primary key autoincrement not null,
+  "description" text,
+  "exposition" varchar,
   "name" varchar not null,
   "created_at" datetime,
   "updated_at" datetime,
   "deleted_at" datetime,
-  "description" text,
-  "parent_man_id" integer,
-  foreign key("parent_man_id") references "mans"("id") on delete SET NULL on update NO ACTION
+  "ext_refs" varchar,
+  "type" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "comments" text,
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
 );
-CREATE INDEX "man_id_fk_4385454" on "mans"("parent_man_id");
-CREATE TABLE IF NOT EXISTS "physical_switches"(
+CREATE INDEX "application_services_name_index" on "application_services"(
+  "name"
+);
+CREATE INDEX "application_services_perimeter_id_index" on "application_services"(
+  "perimeter_id"
+);
+CREATE TABLE IF NOT EXISTS "applications"(
   "id" integer primary key autoincrement not null,
   "name" varchar not null,
   "description" text,
+  "security_need_c" integer,
+  "responsible" varchar,
   "type" varchar,
+  "technology" varchar,
+  "external" varchar,
+  "users" varchar,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "entity_resp_id" integer,
+  "application_block_id" integer,
+  "documentation" varchar,
+  "security_need_i" integer,
+  "security_need_a" integer,
+  "security_need_t" integer,
+  "version" varchar,
+  "functional_referent" varchar,
+  "editor" varchar,
+  "install_date" date,
+  "update_date" date,
+  "rto" integer,
+  "rpo" integer,
+  "vendor" varchar,
+  "product" varchar,
+  "attributes" varchar,
+  "patching_frequency" integer,
+  "next_update" date,
+  "icon_id" integer,
+  "security_need_auth" integer,
+  "ext_refs" varchar,
+  "status" varchar,
+  "prod_date" date,
+  "hosting" varchar,
+  "urls" varchar,
+  "perimeter_id" integer not null default('1'),
+  "comments" text,
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("icon_id") references "documents"("id") on delete no action on update no action,
+  foreign key("application_block_id") references "application_blocks"("id") on delete no action on update no action,
+  foreign key("entity_resp_id") references "entities"("id") on delete no action on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "application_block_fk_1644592" on "applications"(
+  "application_block_id"
+);
+CREATE INDEX "applications_name_index" on "applications"("name");
+CREATE INDEX "applications_perimeter_id_index" on "applications"(
+  "perimeter_id"
+);
+CREATE INDEX "document_id_fk_4394343" on "applications"("icon_id");
+CREATE INDEX "entity_resp_fk_1488612" on "applications"("entity_resp_id");
+CREATE TABLE IF NOT EXISTS "backups"(
+  "id" integer primary key autoincrement not null,
+  "backup_frequency" integer,
+  "backup_cycle" integer,
+  "backup_retention" integer,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "name" varchar not null,
+  "type" varchar,
+  "attributes" text,
+  "description" text,
+  "ext_refs" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "backups_name_index" on "backups"("name");
+CREATE INDEX "backups_perimeter_id_index" on "backups"("perimeter_id");
+CREATE TABLE IF NOT EXISTS "bays"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "building_id" integer,
+  "ext_refs" varchar,
+  "site_id" integer,
+  "type" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("building_id") references "buildings"("id") on delete no action on update no action,
+  foreign key("building_id") references "buildings"("id") on delete no action on update no action,
+  foreign key("site_id") references "sites"("id") on delete no action on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "bays_name_index" on "bays"("name");
+CREATE INDEX "bays_perimeter_id_index" on "bays"("perimeter_id");
+CREATE INDEX "room_fk_1483441" on "bays"("building_id");
+CREATE INDEX "site_id_fk_1483442" on "bays"("site_id");
+CREATE TABLE IF NOT EXISTS "buildings"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
   "created_at" datetime,
   "updated_at" datetime,
   "deleted_at" datetime,
   "site_id" integer,
+  "attributes" varchar,
+  "type" varchar,
   "building_id" integer,
-  "bay_id" integer,
-  "vendor" varchar,
-  "product" varchar,
-  "version" varchar,
   "icon_id" integer,
-  foreign key("site_id") references sites("id") on delete no action on update no action,
-  foreign key("building_id") references buildings("id") on delete no action on update no action,
-  foreign key("bay_id") references bays("id") on delete no action on update no action,
-  foreign key("icon_id") references "documents"("id")
+  "ext_refs" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("site_id") references "sites"("id") on delete no action on update no action,
+  foreign key("building_id") references "buildings"("id") on delete set null on update no action,
+  foreign key("icon_id") references "documents"("id") on delete no action on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
 );
-CREATE INDEX "bay_fk_1485493" on "physical_switches"("bay_id");
-CREATE INDEX "building_fk_1485489" on "physical_switches"("building_id");
-CREATE INDEX "site_fk_1485488" on "physical_switches"("site_id");
+CREATE INDEX "buildings_name_index" on "buildings"("name");
+CREATE INDEX "buildings_perimeter_id_index" on "buildings"("perimeter_id");
+CREATE INDEX "document_id_fk_49574431" on "buildings"("icon_id");
+CREATE INDEX "site_fk_1483431" on "buildings"("site_id");
+CREATE TABLE IF NOT EXISTS "certificates"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "type" varchar,
+  "description" text,
+  "start_validity" date,
+  "end_validity" date,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "status" integer,
+  "last_notification" datetime,
+  "ext_refs" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "certificates_name_index" on "certificates"("name");
+CREATE INDEX "certificates_perimeter_id_index" on "certificates"(
+  "perimeter_id"
+);
+CREATE TABLE IF NOT EXISTS "clusters"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "type" varchar,
+  "description" text,
+  "address_ip" varchar,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "attributes" varchar,
+  "icon_id" integer,
+  "ext_refs" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("icon_id") references "documents"("id") on delete no action on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "clusters_name_index" on "clusters"("name");
+CREATE INDEX "clusters_perimeter_id_index" on "clusters"("perimeter_id");
+CREATE INDEX "document_id_fk_495432841" on "clusters"("icon_id");
+CREATE TABLE IF NOT EXISTS "containers"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "type" varchar,
+  "description" text,
+  "icon_id" integer,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "ext_refs" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("icon_id") references "documents"("id") on delete no action on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "containers_perimeter_id_index" on "containers"("perimeter_id");
+CREATE INDEX "document_id_fk_43948593" on "containers"("icon_id");
+CREATE TABLE IF NOT EXISTS "data_processing"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
+  "responsible" text,
+  "purpose" text,
+  "categories" text,
+  "recipients" text,
+  "transfert" text,
+  "retention" text,
+  "controls" text,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "legal_basis" varchar,
+  "lawfulness" text,
+  "lawfulness_legitimate_interest" tinyint(1),
+  "lawfulness_public_interest" tinyint(1),
+  "lawfulness_vital_interest" tinyint(1),
+  "lawfulness_legal_obligation" tinyint(1),
+  "lawfulness_contract" tinyint(1),
+  "lawfulness_consent" tinyint(1),
+  "data_source" text,
+  "data_collection_obligation" text,
+  "data_subject_rights" text,
+  "automated_decision_making" text,
+  "update_date" date,
+  "ext_refs" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "data_processing_name_index" on "data_processing"("name");
+CREATE INDEX "data_processing_perimeter_id_index" on "data_processing"(
+  "perimeter_id"
+);
+CREATE TABLE IF NOT EXISTS "databases"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
+  "responsible" varchar,
+  "type" varchar,
+  "security_need_c" integer,
+  "external" varchar,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "entity_resp_id" integer,
+  "security_need_i" integer,
+  "security_need_a" integer,
+  "security_need_t" integer,
+  "security_need_auth" integer,
+  "icon_id" integer,
+  "ext_refs" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("entity_resp_id") references "entities"("id") on delete no action on update no action,
+  foreign key("icon_id") references "documents"("id") on delete no action on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "databases_name_index" on "databases"("name");
+CREATE INDEX "databases_perimeter_id_index" on "databases"("perimeter_id");
+CREATE INDEX "entity_resp_fk_1485569" on "databases"("entity_resp_id");
+CREATE TABLE IF NOT EXISTS "dhcp_servers"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "address_ip" varchar,
+  "ext_refs" varchar,
+  "type" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "dhcp_servers_name_index" on "dhcp_servers"("name");
+CREATE INDEX "dhcp_servers_perimeter_id_index" on "dhcp_servers"(
+  "perimeter_id"
+);
+CREATE TABLE IF NOT EXISTS "dnsservers"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "address_ip" varchar,
+  "ext_refs" varchar,
+  "type" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "dnsservers_name_index" on "dnsservers"("name");
+CREATE INDEX "dnsservers_perimeter_id_index" on "dnsservers"("perimeter_id");
+CREATE TABLE IF NOT EXISTS "documents"(
+  "id" integer primary key autoincrement not null,
+  "filename" varchar not null,
+  "mimetype" varchar not null,
+  "size" integer not null,
+  "hash" varchar not null,
+  "deleted_at" datetime,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "ext_refs" varchar,
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE TABLE IF NOT EXISTS "domains"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
+  "domain_ctrl_cnt" integer,
+  "user_count" integer,
+  "machine_count" integer,
+  "relation_inter_domaine" varchar,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "ext_refs" varchar,
+  "type" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "domains_name_index" on "domains"("name");
+CREATE INDEX "domains_perimeter_id_index" on "domains"("perimeter_id");
+CREATE TABLE IF NOT EXISTS "entities"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "security_level" text,
+  "contact_point" text,
+  "description" text,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "type" varchar,
+  "attributes" varchar,
+  "reference" varchar,
+  "parent_entity_id" integer,
+  "icon_id" integer,
+  "external_ref_id" varchar,
+  "ext_refs" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("icon_id") references "documents"("id") on delete no action on update no action,
+  foreign key("parent_entity_id") references "entities"("id") on delete set null on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "document_id_fk_129486" on "entities"("icon_id");
+CREATE INDEX "entities_name_index" on "entities"("name");
+CREATE INDEX "entities_perimeter_id_index" on "entities"("perimeter_id");
+CREATE INDEX "entity_id_fk_4398013" on "entities"("parent_entity_id");
+CREATE INDEX "type" on "entities"("type");
+CREATE TABLE IF NOT EXISTS "external_connected_entities"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "contacts" varchar,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "description" text,
+  "type" varchar,
+  "entity_id" integer,
+  "network_id" integer,
+  "src" varchar,
+  "dest" varchar,
+  "src_desc" varchar,
+  "dest_desc" varchar,
+  "security" text,
+  "ext_refs" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("entity_id") references "entities"("id") on delete cascade on update no action,
+  foreign key("network_id") references "networks"("id") on delete cascade on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "entity_id_fk_1295034" on "external_connected_entities"(
+  "entity_id"
+);
+CREATE INDEX "external_connected_entities_name_index" on "external_connected_entities"(
+  "name"
+);
+CREATE INDEX "external_connected_entities_perimeter_id_index" on "external_connected_entities"(
+  "perimeter_id"
+);
+CREATE INDEX "network_id_fk_8596554" on "external_connected_entities"(
+  "network_id"
+);
+CREATE TABLE IF NOT EXISTS "forest_ads"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "zone_admin_id" integer,
+  "ext_refs" varchar,
+  "type" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("zone_admin_id") references "zone_admins"("id") on delete no action on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "forest_ads_name_index" on "forest_ads"("name");
+CREATE INDEX "forest_ads_perimeter_id_index" on "forest_ads"("perimeter_id");
+CREATE INDEX "zone_admin_fk_1482667" on "forest_ads"("zone_admin_id");
+CREATE TABLE IF NOT EXISTS "gateways"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
+  "ip" varchar,
+  "authentification" varchar,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "ext_refs" varchar,
+  "type" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "gateways_name_index" on "gateways"("name");
+CREATE INDEX "gateways_perimeter_id_index" on "gateways"("perimeter_id");
+CREATE TABLE IF NOT EXISTS "graphs"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "type" varchar,
+  "content" text,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "class" integer,
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "graphs_name_index" on "graphs"("name");
+CREATE TABLE IF NOT EXISTS "information"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
+  "owner" varchar,
+  "administrator" varchar,
+  "storage" varchar,
+  "security_need_c" integer,
+  "sensitivity" varchar,
+  "constraints" text,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "security_need_i" integer,
+  "security_need_a" integer,
+  "security_need_t" integer,
+  "retention" varchar,
+  "security_need_auth" integer,
+  "ext_refs" varchar,
+  "type" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "icon_id" integer,
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("icon_id") references "documents"("id") on delete no action on update no action,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "document_id_fk_61928374" on "information"("icon_id");
+CREATE INDEX "information_name_index" on "information"("name");
+CREATE INDEX "information_perimeter_id_index" on "information"("perimeter_id");
+CREATE TABLE IF NOT EXISTS "lans"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" varchar,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "ext_refs" varchar,
+  "type" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "lans_name_index" on "lans"("name");
+CREATE INDEX "lans_perimeter_id_index" on "lans"("perimeter_id");
 CREATE TABLE IF NOT EXISTS "logical_flows"(
   "id" integer primary key autoincrement not null,
   "name" varchar,
@@ -1792,25 +1776,40 @@ CREATE TABLE IF NOT EXISTS "logical_flows"(
   "security_device_dest_id" integer,
   "cluster_source_id" integer,
   "cluster_dest_id" integer,
-  foreign key("security_device_dest_id") references security_devices("id") on delete set null on update no action,
-  foreign key("security_device_source_id") references security_devices("id") on delete set null on update no action,
-  foreign key("physical_security_device_dest_id") references physical_security_devices("id") on delete cascade on update no action,
-  foreign key("workstation_dest_id") references workstations("id") on delete cascade on update no action,
-  foreign key("storage_device_dest_id") references storage_devices("id") on delete cascade on update no action,
-  foreign key("physical_server_dest_id") references physical_servers("id") on delete cascade on update no action,
-  foreign key("peripheral_dest_id") references peripherals("id") on delete cascade on update no action,
-  foreign key("logical_server_dest_id") references logical_servers("id") on delete cascade on update no action,
-  foreign key("physical_security_device_source_id") references physical_security_devices("id") on delete cascade on update no action,
-  foreign key("workstation_source_id") references workstations("id") on delete cascade on update no action,
-  foreign key("storage_device_source_id") references storage_devices("id") on delete cascade on update no action,
-  foreign key("physical_server_source_id") references physical_servers("id") on delete cascade on update no action,
-  foreign key("peripheral_source_id") references peripherals("id") on delete cascade on update no action,
-  foreign key("logical_server_source_id") references logical_servers("id") on delete cascade on update no action,
-  foreign key("router_id") references routers("id") on delete cascade on update no action,
-  foreign key("subnetwork_source_id") references subnetworks("id") on delete set null on update no action,
-  foreign key("subnetwork_dest_id") references subnetworks("id") on delete set null on update no action,
-  foreign key("cluster_source_id") references "clusters"("id") on delete set null,
-  foreign key("cluster_dest_id") references "clusters"("id") on delete set null
+  "ext_refs" varchar,
+  "type" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("security_device_dest_id") references "security_devices"("id") on delete set null on update no action,
+  foreign key("security_device_source_id") references "security_devices"("id") on delete set null on update no action,
+  foreign key("physical_security_device_dest_id") references "physical_security_devices"("id") on delete cascade on update no action,
+  foreign key("workstation_dest_id") references "workstations"("id") on delete cascade on update no action,
+  foreign key("storage_device_dest_id") references "storage_devices"("id") on delete cascade on update no action,
+  foreign key("physical_server_dest_id") references "physical_servers"("id") on delete cascade on update no action,
+  foreign key("peripheral_dest_id") references "peripherals"("id") on delete cascade on update no action,
+  foreign key("logical_server_dest_id") references "logical_servers"("id") on delete cascade on update no action,
+  foreign key("physical_security_device_source_id") references "physical_security_devices"("id") on delete cascade on update no action,
+  foreign key("workstation_source_id") references "workstations"("id") on delete cascade on update no action,
+  foreign key("storage_device_source_id") references "storage_devices"("id") on delete cascade on update no action,
+  foreign key("physical_server_source_id") references "physical_servers"("id") on delete cascade on update no action,
+  foreign key("peripheral_source_id") references "peripherals"("id") on delete cascade on update no action,
+  foreign key("logical_server_source_id") references "logical_servers"("id") on delete cascade on update no action,
+  foreign key("router_id") references "routers"("id") on delete cascade on update no action,
+  foreign key("subnetwork_source_id") references "subnetworks"("id") on delete set null on update no action,
+  foreign key("subnetwork_dest_id") references "subnetworks"("id") on delete set null on update no action,
+  foreign key("cluster_source_id") references "clusters"("id") on delete set null on update no action,
+  foreign key("cluster_dest_id") references "clusters"("id") on delete set null on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "logical_flows_name_index" on "logical_flows"("name");
+CREATE INDEX "logical_flows_perimeter_id_index" on "logical_flows"(
+  "perimeter_id"
 );
 CREATE INDEX "logical_flows_subnetwork_dest_id_index" on "logical_flows"(
   "subnetwork_dest_id"
@@ -1819,72 +1818,6 @@ CREATE INDEX "logical_flows_subnetwork_source_id_index" on "logical_flows"(
   "subnetwork_source_id"
 );
 CREATE INDEX "router_id_fk_4382393" on "logical_flows"("router_id");
-CREATE TABLE IF NOT EXISTS "information_information"(
-  "information_id" integer not null,
-  "child_information_id" integer not null,
-  foreign key("information_id") references "information"("id") on delete cascade,
-  foreign key("child_information_id") references "information"("id") on delete cascade,
-  primary key("information_id", "child_information_id")
-);
-CREATE TABLE IF NOT EXISTS "backups"(
-  "id" integer primary key autoincrement not null,
-  "logical_server_id" integer not null,
-  "storage_device_id" integer not null,
-  "backup_frequency" integer,
-  "backup_cycle" integer,
-  "backup_retention" integer,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  foreign key("logical_server_id") references "logical_servers"("id") on delete cascade,
-  foreign key("storage_device_id") references "storage_devices"("id") on delete cascade
-);
-CREATE TABLE IF NOT EXISTS "application_module_entity"(
-  "application_module_id" integer not null,
-  "entity_id" integer not null,
-  foreign key("application_module_id") references "application_modules"("id") on delete cascade,
-  foreign key("entity_id") references "entities"("id") on delete cascade,
-  primary key("application_module_id", "entity_id")
-);
-CREATE TABLE IF NOT EXISTS "saved_queries"(
-  "id" integer primary key autoincrement not null,
-  "name" varchar not null,
-  "description" text,
-  "query" text not null,
-  "is_public" tinyint(1) not null default '0',
-  "user_id" integer,
-  "created_at" datetime,
-  "updated_at" datetime,
-  foreign key("user_id") references "users"("id") on delete set null
-);
-CREATE INDEX "saved_queries_user_id_is_public_index" on "saved_queries"(
-  "user_id",
-  "is_public"
-);
-CREATE TABLE IF NOT EXISTS "admin_users"(
-  "id" integer primary key autoincrement not null,
-  "user_id" varchar not null,
-  "firstname" varchar,
-  "lastname" varchar,
-  "type" varchar,
-  "description" text,
-  "domain_id" integer,
-  "created_at" datetime,
-  "updated_at" datetime,
-  "deleted_at" datetime,
-  "icon_id" integer,
-  "attributes" varchar,
-  foreign key("icon_id") references documents("id") on delete no action on update no action,
-  foreign key("domain_id") references domains("id") on delete cascade on update no action,
-  foreign key("domain_id") references "domains"("id") on delete CASCADE on update NO ACTION
-);
-CREATE INDEX "document_id_fk_129487" on "admin_users"("icon_id");
-CREATE INDEX "domain_id_fk_69385935" on "admin_users"("domain_id");
-CREATE UNIQUE INDEX "domain_id_user_id_unique" on "admin_users"(
-  "domain_id",
-  "user_id",
-  "deleted_at"
-);
 CREATE TABLE IF NOT EXISTS "logical_servers"(
   "id" integer primary key autoincrement not null,
   "name" varchar not null,
@@ -1911,14 +1844,901 @@ CREATE TABLE IF NOT EXISTS "logical_servers"(
   "type" varchar,
   "active" tinyint(1),
   "icon_id" integer,
-  foreign key("icon_id") references documents("id") on delete no action on update no action,
-  foreign key("domain_id") references domains("id") on delete set null on update no action,
-  foreign key("domain_id") references "domains"("id") on delete SET NULL on update NO ACTION
+  "ext_refs" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("icon_id") references "documents"("id") on delete no action on update no action,
+  foreign key("domain_id") references "domains"("id") on delete set null on update no action,
+  foreign key("domain_id") references "domains"("id") on delete set null on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
 );
 CREATE INDEX "cluster_id_fk_5435359" on "logical_servers"("cluster_id");
 CREATE INDEX "document_id_fk_51303394" on "logical_servers"("icon_id");
 CREATE INDEX "domain_id_fk_493844" on "logical_servers"("domain_id");
 CREATE INDEX "logical_servers_active" on "logical_servers"("active");
+CREATE INDEX "logical_servers_name_index" on "logical_servers"("name");
+CREATE INDEX "logical_servers_perimeter_id_index" on "logical_servers"(
+  "perimeter_id"
+);
+CREATE TABLE IF NOT EXISTS "macro_processuses"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
+  "io_elements" text,
+  "security_need_c" integer,
+  "owner" varchar,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "security_need_i" integer,
+  "security_need_a" integer,
+  "security_need_t" integer,
+  "security_need_auth" integer,
+  "ext_refs" varchar,
+  "type" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "macro_processuses_name_index" on "macro_processuses"("name");
+CREATE INDEX "macro_processuses_perimeter_id_index" on "macro_processuses"(
+  "perimeter_id"
+);
+CREATE TABLE IF NOT EXISTS "mans"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "description" text,
+  "parent_man_id" integer,
+  "ext_refs" varchar,
+  "type" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("parent_man_id") references "mans"("id") on delete set null on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "man_id_fk_4385454" on "mans"("parent_man_id");
+CREATE INDEX "mans_name_index" on "mans"("name");
+CREATE INDEX "mans_perimeter_id_index" on "mans"("perimeter_id");
+CREATE TABLE IF NOT EXISTS "network_switches"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "ip" varchar,
+  "description" text,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "ext_refs" varchar,
+  "type" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "network_switches_name_index" on "network_switches"("name");
+CREATE INDEX "network_switches_perimeter_id_index" on "network_switches"(
+  "perimeter_id"
+);
+CREATE TABLE IF NOT EXISTS "networks"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "protocol_type" varchar,
+  "responsible" varchar,
+  "responsible_sec" varchar,
+  "security_need_c" integer,
+  "description" text,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "security_need_i" integer,
+  "security_need_a" integer,
+  "security_need_t" integer,
+  "security_need_auth" integer,
+  "ext_refs" varchar,
+  "type" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "networks_name_index" on "networks"("name");
+CREATE INDEX "networks_perimeter_id_index" on "networks"("perimeter_id");
+CREATE TABLE IF NOT EXISTS "operations"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "process_id" integer,
+  "ext_refs" varchar,
+  "type" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("process_id") references "processes"("id") on delete cascade on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "operations_name_index" on "operations"("name");
+CREATE INDEX "operations_perimeter_id_index" on "operations"("perimeter_id");
+CREATE INDEX "process_id_fk_7945129" on "operations"("process_id");
+CREATE TABLE IF NOT EXISTS "peripherals"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "type" varchar,
+  "description" text,
+  "responsible" varchar,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "site_id" integer,
+  "building_id" integer,
+  "bay_id" integer,
+  "vendor" varchar,
+  "product" varchar,
+  "version" varchar,
+  "address_ip" varchar,
+  "provider_id" integer,
+  "icon_id" integer,
+  "ext_refs" varchar,
+  "domain_id" integer,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("icon_id") references "documents"("id") on delete no action on update no action,
+  foreign key("site_id") references "sites"("id") on delete no action on update no action,
+  foreign key("building_id") references "buildings"("id") on delete no action on update no action,
+  foreign key("bay_id") references "bays"("id") on delete no action on update no action,
+  foreign key("provider_id") references "entities"("id") on delete no action on update no action,
+  foreign key("domain_id") references "domains"("id") on delete no action on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "bay_fk_1485451" on "peripherals"("bay_id");
+CREATE INDEX "building_fk_1485450" on "peripherals"("building_id");
+CREATE INDEX "document_id_fk_129484" on "peripherals"("icon_id");
+CREATE INDEX "entity_id_fk_4383234" on "peripherals"("provider_id");
+CREATE INDEX "peripherals_name_index" on "peripherals"("name");
+CREATE INDEX "peripherals_perimeter_id_index" on "peripherals"("perimeter_id");
+CREATE INDEX "site_fk_1485449" on "peripherals"("site_id");
+CREATE TABLE IF NOT EXISTS "phones"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
+  "type" varchar,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "site_id" integer,
+  "building_id" integer,
+  "physical_switch_id" integer,
+  "vendor" varchar,
+  "product" varchar,
+  "version" varchar,
+  "address_ip" varchar,
+  "ext_refs" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("building_id") references "buildings"("id") on delete no action on update no action,
+  foreign key("physical_switch_id") references "physical_switches"("id") on delete no action on update no action,
+  foreign key("site_id") references "sites"("id") on delete no action on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "building_fk_1485480" on "phones"("building_id");
+CREATE INDEX "phones_name_index" on "phones"("name");
+CREATE INDEX "phones_perimeter_id_index" on "phones"("perimeter_id");
+CREATE INDEX "physical_switch_fk_5738332" on "phones"("physical_switch_id");
+CREATE INDEX "site_fk_1485479" on "phones"("site_id");
+CREATE TABLE IF NOT EXISTS "physical_links"(
+  "id" integer primary key autoincrement not null,
+  "src_port" varchar,
+  "dest_port" varchar,
+  "peripheral_src_id" integer,
+  "phone_src_id" integer,
+  "physical_router_src_id" integer,
+  "physical_security_device_src_id" integer,
+  "physical_server_src_id" integer,
+  "physical_switch_src_id" integer,
+  "storage_device_src_id" integer,
+  "wifi_terminal_src_id" integer,
+  "workstation_src_id" integer,
+  "peripheral_dest_id" integer,
+  "phone_dest_id" integer,
+  "physical_router_dest_id" integer,
+  "physical_security_device_dest_id" integer,
+  "physical_server_dest_id" integer,
+  "physical_switch_dest_id" integer,
+  "storage_device_dest_id" integer,
+  "wifi_terminal_dest_id" integer,
+  "workstation_dest_id" integer,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "router_src_id" integer,
+  "router_dest_id" integer,
+  "network_switch_src_id" integer,
+  "network_switch_dest_id" integer,
+  "logical_server_src_id" integer,
+  "logical_server_dest_id" integer,
+  "type" varchar,
+  "color" varchar,
+  "ext_refs" varchar,
+  "attributes" varchar,
+  "description" text,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("workstation_dest_id") references "workstations"("id") on delete cascade on update no action,
+  foreign key("wifi_terminal_dest_id") references "wifi_terminals"("id") on delete cascade on update no action,
+  foreign key("storage_device_dest_id") references "storage_devices"("id") on delete cascade on update no action,
+  foreign key("physical_switch_dest_id") references "physical_switches"("id") on delete cascade on update no action,
+  foreign key("physical_server_dest_id") references "physical_servers"("id") on delete cascade on update no action,
+  foreign key("physical_security_device_dest_id") references "physical_security_devices"("id") on delete cascade on update no action,
+  foreign key("physical_router_dest_id") references "physical_routers"("id") on delete cascade on update no action,
+  foreign key("phone_dest_id") references "phones"("id") on delete cascade on update no action,
+  foreign key("peripheral_dest_id") references "peripherals"("id") on delete cascade on update no action,
+  foreign key("workstation_src_id") references "workstations"("id") on delete cascade on update no action,
+  foreign key("wifi_terminal_src_id") references "wifi_terminals"("id") on delete cascade on update no action,
+  foreign key("storage_device_src_id") references "storage_devices"("id") on delete cascade on update no action,
+  foreign key("physical_switch_src_id") references "physical_switches"("id") on delete cascade on update no action,
+  foreign key("physical_server_src_id") references "physical_servers"("id") on delete cascade on update no action,
+  foreign key("physical_security_device_src_id") references "physical_security_devices"("id") on delete cascade on update no action,
+  foreign key("physical_router_src_id") references "physical_routers"("id") on delete cascade on update no action,
+  foreign key("phone_src_id") references "phones"("id") on delete cascade on update no action,
+  foreign key("peripheral_src_id") references "peripherals"("id") on delete cascade on update no action,
+  foreign key("router_src_id") references "routers"("id") on delete cascade on update no action,
+  foreign key("router_dest_id") references "routers"("id") on delete cascade on update no action,
+  foreign key("network_switch_src_id") references "network_switches"("id") on delete cascade on update no action,
+  foreign key("network_switch_dest_id") references "network_switches"("id") on delete cascade on update no action,
+  foreign key("logical_server_src_id") references "logical_servers"("id") on delete cascade on update no action,
+  foreign key("logical_server_dest_id") references "logical_servers"("id") on delete cascade on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "logical_server_dest_id_fk" on "physical_links"(
+  "logical_server_dest_id"
+);
+CREATE INDEX "logical_server_src_id_fk" on "physical_links"(
+  "logical_server_src_id"
+);
+CREATE INDEX "network_switches_dest_id_fk" on "physical_links"(
+  "network_switch_dest_id"
+);
+CREATE INDEX "network_switches_src_id_fk" on "physical_links"(
+  "network_switch_src_id"
+);
+CREATE INDEX "peripheral_dest_id_fk" on "physical_links"("peripheral_dest_id");
+CREATE INDEX "peripheral_src_id_fk" on "physical_links"("peripheral_src_id");
+CREATE INDEX "phone_dest_id_fk" on "physical_links"("phone_dest_id");
+CREATE INDEX "phone_src_id_fk" on "physical_links"("phone_src_id");
+CREATE INDEX "physical_links_perimeter_id_index" on "physical_links"(
+  "perimeter_id"
+);
+CREATE INDEX "physical_router_dest_id_fk" on "physical_links"(
+  "physical_router_dest_id"
+);
+CREATE INDEX "physical_router_src_id_fk" on "physical_links"(
+  "physical_router_src_id"
+);
+CREATE INDEX "physical_security_device_dest_id_fk" on "physical_links"(
+  "physical_security_device_dest_id"
+);
+CREATE INDEX "physical_security_device_src_id_fk" on "physical_links"(
+  "physical_security_device_src_id"
+);
+CREATE INDEX "physical_server_dest_id_fk" on "physical_links"(
+  "physical_server_dest_id"
+);
+CREATE INDEX "physical_server_src_id_fk" on "physical_links"(
+  "physical_server_src_id"
+);
+CREATE INDEX "physical_switch_dest_id_fk" on "physical_links"(
+  "physical_switch_dest_id"
+);
+CREATE INDEX "physical_switch_src_id_fk" on "physical_links"(
+  "physical_switch_src_id"
+);
+CREATE INDEX "router_dest_id_fk" on "physical_links"("router_dest_id");
+CREATE INDEX "router_src_id_fk" on "physical_links"("router_src_id");
+CREATE INDEX "storage_device_dest_id_fk" on "physical_links"(
+  "storage_device_dest_id"
+);
+CREATE INDEX "storage_device_src_id_fk" on "physical_links"(
+  "storage_device_src_id"
+);
+CREATE INDEX "wifi_terminal_dest_id_fk" on "physical_links"(
+  "wifi_terminal_dest_id"
+);
+CREATE INDEX "wifi_terminal_src_id_fk" on "physical_links"(
+  "wifi_terminal_src_id"
+);
+CREATE INDEX "workstation_dest_id_fk" on "physical_links"(
+  "workstation_dest_id"
+);
+CREATE INDEX "workstation_src_id_fk" on "physical_links"("workstation_src_id");
+CREATE TABLE IF NOT EXISTS "physical_routers"(
+  "id" integer primary key autoincrement not null,
+  "description" text,
+  "type" varchar,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "site_id" integer,
+  "building_id" integer,
+  "bay_id" integer,
+  "name" varchar not null,
+  "vendor" varchar,
+  "product" varchar,
+  "version" varchar,
+  "ext_refs" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("site_id") references "sites"("id") on delete no action on update no action,
+  foreign key("building_id") references "buildings"("id") on delete no action on update no action,
+  foreign key("bay_id") references "bays"("id") on delete no action on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "bay_fk_1485499" on "physical_routers"("bay_id");
+CREATE INDEX "building_fk_1485498" on "physical_routers"("building_id");
+CREATE INDEX "physical_routers_name_index" on "physical_routers"("name");
+CREATE INDEX "physical_routers_perimeter_id_index" on "physical_routers"(
+  "perimeter_id"
+);
+CREATE INDEX "site_fk_1485497" on "physical_routers"("site_id");
+CREATE TABLE IF NOT EXISTS "physical_security_devices"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "type" varchar,
+  "description" text,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "site_id" integer,
+  "building_id" integer,
+  "bay_id" integer,
+  "address_ip" varchar,
+  "attributes" varchar,
+  "icon_id" integer,
+  "ext_refs" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("site_id") references "sites"("id") on delete no action on update no action,
+  foreign key("building_id") references "buildings"("id") on delete no action on update no action,
+  foreign key("bay_id") references "bays"("id") on delete no action on update no action,
+  foreign key("icon_id") references "documents"("id") on delete no action on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "bay_fk_1485519" on "physical_security_devices"("bay_id");
+CREATE INDEX "building_fk_1485518" on "physical_security_devices"(
+  "building_id"
+);
+CREATE INDEX "document_id_fk_493827312" on "physical_security_devices"(
+  "icon_id"
+);
+CREATE INDEX "physical_security_devices_name_index" on "physical_security_devices"(
+  "name"
+);
+CREATE INDEX "physical_security_devices_perimeter_id_index" on "physical_security_devices"(
+  "perimeter_id"
+);
+CREATE INDEX "site_fk_1485517" on "physical_security_devices"("site_id");
+CREATE TABLE IF NOT EXISTS "physical_servers"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
+  "responsible" varchar,
+  "configuration" text,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "site_id" integer,
+  "building_id" integer,
+  "bay_id" integer,
+  "physical_switch_id" integer,
+  "type" varchar,
+  "vendor" varchar,
+  "product" varchar,
+  "version" varchar,
+  "address_ip" varchar,
+  "cpu" varchar,
+  "memory" varchar,
+  "disk" varchar,
+  "disk_used" varchar,
+  "operating_system" varchar,
+  "install_date" datetime,
+  "update_date" datetime,
+  "patching_group" varchar,
+  "patching_frequency" integer,
+  "next_update" date,
+  "icon_id" integer,
+  "ext_refs" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("icon_id") references "documents"("id") on delete no action on update no action,
+  foreign key("site_id") references "sites"("id") on delete no action on update no action,
+  foreign key("physical_switch_id") references "physical_switches"("id") on delete no action on update no action,
+  foreign key("building_id") references "buildings"("id") on delete no action on update no action,
+  foreign key("bay_id") references "bays"("id") on delete no action on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "bay_fk_1485324" on "physical_servers"("bay_id");
+CREATE INDEX "building_fk_1485323" on "physical_servers"("building_id");
+CREATE INDEX "document_id_fk_5328384" on "physical_servers"("icon_id");
+CREATE INDEX "physical_servers_name_index" on "physical_servers"("name");
+CREATE INDEX "physical_servers_perimeter_id_index" on "physical_servers"(
+  "perimeter_id"
+);
+CREATE INDEX "physical_switch_fk_8732342" on "physical_servers"(
+  "physical_switch_id"
+);
+CREATE INDEX "site_fk_1485322" on "physical_servers"("site_id");
+CREATE TABLE IF NOT EXISTS "physical_switches"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
+  "type" varchar,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "site_id" integer,
+  "building_id" integer,
+  "bay_id" integer,
+  "vendor" varchar,
+  "product" varchar,
+  "version" varchar,
+  "icon_id" integer,
+  "ext_refs" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("site_id") references "sites"("id") on delete no action on update no action,
+  foreign key("building_id") references "buildings"("id") on delete no action on update no action,
+  foreign key("bay_id") references "bays"("id") on delete no action on update no action,
+  foreign key("icon_id") references "documents"("id") on delete no action on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "bay_fk_1485493" on "physical_switches"("bay_id");
+CREATE INDEX "building_fk_1485489" on "physical_switches"("building_id");
+CREATE INDEX "physical_switches_name_index" on "physical_switches"("name");
+CREATE INDEX "physical_switches_perimeter_id_index" on "physical_switches"(
+  "perimeter_id"
+);
+CREATE INDEX "site_fk_1485488" on "physical_switches"("site_id");
+CREATE TABLE IF NOT EXISTS "processes"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
+  "owner" varchar,
+  "security_need_c" integer,
+  "in_out" text,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "macroprocess_id" integer,
+  "security_need_i" integer,
+  "security_need_a" integer,
+  "security_need_t" integer,
+  "security_need_auth" integer,
+  "icon_id" integer,
+  "ext_refs" varchar,
+  "type" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("macroprocess_id") references "macro_processuses"("id") on delete no action on update no action,
+  foreign key("icon_id") references "documents"("id") on delete no action on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "document_id_fk_5938654" on "processes"("icon_id");
+CREATE INDEX "process_fk_4342342" on "processes"("macroprocess_id");
+CREATE INDEX "processes_name_index" on "processes"("name");
+CREATE INDEX "processes_perimeter_id_index" on "processes"("perimeter_id");
+CREATE TABLE IF NOT EXISTS "relations"(
+  "id" integer primary key autoincrement not null,
+  "importance" integer,
+  "name" varchar not null,
+  "type" varchar,
+  "description" text,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "source_id" integer not null,
+  "destination_id" integer not null,
+  "attributes" varchar,
+  "reference" varchar,
+  "responsible" varchar,
+  "order_number" varchar,
+  "active" tinyint(1) not null default('1'),
+  "start_date" date,
+  "end_date" date,
+  "comments" text,
+  "security_need_c" integer,
+  "security_need_i" integer,
+  "security_need_a" integer,
+  "security_need_t" integer,
+  "security_need_auth" integer,
+  "ext_refs" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("destination_id") references "entities"("id") on delete no action on update no action,
+  foreign key("source_id") references "entities"("id") on delete no action on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "destination_fk_1494373" on "relations"("destination_id");
+CREATE INDEX "relations_name_index" on "relations"("name");
+CREATE INDEX "relations_perimeter_id_index" on "relations"("perimeter_id");
+CREATE INDEX "source_fk_1494372" on "relations"("source_id");
+CREATE TABLE IF NOT EXISTS "routers"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
+  "rules" text,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "ip_addresses" text,
+  "type" varchar,
+  "cluster_id" integer,
+  "ext_refs" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "cluster_id_fk_4398834" on "routers"("cluster_id");
+CREATE INDEX "routers_name_index" on "routers"("name");
+CREATE INDEX "routers_perimeter_id_index" on "routers"("perimeter_id");
+CREATE TABLE IF NOT EXISTS "security_controls"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "ext_refs" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "security_controls_name_index" on "security_controls"("name");
+CREATE INDEX "security_controls_perimeter_id_index" on "security_controls"(
+  "perimeter_id"
+);
+CREATE TABLE IF NOT EXISTS "security_devices"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "vendor" varchar,
+  "product" varchar,
+  "version" varchar,
+  "type" varchar,
+  "attributes" varchar,
+  "icon_id" integer,
+  "address_ip" varchar,
+  "ext_refs" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("icon_id") references "documents"("id") on delete no action on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "document_id_fk_432938439" on "security_devices"("icon_id");
+CREATE INDEX "security_devices_name_index" on "security_devices"("name");
+CREATE INDEX "security_devices_perimeter_id_index" on "security_devices"(
+  "perimeter_id"
+);
+CREATE TABLE IF NOT EXISTS "sites"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "icon_id" integer,
+  "ext_refs" varchar,
+  "type" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("icon_id") references "documents"("id") on delete no action on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "document_id_fk_129485" on "sites"("icon_id");
+CREATE INDEX "sites_name_index" on "sites"("name");
+CREATE INDEX "sites_perimeter_id_index" on "sites"("perimeter_id");
+CREATE TABLE IF NOT EXISTS "storage_devices"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "site_id" integer,
+  "building_id" integer,
+  "bay_id" integer,
+  "physical_switch_id" integer,
+  "vendor" varchar,
+  "product" varchar,
+  "version" varchar,
+  "address_ip" varchar,
+  "type" varchar,
+  "ext_refs" varchar,
+  "icon_id" integer,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("site_id") references "sites"("id") on delete no action on update no action,
+  foreign key("physical_switch_id") references "physical_switches"("id") on delete no action on update no action,
+  foreign key("building_id") references "buildings"("id") on delete no action on update no action,
+  foreign key("bay_id") references "bays"("id") on delete no action on update no action,
+  foreign key("icon_id") references "documents"("id") on delete no action on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "bay_fk_1485363" on "storage_devices"("bay_id");
+CREATE INDEX "building_fk_1485362" on "storage_devices"("building_id");
+CREATE INDEX "document_id_fk_53812733" on "storage_devices"("icon_id");
+CREATE INDEX "physical_switch_fk_4025543" on "storage_devices"(
+  "physical_switch_id"
+);
+CREATE INDEX "site_fk_1485361" on "storage_devices"("site_id");
+CREATE INDEX "storage_devices_name_index" on "storage_devices"("name");
+CREATE INDEX "storage_devices_perimeter_id_index" on "storage_devices"(
+  "perimeter_id"
+);
+CREATE TABLE IF NOT EXISTS "subnetworks"(
+  "id" integer primary key autoincrement not null,
+  "description" text,
+  "address" varchar,
+  "ip_allocation_type" varchar,
+  "responsible_exp" varchar,
+  "dmz" varchar,
+  "wifi" varchar,
+  "name" varchar not null,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "connected_subnets_id" integer,
+  "gateway_id" integer,
+  "zone" varchar,
+  "vlan_id" integer,
+  "network_id" integer,
+  "default_gateway" varchar,
+  "subnetwork_id" integer,
+  "ext_refs" varchar,
+  "type" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("network_id") references "networks"("id") on delete no action on update no action,
+  foreign key("vlan_id") references "vlans"("id") on delete no action on update no action,
+  foreign key("connected_subnets_id") references "subnetworks"("id") on delete no action on update no action,
+  foreign key("gateway_id") references "gateways"("id") on delete no action on update no action,
+  foreign key("subnetwork_id") references "subnetworks"("id") on delete set null on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "connected_subnets_fk_1483256" on "subnetworks"(
+  "connected_subnets_id"
+);
+CREATE INDEX "gateway_fk_1492376" on "subnetworks"("gateway_id");
+CREATE INDEX "network_fk_5476544" on "subnetworks"("network_id");
+CREATE INDEX "subnetworks_name_index" on "subnetworks"("name");
+CREATE INDEX "subnetworks_perimeter_id_index" on "subnetworks"("perimeter_id");
+CREATE INDEX "subnetworks_subnetwork_id_index" on "subnetworks"(
+  "subnetwork_id"
+);
+CREATE INDEX "vlan_fk_6844934" on "subnetworks"("vlan_id");
+CREATE TABLE IF NOT EXISTS "tasks"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "ext_refs" varchar,
+  "type" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "tasks_name_index" on "tasks"("name");
+CREATE INDEX "tasks_perimeter_id_index" on "tasks"("perimeter_id");
+CREATE TABLE IF NOT EXISTS "vlans"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" varchar,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "vlan_id" integer,
+  "ext_refs" varchar,
+  "type" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "vlans_name_index" on "vlans"("name");
+CREATE INDEX "vlans_perimeter_id_index" on "vlans"("perimeter_id");
+CREATE TABLE IF NOT EXISTS "wans"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "ext_refs" varchar,
+  "type" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "wans_name_index" on "wans"("name");
+CREATE INDEX "wans_perimeter_id_index" on "wans"("perimeter_id");
+CREATE TABLE IF NOT EXISTS "wifi_terminals"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
+  "type" varchar,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "site_id" integer,
+  "building_id" integer,
+  "physical_switch_id" integer,
+  "vendor" varchar,
+  "product" varchar,
+  "version" varchar,
+  "address_ip" varchar,
+  "ext_refs" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("building_id") references "buildings"("id") on delete no action on update no action,
+  foreign key("physical_switch_id") references "physical_switches"("id") on delete no action on update no action,
+  foreign key("site_id") references "sites"("id") on delete no action on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "building_fk_1485508" on "wifi_terminals"("building_id");
+CREATE INDEX "physical_switch_fk_593584" on "wifi_terminals"(
+  "physical_switch_id"
+);
+CREATE INDEX "site_fk_1485507" on "wifi_terminals"("site_id");
+CREATE INDEX "wifi_terminals_name_index" on "wifi_terminals"("name");
+CREATE INDEX "wifi_terminals_perimeter_id_index" on "wifi_terminals"(
+  "perimeter_id"
+);
 CREATE TABLE IF NOT EXISTS "workstations"(
   "id" integer primary key autoincrement not null,
   "name" varchar not null,
@@ -1959,15 +2779,25 @@ CREATE TABLE IF NOT EXISTS "workstations"(
   "mac_address" varchar,
   "purchase_date" date,
   "fin_value" numeric,
-  foreign key("network_id") references networks("id") on delete no action on update no action,
-  foreign key("domain_id") references domains("id") on delete no action on update no action,
-  foreign key("user_id") references admin_users("id") on delete no action on update no action,
-  foreign key("entity_id") references entities("id") on delete no action on update no action,
-  foreign key("site_id") references sites("id") on delete no action on update no action,
-  foreign key("physical_switch_id") references physical_switches("id") on delete no action on update no action,
-  foreign key("building_id") references buildings("id") on delete no action on update no action,
-  foreign key("icon_id") references documents("id") on delete no action on update no action,
-  foreign key("domain_id") references "domains"("id")
+  "ext_refs" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("network_id") references "networks"("id") on delete no action on update no action,
+  foreign key("domain_id") references "domains"("id") on delete no action on update no action,
+  foreign key("user_id") references "admin_users"("id") on delete no action on update no action,
+  foreign key("entity_id") references "entities"("id") on delete no action on update no action,
+  foreign key("site_id") references "sites"("id") on delete no action on update no action,
+  foreign key("physical_switch_id") references "physical_switches"("id") on delete no action on update no action,
+  foreign key("building_id") references "buildings"("id") on delete no action on update no action,
+  foreign key("icon_id") references "documents"("id") on delete no action on update no action,
+  foreign key("domain_id") references "domains"("id") on delete no action on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
 );
 CREATE INDEX "building_fk_1485333" on "workstations"("building_id");
 CREATE INDEX "document_id_fk_129483" on "workstations"("icon_id");
@@ -1975,15 +2805,51 @@ CREATE INDEX "physical_switch_fk_0938434" on "workstations"(
   "physical_switch_id"
 );
 CREATE INDEX "site_fk_1485332" on "workstations"("site_id");
-CREATE TABLE IF NOT EXISTS "domain_forest_ad"(
-  "forest_ad_id" integer not null,
-  "domain_id" integer not null,
-  foreign key("forest_ad_id") references forest_ads("id") on delete cascade on update no action,
-  foreign key("domain_id") references domains("id") on delete cascade on update no action,
-  foreign key("domain_id") references "domains"("id") on delete CASCADE on update NO ACTION
+CREATE INDEX "workstations_name_index" on "workstations"("name");
+CREATE INDEX "workstations_perimeter_id_index" on "workstations"(
+  "perimeter_id"
 );
-CREATE INDEX "domaine_ad_id_fk_1492084" on "domain_forest_ad"("domain_id");
-CREATE INDEX "forest_ad_id_fk_1492084" on "domain_forest_ad"("forest_ad_id");
+CREATE TABLE IF NOT EXISTS "zone_admins"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "description" text,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "ext_refs" varchar,
+  "type" varchar,
+  "attributes" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "zone_admins_name_index" on "zone_admins"("name");
+CREATE INDEX "zone_admins_perimeter_id_index" on "zone_admins"("perimeter_id");
+CREATE TABLE IF NOT EXISTS "zones"(
+  "id" integer primary key autoincrement not null,
+  "name" varchar not null,
+  "type" varchar,
+  "attributes" varchar,
+  "description" text,
+  "created_at" datetime,
+  "updated_at" datetime,
+  "deleted_at" datetime,
+  "ext_refs" varchar,
+  "perimeter_id" integer not null default('1'),
+  "created_by" integer,
+  "updated_by" integer,
+  "deleted_by" integer,
+  foreign key("perimeter_id") references "perimeters"("id") on delete restrict on update no action,
+  foreign key("created_by") references "users"("id") on delete set null,
+  foreign key("updated_by") references "users"("id") on delete set null,
+  foreign key("deleted_by") references "users"("id") on delete set null
+);
+CREATE INDEX "zones_perimeter_id_index" on "zones"("perimeter_id");
 
 INSERT INTO migrations VALUES(1,'2016_06_01_000001_create_oauth_auth_codes_table',1);
 INSERT INTO migrations VALUES(2,'2016_06_01_000002_create_oauth_access_tokens_table',1);
@@ -2247,3 +3113,44 @@ INSERT INTO migrations VALUES(259,'2026_05_03_234356_drop_application_cartograph
 INSERT INTO migrations VALUES(260,'2026_05_07_215942_rename_fluxes_to_application_flows',7);
 INSERT INTO migrations VALUES(261,'2026_05_08_120804_rename_flux_information_to_application_flow_information',8);
 INSERT INTO migrations VALUES(262,'2026_05_08_212557_rename_domaines_to_domains',8);
+INSERT INTO migrations VALUES(263,'2026_05_11_000001_create_parameters_table',9);
+INSERT INTO migrations VALUES(264,'2026_05_12_113635_drop_unique_name_from_annuaires',9);
+INSERT INTO migrations VALUES(265,'2026_05_12_150000_create_zones_table',9);
+INSERT INTO migrations VALUES(266,'2026_05_12_150001_add_zone_permissions',9);
+INSERT INTO migrations VALUES(267,'2026_05_20_000000_restructure_backups_table',9);
+INSERT INTO migrations VALUES(268,'2026_05_31_000000_create_cartographers_table',9);
+INSERT INTO migrations VALUES(269,'2026_05_31_000001_rename_irregular_permissions',9);
+INSERT INTO migrations VALUES(270,'2026_06_04_090735_create_jobs_table',9);
+INSERT INTO migrations VALUES(271,'2026_06_07_094101_add_soft_deletes_to_cartographers_table',9);
+INSERT INTO migrations VALUES(272,'2026_06_11_000000_create_application_document_table',9);
+INSERT INTO migrations VALUES(273,'2026_06_18_000000_add_ext_refs_to_mapped_objects',9);
+INSERT INTO migrations VALUES(274,'2026_06_21_000000_move_mercator_config_to_parameters',9);
+INSERT INTO migrations VALUES(275,'2026_06_22_000000_rename_room_id_to_building_id_in_bays',9);
+INSERT INTO migrations VALUES(276,'2026_06_22_000001_add_type_and_attributes_columns',9);
+INSERT INTO migrations VALUES(277,'2026_06_22_000002_add_description_and_attributes_to_physical_links',9);
+INSERT INTO migrations VALUES(278,'2026_06_28_000000_drop_unique_name_from_backups_table',9);
+INSERT INTO migrations VALUES(279,'2026_07_05_000000_change_peripheral_domain_to_domain_id',9);
+INSERT INTO migrations VALUES(280,'2026_07_18_000000_create_monarc_sync_items_table',9);
+INSERT INTO migrations VALUES(281,'2026_07_24_000000_add_status_hosting_fields_to_applications',9);
+INSERT INTO migrations VALUES(282,'2026_08_04_000000_add_application_id_to_annuaires',9);
+INSERT INTO migrations VALUES(283,'2026_08_04_000000_fix_physical_servers_patching_typo',9);
+INSERT INTO migrations VALUES(284,'2026_08_11_000000_add_cairn_access_permission',9);
+INSERT INTO migrations VALUES(285,'2026_09_02_000000_add_flow_label_to_users_table',9);
+INSERT INTO migrations VALUES(286,'2026_09_08_000000_add_icon_to_storage_devices',9);
+INSERT INTO migrations VALUES(287,'2026_09_09_000000_add_type_attributes_to_cartography_objects',9);
+INSERT INTO migrations VALUES(288,'2026_09_09_000001_rename_nature_to_type_on_application_flows',9);
+INSERT INTO migrations VALUES(289,'2026_09_10_000000_rename_entity_type_to_type_on_entities',9);
+INSERT INTO migrations VALUES(290,'2026_09_10_000001_move_is_external_to_attributes_on_entities',9);
+INSERT INTO migrations VALUES(291,'2026_09_14_100000_create_perimeters_table',9);
+INSERT INTO migrations VALUES(292,'2026_09_14_100001_add_perimeter_id_to_roles_table',9);
+INSERT INTO migrations VALUES(293,'2026_09_15_000000_add_perimeter_id_to_mapped_objects',9);
+INSERT INTO migrations VALUES(294,'2026_09_15_113000_add_comments_to_applications',9);
+INSERT INTO migrations VALUES(295,'2026_09_16_000000_drop_unique_name_indexes_on_mapped_objects',9);
+INSERT INTO migrations VALUES(296,'2026_09_16_000001_add_perimeter_id_to_admin_users_table',9);
+INSERT INTO migrations VALUES(297,'2026_09_16_100000_add_name_indexes_to_frequently_sorted_tables',9);
+INSERT INTO migrations VALUES(298,'2026_09_21_000000_rename_nom_to_name_in_perimeters_table',9);
+INSERT INTO migrations VALUES(299,'2026_09_24_000000_add_comments_to_application_services',9);
+INSERT INTO migrations VALUES(300,'2026_09_24_000001_add_comments_to_application_modules',9);
+INSERT INTO migrations VALUES(301,'2026_10_10_000000_sanitize_stored_html_fields',9);
+INSERT INTO migrations VALUES(302,'2026_10_28_000000_add_icon_to_information',9);
+INSERT INTO migrations VALUES(304,'2026_11_06_000000_add_blame_columns_to_audited_tables',10);

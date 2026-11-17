@@ -130,7 +130,7 @@
 
 @section('scripts')
 @parent
-<script>
+<script @nonce>
 document.addEventListener("DOMContentLoaded", function () {
 (function () {
     var objectsUrl        = '{{ route('admin.cartographers.objects') }}';

@@ -10,11 +10,11 @@ use App\Models\Cartographer;
 use App\Models\Perimeter;
 use App\Models\Permission;
 use App\Models\Role;
+use App\Support\RoleAssignment;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class RolesController extends Controller
@@ -78,7 +78,9 @@ class RolesController extends Controller
         $request->merge(['permissions' => $role->permissions()->pluck('id')->toArray()]);
         $request->flash();
 
-        return view('admin.roles.create', compact('permissions_sorted', 'perimeters'));
+        $grantable = RoleAssignment::grantablePermissionIds(auth()->user());
+
+        return view('admin.roles.create', compact('permissions_sorted', 'perimeters', 'grantable'));
     }
 
     public function create()
@@ -90,12 +92,19 @@ class RolesController extends Controller
         $permissions_sorted = $this->getSortedPerms($permissions);
         $perimeters = Perimeter::query()->orderBy('id')->get();
 
-        return view('admin.roles.create', compact('permissions_sorted', 'perimeters'));
+        $grantable = RoleAssignment::grantablePermissionIds(auth()->user());
+
+        return view('admin.roles.create', compact('permissions_sorted', 'perimeters', 'grantable'));
     }
 
     public function store(StoreRoleRequest $request)
     {
         abort_if(Gate::denies('role_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        RoleAssignment::authorizeRolePermissions(
+            auth()->user(),
+            $request->input('permissions', []),
+            (int) $request->input('perimeter_id')
+        );
 
         $role = Role::query()->create($request->all());
         $role->permissions()->sync($request->input('permissions', []));
@@ -109,6 +118,7 @@ class RolesController extends Controller
     public function edit(Role $role)
     {
         abort_if(Gate::denies('edit-object', $role), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        RoleAssignment::authorizeManageRole(auth()->user(), $role);
 
         // Chargement de toutes les permissions et triage
         $permissions = Permission::all()->sortBy('title')->pluck('title', 'id');
@@ -119,13 +129,20 @@ class RolesController extends Controller
         $cartographers = $role->cartographerEntries()->with('cartographiable')->orderBy('cartographiable_type')->get();
         $cartographiableModels = Cartographer::cartographiableModelsList();
 
-        return view('admin.roles.edit', compact('permissions_sorted', 'role', 'cartographers', 'cartographiableModels', 'perimeters'));
+        $grantable = RoleAssignment::grantablePermissionIds(auth()->user());
+
+        return view('admin.roles.edit', compact('permissions_sorted', 'role', 'cartographers', 'cartographiableModels', 'perimeters', 'grantable'));
     }
 
     public function update(UpdateRoleRequest $request, Role $role)
     {
         abort_if(Gate::denies('edit-object', $role), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        // Update DB
+        RoleAssignment::authorizeManageRole(auth()->user(), $role);
+        RoleAssignment::authorizeRolePermissions(
+            auth()->user(),
+            $request->input('permissions', []),
+            (int) $request->input('perimeter_id')
+        );
 
         $role->update($request->all());
         $role->permissions()->sync($request->input('permissions', []));
@@ -152,6 +169,7 @@ class RolesController extends Controller
     public function destroy(Role $role)
     {
         abort_if(Gate::denies('role_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        RoleAssignment::authorizeManageRole(auth()->user(), $role);
 
         if ($role->users()->count() > 0) {
             return back()->withErrors('This role is assigned to at least one user');
@@ -166,7 +184,9 @@ class RolesController extends Controller
     {
         abort_if(Gate::denies('role_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        Role::query()->whereIn('id', request('ids'))->get()->each->delete();
+        $roles = Role::query()->whereIn('id', request('ids'))->get();
+        $roles->each(fn (Role $role) => RoleAssignment::authorizeManageRole(auth()->user(), $role));
+        $roles->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

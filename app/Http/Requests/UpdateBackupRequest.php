@@ -6,7 +6,7 @@ use Illuminate\Validation\Rule;
 
 class UpdateBackupRequest extends BaseFormRequest
 {
-    protected array $htmlFields = [];
+    protected array $htmlFields = ['description'];
 
     public function authorize(): bool
     {

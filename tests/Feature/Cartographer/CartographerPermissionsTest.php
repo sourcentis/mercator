@@ -10,6 +10,7 @@ use Database\Seeders\PermissionsTableSeeder;
 use Database\Seeders\RolesTableSeeder;
 use Database\Seeders\RoleUserTableSeeder;
 use Database\Seeders\UsersTableSeeder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 
@@ -36,6 +37,7 @@ function makeViewerUser(): User
     // Use a role with no permissions for strict testing
     $role = Role::firstOrCreate(['title' => 'viewer']);
     $user->roles()->attach($role);
+
     return $user;
 }
 
@@ -44,13 +46,13 @@ function makeAdminUser(): User
     return User::query()->where('login', 'admin@admin.com')->first();
 }
 
-function assignCartographerEntry(?User $user, ?Role $role, \Illuminate\Database\Eloquent\Model $object): void
+function assignCartographerEntry(?User $user, ?Role $role, Model $object): void
 {
     Cartographer::create([
         'cartographiable_type' => get_class($object),
-        'cartographiable_id'   => $object->getKey(),
-        'user_id'              => $user?->id,
-        'role_id'              => $role?->id,
+        'cartographiable_id' => $object->getKey(),
+        'user_id' => $user?->id,
+        'role_id' => $role?->id,
     ]);
 }
 
@@ -65,7 +67,7 @@ it('canAccessAny returns false for user with no rights', function () {
 
 it('canAccessAny returns true when user has cartographer entry for that type', function () {
     $user = makeViewerUser();
-    $app  = Application::factory()->create();
+    $app = Application::factory()->create();
     assignCartographerEntry($user, null, $app);
     $this->actingAs($user);
     Cartographer::loadSessionFor($user);
@@ -76,7 +78,7 @@ it('canAccessAny returns true when user has cartographer role for that type', fu
     $role = Role::factory()->create(['title' => 'app-managers']);
     $user = makeViewerUser();
     $user->roles()->attach($role);
-    $app  = Application::factory()->create();
+    $app = Application::factory()->create();
     assignCartographerEntry(null, $role, $app);
     Cartographer::loadSessionFor($user);
     $this->actingAs($user);
@@ -137,7 +139,7 @@ it('show returns 403 for user not cartographer of that object', function () {
 
 it('show is accessible for cartographer of that specific object', function () {
     $user = makeViewerUser();
-    $app  = Application::factory()->create();
+    $app = Application::factory()->create();
     assignCartographerEntry($user, null, $app);
 
     $this->actingAs($user);
@@ -162,7 +164,7 @@ it('show is forbidden for cartographer of a different object', function () {
 
 it('edit is accessible for cartographer of that specific object', function () {
     $user = makeViewerUser();
-    $app  = Application::factory()->create();
+    $app = Application::factory()->create();
     assignCartographerEntry($user, null, $app);
 
     $this->actingAs($user);
@@ -176,7 +178,7 @@ it('edit is accessible for cartographer of that specific object', function () {
 
 it('create is forbidden for cartographer user', function () {
     $user = makeViewerUser();
-    $app  = Application::factory()->create();
+    $app = Application::factory()->create();
     assignCartographerEntry($user, null, $app);
 
     $this->actingAs($user);
@@ -188,7 +190,7 @@ it('create is forbidden for cartographer user', function () {
 
 it('destroy is forbidden for cartographer user', function () {
     $user = makeViewerUser();
-    $app  = Application::factory()->create();
+    $app = Application::factory()->create();
     assignCartographerEntry($user, null, $app);
 
     $this->actingAs($user);
@@ -201,9 +203,9 @@ it('destroy is forbidden for cartographer user', function () {
 // ── Droits via rôle ────────────────────────────────────────────────────────
 
 it('role-based cartographer grants access to all users with that role', function () {
-    $role    = Role::factory()->create(['title' => 'server-managers']);
-    $user1   = makeViewerUser();
-    $user2   = makeViewerUser();
+    $role = Role::factory()->create(['title' => 'server-managers']);
+    $user1 = makeViewerUser();
+    $user2 = makeViewerUser();
     $user1->roles()->attach($role);
     $user2->roles()->attach($role);
     $server = LogicalServer::factory()->create();
@@ -224,7 +226,7 @@ it('role-based cartographer grants access to all users with that role', function
 
 it('middleware reloads session when cartographers table changes after login', function () {
     $user = makeViewerUser();
-    $app  = Application::factory()->create();
+    $app = Application::factory()->create();
 
     $this->actingAs($user);
     Cartographer::loadSessionFor($user);
@@ -247,7 +249,7 @@ it('middleware reloads session when cartographers table changes after login', fu
 
 it('admin can access everything regardless of cartographer entries', function () {
     $admin = makeAdminUser();
-    $app   = Application::factory()->create();
+    $app = Application::factory()->create();
 
     $this->actingAs($admin);
     Cartographer::loadSessionFor($admin);

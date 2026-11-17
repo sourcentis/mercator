@@ -3,10 +3,9 @@
 namespace App\Http\Requests;
 
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class MassStorePhysicalSecurityDeviceRequest extends FormRequest
+class MassStorePhysicalSecurityDeviceRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -18,10 +17,10 @@ class MassStorePhysicalSecurityDeviceRequest extends FormRequest
     public function rules()
     {
         // On récupère les règles du StorePhysicalSecurityDeviceRequest classique
-        $storeRules = (new StorePhysicalSecurityDeviceRequest())->rules();
+        $storeRules = (new StorePhysicalSecurityDeviceRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -33,4 +32,3 @@ class MassStorePhysicalSecurityDeviceRequest extends FormRequest
         return $rules;
     }
 }
-

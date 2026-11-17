@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Console\Commands\DatabaseCleanup;
 use App\Http\Controllers\Controller;
 use App\Models\Document;
 use App\Models\MonarcSyncItem;
 use App\Models\Parameter;
 use App\Models\Perimeter;
+use App\Services\MailerService;
 use App\Support\MercatorSettings;
 use App\Support\MonarcSettings;
 use App\Support\MonarcSyncState;
@@ -14,11 +16,15 @@ use App\Support\PerimeterSettings;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
 class ConfigurationController extends Controller
 {
+    /** Durées de conservation proposées pour le nettoyage de la base (en mois). */
+    public const CLEANUP_RETENTION_MONTHS = [1, 3, 6, 12, 24, 36, 60];
+
     /**
      * Page de configuration unifiée — charge tous les onglets.
      * Lit directement depuis le fichier pour garantir les valeurs à jour
@@ -34,6 +40,7 @@ class ConfigurationController extends Controller
             // Général
             'security_need_auth' => $cfg['parameters']['security_need_auth'] ?? false,
             'application_documents' => $cfg['parameters']['application_documents'] ?? false,
+            'max_nodes' => (int) ($cfg['parameters']['max_nodes'] ?? 500),
             // Certificats
             'cert_mail_from' => $cfg['cert']['mail-from'] ?? '',
             'cert_mail_to' => $cfg['cert']['mail-to'] ?? '',
@@ -72,6 +79,13 @@ class ConfigurationController extends Controller
             'monarc_synced_items_count' => isset($monarcSyncState['anr_id'])
                 ? MonarcSyncItem::query()->where('anr_id', $monarcSyncState['anr_id'])->count()
                 : 0,
+            // Nettoyage de la base
+            'cleanup_audit_logs_enabled' => (bool) ($cfg['cleanup']['audit_logs_enabled'] ?? false),
+            'cleanup_audit_logs_retention' => (int) ($cfg['cleanup']['audit_logs_retention'] ?? 12),
+            'cleanup_deleted_objects_enabled' => (bool) ($cfg['cleanup']['deleted_objects_enabled'] ?? false),
+            'cleanup_deleted_objects_retention' => (int) ($cfg['cleanup']['deleted_objects_retention'] ?? 3),
+            'cleanup_retention_options' => self::CLEANUP_RETENTION_MONTHS,
+            'cleanup_last_run' => json_decode((string) Parameter::getValue(DatabaseCleanup::LAST_RUN_PARAMETER), true),
             // Documents
             'count' => Document::query()->count(),
             'sum' => Document::query()->sum('size'),
@@ -104,6 +118,7 @@ class ConfigurationController extends Controller
             'reminders' => $this->handleReminders($action, $request),
             'notifications' => $this->handleModification($action, $request),
             'monarc' => $this->handleMonarc($request),
+            'cleanup' => $this->handleCleanup($request),
             default => $this->handleGeneral($request),
         };
 
@@ -118,9 +133,14 @@ class ConfigurationController extends Controller
 
     private function handleGeneral(Request $request): array
     {
+        $validated = $request->validate([
+            'max_nodes' => ['required', 'integer', 'min:0', 'max:100000'],
+        ]);
+
         $cfg = $this->readConfigFile();
         $cfg['parameters']['security_need_auth'] = $request->boolean('security_need_auth');
         $cfg['parameters']['application_documents'] = $request->boolean('application_documents');
+        $cfg['parameters']['max_nodes'] = (int) $validated['max_nodes'];
         $this->writeConfigFile($cfg);
 
         return [trans('cruds.configuration.saved'), true];
@@ -263,6 +283,28 @@ class ConfigurationController extends Controller
         return [trans('cruds.configuration.saved'), true];
     }
 
+    private function handleCleanup(Request $request): array
+    {
+        // Une durée n'est pas transmise quand sa purge est désactivée (fieldset disabled) :
+        // la valeur précédente est alors conservée.
+        $validated = $request->validate([
+            'audit_logs_retention' => ['nullable', 'integer', Rule::in(self::CLEANUP_RETENTION_MONTHS)],
+            'deleted_objects_retention' => ['nullable', 'integer', Rule::in(self::CLEANUP_RETENTION_MONTHS)],
+        ]);
+
+        $cfg = $this->readConfigFile();
+        $current = $cfg['cleanup'] ?? [];
+        $cfg['cleanup'] = [
+            'audit_logs_enabled' => $request->boolean('audit_logs_enabled'),
+            'audit_logs_retention' => (int) ($validated['audit_logs_retention'] ?? $current['audit_logs_retention'] ?? 12),
+            'deleted_objects_enabled' => $request->boolean('deleted_objects_enabled'),
+            'deleted_objects_retention' => (int) ($validated['deleted_objects_retention'] ?? $current['deleted_objects_retention'] ?? 3),
+        ];
+        $this->writeConfigFile($cfg);
+
+        return [trans('cruds.configuration.saved'), true];
+    }
+
     private function handleMonarc(Request $request): array
     {
         $url = trim((string) $request->input('url'));
@@ -322,14 +364,9 @@ class ConfigurationController extends Controller
     {
         $mail = new PHPMailer(true);
         try {
-            $mail->isSMTP();
-            $mail->Host = config('mail.mailers.smtp.host');
-            $mail->SMTPAuth = config('mail.mailers.smtp.username') !== null;
-            $mail->Username = config('mail.mailers.smtp.username');
-            $mail->Password = config('mail.mailers.smtp.password');
-            $mail->SMTPSecure = config('mail.mailers.smtp.encryption');
-            $mail->SMTPAutoTLS = config('mail.mailers.smtp.auto_tls');
-            $mail->Port = (int) config('mail.mailers.smtp.port');
+            // Mêmes réglages que les envois automatiques : une erreur TLS doit apparaître ici
+            // plutôt qu'à l'envoi de minuit.
+            MailerService::configure($mail);
 
             $mail->CharSet = PHPMailer::CHARSET_UTF8;
             $mail->Encoding = PHPMailer::ENCODING_BASE64;
@@ -350,8 +387,12 @@ class ConfigurationController extends Controller
             $mail->send();
 
             return ['Message has been sent', true];
-        } catch (Exception) {
-            return ["Message could not be sent. Mailer Error: {$mail->ErrorInfo}", false];
+        } catch (Exception $e) {
+            // Message de l'exception plutôt que ErrorInfo : après un échec STARTTLS,
+            // ErrorInfo se voit ajouter la réponse au QUIT, faite d'octets TLS binaires.
+            $error = mb_scrub(trim($e->getMessage()), 'UTF-8');
+
+            return ["Message could not be sent. Mailer Error: {$error}", false];
         }
     }
 

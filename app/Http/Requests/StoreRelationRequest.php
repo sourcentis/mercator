@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class StoreRelationRequest extends BaseFormRequest
 {
-    protected array $htmlFields = ['description'];
+    protected array $htmlFields = ['description', 'comments'];
 
     public function authorize(): bool
     {
@@ -39,6 +39,13 @@ class StoreRelationRequest extends BaseFormRequest
             'destination_id' => [
                 'required',
                 'integer',
+            ],
+            'documents' => [
+                'array',
+            ],
+            'documents.*' => [
+                'integer',
+                'exists:documents,id',
             ],
         ];
     }

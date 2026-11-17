@@ -7,7 +7,10 @@ use App\Models\LogicalServer;
 use Carbon\Carbon;
 use Gate;
 use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Csv;
 use PhpOffice\PhpSpreadsheet\Writer\Exception;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\Response;
 
 class LogicalServers extends Controller
@@ -33,7 +36,7 @@ class LogicalServers extends Controller
             trans('cruds.applicationBlock.fields.responsible'),
         ];
 
-        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet;
+        $spreadsheet = new Spreadsheet;
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->fromArray([$header], null, 'A1');
 
@@ -85,12 +88,11 @@ class LogicalServers extends Controller
             }
         }
 
-        if ($request->get('format')=='csv') {
-            $writer = new \PhpOffice\PhpSpreadsheet\Writer\Csv($spreadsheet);
+        if ($request->get('format') == 'csv') {
+            $writer = new Csv($spreadsheet);
             $path = storage_path('app/logicalServers-'.Carbon::today()->format('Ymd').'.csv');
-        }
-        else {
-            $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+        } else {
+            $writer = new Xlsx($spreadsheet);
             $path = storage_path('app/logicalServers-'.Carbon::today()->format('Ymd').'.xlsx');
         }
 

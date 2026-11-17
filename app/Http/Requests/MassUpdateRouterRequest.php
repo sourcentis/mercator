@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Gate;
-use Illuminate\Foundation\Http\FormRequest;
-use Symfony\Component\HttpFoundation\Response;
 use App\Models\Router;
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 
-class MassUpdateRouterRequest extends FormRequest
+class MassUpdateRouterRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -19,14 +18,14 @@ class MassUpdateRouterRequest extends FormRequest
     public function rules()
     {
         // Règles du UpdateRouterRequest classique
-        $updateRules = (new UpdateRouterRequest())->rules();
+        $updateRules = (new UpdateRouterRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new Router();
+        $model = new Router;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdateRouterRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -37,10 +36,9 @@ class MassUpdateRouterRequest extends FormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.physicalRouters']   = ['sometimes', 'array'];
+        $rules['items.*.physicalRouters'] = ['sometimes', 'array'];
         $rules['items.*.physicalRouters.*'] = ['integer'];
 
         return $rules;
     }
 }
-

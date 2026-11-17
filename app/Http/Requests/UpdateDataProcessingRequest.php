@@ -6,7 +6,7 @@ use Illuminate\Validation\Rule;
 
 class UpdateDataProcessingRequest extends BaseFormRequest
 {
-    protected array $htmlFields = ['description', 'responsible', 'purpose', 'lawfulness', 'categories', 'recipients', 'transfert', 'retention'];
+    protected array $htmlFields = ['description', 'responsible', 'purpose', 'lawfulness', 'categories', 'recipients', 'transfert', 'retention', 'data_source', 'data_collection_obligation', 'automated_decision_making', 'data_subject_rights'];
 
     public function authorize(): bool
     {

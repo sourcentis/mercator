@@ -221,7 +221,7 @@
 @section('scripts')
 @vite(['resources/js/graphviz.js'])
 
-<script>
+<script @nonce>
     // ─── Paramètres courants injectés par Laravel (URL → JS) ──────────────────
     const PARAMS = {
         node:      @json(request('node')),
@@ -437,7 +437,7 @@
                 attrs.push(`color="${edge.color ?? 'blue'}"`);
                 attrs.push('penwidth=2');
                 attrs.push('dir=none');
-            } else if (edge.type === 'FLUX') {
+            } else if (edge.type === 'FLUX' || edge.type === 'LFLUX') {
                 if (edge.name)          attrs.push(`label="${esc(edge.name)}"`);
                 if (edge.bidirectional) attrs.push('dir=both');
                 attrs.push('color="#1a6496"');

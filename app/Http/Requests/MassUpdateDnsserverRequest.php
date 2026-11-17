@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Gate;
-use Illuminate\Foundation\Http\FormRequest;
-use Symfony\Component\HttpFoundation\Response;
 use App\Models\Dnsserver;
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 
-class MassUpdateDnsserverRequest extends FormRequest
+class MassUpdateDnsserverRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -19,14 +18,14 @@ class MassUpdateDnsserverRequest extends FormRequest
     public function rules()
     {
         // Règles du UpdateDnsserverRequest classique
-        $updateRules = (new UpdateDnsserverRequest())->rules();
+        $updateRules = (new UpdateDnsserverRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new Dnsserver();
+        $model = new Dnsserver;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdateDnsserverRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -37,10 +36,9 @@ class MassUpdateDnsserverRequest extends FormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.roles']   = ['sometimes', 'array'];
+        $rules['items.*.roles'] = ['sometimes', 'array'];
         $rules['items.*.roles.*'] = ['integer'];
 
         return $rules;
     }
 }
-

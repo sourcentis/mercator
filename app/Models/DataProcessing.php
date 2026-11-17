@@ -7,6 +7,7 @@ use App\Contracts\HasPrefix;
 use App\Contracts\HasUniqueIdentifierContract;
 use App\Factories\DataProcessingFactory;
 use App\Traits\Auditable;
+use App\Traits\Blameable;
 use App\Traits\HasIcon;
 use App\Traits\HasPerimeter;
 use App\Traits\HasUniqueIdentifier;
@@ -15,13 +16,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 
 /**
  * App\Actor
  */
 class DataProcessing extends Model implements HasIconContract, HasPrefix, HasUniqueIdentifierContract
 {
-    use Auditable, HasFactory, HasIcon, HasUniqueIdentifier, SoftDeletes;
+    use Auditable, Blameable, HasFactory, HasIcon, HasUniqueIdentifier, SoftDeletes;
     use HasPerimeter;
 
     public $table = 'data_processing';
@@ -94,6 +96,16 @@ class DataProcessing extends Model implements HasIconContract, HasPrefix, HasUni
     public function applications(): BelongsToMany
     {
         return $this->belongsToMany(Application::class)->orderBy('name');
+    }
+
+    /** @return Collection<int, SecurityControl> */
+    public function securityControls(): Collection
+    {
+        return $this->applications
+            ->flatMap(fn ($application) => $application->securityControls)
+            ->merge($this->processes->flatMap(fn ($process) => $process->securityControls))
+            ->unique('id')
+            ->sortBy('name');
     }
 
     /** @return BelongsToMany<Information, $this> */

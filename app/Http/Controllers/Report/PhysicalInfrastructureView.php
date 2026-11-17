@@ -4,11 +4,9 @@ namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Report\Concerns\AutoloadsRelations;
-use App\Models\Cartographer;
-use Gate;
-use Illuminate\Http\Request;
 use App\Models\Bay;
 use App\Models\Building;
+use App\Models\Cartographer;
 use App\Models\Peripheral;
 use App\Models\Phone;
 use App\Models\PhysicalRouter;
@@ -19,7 +17,10 @@ use App\Models\Site;
 use App\Models\StorageDevice;
 use App\Models\WifiTerminal;
 use App\Models\Workstation;
+use App\Services\Graph\GraphSize;
 use App\Services\Graph\PhysicalInfrastructureGraphBuilder;
+use Gate;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class PhysicalInfrastructureView extends Controller
@@ -34,7 +35,7 @@ class PhysicalInfrastructureView extends Controller
             StorageDevice::class, Peripheral::class, Phone::class,
             WifiTerminal::class, PhysicalSecurityDevice::class,
         ]);
-        abort_if(!$allowed, Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(! $allowed, Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->site == null) {
             $request->session()->put('site', null);
@@ -311,8 +312,14 @@ class PhysicalInfrastructureView extends Controller
             $phones, $physicalSwitches, $physicalRouters, $wifiTerminals, $physicalSecurityDevices
         );
 
+        // Compte les nœuds avant de construire le DOT : un graphe trop grand n'est ni construit ni envoyé
+        $graphTooLarge = GraphSize::tooLarge(GraphSize::count(
+            $sites, $buildings, $bays, $physicalServers, $workstations, $storageDevices, $peripherals,
+            $phones, $physicalSwitches, $physicalRouters, $wifiTerminals, $physicalSecurityDevices
+        ));
+
         $graphBuilder = new PhysicalInfrastructureGraphBuilder;
-        $dotSrc = $graphBuilder->buildLocationDot(
+        $dotSrc = $graphTooLarge ? '' : $graphBuilder->buildLocationDot(
             $sites,
             $buildings,
             $bays,
@@ -344,6 +351,7 @@ class PhysicalInfrastructureView extends Controller
             ->with('physicalRouters', $physicalRouters)
             ->with('wifiTerminals', $wifiTerminals)
             ->with('physicalSecurityDevices', $physicalSecurityDevices)
+            ->with('graphTooLarge', $graphTooLarge)
             ->with('dotSrc', $dotSrc)
             ->with('imageManifest', $imageManifest);
     }

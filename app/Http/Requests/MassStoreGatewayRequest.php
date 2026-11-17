@@ -3,10 +3,9 @@
 namespace App\Http\Requests;
 
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class MassStoreGatewayRequest extends FormRequest
+class MassStoreGatewayRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -18,10 +17,10 @@ class MassStoreGatewayRequest extends FormRequest
     public function rules()
     {
         // On récupère les règles du StoreGatewayRequest classique
-        $storeRules = (new StoreGatewayRequest())->rules();
+        $storeRules = (new StoreGatewayRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -30,10 +29,9 @@ class MassStoreGatewayRequest extends FormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.subnetworks']   = ['sometimes', 'array'];
+        $rules['items.*.subnetworks'] = ['sometimes', 'array'];
         $rules['items.*.subnetworks.*'] = ['integer'];
 
         return $rules;
     }
 }
-

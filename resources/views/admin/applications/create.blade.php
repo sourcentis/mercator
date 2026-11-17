@@ -75,7 +75,7 @@
                             <select class="form-control select2-free-tags {{ $errors->has('attributes') ? 'is-invalid' : '' }}"
                                     name="attributes[]" id="attributes" multiple>
                                 @foreach($attributes_list as $a)
-                                    <option {{ str_contains(old('attributes'), $a) ? 'selected' : '' }}>{{$a}}</option>
+                                    <option {{ in_array($a, old('attributes', []), true) ? 'selected' : '' }}>{{$a}}</option>
                                 @endforeach
                             </select>
                             @if($errors->has('attributes'))
@@ -94,7 +94,7 @@
                                    for="description">{{ trans('cruds.application.fields.description') }}</label>
                             <textarea
                                     class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}"
-                                    name="description" id="description">{!! old('description') !!}</textarea>
+                                    name="description" id="description">{{ old('description') }}</textarea>
                             @if($errors->has('description'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('description') }}
@@ -139,7 +139,8 @@
 		        </div>
 		    </div>
 		</div>
-                <!------------------------------------------------------------------------------------------------------------->
+
+		<!------------------------------------------------------------------------------------------------------------->
 
                 @if (config('mercator.parameters.application_documents'))
                 <div class="row">
@@ -158,6 +159,28 @@
                 </div>
                  @endif
 
+                <div class="row">
+                    <div class="col-md-6">
+                         <div class="form-group">
+                             <label class="recommended"
+                                    for="application_block_id">{{ trans('cruds.application.fields.application_block') }}</label>
+                             <select class="form-control select2 {{ $errors->has('application_block') ? 'is-invalid' : '' }}"
+                                     name="application_block_id" id="application_block_id">
+                                 <option value="">...</option>
+                                 @foreach($applicationBlocks as $id => $applicationBlock)
+                                     <option value="{{ $id }}" {{ old('application_block_id') == $id ? 'selected' : '' }}>{{ $applicationBlock }}</option>
+                                 @endforeach
+                             </select>
+                             @if($errors->has('application_block'))
+                                 <div class="invalid-feedback">
+                                     {{ $errors->first('application_block') }}
+                                 </div>
+                             @endif
+                             <span class="help-block">{{ trans('cruds.application.fields.application_block_helper') }}</span>
+                         </div>
+                     </div>
+                </div>
+
             </div>
             <!------------------------------------------------------------------------------------------------------------->
             <div class="card-header">
@@ -173,7 +196,7 @@
                             <select class="form-control select2-free {{ $errors->has('responsible') ? 'is-invalid' : '' }}"
                                     name="responsibles[]" id="responsibles" multiple>
                                 @foreach($responsible_list as $resp)
-                                    <option {{ str_contains(old('responsible') ,$resp) ? 'selected' : '' }}>{{$resp}}</option>
+                                    <option {{ in_array($resp, old('responsibles', []), true) ? 'selected' : '' }}>{{$resp}}</option>
                                 @endforeach
                             </select>
                             @if($errors->has('responsible'))
@@ -284,7 +307,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="logical_servers">{{ trans('cruds.application.fields.administrators') }}</label>
                             <select class="form-control select2 {{ $errors->has('administrators') ? 'is-invalid' : '' }}"
@@ -310,33 +333,14 @@
             <!------------------------------------------------------------------------------------------------------------->
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="recommended"
-                                   for="application_block_id">{{ trans('cruds.application.fields.application_block') }}</label>
-                            <select class="form-control select2 {{ $errors->has('application_block') ? 'is-invalid' : '' }}"
-                                    name="application_block_id" id="application_block_id">
-                                <option value="">...</option>
-                                @foreach($applicationBlocks as $id => $applicationBlock)
-                                    <option value="{{ $id }}" {{ old('application_block_id') == $id ? 'selected' : '' }}>{{ $applicationBlock }}</option>
-                                @endforeach
-                            </select>
-                            @if($errors->has('application_block'))
-                                <div class="invalid-feedback">
-                                    {{ $errors->first('application_block') }}
-                                </div>
-                            @endif
-                            <span class="help-block">{{ trans('cruds.application.fields.application_block_helper') }}</span>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
+                    <div class="col-md-8">
                         <div class="form-group">
                             <label class="label-maturity-1"
                                    for="technology">{{ trans('cruds.application.fields.technology') }}</label>
                             <select class="form-control select2-free {{ $errors->has('technology') ? 'is-invalid' : '' }}"
                                     name="technologies[]" id="technologies" multiple>
                                 @foreach($technology_list as $t)
-                                    <option {{ str_contains(old('technology') ,$t) ? 'selected' : '' }}>{{$t}}</option>
+                                    <option {{ in_array($t, old('technologies', []), true) ? 'selected' : '' }}>{{$t}}</option>
                                 @endforeach
                             </select>
 
@@ -355,7 +359,7 @@
                             <select class="form-control select2-free {{ $errors->has('external') ? 'is-invalid' : '' }}"
                                     name="externals[]" id="externals" multiple>
                                 @foreach($external_list as $t)
-                                    <option {{ str_contains(old('external') ,$t) ? 'selected' : '' }}>{{$t}}</option>
+                                    <option {{ in_array($t, old('externals', []), true) ? 'selected' : '' }}>{{$t}}</option>
                                 @endforeach
                             </select>
                             <span class="help-block">{{ trans('cruds.application.fields.external_helper') }}</span>
@@ -794,7 +798,7 @@
 @section('scripts')
     @parent
     @if (config('mercator.parameters.application_documents'))
-    <script>
+    <script @nonce>
         document.addEventListener("DOMContentLoaded", function () {
             var image_uploader = new Dropzone("#dropzoneFileUpload", {
                 url: '/admin/documents/store',
@@ -822,7 +826,7 @@
         });
     </script>
     @endif
-    <script>
+    <script @nonce>
         document.addEventListener("DOMContentLoaded", function () {
 
             // submit the correct button when "enter" key pressed

@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Gate;
-use Illuminate\Foundation\Http\FormRequest;
-use Symfony\Component\HttpFoundation\Response;
 use App\Models\Permission;
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 
-class MassUpdatePermissionRequest extends FormRequest
+class MassUpdatePermissionRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -19,14 +18,14 @@ class MassUpdatePermissionRequest extends FormRequest
     public function rules()
     {
         // Règles du UpdatePermissionRequest classique
-        $updateRules = (new UpdatePermissionRequest())->rules();
+        $updateRules = (new UpdatePermissionRequest)->rules();
 
         // On récupère dynamiquement le nom de la table du modèle
-        $model = new Permission();
+        $model = new Permission;
         $table = $model->getTable();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
             // l'id n'est pas dans UpdatePermissionRequest (route model binding),
             'items.*.id' => ['required', 'integer', "exists:{$table},id"],
@@ -40,4 +39,3 @@ class MassUpdatePermissionRequest extends FormRequest
         return $rules;
     }
 }
-

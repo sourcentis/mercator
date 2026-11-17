@@ -1,10 +1,10 @@
 <?php
 
+use App\Models\Permission;
+use App\Models\Role;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\Permission;
-use App\Models\Role;
 
 return new class extends Migration
 {
@@ -68,7 +68,6 @@ return new class extends Migration
             // Auditor
             Role::query()->findOrFail(3)->permissions()->sync([317, 319], false);
         }
-
 
     }
 

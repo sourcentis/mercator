@@ -15,7 +15,7 @@
 
             <div class="card-body">
                 <div class="row">
-                    @if (auth()->user()->hasMultiplePerimeters())
+                    @if (auth()->user()->canChoosePerimeterOf($entity))
                 <div class="col-2">
                     <div class="form-group">
                         <label for="perimeter_id">{{ trans('cruds.perimeter.title_short') }}</label>
@@ -104,7 +104,7 @@
                             <textarea
                                     class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}"
                                     name="description"
-                                    id="description">{!! old('description', $entity->description) !!}</textarea>
+                                    id="description">{{ old('description', $entity->description) }}</textarea>
                             @if($errors->has('description'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('description') }}
@@ -175,7 +175,7 @@
                            for="contact_point">{{ trans('cruds.entity.fields.contact_point') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('contact_point') ? 'is-invalid' : '' }}"
                               name="contact_point"
-                              id="contact_point">{!! old('contact_point', $entity->contact_point) !!}</textarea>
+                              id="contact_point">{{ old('contact_point', $entity->contact_point) }}</textarea>
                     @if($errors->has('contact_point'))
                         <div class="invalid-feedback">
                             {{ $errors->first('contact_point') }}
@@ -188,7 +188,7 @@
                            for="security_level">{{ trans('cruds.entity.fields.security_level') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('security_level') ? 'is-invalid' : '' }}"
                               name="security_level"
-                              id="security_level">{!! old('security_level', $entity->security_level) !!}</textarea>
+                              id="security_level">{{ old('security_level', $entity->security_level) }}</textarea>
                     @if($errors->has('security_level'))
                         <div class="invalid-feedback">
                             {{ $errors->first('security_level') }}

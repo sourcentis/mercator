@@ -16,7 +16,7 @@
 
                 {{-- Ligne 1 : nom, type, attributs --}}
                 <div class="row">
-                    @if (auth()->user()->hasMultiplePerimeters())
+                    @if (auth()->user()->canChoosePerimeterOf($zone))
                 <div class="col-md-2">
                     <div class="form-group">
                         <label for="perimeter_id">{{ trans('cruds.perimeter.title_short') }}</label>
@@ -93,7 +93,7 @@
                 <div class="form-group">
                     <label for="description">{{ trans('cruds.zone.fields.description') }}</label>
                     <textarea class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}"
-                              name="description" id="description">{!! old('description', $zone->description) !!}</textarea>
+                              name="description" id="description">{{ old('description', $zone->description) }}</textarea>
                     @error('description') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
 

@@ -65,7 +65,7 @@
                         <label class="recommended" for="attributes">{{ trans('cruds.logicalServer.fields.attributes') }}</label>
                         <select class="form-control select2-free {{ $errors->has('patching_group') ? 'is-invalid' : '' }}" name="attributes[]" id="attributes[]" multiple>
                             @foreach($attributes_list as $a)
-                                <option {{ str_contains(old('attributes') ? old('attributes') : $application->attributes, $a) ? 'selected' : '' }}>{{$a}}</option>
+                                <option {{ in_array($a, old('attributes', explode(' ', $application->attributes ?? '')), true) ? 'selected' : '' }}>{{$a}}</option>
                             @endforeach
                         </select>
                         @if($errors->has('attributes'))
@@ -174,7 +174,7 @@
 @endsection
 
 @section('scripts')
-<script>
+<script @nonce>
 document.addEventListener("DOMContentLoaded", function () {
 
     // ----------------------------------------------------------------
@@ -325,7 +325,7 @@ function searchCVE() {
 
     const form  = document.createElement('form');
     form.method = 'POST';
-    form.action = "{{ route('admin.cve.search', '') }}/" + encodeURIComponent(cpe);
+    form.action = "{{ route('admin.cve.search', '__CPE__') }}".replace('__CPE__', encodeURIComponent(cpe));
 
     const token   = document.createElement('input');
     token.type    = 'hidden';

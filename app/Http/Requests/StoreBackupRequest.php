@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class StoreBackupRequest extends BaseFormRequest
 {
-    protected array $htmlFields = [];
+    protected array $htmlFields = ['description'];
 
     public function authorize(): bool
     {

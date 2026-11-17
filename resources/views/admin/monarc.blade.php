@@ -292,7 +292,7 @@
 
 @section('scripts')
 @parent
-<script>
+<script @nonce>
 (function () {
     'use strict';
 

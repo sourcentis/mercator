@@ -7,10 +7,10 @@ use App\Http\Requests\MassStoreApplicationModuleRequest;
 use App\Http\Requests\MassUpdateApplicationModuleRequest;
 use App\Http\Requests\StoreApplicationModuleRequest;
 use App\Http\Requests\UpdateApplicationModuleRequest;
+use App\Models\ApplicationModule;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\ApplicationModule;
 use Symfony\Component\HttpFoundation\Response;
 
 class ApplicationModuleController extends APIController
@@ -52,10 +52,12 @@ class ApplicationModuleController extends APIController
 
         $applicationModule->update($request->all());
 
-        if ($request->has('application_services'))
+        if ($request->has('application_services')) {
             $applicationModule->applicationServices()->sync($request->input('application_services', []));
-        if ($request->has('entities'))
+        }
+        if ($request->has('entities')) {
             $applicationModule->entities()->sync($request->input('entities', []));
+        }
 
         return response()->json();
     }
@@ -73,7 +75,7 @@ class ApplicationModuleController extends APIController
     {
         abort_if(Gate::denies('application_module_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        ApplicationModule::query()->whereIn('id', request('ids'))->delete();
+        ApplicationModule::query()->whereIn('id', request('ids'))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
@@ -83,7 +85,7 @@ class ApplicationModuleController extends APIController
         // L’authorize() du FormRequest gère déjà l’appel Gate::denies('application_module_create')
         $createdIds = [];
 
-        $model    = new ApplicationModule();
+        $model = new ApplicationModule;
         $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $item) {
@@ -100,15 +102,15 @@ class ApplicationModuleController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateApplicationModuleRequest $request)
     {
         // L’authorize() du FormRequest gère déjà l’appel Gate::denies('application_module_edit')
-        $model    = new ApplicationModule();
+        $model = new ApplicationModule;
         $fillable = $model->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {

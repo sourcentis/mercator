@@ -49,7 +49,6 @@ return new class extends Migration
             Role::query()->findOrFail($adminId)->permissions()->syncWithoutDetaching([330, 331, 332, 333, 334]);
         }
 
-
     }
 
     public function down(): void

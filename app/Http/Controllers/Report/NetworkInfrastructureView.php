@@ -17,6 +17,7 @@ use App\Models\Site;
 use App\Models\StorageDevice;
 use App\Models\WifiTerminal;
 use App\Models\Workstation;
+use App\Services\Graph\GraphSize;
 use App\Services\Graph\PhysicalInfrastructureGraphBuilder;
 use Gate;
 use Illuminate\Database\Eloquent\Builder;
@@ -291,9 +292,15 @@ class NetworkInfrastructureView extends Controller
         // load them here in one pass regardless of which branch built the collection.
         $buildings->load(self::BUILDING_RELATIONS);
 
+        // Compte les nœuds avant de construire le DOT : un graphe trop grand n'est ni construit ni envoyé
+        $graphTooLarge = GraphSize::tooLarge(GraphSize::count(
+            $sites, $buildings, $bays, $physicalServers, $workstations, $storageDevices, $peripherals,
+            $phones, $physicalSwitches, $physicalRouters, $wifiTerminals, $physicalSecurityDevices
+        ));
+
         $graphBuilder = new PhysicalInfrastructureGraphBuilder;
         $showPorts = (bool) $request->session()->get('show_ports');
-        $dotSrc = $graphBuilder->buildConnectivityDot(
+        $dotSrc = $graphTooLarge ? '' : $graphBuilder->buildConnectivityDot(
             $sites,
             $buildings,
             $bays,
@@ -327,6 +334,7 @@ class NetworkInfrastructureView extends Controller
             ->with('wifiTerminals', $wifiTerminals)
             ->with('physicalSecurityDevices', $physicalSecurityDevices)
             ->with('physicalLinks', $physicalLinks)
+            ->with('graphTooLarge', $graphTooLarge)
             ->with('dotSrc', $dotSrc)
             ->with('imageManifest', $imageManifest);
     }

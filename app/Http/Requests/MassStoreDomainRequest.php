@@ -3,10 +3,9 @@
 namespace App\Http\Requests;
 
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class MassStoreDomainRequest extends FormRequest
+class MassStoreDomainRequest extends BaseMassFormRequest
 {
     public function authorize()
     {
@@ -18,10 +17,10 @@ class MassStoreDomainRequest extends FormRequest
     public function rules()
     {
         // On récupère les règles du StoreDomainRequest classique
-        $storeRules = (new StoreDomainRequest())->rules();
+        $storeRules = (new StoreDomainRequest)->rules();
 
         $rules = [
-            'items'   => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array'],
         ];
 
@@ -30,10 +29,9 @@ class MassStoreDomainRequest extends FormRequest
             $rules["items.*.$field"] = $rule;
         }
 
-        $rules['items.*.forestAds']   = ['sometimes', 'array'];
+        $rules['items.*.forestAds'] = ['sometimes', 'array'];
         $rules['items.*.forestAds.*'] = ['integer'];
 
         return $rules;
     }
 }
-

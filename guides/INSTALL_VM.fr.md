@@ -151,7 +151,7 @@ Vulnerability Database) et alimente les tables
 
 ### Planification
 
-La commande est **planifiée quotidiennement à 3h30** via le planificateur de Laravel.
+La commande est **planifiée quotidiennement à 0h30** via le planificateur de Laravel.
 ➡️ Si votre **planificateur Laravel est déjà configuré** (exécution de `php artisan schedule:run` par cron), **aucune
 action n'est requise**. La synchronisation se fera automatiquement.
 
@@ -161,11 +161,27 @@ Ajoutez les paramètres suivants à votre fichier `.env`:
 
 ```dotenv
 # Point de terminaison de l'API NVD CPE 2.0
-CPE_API_URL=https://services.nvd.nist.gov/rest/json/cpes/2.0
+NVD_API_URL=https://services.nvd.nist.gov/rest/json/cpes/2.0
 
 # (Facultatif mais recommandé) Clé API NVD pour bénéficier de quotas de requêtes plus élevés
 NVD_API_KEY=
 ```
+
+### Première synchronisation
+
+La première exécution télécharge l'intégralité du dictionnaire CPE (~1,9 million d'entrées). Elle peut être lancée
+manuellement :
+
+```bash
+php artisan mercator:cpe-sync --now
+```
+
+Les requêtes sont espacées pour respecter les quotas de la NVD (une requête toutes les 6 s sans clé API, 1 s avec)
+et les erreurs temporaires de la NVD (403, 429, 5xx) sont réessayées avec un délai croissant. Sans clé API, une
+synchronisation complète prend 1 à 2 heures.
+
+Si l'API NVD reste indisponible, la commande s'arrête en sauvegardant sa progression : il suffit de la relancer pour
+reprendre là où elle s'est arrêtée (`--restart` force une nouvelle synchronisation depuis le début).
 
 ## Démarrage
 
@@ -199,16 +215,17 @@ Changer les permission d'accès à la clé
 
 ## Configuration du mail
 
-Si vous souhaitez envoyer des e-mails de notification depuis Deming.
+Si vous souhaitez envoyer des e-mails de notification depuis Mercator.
 Vous devez configurer l'accès au serveur SMTP dans .env
 
     MAIL_HOST='smtp.localhost'
-    MAIL_PORT=2525
+    MAIL_PORT=587
     MAIL_AUTH=true
-    MAIL_SMTP_SECURE='ssl'
-    MAIL_SMTP_AUTO_TLS=false
+    MAIL_SMTP_SECURE='tls'
     MAIL_USERNAME=
     MAIL_PASSWORD=
+
+MAIL_SMTP_SECURE accepte 'tls' (STARTTLS obligatoire, port 587), 'ssl' (TLS implicite, port 465) ou une valeur vide (STARTTLS si le serveur le propose). Le certificat du serveur SMTP est toujours vérifié.
 
 Vous pouvez également configurer DKIM :
 

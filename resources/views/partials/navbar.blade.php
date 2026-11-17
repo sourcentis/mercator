@@ -1,8 +1,8 @@
 <nav class="navbar navbar-expand fixed-top">
     <div class="container-fluid">
+        <button id="toggle-sidebar-btn" class="btn toggle-sidebar-btn" type="button"><i class="bi bi-list"></i></button>
         <a class="navbar-brand d-flex justify-content-center"
            href="/admin">{{ (env('APP_NAME') === null) || (env('APP_NAME') === "Laravel") ? "Mercator" : env('APP_NAME') }}</a>
-        <button class="btn toggle-sidebar-btn" onclick="toggleSidebar()"><i class="bi bi-list"></i></button>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -111,13 +111,11 @@
                                         <i class="bi bi-map-fill"></i>{{ trans('cruds.graph.title') }}</a>
                                 </li>
                             @endcan
-                            {{--
                             @can('cairn_access')
                                 <li><a class="dropdown-item" href="/admin/cairn/create">
                                         <i class="bi bi-diagram-3-fill"></i>{{ trans('panel.menu.cairn') }}</a>
                                 </li>
                             @endcan
-                            --}}
                             @can('explore_access')
                                 <li><a class="dropdown-item" href="/admin/report/explore">
                                         <i class="bi bi-globe2"></i>{{ trans('panel.menu.explore') }}</a>

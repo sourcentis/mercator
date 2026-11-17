@@ -165,6 +165,12 @@
                 @php($permission = $permissions_sorted['explore'])
                 @include('admin.roles.partials._checkbox', ['action' => [$permission['actions'][0][0], trans('panel.menu.explore')]])
             </div>
+            @isset($permissions_sorted['cairn'])
+            <div class="col-md-2">
+                @php($permission = $permissions_sorted['cairn'])
+                @include('admin.roles.partials._checkbox', ['action' => [$permission['actions'][0][0], trans('panel.menu.cairn')]])
+            </div>
+            @endisset
             @include('admin.roles.partials._group', ['permission' => $permissions_sorted['query'],   'label' => trans('cruds.tools.query.title')])
             {{-- @include('admin.roles.partials._group', ['permission' => $permissions_sorted['patching'], 'label' => trans('cruds.tools.patching'), 'indices' => [0, 1]]) --}}
             <div class="col-md-2">
@@ -185,7 +191,7 @@
                         <div class="form-switch{{ $disabled ? '' : ' form-switch-lg' }}">
                             <input class="form-check-input" type="checkbox" name="permissions[]"
                                 data-check="profile_password_edit" data-action="edit" id="profile_password_edit"
-                                value="256" @disabled($disabled) @checked(in_array('profile_password_edit', old('permissions', [])) || ($role && $role->permissions->contains(256)))>
+                                value="256" @disabled($disabled || (isset($grantable) && ! in_array(256, $grantable, true))) @checked(in_array('profile_password_edit', old('permissions', [])) || ($role && $role->permissions->contains(256)))>
                             <label class="form-check-label" for="for_profile_password_edit }}">edit</label>
                         </div>
                     </div>

@@ -22,7 +22,7 @@ class InformationSystemGraphBuilder
      * @param  Collection<int, Task>  $tasks
      * @param  Collection<int, Actor>  $actors
      * @param  Collection<int, Information>  $informations
-     * @param  array{withHref?: bool, iconPathResolver?: callable(string): string}  $options
+     * @param  array{withHref?: bool, iconResolver?: callable(?int, string): string}  $options
      */
     public function buildDot(
         Collection $macroProcessuses,
@@ -35,10 +35,12 @@ class InformationSystemGraphBuilder
         array $options = []
     ): string {
         $withHref = $options['withHref'] ?? true;
-        // Node images are always fixed-per-type (no per-record Document icon here). The interactive
-        // screen wants a web-relative path (fetched over HTTP by the WASM renderer); server-side
-        // rasterization (Word report) needs a real filesystem path, hence this resolver hook.
-        $iconPath = $options['iconPathResolver'] ?? fn (string $path) => $path;
+        // Resolves a per-record Document icon (Process and Information have one) or the type's static fallback
+        // to whatever the consumer can actually embed: a route URL for the interactive/WASM
+        // renderer (default), or a filesystem path for the server-side Word rasterization.
+        $iconResolver = $options['iconResolver'] ?? fn (?int $iconId, string $fallback) => $iconId === null
+            ? $fallback
+            : route('admin.documents.show', $iconId);
 
         $lines = ['digraph  {'];
 
@@ -52,13 +54,13 @@ class InformationSystemGraphBuilder
         $informationIds = array_flip($informations->pluck('id')->all());
 
         foreach ($macroProcessuses as $macroProcess) {
-            $lines[] = $this->node('MP', $macroProcess->id, $macroProcess->name, $iconPath('/images/macroprocess.png'), $macroProcess->getUID(), $withHref);
+            $lines[] = $this->node('MP', $macroProcess->id, $macroProcess->name, $iconResolver(null, '/images/macroprocess.png'), $macroProcess->getUID(), $withHref);
         }
 
         $canAccessInformation = Cartographer::canAccess(Information::class);
 
         foreach ($processes as $process) {
-            $lines[] = $this->node('P', $process->id, $process->name, $iconPath('/images/process.png'), $process->getUID(), $withHref);
+            $lines[] = $this->node('P', $process->id, $process->name, $iconResolver($process->icon_id, '/images/process.png'), $process->getUID(), $withHref);
 
             foreach ($process->activities as $activity) {
                 if (isset($activityIds[$activity->id])) {
@@ -86,7 +88,7 @@ class InformationSystemGraphBuilder
         }
 
         foreach ($activities as $activity) {
-            $lines[] = $this->node('A', $activity->id, $activity->name, $iconPath('/images/activity.png'), $activity->getUID(), $withHref);
+            $lines[] = $this->node('A', $activity->id, $activity->name, $iconResolver(null, '/images/activity.png'), $activity->getUID(), $withHref);
 
             foreach ($activity->operations as $operation) {
                 if (isset($operationIds[$operation->id])) {
@@ -96,7 +98,7 @@ class InformationSystemGraphBuilder
         }
 
         foreach ($operations as $operation) {
-            $lines[] = $this->node('O', $operation->id, $operation->name, $iconPath('/images/operation.png'), $operation->getUID(), $withHref);
+            $lines[] = $this->node('O', $operation->id, $operation->name, $iconResolver(null, '/images/operation.png'), $operation->getUID(), $withHref);
 
             foreach ($operation->tasks as $task) {
                 if (isset($taskIds[$task->id])) {
@@ -112,15 +114,15 @@ class InformationSystemGraphBuilder
         }
 
         foreach ($tasks as $task) {
-            $lines[] = $this->node('T', $task->id, $task->name, $iconPath('/images/task.png'), $task->getUID(), $withHref);
+            $lines[] = $this->node('T', $task->id, $task->name, $iconResolver(null, '/images/task.png'), $task->getUID(), $withHref);
         }
 
         foreach ($actors as $actor) {
-            $lines[] = $this->node('ACT', $actor->id, $actor->name, $iconPath('/images/actor.png'), $actor->getUID(), $withHref);
+            $lines[] = $this->node('ACT', $actor->id, $actor->name, $iconResolver(null, '/images/actor.png'), $actor->getUID(), $withHref);
         }
 
         foreach ($informations as $information) {
-            $lines[] = $this->node('I', $information->id, $information->name, $iconPath('/images/information.png'), $information->getUID(), $withHref);
+            $lines[] = $this->node('I', $information->id, $information->name, $iconResolver($information->icon_id, '/images/information.png'), $information->getUID(), $withHref);
 
             foreach ($information->children as $child) {
                 if (isset($informationIds[$child->id])) {
@@ -135,11 +137,13 @@ class InformationSystemGraphBuilder
     }
 
     /**
+     * @param  Collection<int, Process>  $processes
+     * @param  Collection<int, Information>  $informations
      * @return array<int, array{path: string, width: string, height: string}>
      */
-    public function imageManifest(): array
+    public function imageManifest(Collection $processes = new Collection, Collection $informations = new Collection): array
     {
-        return [
+        $manifest = [
             ['path' => '/images/macroprocess.png', 'width' => '64px', 'height' => '64px'],
             ['path' => '/images/process.png', 'width' => '64px', 'height' => '64px'],
             ['path' => '/images/activity.png', 'width' => '64px', 'height' => '64px'],
@@ -148,6 +152,24 @@ class InformationSystemGraphBuilder
             ['path' => '/images/actor.png', 'width' => '64px', 'height' => '64px'],
             ['path' => '/images/information.png', 'width' => '64px', 'height' => '64px'],
         ];
+
+        if (Cartographer::canAccess(Process::class)) {
+            foreach ($processes as $process) {
+                if ($process->icon_id !== null) {
+                    $manifest[] = ['path' => route('admin.documents.show', $process->icon_id), 'width' => '64px', 'height' => '64px'];
+                }
+            }
+        }
+
+        if (Cartographer::canAccess(Information::class)) {
+            foreach ($informations as $information) {
+                if ($information->icon_id !== null) {
+                    $manifest[] = ['path' => route('admin.documents.show', $information->icon_id), 'width' => '64px', 'height' => '64px'];
+                }
+            }
+        }
+
+        return $manifest;
     }
 
     private function node(string $prefix, int $id, ?string $name, string $image, string $uid, bool $withHref): string

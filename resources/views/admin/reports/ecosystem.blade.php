@@ -20,42 +20,13 @@
                 @endif
 
                 <div class="col-sm-6" style="max-width: 800px;">
-                    <table class="table table-bordered table-striped"
-                           style="max-width: 600px;">
-                        <tr>
-                            <td style="width: 300px;">{{ trans('cruds.entity.filters.title.int/ext') }}
-                            </td>
-                            <td style="width: 300px;">{{ trans('cruds.entity.filters.title.type') }}
-                            </td>
-                        </tr>
+                    <table class="table table-bordered table-striped">
                         <tr>
                             <td>
-                                <select name="perimeter" onchange="this.form.submit()"
-                                        class="form-control select2">
-                                    @if (Session::get('perimeter')===null)
-                                        <option value="All" selected>
-                                            {{ trans('cruds.entity.filters.all') }}
-                                        </option>
-                                    @else
-                                        @foreach ([
-                                            "All"      => trans('cruds.entity.filters.all'),
-                                            "Externes" => trans('cruds.entity.filters.externes'),
-                                            "Internes" => trans('cruds.entity.filters.internes')] as $key=>$choice)
-                                            <option value="{{ $key }}" {{ Session::get('perimeter')==$key? "selected" : "" }}>
-                                            {{ $choice }}
-                                            </option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                            </td>
-                            <td>
-                                <select name="type" onchange="this.form.submit()"
-                                        class="form-control select2">
-                                    <option value="All" {{ Session::get('type')== null ? "selected" : "" }} >{{ trans('cruds.entity.filters.all_types') }}</option>
-                                    @foreach ($entityTypes as $type)
-                                        <option value="{{ $type }}" {{ Session::get('type')==$type? "selected" : "" }}>
-                                        {{ $type }}
-                                        </option>
+                                <label for="entities">{{ trans('cruds.entity.filters.title.start') }}</label>
+                                <select name="entities[]" id="entities" class="form-control select2" multiple>
+                                    @foreach($all_entities as $id => $name)
+                                        <option value="{{ $id }}" @selected(in_array($id, $selectedEntities, true))>{{ $name }}</option>
                                     @endforeach
                                 </select>
                             </td>
@@ -63,7 +34,9 @@
                     </table>
                 </div>
                 <div id="graph-container">
-                    <div class="graphviz" id="graph"></div>
+                    <div class="graphviz" id="graph">
+                        @include('admin.reports._graph_too_large')
+                    </div>
                     <div class="graph-resize-handle"></div>
                 </div>
                 <div class="row p-1">
@@ -95,6 +68,8 @@
     </div>
 </div>{{-- .graph-card-sticky --}}
 
+{{-- Graphe trop grand : les objets ne sont pas listés non plus --}}
+@if(empty($graphTooLarge))
 <div class="report-scroll-area">
     @if($entities->count()>0)
         <div class="card">
@@ -138,12 +113,21 @@
         </div>
     @endif
 </div>{{-- .report-scroll-area --}}
+@endif
 @endsection
 
 @section('scripts')
 @vite(['resources/js/graphviz.js'])
-<script id="dot-input">
-let dotSrc = `{!! $dotSrc !!}`;
+<script id="dot-input" @nonce>
+let dotSrc = @json($dotSrc);
+
+// Select2 déclenche un événement jQuery : on l'écoute via jQuery, une fois
+// les modules Vite (jQuery) chargés
+document.addEventListener('DOMContentLoaded', () => {
+    $('#entities').on('change', function () {
+        this.form.submit();
+    });
+});
 
 document.addEventListener('graphvizReady', () => {
     const images = @json($imageManifest);

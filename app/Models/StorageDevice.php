@@ -7,6 +7,7 @@ use App\Contracts\HasPrefix;
 use App\Contracts\HasUniqueIdentifierContract;
 use App\Factories\StorageDeviceFactory;
 use App\Traits\Auditable;
+use App\Traits\Blameable;
 use App\Traits\HasCartographers;
 use App\Traits\HasIcon;
 use App\Traits\HasPerimeter;
@@ -25,7 +26,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class StorageDevice extends Model implements HasIconContract, HasPrefix, HasUniqueIdentifierContract
 {
-    use Auditable, HasFactory, HasIcon, HasUniqueIdentifier, SoftDeletes;
+    use Auditable, Blameable, HasFactory, HasIcon, HasUniqueIdentifier, SoftDeletes;
     use HasCartographers;
     use HasPerimeter;
 
@@ -39,6 +40,8 @@ class StorageDevice extends Model implements HasIconContract, HasPrefix, HasUniq
         'name',
         'description',
         'address_ip',
+        'type',
+        'attributes',
     ];
 
     protected array $dates = [
@@ -54,6 +57,7 @@ class StorageDevice extends Model implements HasIconContract, HasPrefix, HasUniq
         'type',
         'attributes',
         'description',
+        'icon_id',
         'address_ip',
         'site_id',
         'building_id',

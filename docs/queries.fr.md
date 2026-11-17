@@ -11,6 +11,7 @@ FROM    <Modèle>
 FIELDS  <champ1>, <champ2>, <relation.champ>, ...
 WHERE   (<condition1>) AND|OR (<condition2>)
 WITH    <relation1>, <relation2>, ...
+GROUP BY <champ1>, <champ2>, ...
 OUTPUT  list | graph
 LIMIT   <n>
 ```
@@ -21,6 +22,7 @@ LIMIT   <n>
 | `FIELDS` | ➖ | Liste des champs à afficher, y compris les champs de relations (`relation.champ`) |
 | `WHERE` | ➖ | Filtre sur les données (voir [Conditions](#conditions))                           |
 | `WITH` | ➖ | Relations à afficher dans le graphe                                               |
+| `GROUP BY` | ➖ | Regroupe les lignes et concatène les autres valeurs (voir [GROUP BY](#group-by)) |
 | `OUTPUT` | ➖ | Format de sortie : `list` ou `graph` (`list` par défaut)                          |
 | `LIMIT` | ➖ | Nombre maximum d'enregistrements retournés (défaut : 100)                         |
 
@@ -155,11 +157,61 @@ Les règles à respecter :
 !!! tip "Quand masquer un niveau ?"
     Masquez un intermédiaire lorsque la relation pivot n'a pas de valeur sémantique dans la visualisation — par exemple, les sous-réseaux entre un réseau et ses VLANs, ou les interfaces entre un serveur et ses VLANs.
 
+## Clause GROUP BY {#group-by}
+
+Par défaut, une requête `OUTPUT list` qui affiche plusieurs champs de relations produit **une ligne par combinaison** (produit cartésien) : une application liée à 3 processus et 2 bases de données apparaît sur 6 lignes.
+
+La clause `GROUP BY` produit à la place **une ligne par valeur distincte** des champs de regroupement. Chaque autre colonne contient la liste des valeurs distinctes, séparées par une virgule.
+
+```sql
+FROM applications
+FIELDS id, name, processes.name, activities.name, databases.name
+GROUP BY id, name
+OUTPUT list
+```
+
+| id | name | processes.name | activities.name | databases.name |
+|----|------|----------------|-----------------|----------------|
+| 1 | ERP | Achats, Ventes | Facturation | Oracle, PostgreSQL |
+| 2 | Portail | | Accueil | PostgreSQL |
+
+Règles :
+
+- Chaque champ de `GROUP BY` doit figurer dans `FIELDS`.
+- `GROUP BY` n'est disponible qu'avec `OUTPUT list` (y compris pour l'export CSV).
+- Les valeurs vides sont ignorées et les doublons supprimés ; l'ordre de première apparition est conservé.
+- Une relation sans objet lié donne une cellule vide.
+- On peut aussi regrouper sur un champ de relation, par exemple `GROUP BY databases.name` pour lister, par base de données, les applications qui l'utilisent.
+- `LIMIT` s'applique aux objets du modèle `FROM`, **avant** le regroupement : `LIMIT 50` lit 50 applications, puis regroupe leurs valeurs.
+
+!!! tip "Grouper sur `id`"
+    Incluez `id` dans `GROUP BY` pour ne pas fusionner deux objets qui porteraient le même nom.
+
+### Regrouper sur un champ de relation
+
+Quand le champ de regroupement appartient à une relation, le tableau est « retourné » : on obtient une ligne par valeur liée, et ce sont les champs du modèle `FROM` qui sont concaténés.
+
+```sql
+FROM applications
+FIELDS databases.name, name, logical_servers.name
+GROUP BY databases.name
+OUTPUT list
+```
+
+| databases.name | name | logical_servers.name |
+|----------------|------|----------------------|
+| Oracle | ERP | srv-erp-01 |
+| PostgreSQL | ERP, Portail | srv-erp-01, srv-web-01 |
+
+Les applications sans base de données forment un groupe dont la cellule `databases.name` est vide.
+
 ## Format de sortie (OUTPUT)
 
 ### `OUTPUT list`
 
 Génère un **tableau** avec une ligne par enregistrement. C'est le format adapté pour les inventaires, les exports, ou les vues tabulaires.
+
+Quand `FIELDS` contient plusieurs champs de relations, un enregistrement peut occuper plusieurs lignes (une par combinaison) ; utilisez [`GROUP BY`](#group-by) pour n'obtenir qu'une ligne par enregistrement.
 
 ```sql
 OUTPUT list
@@ -302,10 +354,35 @@ WITH logical_servers
 
 Liste les applications non rattachées à un serveur logique, symptôme possible d'une cartographie incomplète.
 
+### Une ligne par serveur avec ses applications
+
+```sql
+FROM logical-servers
+FIELDS id, name, environment, applications.name, certificates.name
+WHERE (environment = "production")
+GROUP BY id, name, environment
+OUTPUT list
+```
+
+Inventaire des serveurs de production avec, sur une seule ligne, les applications hébergées et les certificats installés. Prêt à être exporté en CSV.
+
+### Applications utilisant chaque base de données
+
+```sql
+FROM applications
+FIELDS databases.name, name, responsible
+WHERE (EXISTS databases)
+GROUP BY databases.name
+OUTPUT list
+```
+
+Liste, pour chaque base de données, les applications qui l'utilisent et leurs responsables. `EXISTS databases` écarte les applications sans base de données, qui formeraient sinon un groupe vide.
+
 ## Bonnes pratiques
 
 - **Utilisez `LIMIT`** pour limiter le nombre de résultats à la valeur nécessaire : des requêtes trop larges peuvent être lentes sur de grands référentiels.
 - **Utilisez `OUTPUT graph`** uniquement lorsque les relations sont déclarées dans `WITH` ; un graphe sans relations ne sera composé que de nœuds isolés.
 - **Vérifiez les noms de champs** dans la [référence API](api.fr.md) — une faute de frappe dans un champ n'affiche simplement rien, sans message d'erreur.
 - **Avec `EXISTS`**, déclarez la relation dans `WITH` uniquement si vous avez besoin d'afficher ses champs dans `FIELDS` ; sinon, `EXISTS` seul suffit à filtrer sans surcharge.
+- **Utilisez `GROUP BY`** dès qu'une liste affiche plusieurs champs de relations : le produit cartésien multiplie vite les lignes et rend le tableau illisible.
 - **Sauvegardez les requêtes récurrentes** pour faciliter le travail en équipe et garantir la reproductibilité des cartographies.

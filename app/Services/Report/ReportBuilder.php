@@ -4,7 +4,6 @@ namespace App\Services\Report;
 
 use App\Support\ReportTemplateSettings;
 use Carbon\Carbon;
-use PhpOffice\PhpWord\IOFactory;
 
 class ReportBuilder
 {
@@ -62,9 +61,8 @@ class ReportBuilder
 
         $bodyPath = storage_path('app/reports/body-'.uniqid().'.docx');
 
-        $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
         try {
-            $objWriter->save($bodyPath);
+            WordHelper::saveDocx($phpWord, $bodyPath);
         } finally {
             $this->wordHelper->cleanupTempFiles();
         }

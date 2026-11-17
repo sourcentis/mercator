@@ -16,7 +16,7 @@
         <div class="card-body">
             <div class="row">
 
-                @if (auth()->user()->hasMultiplePerimeters())
+                @if (auth()->user()->canChoosePerimeterOf($adminUser))
                 <div class="col-md-2">
                     <div class="form-group">
                         <label for="perimeter_id">{{ trans('cruds.perimeter.title_short') }}</label>
@@ -141,7 +141,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="recommended" for="description">{{ trans('cruds.application.fields.description') }}</label>
-                        <textarea class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description" id="description">{!! old('description', $adminUser->description) !!}</textarea>
+                        <textarea class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description" id="description">{{ old('description', $adminUser->description) }}</textarea>
                         @if($errors->has('description'))
                         <div class="invalid-feedback">
                             {{ $errors->first('description') }}

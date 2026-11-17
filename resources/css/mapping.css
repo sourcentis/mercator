@@ -209,6 +209,14 @@ footer {
 /*----------------------------------------------------------------*/
 /* Buttons */
 
+/* Empêche le curseur texte clignotant (caret) d'apparaître dans la barre
+   d'icônes lors d'un clic */
+#sidebar {
+    user-select: none;
+    -webkit-user-select: none;
+    caret-color: transparent;
+}
+
 .mapping-icon {
     width: 20px;
     height: 20px;

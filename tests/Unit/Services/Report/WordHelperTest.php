@@ -7,7 +7,6 @@ use App\Models\PhysicalLink;
 use App\Models\Relation;
 use App\Models\SecurityControl;
 use App\Services\Report\WordHelper;
-use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\Settings;
 
 it('MODEL_VUE_MAP preserves every model -> vue id mapping unchanged', function () {
@@ -102,7 +101,7 @@ describe('WordHelper::insertGraph end-to-end (real dot rasterization)', function
         $helper->insertGraph($section, $dot);
 
         $path = tempnam(sys_get_temp_dir(), 'docx');
-        IOFactory::createWriter($phpWord, 'Word2007')->save($path);
+        WordHelper::saveDocx($phpWord, $path);
         $helper->cleanupTempFiles();
 
         $zip = new ZipArchive;
@@ -177,7 +176,7 @@ describe('WordHelper::addDescriptionCellWithIcon', function () {
         $helper->addDescriptionCellWithIcon($table, 'Description', $description, $entity, $fallbackIcon);
 
         $path = tempnam(sys_get_temp_dir(), 'docx');
-        IOFactory::createWriter($phpWord, 'Word2007')->save($path);
+        WordHelper::saveDocx($phpWord, $path);
         $helper->cleanupTempFiles();
 
         $zip = new ZipArchive;
@@ -238,5 +237,64 @@ describe('WordHelper::addDescriptionCellWithIcon', function () {
 
         expect($mediaSizes)->toHaveCount(1);
         expect(substr_count($xml, '<w:tbl>'))->toBe(2);
+    });
+});
+
+describe('WordHelper::saveDocx — concurrent exports', function () {
+    // Régression : avec PclZip, PhpWord écrit chaque partie du package sous un nom FIXE
+    // ("document.xml", "styles.xml"...) dans Settings::getTempDir(). Avec le répertoire temporaire
+    // partagé, deux exports simultanés s'écrasaient mutuellement (un utilisateur pouvait recevoir
+    // le rapport d'un autre). saveDocx() doit utiliser un répertoire privé par enregistrement.
+    it('ne touche pas aux fichiers de staging du répertoire temporaire partagé', function () {
+        $previousZipClass = Settings::getZipClass();
+        Settings::setZipClass(Settings::PCLZIP);
+
+        // Simule le document.xml en cours d'écriture par un autre export concurrent
+        $sharedStaging = rtrim(Settings::getTempDir(), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.'document.xml';
+        $hadStaging = is_file($sharedStaging);
+        $previousContent = $hadStaging ? file_get_contents($sharedStaging) : null;
+        file_put_contents($sharedStaging, 'OTHER-EXPORT-CONTENT');
+
+        $path = tempnam(sys_get_temp_dir(), 'docx');
+
+        try {
+            $phpWord = (new WordHelper)->newDocument();
+            $phpWord->addSection()->addText('MY-EXPORT-CONTENT');
+
+            $tempDirBefore = Settings::getTempDir();
+            WordHelper::saveDocx($phpWord, $path);
+
+            // Le fichier de l'autre export est intact et le répertoire temporaire est restauré
+            expect(file_get_contents($sharedStaging))->toBe('OTHER-EXPORT-CONTENT')
+                ->and(Settings::getTempDir())->toBe($tempDirBefore);
+
+            $zip = new ZipArchive;
+            expect($zip->open($path))->toBeTrue();
+            $xml = $zip->getFromName('word/document.xml');
+            $zip->close();
+
+            expect($xml)->toContain('MY-EXPORT-CONTENT')
+                ->not->toContain('OTHER-EXPORT-CONTENT');
+        } finally {
+            @unlink($path);
+            $hadStaging ? file_put_contents($sharedStaging, $previousContent) : @unlink($sharedStaging);
+            Settings::setZipClass($previousZipClass);
+        }
+    });
+
+    it('supprime son répertoire temporaire privé après enregistrement', function () {
+        $pattern = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.'mercator-phpword-*';
+        $before = glob($pattern, GLOB_ONLYDIR);
+
+        $path = tempnam(sys_get_temp_dir(), 'docx');
+        try {
+            $phpWord = (new WordHelper)->newDocument();
+            $phpWord->addSection()->addText('content');
+            WordHelper::saveDocx($phpWord, $path);
+        } finally {
+            @unlink($path);
+        }
+
+        expect(glob($pattern, GLOB_ONLYDIR))->toBe($before);
     });
 });

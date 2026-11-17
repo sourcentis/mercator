@@ -2,10 +2,10 @@
 -- PostgreSQL database dump
 --
 
-\restrict 8YavW6Hhb6N2I7BgX4UQOus86HcxGiCaz4nYxw9TCbbMw7qPRXFt799eXksVW8Q
+\restrict QDnbTDWFYi6iaYCOuDqk67XlmwoWbZkeHVO5UKhQCOMvTdtmvJcBzZp2lIoYqTX
 
--- Dumped from database version 15.16 (Debian 15.16-0+deb12u1)
--- Dumped by pg_dump version 15.16 (Debian 15.16-0+deb12u1)
+-- Dumped from database version 16.15
+-- Dumped by pg_dump version 16.15
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -39,7 +39,13 @@ CREATE TABLE public.activities (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    type character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -159,7 +165,12 @@ CREATE TABLE public.actors (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -220,7 +231,11 @@ CREATE TABLE public.admin_users (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -257,7 +272,14 @@ CREATE TABLE public.annuaires (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    application_id integer,
+    type character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -303,7 +325,13 @@ CREATE TABLE public.application_blocks (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    type character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -434,11 +462,15 @@ CREATE TABLE public.application_flows (
     database_dest_id integer,
     crypted boolean,
     bidirectional boolean,
-    nature character varying(255),
+    type character varying(255),
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -486,7 +518,14 @@ CREATE TABLE public.application_modules (
     vendor character varying(255),
     product character varying(255),
     version character varying(255),
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    type character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    comments text,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -572,7 +611,14 @@ CREATE TABLE public.application_services (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    type character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    comments text,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -643,7 +689,16 @@ CREATE TABLE public.applications (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    status character varying(255),
+    prod_date date,
+    hosting character varying(255),
+    urls character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    comments text,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -720,7 +775,11 @@ CREATE TABLE public.backups (
     type character varying(100),
     attributes text,
     description text,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -788,7 +847,13 @@ CREATE TABLE public.bays (
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
     ext_refs character varying(255),
-    site_id integer
+    site_id integer,
+    type character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -838,7 +903,11 @@ CREATE TABLE public.buildings (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -923,7 +992,12 @@ CREATE TABLE public.certificates (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -992,7 +1066,11 @@ CREATE TABLE public.clusters (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -1049,7 +1127,12 @@ CREATE TABLE public.containers (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -1197,7 +1280,11 @@ CREATE TABLE public.data_processing (
     data_subject_rights text,
     automated_decision_making text,
     update_date date,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -1302,7 +1389,12 @@ CREATE TABLE public.databases (
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
     icon_id integer,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -1338,7 +1430,13 @@ CREATE TABLE public.dhcp_servers (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    type character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -1374,7 +1472,13 @@ CREATE TABLE public.dnsservers (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    type character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -1441,7 +1545,10 @@ CREATE TABLE public.documents (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -1490,7 +1597,13 @@ CREATE TABLE public.domains (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    type character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -1526,15 +1639,18 @@ CREATE TABLE public.entities (
     description text,
     security_level text,
     contact_point text,
-    is_external boolean,
-    entity_type character varying(255),
+    type character varying(255),
     reference character varying(255),
     parent_entity_id integer,
     external_ref_id character varying(255),
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -1598,7 +1714,12 @@ CREATE TABLE public.external_connected_entities (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -1683,7 +1804,13 @@ CREATE TABLE public.forest_ads (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    type character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -1720,7 +1847,13 @@ CREATE TABLE public.gateways (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    type character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -1756,7 +1889,10 @@ CREATE TABLE public.graphs (
     content text,
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
-    deleted_at timestamp(0) without time zone
+    deleted_at timestamp(0) without time zone,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -1804,7 +1940,12 @@ CREATE TABLE public.information (
     deleted_at timestamp(0) without time zone,
     ext_refs character varying(255),
     type character varying(255),
-    attributes character varying(255)
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    icon_id integer,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -1913,7 +2054,13 @@ CREATE TABLE public.lans (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    type character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -1980,7 +2127,11 @@ CREATE TABLE public.logical_flows (
     cluster_dest_id integer,
     ext_refs character varying(255),
     type character varying(255),
-    attributes character varying(255)
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -2043,7 +2194,11 @@ CREATE TABLE public.logical_servers (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -2125,7 +2280,13 @@ CREATE TABLE public.macro_processuses (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    type character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -2171,7 +2332,13 @@ CREATE TABLE public.mans (
     deleted_at timestamp(0) without time zone,
     description text,
     parent_man_id integer,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    type character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -2284,6 +2451,41 @@ ALTER SEQUENCE public.migrations_id_seq OWNED BY public.migrations.id;
 
 
 --
+-- Name: monarc_sync_items; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.monarc_sync_items (
+    id bigint NOT NULL,
+    model character varying(255) NOT NULL,
+    mercator_id integer NOT NULL,
+    object_uuid uuid NOT NULL,
+    anr_id integer NOT NULL,
+    sent_at timestamp(0) without time zone,
+    created_at timestamp(0) without time zone,
+    updated_at timestamp(0) without time zone
+);
+
+
+--
+-- Name: monarc_sync_items_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.monarc_sync_items_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: monarc_sync_items_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.monarc_sync_items_id_seq OWNED BY public.monarc_sync_items.id;
+
+
+--
 -- Name: network_switch_physical_switch; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2315,7 +2517,13 @@ CREATE TABLE public.network_switches (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    type character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -2360,7 +2568,11 @@ CREATE TABLE public.networks (
     deleted_at timestamp(0) without time zone,
     ext_refs character varying(255),
     type character varying(255),
-    attributes character varying(255)
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -2535,7 +2747,13 @@ CREATE TABLE public.operations (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    type character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -2603,6 +2821,38 @@ CREATE TABLE public.password_resets (
 
 
 --
+-- Name: perimeters; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.perimeters (
+    id integer NOT NULL,
+    name character varying(32) NOT NULL,
+    created_at timestamp(0) without time zone,
+    updated_at timestamp(0) without time zone
+);
+
+
+--
+-- Name: perimeters_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.perimeters_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: perimeters_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.perimeters_id_seq OWNED BY public.perimeters.id;
+
+
+--
 -- Name: peripherals; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2620,12 +2870,17 @@ CREATE TABLE public.peripherals (
     product character varying(255),
     version character varying(255),
     address_ip character varying(255),
-    domain character varying(255),
     provider_id integer,
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    domain_id integer,
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -2712,7 +2967,12 @@ CREATE TABLE public.phones (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -2775,7 +3035,11 @@ CREATE TABLE public.physical_links (
     color character varying(255),
     ext_refs character varying(255),
     attributes character varying(255),
-    description text
+    description text,
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -2837,7 +3101,12 @@ CREATE TABLE public.physical_routers (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -2889,7 +3158,11 @@ CREATE TABLE public.physical_security_devices (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -2941,12 +3214,17 @@ CREATE TABLE public.physical_servers (
     install_date timestamp(0) without time zone,
     update_date timestamp(0) without time zone,
     patching_group character varying(255),
-    paching_frequency integer,
+    patching_frequency integer,
     next_update date,
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -2989,7 +3267,12 @@ CREATE TABLE public.physical_switches (
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
     icon_id integer,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -3033,7 +3316,13 @@ CREATE TABLE public.processes (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    type character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -3098,7 +3387,11 @@ CREATE TABLE public.relations (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -3141,7 +3434,8 @@ CREATE TABLE public.roles (
     title character varying(255),
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
-    deleted_at timestamp(0) without time zone
+    deleted_at timestamp(0) without time zone,
+    perimeter_id integer DEFAULT 1 NOT NULL
 );
 
 
@@ -3179,7 +3473,12 @@ CREATE TABLE public.routers (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -3259,7 +3558,11 @@ CREATE TABLE public.security_controls (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -3301,7 +3604,11 @@ CREATE TABLE public.security_devices (
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
     address_ip character varying(255),
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -3339,7 +3646,11 @@ CREATE TABLE public.sites (
     deleted_at timestamp(0) without time zone,
     ext_refs character varying(255),
     type character varying(255),
-    attributes character varying(255)
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -3382,7 +3693,13 @@ CREATE TABLE public.storage_devices (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    icon_id integer,
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -3431,7 +3748,11 @@ CREATE TABLE public.subnetworks (
     deleted_at timestamp(0) without time zone,
     ext_refs character varying(255),
     type character varying(255),
-    attributes character varying(255)
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -3466,7 +3787,13 @@ CREATE TABLE public.tasks (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    type character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -3506,7 +3833,8 @@ CREATE TABLE public.users (
     language character varying(2),
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
-    deleted_at timestamp(0) without time zone
+    deleted_at timestamp(0) without time zone,
+    flow_label character varying(16)
 );
 
 
@@ -3542,7 +3870,13 @@ CREATE TABLE public.vlans (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    type character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -3576,7 +3910,13 @@ CREATE TABLE public.wans (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    type character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -3618,7 +3958,12 @@ CREATE TABLE public.wifi_terminals (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -3686,7 +4031,12 @@ CREATE TABLE public.workstations (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -3721,7 +4071,13 @@ CREATE TABLE public.zone_admins (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    type character varying(255),
+    attributes character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -3768,7 +4124,11 @@ CREATE TABLE public.zones (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
     deleted_at timestamp(0) without time zone,
-    ext_refs character varying(255)
+    ext_refs character varying(255),
+    perimeter_id integer DEFAULT 1 NOT NULL,
+    created_by integer,
+    updated_by integer,
+    deleted_by integer
 );
 
 
@@ -4094,6 +4454,13 @@ ALTER TABLE ONLY public.migrations ALTER COLUMN id SET DEFAULT nextval('public.m
 
 
 --
+-- Name: monarc_sync_items id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.monarc_sync_items ALTER COLUMN id SET DEFAULT nextval('public.monarc_sync_items_id_seq'::regclass);
+
+
+--
 -- Name: network_switches id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -4126,6 +4493,13 @@ ALTER TABLE ONLY public.operations ALTER COLUMN id SET DEFAULT nextval('public.o
 --
 
 ALTER TABLE ONLY public.parameters ALTER COLUMN id SET DEFAULT nextval('public.parameters_id_seq'::regclass);
+
+
+--
+-- Name: perimeters id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.perimeters ALTER COLUMN id SET DEFAULT nextval('public.perimeters_id_seq'::regclass);
 
 
 --
@@ -4511,14 +4885,6 @@ ALTER TABLE ONLY public.container_database
 
 
 --
--- Name: containers container_name_unique; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.containers
-    ADD CONSTRAINT container_name_unique UNIQUE (name, deleted_at);
-
-
---
 -- Name: containers containers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4799,6 +5165,22 @@ ALTER TABLE ONLY public.migrations
 
 
 --
+-- Name: monarc_sync_items monarc_sync_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.monarc_sync_items
+    ADD CONSTRAINT monarc_sync_items_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: monarc_sync_items monarc_sync_items_unique; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.monarc_sync_items
+    ADD CONSTRAINT monarc_sync_items_unique UNIQUE (anr_id, model, mercator_id);
+
+
+--
 -- Name: network_switch_vlan network_switch_vlan_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4900,6 +5282,22 @@ ALTER TABLE ONLY public.parameters
 
 ALTER TABLE ONLY public.parameters
     ADD CONSTRAINT parameters_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: perimeters perimeters_name_unique; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.perimeters
+    ADD CONSTRAINT perimeters_name_unique UNIQUE (name);
+
+
+--
+-- Name: perimeters perimeters_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.perimeters
+    ADD CONSTRAINT perimeters_pkey PRIMARY KEY (id);
 
 
 --
@@ -5119,19 +5517,25 @@ ALTER TABLE ONLY public.zone_zone
 
 
 --
--- Name: zones zones_name_unique; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.zones
-    ADD CONSTRAINT zones_name_unique UNIQUE (name, deleted_at);
-
-
---
 -- Name: zones zones_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.zones
     ADD CONSTRAINT zones_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: activities_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX activities_name_index ON public.activities USING btree (name);
+
+
+--
+-- Name: activities_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX activities_perimeter_id_index ON public.activities USING btree (perimeter_id);
 
 
 --
@@ -5170,6 +5574,41 @@ CREATE INDEX actor_id_fk_1472680 ON public.actor_operation USING btree (actor_id
 
 
 --
+-- Name: actors_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX actors_name_index ON public.actors USING btree (name);
+
+
+--
+-- Name: actors_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX actors_perimeter_id_index ON public.actors USING btree (perimeter_id);
+
+
+--
+-- Name: admin_users_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX admin_users_perimeter_id_index ON public.admin_users USING btree (perimeter_id);
+
+
+--
+-- Name: annuaires_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX annuaires_name_index ON public.annuaires USING btree (name);
+
+
+--
+-- Name: annuaires_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX annuaires_perimeter_id_index ON public.annuaires USING btree (perimeter_id);
+
+
+--
 -- Name: application_block_fk_1644592; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5177,10 +5616,38 @@ CREATE INDEX application_block_fk_1644592 ON public.applications USING btree (ap
 
 
 --
+-- Name: application_blocks_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX application_blocks_name_index ON public.application_blocks USING btree (name);
+
+
+--
+-- Name: application_blocks_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX application_blocks_perimeter_id_index ON public.application_blocks USING btree (perimeter_id);
+
+
+--
 -- Name: application_dest_fk_1485549; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX application_dest_fk_1485549 ON public.application_flows USING btree (application_dest_id);
+
+
+--
+-- Name: application_flows_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX application_flows_name_index ON public.application_flows USING btree (name);
+
+
+--
+-- Name: application_flows_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX application_flows_perimeter_id_index ON public.application_flows USING btree (perimeter_id);
 
 
 --
@@ -5205,6 +5672,20 @@ CREATE INDEX application_module_id_fk_1492414 ON public.application_module_appli
 
 
 --
+-- Name: application_modules_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX application_modules_name_index ON public.application_modules USING btree (name);
+
+
+--
+-- Name: application_modules_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX application_modules_perimeter_id_index ON public.application_modules USING btree (perimeter_id);
+
+
+--
 -- Name: application_service_id_fk_1482585; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5219,10 +5700,52 @@ CREATE INDEX application_service_id_fk_1492414 ON public.application_module_appl
 
 
 --
+-- Name: application_services_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX application_services_name_index ON public.application_services USING btree (name);
+
+
+--
+-- Name: application_services_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX application_services_perimeter_id_index ON public.application_services USING btree (perimeter_id);
+
+
+--
 -- Name: application_source_fk_1485545; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX application_source_fk_1485545 ON public.application_flows USING btree (application_source_id);
+
+
+--
+-- Name: applications_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX applications_name_index ON public.applications USING btree (name);
+
+
+--
+-- Name: applications_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX applications_perimeter_id_index ON public.applications USING btree (perimeter_id);
+
+
+--
+-- Name: backups_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX backups_name_index ON public.backups USING btree (name);
+
+
+--
+-- Name: backups_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX backups_perimeter_id_index ON public.backups USING btree (perimeter_id);
 
 
 --
@@ -5272,6 +5795,20 @@ CREATE INDEX bay_fk_1485519 ON public.physical_security_devices USING btree (bay
 --
 
 CREATE INDEX bay_id_fk_1485509 ON public.bay_wifi_terminal USING btree (bay_id);
+
+
+--
+-- Name: bays_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX bays_name_index ON public.bays USING btree (name);
+
+
+--
+-- Name: bays_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX bays_perimeter_id_index ON public.bays USING btree (perimeter_id);
 
 
 --
@@ -5345,6 +5882,20 @@ CREATE INDEX building_id_fk_94821232 ON public.buildings USING btree (building_i
 
 
 --
+-- Name: buildings_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX buildings_name_index ON public.buildings USING btree (name);
+
+
+--
+-- Name: buildings_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX buildings_perimeter_id_index ON public.buildings USING btree (perimeter_id);
+
+
+--
 -- Name: cartographers_cartographiable_type_cartographiable_id_index; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5380,6 +5931,20 @@ CREATE INDEX certificate_id_fk_9483453 ON public.certificate_logical_server USIN
 
 
 --
+-- Name: certificates_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX certificates_name_index ON public.certificates USING btree (name);
+
+
+--
+-- Name: certificates_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX certificates_perimeter_id_index ON public.certificates USING btree (perimeter_id);
+
+
+--
 -- Name: cluster_logical_server_logical_server_id_index; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5401,6 +5966,20 @@ CREATE INDEX cluster_router_router_id_index ON public.cluster_router USING btree
 
 
 --
+-- Name: clusters_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX clusters_name_index ON public.clusters USING btree (name);
+
+
+--
+-- Name: clusters_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX clusters_perimeter_id_index ON public.clusters USING btree (perimeter_id);
+
+
+--
 -- Name: connected_subnets_fk_1483256; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5419,6 +5998,13 @@ CREATE INDEX container_id_fk_54933032 ON public.container_logical_server USING b
 --
 
 CREATE INDEX container_id_fk_549854345 ON public.application_container USING btree (container_id);
+
+
+--
+-- Name: containers_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX containers_perimeter_id_index ON public.containers USING btree (perimeter_id);
 
 
 --
@@ -5464,6 +6050,20 @@ CREATE INDEX data_processing_id_fk_6948435 ON public.application_data_processing
 
 
 --
+-- Name: data_processing_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX data_processing_name_index ON public.data_processing USING btree (name);
+
+
+--
+-- Name: data_processing_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX data_processing_perimeter_id_index ON public.data_processing USING btree (perimeter_id);
+
+
+--
 -- Name: database_dest_fk_1485552; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5506,10 +6106,52 @@ CREATE INDEX database_source_fk_1485548 ON public.application_flows USING btree 
 
 
 --
+-- Name: databases_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX databases_name_index ON public.databases USING btree (name);
+
+
+--
+-- Name: databases_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX databases_perimeter_id_index ON public.databases USING btree (perimeter_id);
+
+
+--
 -- Name: destination_fk_1494373; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX destination_fk_1494373 ON public.relations USING btree (destination_id);
+
+
+--
+-- Name: dhcp_servers_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX dhcp_servers_name_index ON public.dhcp_servers USING btree (name);
+
+
+--
+-- Name: dhcp_servers_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX dhcp_servers_perimeter_id_index ON public.dhcp_servers USING btree (perimeter_id);
+
+
+--
+-- Name: dnsservers_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX dnsservers_name_index ON public.dnsservers USING btree (name);
+
+
+--
+-- Name: dnsservers_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX dnsservers_perimeter_id_index ON public.dnsservers USING btree (perimeter_id);
 
 
 --
@@ -5597,6 +6239,13 @@ CREATE INDEX document_id_fk_5328384 ON public.physical_servers USING btree (icon
 
 
 --
+-- Name: document_id_fk_53812733; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX document_id_fk_53812733 ON public.storage_devices USING btree (icon_id);
+
+
+--
 -- Name: document_id_fk_5492844; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5608,6 +6257,13 @@ CREATE INDEX document_id_fk_5492844 ON public.document_relation USING btree (doc
 --
 
 CREATE INDEX document_id_fk_5938654 ON public.processes USING btree (icon_id);
+
+
+--
+-- Name: document_id_fk_61928374; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX document_id_fk_61928374 ON public.information USING btree (icon_id);
 
 
 --
@@ -5643,6 +6299,34 @@ CREATE INDEX domain_id_fk_69385935 ON public.admin_users USING btree (domain_id)
 --
 
 CREATE INDEX domaine_ad_id_fk_1492084 ON public.domain_forest_ad USING btree (domain_id);
+
+
+--
+-- Name: domains_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX domains_name_index ON public.domains USING btree (name);
+
+
+--
+-- Name: domains_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX domains_perimeter_id_index ON public.domains USING btree (perimeter_id);
+
+
+--
+-- Name: entities_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX entities_name_index ON public.entities USING btree (name);
+
+
+--
+-- Name: entities_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX entities_perimeter_id_index ON public.entities USING btree (perimeter_id);
 
 
 --
@@ -5702,6 +6386,20 @@ CREATE INDEX entity_resp_fk_1488612 ON public.applications USING btree (entity_r
 
 
 --
+-- Name: external_connected_entities_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX external_connected_entities_name_index ON public.external_connected_entities USING btree (name);
+
+
+--
+-- Name: external_connected_entities_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX external_connected_entities_perimeter_id_index ON public.external_connected_entities USING btree (perimeter_id);
+
+
+--
 -- Name: external_connected_entity_idx_2143243; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5723,10 +6421,45 @@ CREATE INDEX forest_ad_id_fk_1492084 ON public.domain_forest_ad USING btree (for
 
 
 --
+-- Name: forest_ads_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX forest_ads_name_index ON public.forest_ads USING btree (name);
+
+
+--
+-- Name: forest_ads_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX forest_ads_perimeter_id_index ON public.forest_ads USING btree (perimeter_id);
+
+
+--
 -- Name: gateway_fk_1492376; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX gateway_fk_1492376 ON public.subnetworks USING btree (gateway_id);
+
+
+--
+-- Name: gateways_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX gateways_name_index ON public.gateways USING btree (name);
+
+
+--
+-- Name: gateways_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX gateways_perimeter_id_index ON public.gateways USING btree (perimeter_id);
+
+
+--
+-- Name: graphs_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX graphs_name_index ON public.graphs USING btree (name);
 
 
 --
@@ -5751,10 +6484,17 @@ CREATE INDEX information_id_fk_4384483 ON public.data_processing_information USI
 
 
 --
--- Name: is_external; Type: INDEX; Schema: public; Owner: -
+-- Name: information_name_index; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX is_external ON public.entities USING btree (is_external);
+CREATE INDEX information_name_index ON public.information USING btree (name);
+
+
+--
+-- Name: information_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX information_perimeter_id_index ON public.information USING btree (perimeter_id);
 
 
 --
@@ -5776,6 +6516,34 @@ CREATE INDEX lan_id_fk_1490345 ON public.lan_man USING btree (lan_id);
 --
 
 CREATE INDEX lan_id_fk_1490368 ON public.lan_wan USING btree (lan_id);
+
+
+--
+-- Name: lans_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX lans_name_index ON public.lans USING btree (name);
+
+
+--
+-- Name: lans_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX lans_perimeter_id_index ON public.lans USING btree (perimeter_id);
+
+
+--
+-- Name: logical_flows_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX logical_flows_name_index ON public.logical_flows USING btree (name);
+
+
+--
+-- Name: logical_flows_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX logical_flows_perimeter_id_index ON public.logical_flows USING btree (perimeter_id);
 
 
 --
@@ -5853,6 +6621,20 @@ CREATE INDEX logical_server_src_id_fk ON public.physical_links USING btree (logi
 --
 
 CREATE INDEX logical_servers_active ON public.logical_servers USING btree (active);
+
+
+--
+-- Name: logical_servers_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX logical_servers_name_index ON public.logical_servers USING btree (name);
+
+
+--
+-- Name: logical_servers_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX logical_servers_perimeter_id_index ON public.logical_servers USING btree (perimeter_id);
 
 
 --
@@ -5947,6 +6729,20 @@ CREATE INDEX m_applications_id_fk_4384483 ON public.application_data_processing 
 
 
 --
+-- Name: macro_processuses_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX macro_processuses_name_index ON public.macro_processuses USING btree (name);
+
+
+--
+-- Name: macro_processuses_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX macro_processuses_perimeter_id_index ON public.macro_processuses USING btree (perimeter_id);
+
+
+--
 -- Name: man_id_fk_1490345; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5965,6 +6761,20 @@ CREATE INDEX man_id_fk_1490367 ON public.man_wan USING btree (man_id);
 --
 
 CREATE INDEX man_id_fk_4385454 ON public.mans USING btree (parent_man_id);
+
+
+--
+-- Name: mans_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX mans_name_index ON public.mans USING btree (name);
+
+
+--
+-- Name: mans_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX mans_perimeter_id_index ON public.mans USING btree (perimeter_id);
 
 
 --
@@ -6031,10 +6841,38 @@ CREATE INDEX network_switches_dest_id_fk ON public.physical_links USING btree (n
 
 
 --
+-- Name: network_switches_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX network_switches_name_index ON public.network_switches USING btree (name);
+
+
+--
+-- Name: network_switches_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX network_switches_perimeter_id_index ON public.network_switches USING btree (perimeter_id);
+
+
+--
 -- Name: network_switches_src_id_fk; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX network_switches_src_id_fk ON public.physical_links USING btree (network_switch_src_id);
+
+
+--
+-- Name: networks_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX networks_name_index ON public.networks USING btree (name);
+
+
+--
+-- Name: networks_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX networks_perimeter_id_index ON public.networks USING btree (perimeter_id);
 
 
 --
@@ -6122,6 +6960,20 @@ CREATE INDEX operation_id_fk_5837593 ON public.entity_document USING btree (docu
 
 
 --
+-- Name: operations_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX operations_name_index ON public.operations USING btree (name);
+
+
+--
+-- Name: operations_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX operations_perimeter_id_index ON public.operations USING btree (perimeter_id);
+
+
+--
 -- Name: password_resets_email_index; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6150,6 +7002,20 @@ CREATE INDEX peripheral_src_id_fk ON public.physical_links USING btree (peripher
 
 
 --
+-- Name: peripherals_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX peripherals_name_index ON public.peripherals USING btree (name);
+
+
+--
+-- Name: peripherals_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX peripherals_perimeter_id_index ON public.peripherals USING btree (perimeter_id);
+
+
+--
 -- Name: permission_id_fk_1470794; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6168,6 +7034,27 @@ CREATE INDEX phone_dest_id_fk ON public.physical_links USING btree (phone_dest_i
 --
 
 CREATE INDEX phone_src_id_fk ON public.physical_links USING btree (phone_src_id);
+
+
+--
+-- Name: phones_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX phones_name_index ON public.phones USING btree (name);
+
+
+--
+-- Name: phones_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX phones_perimeter_id_index ON public.phones USING btree (perimeter_id);
+
+
+--
+-- Name: physical_links_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX physical_links_perimeter_id_index ON public.physical_links USING btree (perimeter_id);
 
 
 --
@@ -6199,6 +7086,20 @@ CREATE INDEX physical_router_src_id_fk ON public.physical_links USING btree (phy
 
 
 --
+-- Name: physical_routers_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX physical_routers_name_index ON public.physical_routers USING btree (name);
+
+
+--
+-- Name: physical_routers_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX physical_routers_perimeter_id_index ON public.physical_routers USING btree (perimeter_id);
+
+
+--
 -- Name: physical_security_device_dest_id_fk; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6227,6 +7128,20 @@ CREATE INDEX physical_security_devices_icon_id_index ON public.physical_security
 
 
 --
+-- Name: physical_security_devices_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX physical_security_devices_name_index ON public.physical_security_devices USING btree (name);
+
+
+--
+-- Name: physical_security_devices_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX physical_security_devices_perimeter_id_index ON public.physical_security_devices USING btree (perimeter_id);
+
+
+--
 -- Name: physical_server_dest_id_fk; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6252,6 +7167,20 @@ CREATE INDEX physical_server_id_fk_4543543 ON public.application_physical_server
 --
 
 CREATE INDEX physical_server_src_id_fk ON public.physical_links USING btree (physical_server_src_id);
+
+
+--
+-- Name: physical_servers_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX physical_servers_name_index ON public.physical_servers USING btree (name);
+
+
+--
+-- Name: physical_servers_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX physical_servers_perimeter_id_index ON public.physical_servers USING btree (perimeter_id);
 
 
 --
@@ -6294,6 +7223,20 @@ CREATE INDEX physical_switch_id_fk_4543143 ON public.network_switch_physical_swi
 --
 
 CREATE INDEX physical_switch_src_id_fk ON public.physical_links USING btree (physical_switch_src_id);
+
+
+--
+-- Name: physical_switches_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX physical_switches_name_index ON public.physical_switches USING btree (name);
+
+
+--
+-- Name: physical_switches_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX physical_switches_perimeter_id_index ON public.physical_switches USING btree (perimeter_id);
 
 
 --
@@ -6360,6 +7303,20 @@ CREATE INDEX process_id_fk_7945129 ON public.operations USING btree (process_id)
 
 
 --
+-- Name: processes_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX processes_name_index ON public.processes USING btree (name);
+
+
+--
+-- Name: processes_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX processes_perimeter_id_index ON public.processes USING btree (perimeter_id);
+
+
+--
 -- Name: relation_id_fk_43243244; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6374,6 +7331,20 @@ CREATE INDEX relation_id_fk_6948334 ON public.document_relation USING btree (rel
 
 
 --
+-- Name: relations_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX relations_name_index ON public.relations USING btree (name);
+
+
+--
+-- Name: relations_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX relations_perimeter_id_index ON public.relations USING btree (perimeter_id);
+
+
+--
 -- Name: role_id_fk_1470794; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6385,6 +7356,13 @@ CREATE INDEX role_id_fk_1470794 ON public.permission_role USING btree (role_id);
 --
 
 CREATE INDEX role_id_fk_1470803 ON public.role_user USING btree (role_id);
+
+
+--
+-- Name: roles_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX roles_perimeter_id_index ON public.roles USING btree (perimeter_id);
 
 
 --
@@ -6423,6 +7401,27 @@ CREATE INDEX router_src_id_fk ON public.physical_links USING btree (router_src_i
 
 
 --
+-- Name: routers_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX routers_name_index ON public.routers USING btree (name);
+
+
+--
+-- Name: routers_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX routers_perimeter_id_index ON public.routers USING btree (perimeter_id);
+
+
+--
+-- Name: saved_queries_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX saved_queries_name_index ON public.saved_queries USING btree (name);
+
+
+--
 -- Name: saved_queries_user_id_is_public_index; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6444,6 +7443,20 @@ CREATE INDEX security_control_id_fk_5920381 ON public.application_security_contr
 
 
 --
+-- Name: security_controls_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX security_controls_name_index ON public.security_controls USING btree (name);
+
+
+--
+-- Name: security_controls_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX security_controls_perimeter_id_index ON public.security_controls USING btree (perimeter_id);
+
+
+--
 -- Name: security_device_id_fk_304832731; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6462,6 +7475,20 @@ CREATE INDEX security_device_id_fk_43329392 ON public.physical_security_device_s
 --
 
 CREATE INDEX security_devices_icon_id_index ON public.security_devices USING btree (icon_id);
+
+
+--
+-- Name: security_devices_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX security_devices_name_index ON public.security_devices USING btree (name);
+
+
+--
+-- Name: security_devices_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX security_devices_perimeter_id_index ON public.security_devices USING btree (perimeter_id);
 
 
 --
@@ -6556,6 +7583,20 @@ CREATE INDEX site_id_fk_1483442 ON public.bays USING btree (site_id);
 
 
 --
+-- Name: sites_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX sites_name_index ON public.sites USING btree (name);
+
+
+--
+-- Name: sites_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX sites_perimeter_id_index ON public.sites USING btree (perimeter_id);
+
+
+--
 -- Name: source_fk_1494372; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6577,10 +7618,38 @@ CREATE INDEX storage_device_src_id_fk ON public.physical_links USING btree (stor
 
 
 --
+-- Name: storage_devices_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX storage_devices_name_index ON public.storage_devices USING btree (name);
+
+
+--
+-- Name: storage_devices_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX storage_devices_perimeter_id_index ON public.storage_devices USING btree (perimeter_id);
+
+
+--
 -- Name: subnetwork_idx_4343848; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX subnetwork_idx_4343848 ON public.external_connected_entity_subnetwork USING btree (subnetwork_id);
+
+
+--
+-- Name: subnetworks_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX subnetworks_name_index ON public.subnetworks USING btree (name);
+
+
+--
+-- Name: subnetworks_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX subnetworks_perimeter_id_index ON public.subnetworks USING btree (perimeter_id);
 
 
 --
@@ -6598,10 +7667,24 @@ CREATE INDEX task_id_fk_1472749 ON public.operation_task USING btree (task_id);
 
 
 --
+-- Name: tasks_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX tasks_name_index ON public.tasks USING btree (name);
+
+
+--
+-- Name: tasks_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX tasks_perimeter_id_index ON public.tasks USING btree (perimeter_id);
+
+
+--
 -- Name: type; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX type ON public.entities USING btree (entity_type);
+CREATE INDEX type ON public.entities USING btree (type);
 
 
 --
@@ -6626,6 +7709,20 @@ CREATE INDEX vlan_id_fk_1658250 ON public.physical_router_vlan USING btree (vlan
 
 
 --
+-- Name: vlans_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX vlans_name_index ON public.vlans USING btree (name);
+
+
+--
+-- Name: vlans_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX vlans_perimeter_id_index ON public.vlans USING btree (perimeter_id);
+
+
+--
 -- Name: wan_id_fk_1490367; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6637,6 +7734,20 @@ CREATE INDEX wan_id_fk_1490367 ON public.man_wan USING btree (wan_id);
 --
 
 CREATE INDEX wan_id_fk_1490368 ON public.lan_wan USING btree (wan_id);
+
+
+--
+-- Name: wans_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX wans_name_index ON public.wans USING btree (name);
+
+
+--
+-- Name: wans_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX wans_perimeter_id_index ON public.wans USING btree (perimeter_id);
 
 
 --
@@ -6661,6 +7772,20 @@ CREATE INDEX wifi_terminal_src_id_fk ON public.physical_links USING btree (wifi_
 
 
 --
+-- Name: wifi_terminals_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX wifi_terminals_name_index ON public.wifi_terminals USING btree (name);
+
+
+--
+-- Name: wifi_terminals_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX wifi_terminals_perimeter_id_index ON public.wifi_terminals USING btree (perimeter_id);
+
+
+--
 -- Name: workstation_dest_id_fk; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6682,6 +7807,20 @@ CREATE INDEX workstation_src_id_fk ON public.physical_links USING btree (worksta
 
 
 --
+-- Name: workstations_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX workstations_name_index ON public.workstations USING btree (name);
+
+
+--
+-- Name: workstations_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX workstations_perimeter_id_index ON public.workstations USING btree (perimeter_id);
+
+
+--
 -- Name: zone_admin_fk_1482666; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6693,6 +7832,59 @@ CREATE INDEX zone_admin_fk_1482666 ON public.annuaires USING btree (zone_admin_i
 --
 
 CREATE INDEX zone_admin_fk_1482667 ON public.forest_ads USING btree (zone_admin_id);
+
+
+--
+-- Name: zone_admins_name_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX zone_admins_name_index ON public.zone_admins USING btree (name);
+
+
+--
+-- Name: zone_admins_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX zone_admins_perimeter_id_index ON public.zone_admins USING btree (perimeter_id);
+
+
+--
+-- Name: zones_perimeter_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX zones_perimeter_id_index ON public.zones USING btree (perimeter_id);
+
+
+--
+-- Name: activities activities_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.activities
+    ADD CONSTRAINT activities_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: activities activities_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.activities
+    ADD CONSTRAINT activities_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: activities activities_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.activities
+    ADD CONSTRAINT activities_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: activities activities_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.activities
+    ADD CONSTRAINT activities_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
 
 
 --
@@ -6752,6 +7944,38 @@ ALTER TABLE ONLY public.actor_operation
 
 
 --
+-- Name: actors actors_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.actors
+    ADD CONSTRAINT actors_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: actors actors_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.actors
+    ADD CONSTRAINT actors_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: actors actors_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.actors
+    ADD CONSTRAINT actors_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: actors actors_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.actors
+    ADD CONSTRAINT actors_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: admin_user_application admin_user_application_application_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6784,6 +8008,78 @@ ALTER TABLE ONLY public.admin_user_zone
 
 
 --
+-- Name: admin_users admin_users_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.admin_users
+    ADD CONSTRAINT admin_users_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: admin_users admin_users_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.admin_users
+    ADD CONSTRAINT admin_users_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: admin_users admin_users_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.admin_users
+    ADD CONSTRAINT admin_users_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: admin_users admin_users_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.admin_users
+    ADD CONSTRAINT admin_users_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: annuaires annuaires_application_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.annuaires
+    ADD CONSTRAINT annuaires_application_id_foreign FOREIGN KEY (application_id) REFERENCES public.applications(id);
+
+
+--
+-- Name: annuaires annuaires_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.annuaires
+    ADD CONSTRAINT annuaires_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: annuaires annuaires_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.annuaires
+    ADD CONSTRAINT annuaires_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: annuaires annuaires_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.annuaires
+    ADD CONSTRAINT annuaires_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: annuaires annuaires_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.annuaires
+    ADD CONSTRAINT annuaires_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: application_application_service application_application_service_application_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6797,6 +8093,38 @@ ALTER TABLE ONLY public.application_application_service
 
 ALTER TABLE ONLY public.applications
     ADD CONSTRAINT application_block_fk_1644592 FOREIGN KEY (application_block_id) REFERENCES public.application_blocks(id);
+
+
+--
+-- Name: application_blocks application_blocks_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.application_blocks
+    ADD CONSTRAINT application_blocks_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: application_blocks application_blocks_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.application_blocks
+    ADD CONSTRAINT application_blocks_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: application_blocks application_blocks_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.application_blocks
+    ADD CONSTRAINT application_blocks_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: application_blocks application_blocks_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.application_blocks
+    ADD CONSTRAINT application_blocks_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
 
 
 --
@@ -6872,6 +8200,38 @@ ALTER TABLE ONLY public.application_flow_information
 
 
 --
+-- Name: application_flows application_flows_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.application_flows
+    ADD CONSTRAINT application_flows_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: application_flows application_flows_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.application_flows
+    ADD CONSTRAINT application_flows_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: application_flows application_flows_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.application_flows
+    ADD CONSTRAINT application_flows_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: application_flows application_flows_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.application_flows
+    ADD CONSTRAINT application_flows_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: application_document application_id_fk_7812341; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6909,6 +8269,38 @@ ALTER TABLE ONLY public.application_module_entity
 
 ALTER TABLE ONLY public.application_module_application_service
     ADD CONSTRAINT application_module_id_fk_1492414 FOREIGN KEY (application_module_id) REFERENCES public.application_modules(id) ON DELETE CASCADE;
+
+
+--
+-- Name: application_modules application_modules_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.application_modules
+    ADD CONSTRAINT application_modules_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: application_modules application_modules_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.application_modules
+    ADD CONSTRAINT application_modules_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: application_modules application_modules_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.application_modules
+    ADD CONSTRAINT application_modules_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: application_modules application_modules_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.application_modules
+    ADD CONSTRAINT application_modules_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
 
 
 --
@@ -6968,6 +8360,38 @@ ALTER TABLE ONLY public.application_module_application_service
 
 
 --
+-- Name: application_services application_services_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.application_services
+    ADD CONSTRAINT application_services_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: application_services application_services_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.application_services
+    ADD CONSTRAINT application_services_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: application_services application_services_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.application_services
+    ADD CONSTRAINT application_services_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: application_services application_services_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.application_services
+    ADD CONSTRAINT application_services_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: application_flows application_source_fk_1485545; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6981,6 +8405,38 @@ ALTER TABLE ONLY public.application_flows
 
 ALTER TABLE ONLY public.application_workstation
     ADD CONSTRAINT application_workstation_application_id_foreign FOREIGN KEY (application_id) REFERENCES public.applications(id);
+
+
+--
+-- Name: applications applications_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.applications
+    ADD CONSTRAINT applications_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: applications applications_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.applications
+    ADD CONSTRAINT applications_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: applications applications_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.applications
+    ADD CONSTRAINT applications_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: applications applications_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.applications
+    ADD CONSTRAINT applications_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
 
 
 --
@@ -7013,6 +8469,38 @@ ALTER TABLE ONLY public.backup_storage_device
 
 ALTER TABLE ONLY public.backup_storage_device
     ADD CONSTRAINT backup_storage_device_storage_device_id_foreign FOREIGN KEY (storage_device_id) REFERENCES public.storage_devices(id) ON DELETE CASCADE;
+
+
+--
+-- Name: backups backups_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.backups
+    ADD CONSTRAINT backups_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: backups backups_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.backups
+    ADD CONSTRAINT backups_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: backups backups_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.backups
+    ADD CONSTRAINT backups_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: backups backups_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.backups
+    ADD CONSTRAINT backups_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
 
 
 --
@@ -7069,6 +8557,38 @@ ALTER TABLE ONLY public.physical_security_devices
 
 ALTER TABLE ONLY public.bay_wifi_terminal
     ADD CONSTRAINT bay_id_fk_1485509 FOREIGN KEY (bay_id) REFERENCES public.bays(id) ON DELETE CASCADE;
+
+
+--
+-- Name: bays bays_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.bays
+    ADD CONSTRAINT bays_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: bays bays_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.bays
+    ADD CONSTRAINT bays_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: bays bays_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.bays
+    ADD CONSTRAINT bays_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: bays bays_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.bays
+    ADD CONSTRAINT bays_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
 
 
 --
@@ -7176,6 +8696,38 @@ ALTER TABLE ONLY public.buildings
 
 
 --
+-- Name: buildings buildings_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.buildings
+    ADD CONSTRAINT buildings_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: buildings buildings_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.buildings
+    ADD CONSTRAINT buildings_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: buildings buildings_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.buildings
+    ADD CONSTRAINT buildings_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: buildings buildings_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.buildings
+    ADD CONSTRAINT buildings_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: cartographers cartographers_role_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7213,6 +8765,38 @@ ALTER TABLE ONLY public.certificate_logical_server
 
 ALTER TABLE ONLY public.application_certificate
     ADD CONSTRAINT certificate_m_application_certificate_id_foreign FOREIGN KEY (certificate_id) REFERENCES public.certificates(id) ON DELETE CASCADE;
+
+
+--
+-- Name: certificates certificates_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.certificates
+    ADD CONSTRAINT certificates_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: certificates certificates_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.certificates
+    ADD CONSTRAINT certificates_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: certificates certificates_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.certificates
+    ADD CONSTRAINT certificates_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: certificates certificates_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.certificates
+    ADD CONSTRAINT certificates_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
 
 
 --
@@ -7264,6 +8848,38 @@ ALTER TABLE ONLY public.cluster_router
 
 
 --
+-- Name: clusters clusters_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.clusters
+    ADD CONSTRAINT clusters_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: clusters clusters_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.clusters
+    ADD CONSTRAINT clusters_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: clusters clusters_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.clusters
+    ADD CONSTRAINT clusters_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: clusters clusters_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.clusters
+    ADD CONSTRAINT clusters_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: subnetworks connected_subnets_fk_1483256; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7312,6 +8928,38 @@ ALTER TABLE ONLY public.application_container
 
 
 --
+-- Name: containers containers_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.containers
+    ADD CONSTRAINT containers_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: containers containers_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.containers
+    ADD CONSTRAINT containers_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: containers containers_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.containers
+    ADD CONSTRAINT containers_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: containers containers_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.containers
+    ADD CONSTRAINT containers_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: cpe_versions cpe_product_fk_1447431; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7325,6 +8973,22 @@ ALTER TABLE ONLY public.cpe_versions
 
 ALTER TABLE ONLY public.cpe_products
     ADD CONSTRAINT cpe_vendor_fk_1454431 FOREIGN KEY (cpe_vendor_id) REFERENCES public.cpe_vendors(id);
+
+
+--
+-- Name: data_processing data_processing_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.data_processing
+    ADD CONSTRAINT data_processing_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: data_processing data_processing_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.data_processing
+    ADD CONSTRAINT data_processing_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
 
 
 --
@@ -7357,6 +9021,22 @@ ALTER TABLE ONLY public.application_data_processing
 
 ALTER TABLE ONLY public.data_processing_process
     ADD CONSTRAINT data_processing_id_fk_764545345 FOREIGN KEY (data_processing_id) REFERENCES public.data_processing(id) ON DELETE CASCADE;
+
+
+--
+-- Name: data_processing data_processing_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.data_processing
+    ADD CONSTRAINT data_processing_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: data_processing data_processing_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.data_processing
+    ADD CONSTRAINT data_processing_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
 
 
 --
@@ -7400,6 +9080,22 @@ ALTER TABLE ONLY public.application_flows
 
 
 --
+-- Name: databases databases_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.databases
+    ADD CONSTRAINT databases_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: databases databases_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.databases
+    ADD CONSTRAINT databases_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: databases databases_icon_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7408,11 +9104,91 @@ ALTER TABLE ONLY public.databases
 
 
 --
+-- Name: databases databases_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.databases
+    ADD CONSTRAINT databases_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: databases databases_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.databases
+    ADD CONSTRAINT databases_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: relations destination_fk_1494373; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.relations
     ADD CONSTRAINT destination_fk_1494373 FOREIGN KEY (destination_id) REFERENCES public.entities(id);
+
+
+--
+-- Name: dhcp_servers dhcp_servers_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.dhcp_servers
+    ADD CONSTRAINT dhcp_servers_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: dhcp_servers dhcp_servers_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.dhcp_servers
+    ADD CONSTRAINT dhcp_servers_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: dhcp_servers dhcp_servers_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.dhcp_servers
+    ADD CONSTRAINT dhcp_servers_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: dhcp_servers dhcp_servers_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.dhcp_servers
+    ADD CONSTRAINT dhcp_servers_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: dnsservers dnsservers_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.dnsservers
+    ADD CONSTRAINT dnsservers_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: dnsservers dnsservers_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.dnsservers
+    ADD CONSTRAINT dnsservers_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: dnsservers dnsservers_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.dnsservers
+    ADD CONSTRAINT dnsservers_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: dnsservers dnsservers_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.dnsservers
+    ADD CONSTRAINT dnsservers_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
 
 
 --
@@ -7536,6 +9312,14 @@ ALTER TABLE ONLY public.physical_servers
 
 
 --
+-- Name: storage_devices document_id_fk_53812733; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.storage_devices
+    ADD CONSTRAINT document_id_fk_53812733 FOREIGN KEY (icon_id) REFERENCES public.documents(id);
+
+
+--
 -- Name: document_relation document_id_fk_5492844; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7552,11 +9336,43 @@ ALTER TABLE ONLY public.processes
 
 
 --
+-- Name: information document_id_fk_61928374; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.information
+    ADD CONSTRAINT document_id_fk_61928374 FOREIGN KEY (icon_id) REFERENCES public.documents(id);
+
+
+--
 -- Name: application_document document_id_fk_7812342; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.application_document
     ADD CONSTRAINT document_id_fk_7812342 FOREIGN KEY (document_id) REFERENCES public.documents(id) ON DELETE CASCADE;
+
+
+--
+-- Name: documents documents_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.documents
+    ADD CONSTRAINT documents_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: documents documents_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.documents
+    ADD CONSTRAINT documents_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: documents documents_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.documents
+    ADD CONSTRAINT documents_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
 
 
 --
@@ -7581,6 +9397,70 @@ ALTER TABLE ONLY public.logical_servers
 
 ALTER TABLE ONLY public.admin_users
     ADD CONSTRAINT domain_id_fk_69385935 FOREIGN KEY (domain_id) REFERENCES public.domains(id) ON DELETE CASCADE;
+
+
+--
+-- Name: domains domains_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.domains
+    ADD CONSTRAINT domains_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: domains domains_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.domains
+    ADD CONSTRAINT domains_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: domains domains_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.domains
+    ADD CONSTRAINT domains_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: domains domains_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.domains
+    ADD CONSTRAINT domains_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: entities entities_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.entities
+    ADD CONSTRAINT entities_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: entities entities_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.entities
+    ADD CONSTRAINT entities_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: entities entities_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.entities
+    ADD CONSTRAINT entities_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: entities entities_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.entities
+    ADD CONSTRAINT entities_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
 
 
 --
@@ -7656,6 +9536,38 @@ ALTER TABLE ONLY public.applications
 
 
 --
+-- Name: external_connected_entities external_connected_entities_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.external_connected_entities
+    ADD CONSTRAINT external_connected_entities_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: external_connected_entities external_connected_entities_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.external_connected_entities
+    ADD CONSTRAINT external_connected_entities_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: external_connected_entities external_connected_entities_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.external_connected_entities
+    ADD CONSTRAINT external_connected_entities_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: external_connected_entities external_connected_entities_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.external_connected_entities
+    ADD CONSTRAINT external_connected_entities_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: external_connected_entity_subnetwork external_connected_entity_id_fk_4302049; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7680,11 +9592,115 @@ ALTER TABLE ONLY public.domain_forest_ad
 
 
 --
+-- Name: forest_ads forest_ads_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.forest_ads
+    ADD CONSTRAINT forest_ads_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: forest_ads forest_ads_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.forest_ads
+    ADD CONSTRAINT forest_ads_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: forest_ads forest_ads_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.forest_ads
+    ADD CONSTRAINT forest_ads_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: forest_ads forest_ads_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.forest_ads
+    ADD CONSTRAINT forest_ads_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: subnetworks gateway_fk_1492376; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.subnetworks
     ADD CONSTRAINT gateway_fk_1492376 FOREIGN KEY (gateway_id) REFERENCES public.gateways(id);
+
+
+--
+-- Name: gateways gateways_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.gateways
+    ADD CONSTRAINT gateways_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: gateways gateways_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.gateways
+    ADD CONSTRAINT gateways_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: gateways gateways_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.gateways
+    ADD CONSTRAINT gateways_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: gateways gateways_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.gateways
+    ADD CONSTRAINT gateways_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: graphs graphs_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.graphs
+    ADD CONSTRAINT graphs_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: graphs graphs_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.graphs
+    ADD CONSTRAINT graphs_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: graphs graphs_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.graphs
+    ADD CONSTRAINT graphs_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: information information_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.information
+    ADD CONSTRAINT information_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: information information_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.information
+    ADD CONSTRAINT information_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
 
 
 --
@@ -7728,6 +9744,22 @@ ALTER TABLE ONLY public.information_information
 
 
 --
+-- Name: information information_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.information
+    ADD CONSTRAINT information_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: information information_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.information
+    ADD CONSTRAINT information_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: lan_man lan_id_fk_1490345; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7741,6 +9773,38 @@ ALTER TABLE ONLY public.lan_man
 
 ALTER TABLE ONLY public.lan_wan
     ADD CONSTRAINT lan_id_fk_1490368 FOREIGN KEY (lan_id) REFERENCES public.lans(id) ON DELETE CASCADE;
+
+
+--
+-- Name: lans lans_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.lans
+    ADD CONSTRAINT lans_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: lans lans_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.lans
+    ADD CONSTRAINT lans_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: lans lans_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.lans
+    ADD CONSTRAINT lans_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: lans lans_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.lans
+    ADD CONSTRAINT lans_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
 
 
 --
@@ -7760,6 +9824,22 @@ ALTER TABLE ONLY public.logical_flows
 
 
 --
+-- Name: logical_flows logical_flows_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.logical_flows
+    ADD CONSTRAINT logical_flows_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: logical_flows logical_flows_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.logical_flows
+    ADD CONSTRAINT logical_flows_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: logical_flows logical_flows_logical_server_dest_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7773,6 +9853,14 @@ ALTER TABLE ONLY public.logical_flows
 
 ALTER TABLE ONLY public.logical_flows
     ADD CONSTRAINT logical_flows_logical_server_source_id_foreign FOREIGN KEY (logical_server_source_id) REFERENCES public.logical_servers(id) ON DELETE CASCADE;
+
+
+--
+-- Name: logical_flows logical_flows_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.logical_flows
+    ADD CONSTRAINT logical_flows_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
 
 
 --
@@ -7872,6 +9960,14 @@ ALTER TABLE ONLY public.logical_flows
 
 
 --
+-- Name: logical_flows logical_flows_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.logical_flows
+    ADD CONSTRAINT logical_flows_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: logical_flows logical_flows_workstation_dest_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7928,11 +10024,75 @@ ALTER TABLE ONLY public.physical_links
 
 
 --
+-- Name: logical_servers logical_servers_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.logical_servers
+    ADD CONSTRAINT logical_servers_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: logical_servers logical_servers_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.logical_servers
+    ADD CONSTRAINT logical_servers_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: logical_servers logical_servers_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.logical_servers
+    ADD CONSTRAINT logical_servers_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: logical_servers logical_servers_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.logical_servers
+    ADD CONSTRAINT logical_servers_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: application_events m_application_events_user_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.application_events
     ADD CONSTRAINT m_application_events_user_id_foreign FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: macro_processuses macro_processuses_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.macro_processuses
+    ADD CONSTRAINT macro_processuses_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: macro_processuses macro_processuses_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.macro_processuses
+    ADD CONSTRAINT macro_processuses_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: macro_processuses macro_processuses_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.macro_processuses
+    ADD CONSTRAINT macro_processuses_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: macro_processuses macro_processuses_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.macro_processuses
+    ADD CONSTRAINT macro_processuses_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
 
 
 --
@@ -7957,6 +10117,38 @@ ALTER TABLE ONLY public.man_wan
 
 ALTER TABLE ONLY public.mans
     ADD CONSTRAINT man_id_fk_4385454 FOREIGN KEY (parent_man_id) REFERENCES public.mans(id) ON DELETE SET NULL;
+
+
+--
+-- Name: mans mans_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.mans
+    ADD CONSTRAINT mans_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: mans mans_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.mans
+    ADD CONSTRAINT mans_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: mans mans_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.mans
+    ADD CONSTRAINT mans_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: mans mans_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.mans
+    ADD CONSTRAINT mans_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
 
 
 --
@@ -8032,6 +10224,70 @@ ALTER TABLE ONLY public.network_switch_vlan
 
 
 --
+-- Name: network_switches network_switches_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.network_switches
+    ADD CONSTRAINT network_switches_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: network_switches network_switches_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.network_switches
+    ADD CONSTRAINT network_switches_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: network_switches network_switches_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.network_switches
+    ADD CONSTRAINT network_switches_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: network_switches network_switches_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.network_switches
+    ADD CONSTRAINT network_switches_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: networks networks_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.networks
+    ADD CONSTRAINT networks_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: networks networks_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.networks
+    ADD CONSTRAINT networks_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: networks networks_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.networks
+    ADD CONSTRAINT networks_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: networks networks_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.networks
+    ADD CONSTRAINT networks_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: actor_operation operation_id_fk_1472680; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8064,6 +10320,38 @@ ALTER TABLE ONLY public.activity_document
 
 
 --
+-- Name: operations operations_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.operations
+    ADD CONSTRAINT operations_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: operations operations_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.operations
+    ADD CONSTRAINT operations_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: operations operations_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.operations
+    ADD CONSTRAINT operations_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: operations operations_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.operations
+    ADD CONSTRAINT operations_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: physical_links peripheral_dest_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8088,6 +10376,46 @@ ALTER TABLE ONLY public.physical_links
 
 
 --
+-- Name: peripherals peripherals_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.peripherals
+    ADD CONSTRAINT peripherals_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: peripherals peripherals_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.peripherals
+    ADD CONSTRAINT peripherals_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: peripherals peripherals_domain_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.peripherals
+    ADD CONSTRAINT peripherals_domain_id_foreign FOREIGN KEY (domain_id) REFERENCES public.domains(id);
+
+
+--
+-- Name: peripherals peripherals_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.peripherals
+    ADD CONSTRAINT peripherals_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: peripherals peripherals_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.peripherals
+    ADD CONSTRAINT peripherals_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: permission_role permission_id_fk_1470794; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8109,6 +10437,70 @@ ALTER TABLE ONLY public.physical_links
 
 ALTER TABLE ONLY public.physical_links
     ADD CONSTRAINT phone_src_id_fk FOREIGN KEY (phone_src_id) REFERENCES public.phones(id) ON DELETE CASCADE;
+
+
+--
+-- Name: phones phones_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.phones
+    ADD CONSTRAINT phones_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: phones phones_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.phones
+    ADD CONSTRAINT phones_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: phones phones_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.phones
+    ADD CONSTRAINT phones_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: phones phones_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.phones
+    ADD CONSTRAINT phones_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: physical_links physical_links_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.physical_links
+    ADD CONSTRAINT physical_links_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: physical_links physical_links_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.physical_links
+    ADD CONSTRAINT physical_links_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: physical_links physical_links_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.physical_links
+    ADD CONSTRAINT physical_links_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: physical_links physical_links_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.physical_links
+    ADD CONSTRAINT physical_links_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
 
 
 --
@@ -8144,6 +10536,38 @@ ALTER TABLE ONLY public.physical_links
 
 
 --
+-- Name: physical_routers physical_routers_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.physical_routers
+    ADD CONSTRAINT physical_routers_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: physical_routers physical_routers_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.physical_routers
+    ADD CONSTRAINT physical_routers_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: physical_routers physical_routers_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.physical_routers
+    ADD CONSTRAINT physical_routers_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: physical_routers physical_routers_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.physical_routers
+    ADD CONSTRAINT physical_routers_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: physical_links physical_security_device_dest_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8168,11 +10592,43 @@ ALTER TABLE ONLY public.physical_links
 
 
 --
+-- Name: physical_security_devices physical_security_devices_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.physical_security_devices
+    ADD CONSTRAINT physical_security_devices_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: physical_security_devices physical_security_devices_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.physical_security_devices
+    ADD CONSTRAINT physical_security_devices_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: physical_security_devices physical_security_devices_icon_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.physical_security_devices
     ADD CONSTRAINT physical_security_devices_icon_id_foreign FOREIGN KEY (icon_id) REFERENCES public.documents(id);
+
+
+--
+-- Name: physical_security_devices physical_security_devices_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.physical_security_devices
+    ADD CONSTRAINT physical_security_devices_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: physical_security_devices physical_security_devices_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.physical_security_devices
+    ADD CONSTRAINT physical_security_devices_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
 
 
 --
@@ -8205,6 +10661,38 @@ ALTER TABLE ONLY public.application_physical_server
 
 ALTER TABLE ONLY public.physical_links
     ADD CONSTRAINT physical_server_src_id_fk FOREIGN KEY (physical_server_src_id) REFERENCES public.physical_servers(id) ON DELETE CASCADE;
+
+
+--
+-- Name: physical_servers physical_servers_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.physical_servers
+    ADD CONSTRAINT physical_servers_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: physical_servers physical_servers_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.physical_servers
+    ADD CONSTRAINT physical_servers_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: physical_servers physical_servers_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.physical_servers
+    ADD CONSTRAINT physical_servers_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: physical_servers physical_servers_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.physical_servers
+    ADD CONSTRAINT physical_servers_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
 
 
 --
@@ -8256,11 +10744,43 @@ ALTER TABLE ONLY public.physical_links
 
 
 --
+-- Name: physical_switches physical_switches_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.physical_switches
+    ADD CONSTRAINT physical_switches_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: physical_switches physical_switches_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.physical_switches
+    ADD CONSTRAINT physical_switches_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: physical_switches physical_switches_icon_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.physical_switches
     ADD CONSTRAINT physical_switches_icon_id_foreign FOREIGN KEY (icon_id) REFERENCES public.documents(id);
+
+
+--
+-- Name: physical_switches physical_switches_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.physical_switches
+    ADD CONSTRAINT physical_switches_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: physical_switches physical_switches_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.physical_switches
+    ADD CONSTRAINT physical_switches_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
 
 
 --
@@ -8320,11 +10840,43 @@ ALTER TABLE ONLY public.operations
 
 
 --
+-- Name: processes processes_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.processes
+    ADD CONSTRAINT processes_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: processes processes_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.processes
+    ADD CONSTRAINT processes_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: processes processes_ibfk_1; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.processes
     ADD CONSTRAINT processes_ibfk_1 FOREIGN KEY (macroprocess_id) REFERENCES public.macro_processuses(id);
+
+
+--
+-- Name: processes processes_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.processes
+    ADD CONSTRAINT processes_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: processes processes_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.processes
+    ADD CONSTRAINT processes_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
 
 
 --
@@ -8344,6 +10896,38 @@ ALTER TABLE ONLY public.document_relation
 
 
 --
+-- Name: relations relations_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.relations
+    ADD CONSTRAINT relations_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: relations relations_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.relations
+    ADD CONSTRAINT relations_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: relations relations_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.relations
+    ADD CONSTRAINT relations_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: relations relations_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.relations
+    ADD CONSTRAINT relations_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: permission_role role_id_fk_1470794; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8357,6 +10941,14 @@ ALTER TABLE ONLY public.permission_role
 
 ALTER TABLE ONLY public.role_user
     ADD CONSTRAINT role_id_fk_1470803 FOREIGN KEY (role_id) REFERENCES public.roles(id) ON DELETE CASCADE;
+
+
+--
+-- Name: roles roles_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.roles
+    ADD CONSTRAINT roles_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
 
 
 --
@@ -8392,6 +10984,38 @@ ALTER TABLE ONLY public.physical_links
 
 
 --
+-- Name: routers routers_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.routers
+    ADD CONSTRAINT routers_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: routers routers_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.routers
+    ADD CONSTRAINT routers_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: routers routers_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.routers
+    ADD CONSTRAINT routers_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: routers routers_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.routers
+    ADD CONSTRAINT routers_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: saved_queries saved_queries_user_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8416,6 +11040,38 @@ ALTER TABLE ONLY public.security_control_process
 
 
 --
+-- Name: security_controls security_controls_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.security_controls
+    ADD CONSTRAINT security_controls_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: security_controls security_controls_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.security_controls
+    ADD CONSTRAINT security_controls_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: security_controls security_controls_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.security_controls
+    ADD CONSTRAINT security_controls_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: security_controls security_controls_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.security_controls
+    ADD CONSTRAINT security_controls_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: application_security_device security_device_id_fk_304832731; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8432,11 +11088,43 @@ ALTER TABLE ONLY public.physical_security_device_security_device
 
 
 --
+-- Name: security_devices security_devices_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.security_devices
+    ADD CONSTRAINT security_devices_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: security_devices security_devices_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.security_devices
+    ADD CONSTRAINT security_devices_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: security_devices security_devices_icon_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.security_devices
     ADD CONSTRAINT security_devices_icon_id_foreign FOREIGN KEY (icon_id) REFERENCES public.documents(id);
+
+
+--
+-- Name: security_devices security_devices_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.security_devices
+    ADD CONSTRAINT security_devices_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: security_devices security_devices_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.security_devices
+    ADD CONSTRAINT security_devices_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
 
 
 --
@@ -8544,6 +11232,38 @@ ALTER TABLE ONLY public.bays
 
 
 --
+-- Name: sites sites_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sites
+    ADD CONSTRAINT sites_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: sites sites_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sites
+    ADD CONSTRAINT sites_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: sites sites_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sites
+    ADD CONSTRAINT sites_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: sites sites_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sites
+    ADD CONSTRAINT sites_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: relations source_fk_1494372; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8568,11 +11288,67 @@ ALTER TABLE ONLY public.physical_links
 
 
 --
+-- Name: storage_devices storage_devices_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.storage_devices
+    ADD CONSTRAINT storage_devices_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: storage_devices storage_devices_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.storage_devices
+    ADD CONSTRAINT storage_devices_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: storage_devices storage_devices_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.storage_devices
+    ADD CONSTRAINT storage_devices_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: storage_devices storage_devices_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.storage_devices
+    ADD CONSTRAINT storage_devices_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: external_connected_entity_subnetwork subnetwork_id_fk_09848239; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.external_connected_entity_subnetwork
     ADD CONSTRAINT subnetwork_id_fk_09848239 FOREIGN KEY (subnetwork_id) REFERENCES public.subnetworks(id) ON DELETE CASCADE;
+
+
+--
+-- Name: subnetworks subnetworks_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.subnetworks
+    ADD CONSTRAINT subnetworks_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: subnetworks subnetworks_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.subnetworks
+    ADD CONSTRAINT subnetworks_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: subnetworks subnetworks_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.subnetworks
+    ADD CONSTRAINT subnetworks_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
 
 
 --
@@ -8584,11 +11360,51 @@ ALTER TABLE ONLY public.subnetworks
 
 
 --
+-- Name: subnetworks subnetworks_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.subnetworks
+    ADD CONSTRAINT subnetworks_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: operation_task task_id_fk_1472749; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.operation_task
     ADD CONSTRAINT task_id_fk_1472749 FOREIGN KEY (task_id) REFERENCES public.tasks(id) ON DELETE CASCADE;
+
+
+--
+-- Name: tasks tasks_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tasks
+    ADD CONSTRAINT tasks_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: tasks tasks_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tasks
+    ADD CONSTRAINT tasks_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: tasks tasks_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tasks
+    ADD CONSTRAINT tasks_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: tasks tasks_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tasks
+    ADD CONSTRAINT tasks_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
 
 
 --
@@ -8616,6 +11432,38 @@ ALTER TABLE ONLY public.physical_router_vlan
 
 
 --
+-- Name: vlans vlans_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vlans
+    ADD CONSTRAINT vlans_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: vlans vlans_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vlans
+    ADD CONSTRAINT vlans_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: vlans vlans_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vlans
+    ADD CONSTRAINT vlans_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: vlans vlans_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vlans
+    ADD CONSTRAINT vlans_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: man_wan wan_id_fk_1490367; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8629,6 +11477,38 @@ ALTER TABLE ONLY public.man_wan
 
 ALTER TABLE ONLY public.lan_wan
     ADD CONSTRAINT wan_id_fk_1490368 FOREIGN KEY (wan_id) REFERENCES public.wans(id) ON DELETE CASCADE;
+
+
+--
+-- Name: wans wans_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.wans
+    ADD CONSTRAINT wans_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: wans wans_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.wans
+    ADD CONSTRAINT wans_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: wans wans_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.wans
+    ADD CONSTRAINT wans_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: wans wans_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.wans
+    ADD CONSTRAINT wans_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
 
 
 --
@@ -8656,6 +11536,38 @@ ALTER TABLE ONLY public.physical_links
 
 
 --
+-- Name: wifi_terminals wifi_terminals_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.wifi_terminals
+    ADD CONSTRAINT wifi_terminals_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: wifi_terminals wifi_terminals_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.wifi_terminals
+    ADD CONSTRAINT wifi_terminals_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: wifi_terminals wifi_terminals_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.wifi_terminals
+    ADD CONSTRAINT wifi_terminals_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: wifi_terminals wifi_terminals_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.wifi_terminals
+    ADD CONSTRAINT wifi_terminals_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: physical_links workstation_dest_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8677,6 +11589,22 @@ ALTER TABLE ONLY public.application_workstation
 
 ALTER TABLE ONLY public.physical_links
     ADD CONSTRAINT workstation_src_id_fk FOREIGN KEY (workstation_src_id) REFERENCES public.workstations(id) ON DELETE CASCADE;
+
+
+--
+-- Name: workstations workstations_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.workstations
+    ADD CONSTRAINT workstations_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: workstations workstations_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.workstations
+    ADD CONSTRAINT workstations_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
 
 
 --
@@ -8704,6 +11632,22 @@ ALTER TABLE ONLY public.workstations
 
 
 --
+-- Name: workstations workstations_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.workstations
+    ADD CONSTRAINT workstations_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: workstations workstations_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.workstations
+    ADD CONSTRAINT workstations_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: workstations workstations_user_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8728,6 +11672,38 @@ ALTER TABLE ONLY public.forest_ads
 
 
 --
+-- Name: zone_admins zone_admins_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.zone_admins
+    ADD CONSTRAINT zone_admins_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: zone_admins zone_admins_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.zone_admins
+    ADD CONSTRAINT zone_admins_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: zone_admins zone_admins_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.zone_admins
+    ADD CONSTRAINT zone_admins_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: zone_admins zone_admins_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.zone_admins
+    ADD CONSTRAINT zone_admins_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: zone_zone zone_zone_related_zone_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8744,19 +11720,51 @@ ALTER TABLE ONLY public.zone_zone
 
 
 --
+-- Name: zones zones_created_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.zones
+    ADD CONSTRAINT zones_created_by_foreign FOREIGN KEY (created_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: zones zones_deleted_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.zones
+    ADD CONSTRAINT zones_deleted_by_foreign FOREIGN KEY (deleted_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: zones zones_perimeter_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.zones
+    ADD CONSTRAINT zones_perimeter_id_foreign FOREIGN KEY (perimeter_id) REFERENCES public.perimeters(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: zones zones_updated_by_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.zones
+    ADD CONSTRAINT zones_updated_by_foreign FOREIGN KEY (updated_by) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 8YavW6Hhb6N2I7BgX4UQOus86HcxGiCaz4nYxw9TCbbMw7qPRXFt799eXksVW8Q
+\unrestrict QDnbTDWFYi6iaYCOuDqk67XlmwoWbZkeHVO5UKhQCOMvTdtmvJcBzZp2lIoYqTX
 
 --
 -- PostgreSQL database dump
 --
 
-\restrict 4gJEHlDiF6fj2G9IEie3U4nGEs4p4owUzVxauWQ6vwkhxlIDpqDwPiJzJxbrao8
+\restrict 7UllebzeaTmWa7wIoil1ItcC6Id098moylS8WelyUbXOyhFDBt5Y9zQgWBVf7lv
 
--- Dumped from database version 15.16 (Debian 15.16-0+deb12u1)
--- Dumped by pg_dump version 15.16 (Debian 15.16-0+deb12u1)
+-- Dumped from database version 16.15
+-- Dumped by pg_dump version 16.15
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -9052,6 +12060,31 @@ COPY public.migrations (id, migration, batch) FROM stdin;
 280	2026_06_22_000001_add_type_and_attributes_columns	9
 281	2026_06_22_000002_add_description_and_attributes_to_physical_links	9
 282	2026_06_28_000000_drop_unique_name_from_backups_table	9
+283	2026_07_05_000000_change_peripheral_domain_to_domain_id	10
+284	2026_07_18_000000_create_monarc_sync_items_table	10
+285	2026_07_24_000000_add_status_hosting_fields_to_applications	10
+286	2026_08_04_000000_add_application_id_to_annuaires	10
+287	2026_08_04_000000_fix_physical_servers_patching_typo	10
+288	2026_08_11_000000_add_cairn_access_permission	10
+289	2026_09_02_000000_add_flow_label_to_users_table	10
+290	2026_09_08_000000_add_icon_to_storage_devices	10
+291	2026_09_09_000000_add_type_attributes_to_cartography_objects	10
+292	2026_09_09_000001_rename_nature_to_type_on_application_flows	10
+293	2026_09_10_000000_rename_entity_type_to_type_on_entities	10
+294	2026_09_10_000001_move_is_external_to_attributes_on_entities	10
+295	2026_09_14_100000_create_perimeters_table	10
+296	2026_09_14_100001_add_perimeter_id_to_roles_table	10
+297	2026_09_15_000000_add_perimeter_id_to_mapped_objects	10
+298	2026_09_15_113000_add_comments_to_applications	10
+299	2026_09_16_000000_drop_unique_name_indexes_on_mapped_objects	10
+300	2026_09_16_000001_add_perimeter_id_to_admin_users_table	10
+301	2026_09_16_100000_add_name_indexes_to_frequently_sorted_tables	10
+302	2026_09_21_000000_rename_nom_to_name_in_perimeters_table	10
+303	2026_09_24_000000_add_comments_to_application_services	10
+304	2026_09_24_000001_add_comments_to_application_modules	10
+305	2026_10_10_000000_sanitize_stored_html_fields	10
+306	2026_10_28_000000_add_icon_to_information	10
+308	2026_11_06_000000_add_blame_columns_to_audited_tables	11
 \.
 
 
@@ -9059,12 +12092,12 @@ COPY public.migrations (id, migration, batch) FROM stdin;
 -- Name: migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.migrations_id_seq', 282, true);
+SELECT pg_catalog.setval('public.migrations_id_seq', 308, true);
 
 
 --
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 4gJEHlDiF6fj2G9IEie3U4nGEs4p4owUzVxauWQ6vwkhxlIDpqDwPiJzJxbrao8
+\unrestrict 7UllebzeaTmWa7wIoil1ItcC6Id098moylS8WelyUbXOyhFDBt5Y9zQgWBVf7lv
 

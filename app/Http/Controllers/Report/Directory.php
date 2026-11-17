@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Report;
 
 use App\Models\Application;
+use App\Services\Report\WordHelper;
 use Carbon\Carbon;
 use Gate;
 use Illuminate\Support\Facades\DB;
-use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\SimpleType\Jc;
 use Symfony\Component\HttpFoundation\Response;
 
 class Directory extends ReportController
@@ -73,7 +75,7 @@ class Directory extends ReportController
 
         // --- Styles de base
         $phpWord = new PhpWord;
-        \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true); // !!!!
+        Settings::setOutputEscapingEnabled(true); // !!!!
         $phpWord->getSettings()->setHideGrammaticalErrors(true);
         $phpWord->getSettings()->setHideSpellingErrors(true);
 
@@ -146,7 +148,7 @@ class Directory extends ReportController
 
         // Add footer
         $footer = $section->addFooter();
-        $footer->addPreserveText('{PAGE} / {NUMPAGES}', ['size' => 8], ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER]);
+        $footer->addPreserveText('{PAGE} / {NUMPAGES}', ['size' => 8], ['alignment' => Jc::CENTER]);
 
         // --- Regrouper: une page par application, relations listées
         $grouped = $applications->groupBy('name');
@@ -239,14 +241,16 @@ class Directory extends ReportController
 
         // --- Sauvegarde du fichier
         // Filename
-        $filepath = storage_path('app/reports/directory-'.Carbon::today()->format('Ymd').'.docx');
+        // uniqid() : deux exports simultanés ne doivent pas écrire (ni supprimer) le même fichier
+        $filepath = storage_path('app/reports/directory-'.Carbon::today()->format('Ymd').'-'.uniqid().'.docx');
 
         // Saving the document as Word2007 file.
-        $writer = IOFactory::createWriter($phpWord, 'Word2007');
-        $writer->save($filepath);
+        WordHelper::saveDocx($phpWord, $filepath);
 
         // return
-        return response()->download($filepath)->deleteFileAfterSend(true);
+        return response()
+            ->download($filepath, 'directory-'.Carbon::today()->format('Ymd').'.docx')
+            ->deleteFileAfterSend(true);
     }
 
     private static function getApplicationProcessesNames(int $applicationId): string

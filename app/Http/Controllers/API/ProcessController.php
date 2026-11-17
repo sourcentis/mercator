@@ -7,11 +7,12 @@ use App\Http\Requests\MassStoreProcessRequest;
 use App\Http\Requests\MassUpdateProcessRequest;
 use App\Http\Requests\StoreProcessRequest;
 use App\Http\Requests\UpdateProcessRequest;
+use App\Models\Operation;
+use App\Models\Process;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Operation;
-use App\Models\Process;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProcessController extends APIController
@@ -38,7 +39,7 @@ class ProcessController extends APIController
         $process->applications()->sync($request->input('applications', []));
 
         Operation::whereIn('id', $request->input('operations', []))
-            ->update(['process_id' => $process->id]);
+            ->update(['process_id' => $process->id, 'updated_by' => Auth::id()]);
 
         return response()->json($process, Response::HTTP_CREATED);
     }
@@ -52,7 +53,7 @@ class ProcessController extends APIController
         $process['informations'] = $process->information()->pluck('id');
         $process['applications'] = $process->applications()->pluck('id');
         $process['operations'] = $process->operations()->pluck('id');
-        
+
         return new JsonResource($process);
     }
 
@@ -80,7 +81,7 @@ class ProcessController extends APIController
 
         if ($request->has('operations')) {
             Operation::whereIn('id', $request->input('operations', []))
-                ->update(['process_id' => $process->id]);
+                ->update(['process_id' => $process->id, 'updated_by' => Auth::id()]);
         }
 
         return response()->json();
@@ -99,7 +100,7 @@ class ProcessController extends APIController
     {
         abort_if(Gate::denies('process_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        Process::whereIn('id', $request->input('ids', []))->delete();
+        Process::whereIn('id', $request->input('ids', []))->get()->each->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
@@ -108,16 +109,16 @@ class ProcessController extends APIController
     {
         // L’authorize() du FormRequest gère déjà la permission `process_create`
 
-        $createdIds    = [];
-        $processModel  = new Process();
-        $fillable      = $processModel->getFillable();
+        $createdIds = [];
+        $processModel = new Process;
+        $fillable = $processModel->getFillable();
 
         foreach ($request->input('items', []) as $item) {
-            $activities   = $item['activities'] ?? null;
-            $entities     = $item['entities'] ?? null;
+            $activities = $item['activities'] ?? null;
+            $entities = $item['entities'] ?? null;
             $informations = $item['informations'] ?? null;
             $applications = $item['applications'] ?? null;
-            $operations   = $item['operations'] ?? null;
+            $operations = $item['operations'] ?? null;
 
             // Colonnes du modèle uniquement (sans les relations)
             $attributes = collect($item)
@@ -146,7 +147,7 @@ class ProcessController extends APIController
 
             if (array_key_exists('operations', $item) && ! empty($operations)) {
                 Operation::whereIn('id', $operations)
-                    ->update(['process_id' => $process->id]);
+                    ->update(['process_id' => $process->id, 'updated_by' => Auth::id()]);
             }
 
             $createdIds[] = $process->id;
@@ -154,24 +155,24 @@ class ProcessController extends APIController
 
         return response()->json([
             'status' => 'ok',
-            'count'  => count($createdIds),
-            'ids'    => $createdIds,
+            'count' => count($createdIds),
+            'ids' => $createdIds,
         ], Response::HTTP_CREATED);
     }
 
     public function massUpdate(MassUpdateProcessRequest $request)
     {
         // L’authorize() du FormRequest gère déjà la permission `process_edit`
-        $processModel = new Process();
-        $fillable     = $processModel->getFillable();
+        $processModel = new Process;
+        $fillable = $processModel->getFillable();
 
         foreach ($request->input('items', []) as $rawItem) {
-            $id           = $rawItem['id'];
-            $activities   = $rawItem['activities'] ?? null;
-            $entities     = $rawItem['entities'] ?? null;
+            $id = $rawItem['id'];
+            $activities = $rawItem['activities'] ?? null;
+            $entities = $rawItem['entities'] ?? null;
             $informations = $rawItem['informations'] ?? null;
             $applications = $rawItem['applications'] ?? null;
-            $operations   = $rawItem['operations'] ?? null;
+            $operations = $rawItem['operations'] ?? null;
 
             /** @var Process $process */
             $process = Process::query()->findOrFail($id);
@@ -204,7 +205,7 @@ class ProcessController extends APIController
 
             if (array_key_exists('operations', $rawItem) && ! empty($operations)) {
                 Operation::whereIn('id', $operations)
-                    ->update(['process_id' => $process->id]);
+                    ->update(['process_id' => $process->id, 'updated_by' => Auth::id()]);
             }
         }
 
