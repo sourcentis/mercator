@@ -27,22 +27,26 @@ class UrlList implements ValidationRule
      * @param  mixed  $value  The current value of the attribute
      * @param  Closure  $fail  Closure to be run in case of failure
      */
-    public function validate(string $attribute, mixed $value, Closure $fail): void
-    {
-        if (! is_string($value)) {
-            $fail($this->message());
-
-            return;
-        }
-
-        foreach (self::entries($value) as $entry) {
-            if (! self::isWebUrl($entry) && ! self::isNetworkPath($entry)) {
-                $fail($this->message());
-
-                return;
-            }
-        }
-    }
+     public function validate(string $attribute, mixed $value, Closure $fail): void
+     {
+         if (! is_string($value)) {
+             $fail($this->message());
+     
+             return;
+         }
+     
+         foreach (self::entries($value) as $entry) {
+             if (
+                 ! self::isWebUrl($entry)
+                 && ! self::isMarkdownLink($entry)
+                 && ! self::isNetworkPath($entry)
+             ) {
+                 $fail($this->message());
+     
+                 return;
+             }
+         }
+     }
 
     /**
      * Normalize every entry of the list (see normalizeEntry()) and drop empty ones.
@@ -104,6 +108,27 @@ class UrlList implements ValidationRule
             '/^\\\\\\\\'.self::SERVER.'(\\\\'.self::SEGMENT.')+\\\\?$/u',
             $entry
         ) === 1;
+    }
+    
+    public static function isMarkdownLink(string $entry): bool
+    {
+        return self::parseMarkdownLink($entry) !== null;
+    }
+
+    public static function parseMarkdownLink(string $entry): ?array
+    {
+        if (! preg_match('/^\[([^\]]+)\]\((https?:\/\/.+)\)$/u', $entry, $matches)) {
+            return null;
+        }
+    
+        if (! self::isWebUrl($matches[2])) {
+            return null;
+        }
+    
+        return [
+            'label' => $matches[1],
+            'url' => $matches[2],
+        ];
     }
 
     public function message(): string
