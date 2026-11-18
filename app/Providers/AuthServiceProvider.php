@@ -26,8 +26,12 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        // Cache des permissions de rôle lues en base, par instance d'utilisateur.
+        // Hors du modèle : un attribut dynamique serait écrit en base au prochain save() (#2774).
+        $dbPermissionsCache = new \WeakMap;
+
         // 🧠 Hook global appelé AVANT toutes les autres règles Gate
-        Gate::before(function ($user, string $ability, array $arguments = []) {
+        Gate::before(function ($user, string $ability, array $arguments = []) use ($dbPermissionsCache) {
             if (! $user) {
                 return null;
             }
@@ -52,15 +56,15 @@ class AuthServiceProvider extends ServiceProvider
             if (! session()->has('auth_permissions')) {
 
                 // 2a. Permissions de rôle depuis la DB (cache par requête sur $user)
-                if (! isset($user->_dbPermissionsCache)) {
-                    $user->_dbPermissionsCache = $user->roles()
+                if (! isset($dbPermissionsCache[$user])) {
+                    $dbPermissionsCache[$user] = $user->roles()
                         ->with('permissions')
                         ->get()
                         ->flatMap->permissions
                         ->pluck('title')
                         ->all();
                 }
-                if (in_array($ability, $user->_dbPermissionsCache, true)) {
+                if (in_array($ability, $dbPermissionsCache[$user], true)) {
                     return true;
                 }
 

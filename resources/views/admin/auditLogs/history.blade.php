@@ -67,29 +67,26 @@
                         </td>
                     @endforeach
                 </tr>
-                @foreach($auditLog->properties as $key => $value)
-                    @if ($key !== null)
-                        <tr>
-                            <th>[{{ $key }}]</th>
-                            @php $previous = null; @endphp
-                            @foreach($auditLogs as $auditLog2)
-                                @php
-                                    if (property_exists($auditLog2->properties,$key))
-                                        $value = $auditLog2->properties->{$key};
-                                    else
-                                        $value = null;
-                                @endphp
-                                <td {!! (($loop->first)||($value==$previous)) ? "" : "class='bg-success'" !!}>
-                                    @if ((gettype($value)=="string")&&(strlen($value)>100))
-                                        {{ substr($value,0,100) }}
-                                    @else
-                                        {{ $value }}
-                                    @endif
-                                </td>
-                                @php $previous = $value; @endphp
-                            @endforeach
-                        </tr>
-                    @endif
+                @foreach($keys as $key)
+                    <tr>
+                        <th>[{{ $key }}]</th>
+                        @php $previous = null; @endphp
+                        @foreach($auditLogs as $auditLog2)
+                            @php
+                                $value = $auditLog2->properties[$key] ?? null;
+                                if (is_array($value))
+                                    $value = json_encode($value);
+                            @endphp
+                            <td {!! (($loop->first)||($value==$previous)) ? "" : "class='bg-success'" !!}>
+                                @if (is_string($value) && (strlen($value) > 100))
+                                    {{ substr($value,0,100) }}
+                                @else
+                                    {{ $value }}
+                                @endif
+                            </td>
+                            @php $previous = $value; @endphp
+                        @endforeach
+                    </tr>
                 @endforeach
                 <tr>
                     <th>

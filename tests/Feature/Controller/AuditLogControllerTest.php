@@ -101,4 +101,26 @@ describe('history', function () {
             ->assertSee($activity->name);
     });
 
+    test('history handles null and escaped properties', function () {
+        $application = Application::factory()->create(['description' => 'path C:\\temp "quoted"']);
+
+        // Oversized models are audited with NULL properties
+        AuditLog::create([
+            'description' => 'updated',
+            'subject_type' => Application::class,
+            'subject_id' => $application->id,
+            'user_id' => auth()->id(),
+            'properties' => null,
+        ]);
+
+        $response = $this->get(route('admin.audit-logs.history', [
+            'type' => Application::class,
+            'id' => $application->id,
+        ]));
+
+        $response->assertOk()
+            ->assertSee('[description]', false)
+            ->assertSee('path C:\\temp');
+    });
+
 });

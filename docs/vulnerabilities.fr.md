@@ -210,7 +210,7 @@ Ajouter les lignes suivantes au fichier `.env` :
 
 ```ini
 # URL de l'API NVD (ne pas modifier)
-CPE_API_URL=https://services.nvd.nist.gov/rest/json/cpes/2.0
+NVD_API_URL=https://services.nvd.nist.gov/rest/json/cpes/2.0
 
 # Clé API NVD — fortement recommandée
 NVD_API_KEY=votre-clé-ici
@@ -222,7 +222,7 @@ Dans `docker-compose.yml`, ajouter ces variables dans la section `environment` d
 
 ```yaml
 environment:
-  - CPE_API_URL=https://services.nvd.nist.gov/rest/json/cpes/2.0
+  - NVD_API_URL=https://services.nvd.nist.gov/rest/json/cpes/2.0
   - NVD_API_KEY=votre-clé-ici
 ```
 
@@ -438,6 +438,6 @@ API_RATE_LIMIT=60
 API_RATE_LIMIT_DECAY=1
 
 # CPE / CVE
-CPE_API_URL=https://services.nvd.nist.gov/rest/json/cpes/2.0
+NVD_API_URL=https://services.nvd.nist.gov/rest/json/cpes/2.0
 NVD_API_KEY=votre_clé_nvd_gratuite
 ```
