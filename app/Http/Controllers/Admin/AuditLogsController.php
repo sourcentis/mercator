@@ -135,11 +135,35 @@ class AuditLogsController extends Controller
 
         abort_if($auditLogs->isEmpty(), 404, 'Not found');
 
-        // JSON decode all properties
+        // JSON decode all properties and collect the union of their keys
+        $keys = [];
         foreach ($auditLogs as $auditLog) {
-            $auditLog->properties = json_decode(trim(stripslashes($auditLog->properties), '"'));
+            $auditLog->properties = self::decodeProperties($auditLog->properties);
+            foreach (array_keys($auditLog->properties) as $key) {
+                $keys[$key] = true;
+            }
+        }
+        $keys = array_keys($keys);
+
+        return view('admin.auditLogs.history', compact('auditLogs', 'keys'));
+    }
+
+    /**
+     * Decode the raw `properties` column into an array.
+     * Handles NULL (oversized models are stored without properties),
+     * legacy double-encoded JSON strings and invalid JSON.
+     */
+    private static function decodeProperties(?string $raw): array
+    {
+        if ($raw === null) {
+            return [];
         }
 
-        return view('admin.auditLogs.history', compact('auditLogs'));
+        $decoded = json_decode($raw, true);
+        if (is_string($decoded)) {
+            $decoded = json_decode($decoded, true);
+        }
+
+        return is_array($decoded) ? $decoded : [];
     }
 }
