@@ -86,3 +86,23 @@ it('saves a checkpoint when NVD stays unavailable and resumes from it', function
     expect(DB::table('cpe_versions')->count())->toBe(2);
     expect(Parameter::getValue(CPESync::PARAM_RESUME))->toBeNull();
 });
+
+it('falls back to anonymous access when NVD rejects the API key', function () {
+    Sleep::fake();
+    config(['services.nvd.api_key' => 'not-activated', 'services.nvd.api_url' => 'https://nvd.test/cpes']);
+
+    Http::fake(function ($request) {
+        if ($request->hasHeader('apiKey')) {
+            return Http::response('', 404, ['message' => 'Invalid apiKey.']);
+        }
+
+        return Http::response(nvdPage(1, ['cpe:2.3:a:acme:widget:1.0:*:*:*:*:*:*:*']));
+    });
+
+    $exit = Artisan::call('mercator:cpe-sync', ['--now' => true, '--full' => true]);
+
+    expect($exit)->toBe(0);
+    expect(Artisan::output())->toContain('Invalid apiKey');
+    expect(DB::table('cpe_versions')->pluck('name')->all())->toBe(['1.0']);
+    Http::assertSentCount(2);
+});

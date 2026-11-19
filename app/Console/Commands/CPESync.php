@@ -6,6 +6,7 @@ use App\Models\Parameter;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -128,16 +129,7 @@ class CPESync extends Command
             $this->line('No NVD API key configured: throttling to one request every '.$delay.' s.');
         }
 
-        // HTTP client with retry & timeout
-        $client = Http::timeout(120)
-            ->retry($this->retryDelays, 0, fn (\Throwable $e) => $this->isTransient($e))
-            ->withHeaders([
-                'User-Agent' => 'mercator',
-            ]);
-
-        if ($apiKey) {
-            $client = $client->withHeaders(['apiKey' => $apiKey]);
-        }
+        $client = $this->makeClient($apiKey);
 
         $processed = 0;
         $createdVendors = 0;
@@ -166,8 +158,24 @@ class CPESync extends Command
                 // ->throw() raises a RequestException on 4xx/5xx (after the retries are exhausted)
                 $response = $client->get($apiUrl, $params)->throw();
             } catch (RequestException|ConnectionException $e) {
+                // NVD answers 404 with a "message: Invalid apiKey." header when the key is
+                // unknown, not yet activated or revoked: fall back to anonymous access.
+                if ($apiKey && $this->isInvalidApiKey($e)) {
+                    $this->warn('NVD rejected the API key (Invalid apiKey): check that NVD_API_KEY is correct and has been activated. Continuing without API key.');
+                    $apiKey = null;
+                    $client = $this->makeClient(null);
+                    if ($delayOpt === null || $delayOpt === '') {
+                        $delay = 6.0;
+                    }
+
+                    continue;
+                }
+
                 $this->saveCheckpoint($isFull, $start, $end, $nowUtc, $startIndex);
                 $status = $e instanceof RequestException ? 'HTTP '.$e->response->status() : 'connection error';
+                if ($e instanceof RequestException && $e->response->header('message') !== '') {
+                    $status .= ': '.$e->response->header('message');
+                }
                 $this->error("NVD API unavailable ({$status}) at index {$startIndex}/{$total}.");
                 $this->line('Progress has been saved: run the command again to resume from this point.');
                 if (! $apiKey) {
@@ -293,6 +301,31 @@ class CPESync extends Command
         $this->info("Done. Processed: {$processed}. New => vendors: {$createdVendors}, products: {$createdProducts}, versions: {$createdVersions}");
 
         return self::SUCCESS;
+    }
+
+    /**
+     * HTTP client with retry & timeout, authenticated with the NVD API key when provided.
+     */
+    protected function makeClient(?string $apiKey): PendingRequest
+    {
+        $headers = ['User-Agent' => 'mercator'];
+        if ($apiKey) {
+            $headers['apiKey'] = $apiKey;
+        }
+
+        return Http::timeout(120)
+            ->retry($this->retryDelays, 0, fn (\Throwable $e) => $this->isTransient($e))
+            ->withHeaders($headers);
+    }
+
+    /**
+     * Whether NVD rejected the request because of the API key.
+     */
+    protected function isInvalidApiKey(\Throwable $e): bool
+    {
+        return $e instanceof RequestException
+            && $e->response->status() === 404
+            && stripos($e->response->header('message'), 'apikey') !== false;
     }
 
     /**
