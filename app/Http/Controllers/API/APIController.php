@@ -84,6 +84,21 @@ abstract class APIController extends Controller
     }
 
     /**
+     * Clause LIKE portable : MySQL/MariaDB/PostgreSQL utilisent '\' comme
+     * caractère d'échappement par défaut ; SQLite n'en a aucun, il faut le déclarer.
+     * (Un ESCAPE '\\' en SQL est rejeté par PostgreSQL : chaîne de deux caractères.)
+     */
+    protected function likeClause(Builder $query, string $field): string
+    {
+        $sql = "{$field} LIKE ?";
+        if ($query->getConnection()->getDriverName() === 'sqlite') {
+            $sql .= " ESCAPE '\\'";
+        }
+
+        return $sql;
+    }
+
+    /**
      * Champs textuels pour filtres partiels (LIKE)
      */
     protected function getPartialFilterFields(): array
@@ -139,7 +154,7 @@ abstract class APIController extends Controller
                     $escapedValue = $this->escapeLikeValue((string) $value);
                     $pattern = "%{$escapedValue}%";
 
-                    $query->whereRaw("{$field} LIKE ? ESCAPE '\\\\'", [$pattern]);
+                    $query->whereRaw($this->likeClause($query, $field), [$pattern]);
                 }
             );
 
@@ -247,8 +262,7 @@ abstract class APIController extends Controller
 
                     $query->where(function ($q) use ($pattern, $searchableFields) {
                         foreach ($searchableFields as $field) {
-                            // Utiliser whereRaw avec ESCAPE clause pour la sécurité
-                            $q->orWhereRaw("{$field} LIKE ? ESCAPE '\\\\'", [$pattern]);
+                            $q->orWhereRaw($this->likeClause($q, $field), [$pattern]);
                         }
                     });
                 }
