@@ -338,17 +338,17 @@ Pour configurer Keycloak, suivez ces étapes :
 - Décommentez et modifiez les paramètres de configuration de Keycloak comme suit :
 
 ```
-KEYCLOAK = enable
+KEYCLOAK_ENABLED=true
 KEYCLOAK_CLIENT_ID= # Client Name (on Keycloak)
 KEYCLOAK_CLIENT_SECRET=  # Client Secret
 KEYCLOAK_REDIRECT_URI=<Mercator IP Address>/login/keycloak/callback
 KEYCLOAK_BASE_URL=<KeyCloak IP Address>
 KEYCLOAK_REALM=   # RealM Name
-KEYCLOAK_AUTO_PROVISIONNING= # active/désactive la création automatique d'utilisateurs (valeurs possibles : true/false. 'true' par défaut)
+KEYCLOAK_AUTO_PROVISION= # active/désactive la création automatique d'utilisateurs (true/false, 'false' par défaut)
 KEYCLOAK_BTN_LABEL= # défini le libellé du bouton de connexion Keycloak ('Keycloak' par défaut)
 ```
 
-Après avoir défini KEYCLOAK sur enable, un bouton apparaîtra sur la page de connexion, permettant aux utilisateurs de se
+Après avoir défini KEYCLOAK_ENABLED à true, un bouton apparaîtra sur la page de connexion, permettant aux utilisateurs de se
 connecter via Keycloak.
 
 Pour une documentation plus complète sur la configuration de Keycloak, consultez la documentation officielle de

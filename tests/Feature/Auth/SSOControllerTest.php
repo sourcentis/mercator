@@ -19,6 +19,40 @@ beforeEach(function () {
 });
 
 // ============================================================================
+// Tests Bouton SSO (page de login)
+// ============================================================================
+
+it('shows the sso button with its label on the login page when keycloak is enabled', function () {
+    Config::set('services.keycloak.enabled', true);
+    Config::set('services.keycloak.btn_label', 'Connexion Microsoft');
+
+    $this->get(route('login'))
+        ->assertOk()
+        ->assertSee(route('login.keycloak'), false)
+        ->assertSee('Connexion Microsoft');
+});
+
+it('hides the sso button on the login page when keycloak is disabled', function () {
+    Config::set('services.keycloak.enabled', false);
+
+    $this->get(route('login'))
+        ->assertOk()
+        ->assertDontSee(route('login.keycloak'), false);
+});
+
+it('displays sso error and info messages on the login page', function () {
+    $this->withSession(['error' => 'Authentication failed.'])
+        ->get(route('login'))
+        ->assertOk()
+        ->assertSee('Authentication failed.');
+
+    $this->withSession(['info' => 'SSO authentication failed. Please use local credentials.'])
+        ->get(route('login'))
+        ->assertOk()
+        ->assertSee('SSO authentication failed. Please use local credentials.');
+});
+
+// ============================================================================
 // Tests Auto-Provisioning
 // ============================================================================
 

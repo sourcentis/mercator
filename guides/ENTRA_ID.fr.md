@@ -98,14 +98,15 @@ Acceptez l'ajout de l'autorisation Microsoft Graph `email` / `profile` si cela v
 
 **Rôles d'application → Créer un rôle d'application**, une fois par rôle Mercator :
 
-| Nom d'affichage | Types de membres autorisés | Valeur         |
-|-----------------|----------------------------|----------------|
-| Admin           | Utilisateurs/Groupes       | `Admin`        |
-| User            | Utilisateurs/Groupes       | `User`         |
-| Auditor         | Utilisateurs/Groupes       | `Auditor`      |
-| Cartographer    | Utilisateurs/Groupes       | `Cartographer` |
+| Nom d'affichage | Types de membres autorisés | Valeur         | Description (obligatoire)     |
+|-----------------|----------------------------|----------------|-------------------------------|
+| Admin           | Utilisateurs/Groupes       | `Admin`        | Administrateur de Mercator    |
+| User            | Utilisateurs/Groupes       | `User`         | Utilisateur de Mercator       |
+| Auditor         | Utilisateurs/Groupes       | `Auditor`      | Auditeur (lecture seule)      |
+| Cartographer    | Utilisateurs/Groupes       | `Cartographer` | Cartographe                   |
 
-La **valeur** est transmise dans la claim `roles` de l'ID token.
+Laissez la case **Voulez-vous activer ce rôle d'application ?** cochée. La **valeur** est transmise dans
+la claim `roles` de l'ID token.
 
 ### 1.5 Restreindre l'accès et affecter les rôles
 
@@ -156,6 +157,11 @@ Enregistrez, puis complétez dans l'onglet **Settings** :
 
 Utilisez toujours l'**ID du locataire** dans l'URL de discovery, jamais `common` ou `organizations` :
 cela garantit que seuls les comptes de votre tenant sont acceptés.
+
+> Avec *Trust Email* à OFF, l'adresse importée depuis Entra est marquée comme non vérifiée. Si l'option
+> **Realm settings → Login → Verify email** est activée, Keycloak demandera à l'utilisateur de confirmer son
+> adresse par email lors de sa première connexion. Désactivez cette option si ce comportement n'est pas
+> souhaité.
 
 ### 2.3 Configurer les mappers du fournisseur
 
@@ -246,7 +252,7 @@ KEYCLOAK_SYNC_ROLES=true
 
 | Variable                       | Description                                                                         |
 |--------------------------------|-------------------------------------------------------------------------------------|
-| `KEYCLOAK_ENABLED`             | Active le bouton SSO sur la page de connexion                                       |
+| `KEYCLOAK_ENABLED`             | Active le SSO et affiche le bouton sur la page de connexion                         |
 | `KEYCLOAK_CLIENT_ID`           | Identifiant du client Keycloak (étape 2.4)                                          |
 | `KEYCLOAK_CLIENT_SECRET`       | Secret du client Keycloak — **pas** le secret Entra                                 |
 | `KEYCLOAK_REDIRECT_URI`        | URL de retour, identique à celle déclarée dans Keycloak                             |
@@ -265,6 +271,9 @@ php artisan config:clear
 ```
 
 Avec Docker, redémarrez le conteneur après modification des variables d'environnement.
+
+> L'ancienne variable `KEYCLOAK=enable`, citée dans d'anciennes versions de la documentation, n'est plus
+> utilisée : seule `KEYCLOAK_ENABLED` compte.
 
 ## Étape 4 — Vérifier la configuration
 
@@ -326,12 +335,12 @@ Un rôle reçu qui n'existe pas dans Mercator est ignoré.
 | Microsoft affiche `AADSTS7000215` (invalid client secret)          | Secret Entra erroné ou expiré                                                              | Générez un nouveau secret et mettez-le à jour dans Keycloak                                      |
 | Microsoft affiche `AADSTS50105`                                    | Utilisateur non affecté à l'application                                                    | Affectez l'utilisateur ou son groupe dans l'application d'entreprise                             |
 | Keycloak affiche `Invalid parameter: redirect_uri`                 | `KEYCLOAK_REDIRECT_URI` absent des *Valid redirect URIs* du client `mercator`             | Alignez les deux valeurs (protocole, hôte, chemin)                                               |
-| Mercator affiche « Authentication failed »                         | Secret client Keycloak erroné, `KEYCLOAK_BASE_URL` contenant `/realms/...`, horloge décalée | Vérifiez le `.env`, consultez `storage/logs/laravel.log` (message `Keycloak authentication failed`) |
-| Mercator affiche « User "…" is not a valid Mercator user »         | Compte inexistant et auto-provisioning désactivé                                           | Créez le compte dans Mercator ou activez `KEYCLOAK_AUTO_PROVISION`                               |
+| Mercator affiche « Authentication failed » (ou « SSO authentication failed. Please use local credentials. » si le fallback est actif) | Secret client Keycloak erroné, `KEYCLOAK_BASE_URL` contenant `/realms/...`, horloge décalée | Vérifiez le `.env`, consultez `storage/logs/laravel.log` (message `Keycloak authentication failed`) |
+| Mercator affiche « User "…" is not a valid Mercator user » (ou « User "…" not found. Please use local credentials. » si le fallback est actif) | Compte inexistant et auto-provisioning désactivé                                           | Créez le compte dans Mercator ou activez `KEYCLOAK_AUTO_PROVISION`                               |
 | Connexion réussie mais aucun rôle attribué                         | Rôles absents du userinfo, ou noms de rôles différents                                     | Activez *Add to userinfo* (étape 2.5) et vérifiez la casse des rôles                             |
 | Rôles absents dans Keycloak après connexion                        | Claim `roles` absente de l'ID token ou mapper mal configuré                                | Vérifiez l'affectation dans Entra et les mappers *Claim to Role*                                 |
 | Un second compte Mercator est créé pour un utilisateur existant    | Le login généré par Keycloak ne correspond pas au login Mercator                           | Ajustez le template du mapper *username* ou le login du compte Mercator                         |
-| Le bouton SSO n'apparaît pas                                       | `KEYCLOAK_ENABLED` non pris en compte                                                      | Exécutez `php artisan config:clear` ou redémarrez le conteneur                                   |
+| Le bouton SSO n'apparaît pas                                       | `KEYCLOAK_ENABLED` absent, différent de `true`, ou configuration en cache non rechargée    | Vérifiez la variable, puis exécutez `php artisan config:clear` (ou redémarrez le conteneur)      |
 
 Pour inspecter les claims reçues par Keycloak, activez temporairement le niveau de log `DEBUG` pour la
 catégorie `org.keycloak.broker` dans Keycloak.

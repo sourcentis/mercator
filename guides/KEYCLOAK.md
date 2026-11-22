@@ -162,33 +162,21 @@ Audit logs record:
     'client_secret' => env('KEYCLOAK_CLIENT_SECRET'),
     'redirect' => env('KEYCLOAK_REDIRECT_URI'),
     'base_url' => env('KEYCLOAK_BASE_URL'),
-    'realm' => env('KEYCLOAK_REALM'),
+    'realms' => env('KEYCLOAK_REALM'),
+    'btn_label' => env('KEYCLOAK_BTN_LABEL', 'Keycloak'),
     
     // New options
-    'auto_provision' => env('KEYCLOAK_AUTO_PROVISION', true),
+    'auto_provision' => env('KEYCLOAK_AUTO_PROVISION', false),
     'auto_provision_role' => env('KEYCLOAK_AUTO_PROVISION_ROLE', 'User'),
     'fallback_local' => env('KEYCLOAK_FALLBACK_LOCAL', false),
-    'sync_roles' => env('KEYCLOAK_SYNC_ROLES', true),
+    'sync_roles' => env('KEYCLOAK_SYNC_ROLES', false),
 ],
 ```
 
-### Login view update (optional)
+### Deprecated `KEYCLOAK` variable
 
-If you want to display fallback messages:
-
-```blade
-@if (session('info'))
-    <div class="alert alert-info">
-        {{ session('info') }}
-    </div>
-@endif
-
-@if (session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
-@endif
-```
+The former `KEYCLOAK=enable` variable is no longer used: the login button is shown as soon as
+`KEYCLOAK_ENABLED=true`. Fallback messages (`info`, `error`) are displayed natively on the login page.
 
 ## Tests
 

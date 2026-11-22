@@ -162,33 +162,22 @@ Les audit logs enregistrent :
     'client_secret' => env('KEYCLOAK_CLIENT_SECRET'),
     'redirect' => env('KEYCLOAK_REDIRECT_URI'),
     'base_url' => env('KEYCLOAK_BASE_URL'),
-    'realm' => env('KEYCLOAK_REALM'),
+    'realms' => env('KEYCLOAK_REALM'),
+    'btn_label' => env('KEYCLOAK_BTN_LABEL', 'Keycloak'),
     
     // Nouvelles options
-    'auto_provision' => env('KEYCLOAK_AUTO_PROVISION', true),
+    'auto_provision' => env('KEYCLOAK_AUTO_PROVISION', false),
     'auto_provision_role' => env('KEYCLOAK_AUTO_PROVISION_ROLE', 'User'),
     'fallback_local' => env('KEYCLOAK_FALLBACK_LOCAL', false),
-    'sync_roles' => env('KEYCLOAK_SYNC_ROLES', true),
+    'sync_roles' => env('KEYCLOAK_SYNC_ROLES', false),
 ],
 ```
 
-### Mise à jour de la vue de login (optionnel)
+### Variable `KEYCLOAK` obsolète
 
-Si vous voulez afficher les messages de fallback :
-
-```blade
-@if (session('info'))
-    <div class="alert alert-info">
-        {{ session('info') }}
-    </div>
-@endif
-
-@if (session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
-@endif
-```
+L'ancienne variable `KEYCLOAK=enable` n'est plus utilisée : le bouton de connexion s'affiche dès que
+`KEYCLOAK_ENABLED=true`. Les messages de fallback (`info`, `error`) sont affichés nativement sur la page de
+connexion.
 
 ## Tests
 
