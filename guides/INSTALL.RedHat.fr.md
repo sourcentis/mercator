@@ -13,27 +13,33 @@ Mettre à jour la distribution linux
 
 	sudo dnf update && sudo dnf upgrade
 
-Installer Httpd, GIT, Graphviz, Vim et PHP
+Installer Httpd, GIT, Graphviz et Vim
 
-	sudo dnf install vim httpd git graphviz php
+	sudo dnf install vim httpd git graphviz
 
-Vérifier que le module php 8.2 est disponible
+Mercator nécessite PHP **8.4.x** (>= 8.4.1, PHP 8.5 n'est pas encore supporté). Les dépôts AppStream de RHEL 9 ne
+fournissent pas PHP 8.4 : activer les dépôts EPEL et Remi
+
+	sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+	sudo dnf install https://rpms.remirepo.net/enterprise/remi-release-9.rpm
+
+Vérifier que le module php 8.4 est disponible
 
 	sudo dnf module list php
 
-Installer php 8.1
+Installer php 8.4
 
 	sudo dnf module reset php
-	sudo dnf module enable php:8.2
+	sudo dnf module enable php:remi-8.4
 	sudo dnf install php
 
-Vérifier la version php
+Vérifier la version php (doit être 8.4.x)
 
 	php --version
 
 Installer PHP et les librairies
 
-	sudo dnf install php-json php-dbg php-mysqlnd php-gd php-zip php-curl php-mbstring php-xml php-ldap php-soap
+	sudo dnf install php-json php-dbg php-mysqlnd php-gd php-zip php-curl php-mbstring php-xml php-ldap php-soap php-sodium php-intl
 
 Installer Composer
 

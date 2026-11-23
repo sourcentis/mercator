@@ -189,7 +189,7 @@ DOC_ID=$(echo "$RESPONSE" | jq -r '.id // empty' 2>/dev/null)
 N/C
 
 ### requêtes
-- [<img src="/mercator/images/get.png" width="30"> /api/queries](./model.fr#requetes)
+- [<img src="/mercator/images/get.png" width="30"> /api/queries](./model.fr.md#requetes)
 - <img src="/mercator/images/get.png" width="30"> /api/queries/***id***
 
 #### Les requêtes peuvent aussi être exécutées par api

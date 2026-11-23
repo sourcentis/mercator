@@ -87,7 +87,7 @@ Returns the full **Resource** for the specified ID.
 
 ### Endpoints for Administration view
 
-- [<img src="/mercator/images/get.png" width="30"> /api/zone-admins](./model.md#administration-areas)
+- [<img src="/mercator/images/get.png" width="30"> /api/zone-admins](./model.md#administration-zone)
 - [<img src="/mercator/images/get.png" width="30"> /api/annuaires](./model.md#administration-directory-services)
 - [<img src="/mercator/images/get.png" width="30"> /api/forest-ads](./model.md#active-directory-forests-ldap-tree-structure)
 - [<img src="/mercator/images/get.png" width="30"> /api/domains](./model.md#active-directory-domains-ldap)
