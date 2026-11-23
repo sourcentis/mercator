@@ -234,9 +234,6 @@ Vous pouvez également configurer DKIM :
     MAIL_DKIM_SELECTOR = 'default'; // Match your DKIM DNS selector
     MAIL_DKIM_PASSPHRASE = '';      // Only if your key has a passphrase
 
-N'oubliez pas de [configurer](https://dbarzin.github.io/deming/config.fr/#notifications) le contenu et la fréquence
-d'envoi des mails.
-
 ## Scheduler
 
 Modifier le crontab
