@@ -243,27 +243,23 @@ add this line in the crontab
 
 ## LDAP / LDAPRecord configuration (optional)
 
-This section lets you enable LDAP authentication in Deming using **LDAPRecord v2**. It works with **Active Directory**
+This section lets you enable LDAP authentication in Mercator using **LDAPRecord v2**. It works with **Active Directory**
 *and* **OpenLDAP**, and can coexist with local (database) authentication.
 
 ### Prerequisites
 
-The PHP LDAP extension must be installed and enabled.
-
-```bash
-sudo apt-get install php-ldap
-sudo systemctl restart apache2
-```
+The PHP LDAP extension must be installed and enabled (`php8.4-ldap`, installed above).
 
 ### Environment
 
-Add / adjust the following variables:
+Add / adjust the following variables in `.env`:
 
 ```dotenv
-# Enable LDAP in Deming (hybrid mode)
+# Enable LDAP in Mercator (hybrid mode)
 LDAP_ENABLED=true                 # Turn LDAP authentication on
-LDAP_FALLBACK_LOCAL=true          # If LDAP fails, try local DB auth
+LDAP_FALLBACK_LOCAL=true          # If LDAP fails, try the local password
 LDAP_AUTO_PROVISION=false         # Auto-create the local user after a successful LDAP bind
+LDAP_AUTO_PROVISION_ROLE=User     # Role given to auto-created users (none if empty)
 
 # LDAP server connection
 LDAP_HOST=ldap.example.org
@@ -271,40 +267,44 @@ LDAP_PORT=389                     # 389 (StartTLS) or 636 (LDAPS)
 LDAP_BASE_DN=dc=example,dc=org
 LDAP_USERNAME=cn=admin,dc=example,dc=org   # Service account used for searches
 LDAP_PASSWORD=********
-LDAP_USERS_BASE_DN=ou=people,dc=example,dc=org 
+LDAP_USERS_BASE_DN=ou=people,dc=example,dc=org
 LDAP_TLS=true                     # StartTLS (recommended when using port 389)
-LDAP_SSL=false                    # true if you use ldaps:// on port 636
+LDAP_SSL=false                    # true if you use LDAPS on port 636
 LDAP_TIMEOUT=5                    # (optional)
-LDAP_GROUP=mercator               # LDAP group to which the user must belong to access the application
 
-# Candidate attributes to identify the username entered in the form
-# Order matters: the first match wins.
-# OpenLDAP: uid, cn, mail ; AD: sAMAccountName, userPrincipalName, mail
-LDAP_LOGIN_ATTRIBUTES=uid,cn,mail,sAMAccountName,userPrincipalName
+# Attributes searched for the identifier typed in the login form (OR filter, order does not matter).
+# Exactly one LDAP entry must match. Keep the list short.
+LDAP_LOGIN_ATTRIBUTES=uid
+
+# Optional: full DN of the group the user must belong to (checked on memberOf)
+LDAP_GROUP="cn=mercator,ou=groups,dc=example,dc=org"
 ```
 
-# User must be member of this LDAP group
+The identifier typed on the login page must also be the user's Mercator `login`.
 
-LDAP_GROUP=Mercator
+With TLS or LDAPS, the directory certificate must be trusted by the system: declare its CA with `TLS_CACERT` in
+`/etc/ldap/ldap.conf`.
 
 **Examples**
 
-* OpenLDAP (typical user DN: `uid=jdupont,ou=people,dc=example,dc=org`):
+* OpenLDAP (typical user DN: `uid=jdupont,ou=people,dc=example,dc=org`, `memberof` overlay required for `LDAP_GROUP`):
 
   ```dotenv
   LDAP_TLS=true
   LDAP_SSL=false
-  LDAP_LOGIN_ATTRIBUTES=uid,cn,mail
-  LDAP_GROUP=Merator
+  LDAP_LOGIN_ATTRIBUTES=uid
+  LDAP_GROUP="cn=mercator,ou=groups,dc=example,dc=org"
   ```
 
-* Active Directory (UPN: `jdupont@example.org`, sAM: `jdupont`):
+* Active Directory (sAMAccountName: `jdupont`):
 
   ```dotenv
   LDAP_TLS=true
   LDAP_SSL=false
-  LDAP_LOGIN_ATTRIBUTES=sAMAccountName,userPrincipalName,mail,cn
+  LDAP_LOGIN_ATTRIBUTES=sAMAccountName
   LDAP_USERNAME=EXAMPLE\svc_ldap   # or the full DN of the service account
+  LDAP_GROUP="CN=Mercator-Users,OU=Groups,DC=example,DC=org"
+  LDAP_NESTED_GROUPS=true           # also accept members of nested groups (AD only)
   ```
 
 After changing `.env`:
@@ -313,6 +313,9 @@ After changing `.env`:
 php artisan config:clear
 php artisan optimize:clear
 ```
+
+All LDAP options, their exact behavior and a troubleshooting table are described in the
+[configuration documentation](https://sourcentis.github.io/mercator/config/#ldap-configuration).
 
 ## KeyCloak Configuration (optional)
 

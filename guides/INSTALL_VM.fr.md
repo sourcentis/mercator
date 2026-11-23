@@ -251,28 +251,24 @@ ajouter cette ligne dans le crontab
 
 ## Configuration LDAP / LDAPRecord (optionnelle)
 
-Cette section permet d’activer l’authentification LDAP dans **Deming** en utilisant **LDAPRecord v2**.
+Cette section permet d’activer l’authentification LDAP dans **Mercator** en utilisant **LDAPRecord v2**.
 Elle fonctionne avec **Active Directory** *et* **OpenLDAP**, et peut coexister avec l’authentification locale (base de
 données).
 
 ### Prérequis
 
-L’extension PHP LDAP doit être installée et activée.
+L’extension PHP LDAP doit être installée et activée (`php8.4-ldap`, installée plus haut).
 
-```bash
-sudo apt-get install php-ldap
-sudo systemctl restart apache2
-```
+### Environnement
 
-### Variables d’environnement
-
-Ajoutez ou ajustez les variables suivantes :
+Ajoutez / adaptez les variables suivantes dans le fichier `.env` :
 
 ```dotenv
-# Activer LDAP dans Deming (mode hybride)
+# Activer LDAP dans Mercator (mode hybride)
 LDAP_ENABLED=true                 # Active l’authentification LDAP
-LDAP_FALLBACK_LOCAL=true          # Si LDAP échoue, on tente l’auth DB locale
+LDAP_FALLBACK_LOCAL=true          # Si LDAP échoue, on tente le mot de passe local
 LDAP_AUTO_PROVISION=false         # Création automatique de l’utilisateur local après un bind LDAP réussi
+LDAP_AUTO_PROVISION_ROLE=User     # Rôle attribué aux utilisateurs créés automatiquement (aucun si vide)
 
 # Connexion au serveur LDAP
 LDAP_HOST=ldap.example.org
@@ -280,43 +276,47 @@ LDAP_PORT=389                     # 389 (StartTLS) ou 636 (LDAPS)
 LDAP_BASE_DN=dc=example,dc=org
 LDAP_USERNAME=cn=admin,dc=example,dc=org   # Compte de service utilisé pour les recherches
 LDAP_PASSWORD=********
-LDAP_USERS_BASE_DN=ou=people,dc=example,dc=org 
+LDAP_USERS_BASE_DN=ou=people,dc=example,dc=org
 LDAP_TLS=true                     # StartTLS (recommandé avec le port 389)
-LDAP_SSL=false                    # true si vous utilisez ldaps:// sur le port 636
+LDAP_SSL=false                    # true si vous utilisez LDAPS sur le port 636
 LDAP_TIMEOUT=5                    # (optionnel)
-LDAP_GROUP=mercator               # LDAP group to which the user must belong to access the application
 
-# Attributs candidats pour identifier l’utilisateur saisi dans le formulaire
-# L’ordre est important : le premier qui correspond est utilisé.
-# OpenLDAP : uid, cn, mail
-# Active Directory : sAMAccountName, userPrincipalName, mail
-LDAP_LOGIN_ATTRIBUTES=uid,cn,mail,sAMAccountName,userPrincipalName
+# Attributs recherchés pour l’identifiant saisi dans le formulaire (filtre OR, l’ordre n’a pas d’importance).
+# Une seule entrée LDAP doit correspondre. Gardez une liste courte.
+LDAP_LOGIN_ATTRIBUTES=uid
+
+# Optionnel : DN complet du groupe dont l’utilisateur doit être membre (vérifié via memberOf)
+LDAP_GROUP="cn=mercator,ou=groups,dc=example,dc=org"
 ```
 
-# L’utilisateur doit être membre de ce groupe LDAP
+L’identifiant saisi sur la page de connexion doit aussi être le `login` Mercator de l’utilisateur.
 
-LDAP_GROUP=Mercator
+Avec TLS ou LDAPS, le certificat de l’annuaire doit être reconnu par le système : déclarez son autorité de
+certification avec `TLS_CACERT` dans `/etc/ldap/ldap.conf`.
 
 ---
 
 ### Exemples
 
-* **OpenLDAP** (DN typique d’un utilisateur : `uid=jdupont,ou=people,dc=example,dc=org`) :
+* **OpenLDAP** (DN typique d’un utilisateur : `uid=jdupont,ou=people,dc=example,dc=org`, overlay `memberof` requis pour
+  `LDAP_GROUP`) :
 
   ```dotenv
   LDAP_TLS=true
   LDAP_SSL=false
-  LDAP_LOGIN_ATTRIBUTES=uid,cn,mail
-  LDAP_GROUP=Mercator
+  LDAP_LOGIN_ATTRIBUTES=uid
+  LDAP_GROUP="cn=mercator,ou=groups,dc=example,dc=org"
   ```
 
-* **Active Directory** (UPN : `jdupont@example.org`, sAMAccountName : `jdupont`) :
+* **Active Directory** (sAMAccountName : `jdupont`) :
 
   ```dotenv
   LDAP_TLS=true
   LDAP_SSL=false
-  LDAP_LOGIN_ATTRIBUTES=sAMAccountName,userPrincipalName,mail,cn
+  LDAP_LOGIN_ATTRIBUTES=sAMAccountName
   LDAP_USERNAME=EXAMPLE\svc_ldap   # ou le DN complet du compte de service
+  LDAP_GROUP="CN=Mercator-Users,OU=Groups,DC=example,DC=org"
+  LDAP_NESTED_GROUPS=true           # accepte aussi les membres des groupes imbriqués (AD uniquement)
   ```
 
 ---
@@ -328,7 +328,8 @@ php artisan config:clear
 php artisan optimize:clear
 ```
 
----
+Toutes les options LDAP, leur comportement exact et un tableau de dépannage sont décrits dans la
+[documentation de configuration](https://sourcentis.github.io/mercator/fr/config/#configuration-ldap).
 
 ## Configuration de Keycloak (optionel)
 

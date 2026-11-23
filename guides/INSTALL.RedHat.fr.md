@@ -207,29 +207,32 @@ ajouter cette ligne dans le crontab
 
 ## Configuration de la connexion LDAP
 
-Si vous souhaitez connecter Mercator avec un Active Diretory ou un serveur LDAP,
-dans le fichier .env, mettez les paramètres de connexion en décommentant les lignes :
+Si vous souhaitez connecter Mercator avec un Active Directory ou un serveur LDAP, renseignez les paramètres de connexion
+dans le fichier `.env` :
 
-    # Plusieurs types possibles : AD, OpenLDAP, FreeIPA, DirectoryServer
-    LDAP_TYPE="AD"
-    # If true, LDAP actions will be written to the application's default log file
-    LDAP_LOGGING=true
-    LDAP_CONNECTION=default
-    LDAP_HOST=127.0.0.1
-    # Identifiers of the user who will connect to the LDAP in order to perform queries
-    LDAP_USERNAME="cn=user,dc=local,dc=com"
+    LDAP_ENABLED=true
+    LDAP_FALLBACK_LOCAL=true
+    LDAP_AUTO_PROVISION=false
+    LDAP_AUTO_PROVISION_ROLE=User
+    LDAP_HOST=ldap.example.org
+    # Compte de service utilisé pour rechercher les utilisateurs
+    LDAP_USERNAME="cn=user,dc=example,dc=org"
     LDAP_PASSWORD=secret
     LDAP_PORT=389
-    LDAP_BASE_DN="dc=local,dc=com"
+    LDAP_BASE_DN="dc=example,dc=org"
+    LDAP_USERS_BASE_DN="ou=people,dc=example,dc=org"
     LDAP_TIMEOUT=5
     LDAP_SSL=false
-    LDAP_TLS=false
-    # Allows you to restrict access to a tree structure
-    LDAP_SCOPE="ou=Accounting,ou=Groups,dc=planetexpress,dc=com"
-    # Allows you to restrict access to groups
-    LDAP_GROUPS="Delivering,Help Desk"
+    LDAP_TLS=true
+    # Attribut(s) correspondant à l'identifiant saisi sur la page de connexion (sAMAccountName sur Active Directory)
+    LDAP_LOGIN_ATTRIBUTES=uid
+    # Optionnel : DN complet du groupe dont l'utilisateur doit être membre
+    LDAP_GROUP="cn=mercator,ou=groups,dc=example,dc=org"
 
-Retrouvez une documentation plus complète sur la configuration de [LdapRecord](https://ldaprecord.com/docs/laravel/v2/configuration/#using-an-environment-file-env).
+Avec TLS ou LDAPS, déclarez l'autorité de certification de l'annuaire avec `TLS_CACERT` dans `/etc/openldap/ldap.conf`.
+
+Toutes les options LDAP et un tableau de dépannage sont décrits dans la
+[documentation de configuration](https://sourcentis.github.io/mercator/fr/config/#configuration-ldap).
 
 ## Apache
 

@@ -135,7 +135,7 @@ KEYCLOAK_SYNC_ROLES=true
 
 **Mechanism:**
 
-- Compares `realm_access.roles` received from `userinfo` with the local `Role::title` (case-sensitive)
+- Compares `realm_access.roles` received from `userinfo` with the local `Role::title` (case-insensitive with MySQL/MariaDB, case-sensitive with PostgreSQL: always use the exact case)
 - Keycloak roles without a matching local role (e.g. `offline_access`, `default-roles-<realm>`) are ignored
 - Uses `syncWithoutDetaching()`: roles are only **added**, never removed. A role withdrawn in Keycloak stays in
   Mercator until it is removed manually.

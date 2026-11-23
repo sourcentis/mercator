@@ -203,31 +203,34 @@ add this line to the crontab
 
      * * * * * cd /var/www/mercator && php artisan schedule:run >> /dev/null 2>&1
 
- ## Configuring the LDAP connection
+## Configuring the LDAP connection
 
- If you want to connect Mercator with an Active Directory or an LDAP server,
- in the .env file, put the connection parameters by uncommenting the lines:
+If you want to connect Mercator with an Active Directory or an LDAP server, set the connection parameters in the
+`.env` file:
 
-      # Several possible types: AD, OpenLDAP, FreeIPA, DirectoryServer
-      LDAP_TYPE="AD"
-      # If true, LDAP actions will be written to the application's default log file
-      LDAP_LOGGING=true
-      LDAP_CONNECTION=default
-      LDAP_HOST=127.0.0.1
-      # Identifiers of the user who will connect to the LDAP in order to perform queries
-      LDAP_USERNAME="cn=user,dc=local,dc=com"
+      LDAP_ENABLED=true
+      LDAP_FALLBACK_LOCAL=true
+      LDAP_AUTO_PROVISION=false
+      LDAP_AUTO_PROVISION_ROLE=User
+      LDAP_HOST=ldap.example.org
+      # Service account used to search for users
+      LDAP_USERNAME="cn=user,dc=example,dc=org"
       LDAP_PASSWORD=secret
       LDAP_PORT=389
-      LDAP_BASE_DN="dc=local,dc=com"
+      LDAP_BASE_DN="dc=example,dc=org"
+      LDAP_USERS_BASE_DN="ou=people,dc=example,dc=org"
       LDAP_TIMEOUT=5
       LDAP_SSL=false
-      LDAP_TLS=false
-      # Allows you to restrict access to a tree structure
-      LDAP_SCOPE="ou=Accounting,ou=Groups,dc=planetexpress,dc=com"
-      # Allows you to restrict access to groups
-      LDAP_GROUPS="Delivering,Help Desk"
+      LDAP_TLS=true
+      # Attribute(s) matching the identifier typed on the login page (sAMAccountName on Active Directory)
+      LDAP_LOGIN_ATTRIBUTES=uid
+      # Optional: full DN of the group the user must belong to
+      LDAP_GROUP="cn=mercator,ou=groups,dc=example,dc=org"
 
- Find more complete documentation on configuring [LdapRecord](https://ldaprecord.com/docs/laravel/v2/configuration/#using-an-environment-file-env).
+With TLS or LDAPS, declare the directory's CA with `TLS_CACERT` in `/etc/openldap/ldap.conf`.
+
+All LDAP options and a troubleshooting table are described in the
+[configuration documentation](https://sourcentis.github.io/mercator/config/#ldap-configuration).
 
  ##Apache
 
