@@ -1486,6 +1486,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ldap-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LDAP Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#email-configuration" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2016,6 +2027,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ldap-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LDAP Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#email-configuration" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2372,9 +2394,11 @@ The match is made <strong>only</strong> on the Mercator <code>login</code> field
 <div class="highlight"><pre><span></span><code>LDAP_AUTO_PROVISION=true
 </code></pre></div>
 <p>The local account will be created with the following role:</p>
-<div class="highlight"><pre><span></span><code>LDAP_AUTO_PROVISION_ROLE=user
+<div class="highlight"><pre><span></span><code>LDAP_AUTO_PROVISION_ROLE=User
 </code></pre></div>
-<p>The value must match the role title exactly (case-sensitive). If the role does not exist, the user is created without a role and a warning is logged.
+<p>Use the role title exactly as shown in <strong>Administration → Roles</strong>. The comparison is case-insensitive with MySQL/MariaDB but case-sensitive with PostgreSQL. If the role does not exist, the user is created without a role and a warning is logged.</p>
+<p>If <code>LDAP_AUTO_PROVISION_ROLE</code> is missing or empty, the account is created <strong>without a role</strong>: the login succeeds but every page answers <em>403 Forbidden</em> (warning <code>Login succeeded but user has no role.</code> in the log).</p>
+<p>The account is created with the LDAP <code>cn</code> as name and the LDAP <code>mail</code> as email (<code>user@localhost.local</code> when the entry has no <code>mail</code>).
 Auto-provisioned accounts get a random local password: they cannot use the local fallback.</p>
 <hr />
 <h3 id="ldap-connection-settings">LDAP Connection Settings<a class="headerlink" href="#ldap-connection-settings" title="Permanent link">&para;</a></h3>
@@ -2388,6 +2412,11 @@ LDAP_SSL=false
 LDAP_TLS=false
 </code></pre></div>
 <p>These values are passed directly to Laravel's LDAPRecord connection layer.</p>
+<ul>
+<li><code>LDAP_TLS=true</code>: StartTLS on the standard port (389).</li>
+<li><code>LDAP_SSL=true</code>: LDAPS, usually on port 636.</li>
+</ul>
+<p>With TLS or LDAPS, the directory certificate must be trusted by the server's OpenLDAP client library: declare its CA with <code>TLS_CACERT</code> in <code>/etc/ldap/ldap.conf</code> (Debian/Ubuntu) or <code>/etc/openldap/ldap.conf</code> (Red Hat), and use in <code>LDAP_HOST</code> a name that matches the certificate. Mercator offers no option to disable certificate verification. A certificate problem is logged as <code>Unable to start TLS</code> (StartTLS) or <code>Can't contact LDAP server</code> (LDAPS).</p>
 <p>Passwords are checked against the single server set in <code>LDAP_HOST</code>. With Active Directory, if this domain controller has not yet received a password change (replication delay or failure), it only accepts the user's <strong>previous</strong> password.</p>
 <hr />
 <h3 id="ldap-user-search-base">LDAP User Search Base<a class="headerlink" href="#ldap-user-search-base" title="Permanent link">&para;</a></h3>
@@ -2401,12 +2430,14 @@ LDAP_TLS=false
 <div class="highlight"><pre><span></span><code>LDAP_LOGIN_ATTRIBUTES=sAMAccountName,uid,mail
 </code></pre></div>
 <p>Default: <code>uid,cn,mail,sAMAccountName,userPrincipalName</code>.</p>
-<p>Mercator will try these attributes with an OR filter. Exactly <strong>one</strong> LDAP entry must match: if several entries match (for example a user and a contact sharing the same <code>mail</code> or <code>cn</code>), the login is refused. Keep this list as short as possible (e.g. <code>sAMAccountName</code> on Active Directory).</p>
+<p>Mercator will try these attributes with an OR filter; their order does not matter. Exactly <strong>one</strong> LDAP entry must match: if several entries match (for example a user and a contact sharing the same <code>mail</code> or <code>cn</code>), the login is refused. Keep this list as short as possible (e.g. <code>sAMAccountName</code> on Active Directory), and restrict <code>LDAP_USERS_BASE_DN</code> to the users' OU.</p>
+<p>The identifier typed on the login page is also the one searched for in Mercator's <code>login</code> field. If users may type their email, the Mercator <code>login</code> must be the email; otherwise, keep a single attribute matching the Mercator logins (e.g. <code>uid</code> or <code>sAMAccountName</code>).</p>
 <hr />
 <h3 id="ldap-group-restriction">LDAP Group Restriction<a class="headerlink" href="#ldap-group-restriction" title="Permanent link">&para;</a></h3>
 <p>You can restrict access to Mercator to members of a specific LDAP group.</p>
 <div class="highlight"><pre><span></span><code>LDAP_GROUP="CN=Mercator-Users,OU=Groups,DC=example,DC=com"
 </code></pre></div>
+<p>The value must be the group's <strong>full DN</strong>: a short name such as <code>Mercator</code> never matches. Membership is checked on the user's <code>memberOf</code> attribute: native on Active Directory, it requires the <code>memberof</code> overlay on OpenLDAP. Active Directory does not list the primary group (usually <em>Domain Users</em>) in <code>memberOf</code>.</p>
 <p>If empty, all LDAP-authenticated users may log in.</p>
 <hr />
 <h2 id="nested-group-support-active-directory-only">Nested Group Support (Active Directory Only)<a class="headerlink" href="#nested-group-support-active-directory-only" title="Permanent link">&para;</a></h2>
@@ -2434,6 +2465,64 @@ LDAP_TLS=false
 <li>Will <strong>not</strong> work on OpenLDAP or other LDAP servers</li>
 <li>If enabled on non-AD systems, LDAP authentication will fail</li>
 </ul>
+<h2 id="ldap-troubleshooting">LDAP Troubleshooting<a class="headerlink" href="#ldap-troubleshooting" title="Permanent link">&para;</a></h2>
+<p>Whatever the cause, the login page only shows a generic error message. The actual reason is written in <code>storage/logs/laravel.log</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Log message</th>
+<th>Cause</th>
+<th>Solution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LDAP user not found (or not member of LDAP_GROUP).</code></td>
+<td>Identifier absent from <code>LDAP_USERS_BASE_DN</code> for the <code>LDAP_LOGIN_ATTRIBUTES</code>, or user not in <code>LDAP_GROUP</code></td>
+<td>Check the search base, the attributes, and that <code>LDAP_GROUP</code> is the full DN of a group the user belongs to</td>
+</tr>
+<tr>
+<td><code>LDAP identifier collision: multiple entries match.</code></td>
+<td>Several entries match the identifier (user and contact sharing a <code>mail</code> or <code>cn</code>)</td>
+<td>Reduce <code>LDAP_LOGIN_ATTRIBUTES</code> and restrict <code>LDAP_USERS_BASE_DN</code></td>
+</tr>
+<tr>
+<td><code>LDAP bind refused for user.</code></td>
+<td>Wrong LDAP password; on Active Directory <code>ad_reason</code> gives the detail (locked, expired, disabled account…)</td>
+<td>Check the account in the directory</td>
+</tr>
+<tr>
+<td><code>LDAP service bind / connection failed.</code></td>
+<td>Wrong <code>LDAP_USERNAME</code> / <code>LDAP_PASSWORD</code> service account</td>
+<td>Fix the service account credentials</td>
+</tr>
+<tr>
+<td><code>LDAP error: … Can't contact LDAP server</code></td>
+<td>Server unreachable, wrong port, LDAPS certificate not trusted</td>
+<td>Check <code>LDAP_HOST</code>, <code>LDAP_PORT</code>, the firewall and the certificate</td>
+</tr>
+<tr>
+<td><code>LDAP error: … Unable to start TLS</code></td>
+<td>StartTLS refused or certificate not trusted</td>
+<td>See the TLS paragraph in <a href="#ldap-connection-settings">LDAP Connection Settings</a></td>
+</tr>
+<tr>
+<td><code>[auth] LDAP OK but no local user with this login.</code></td>
+<td>No Mercator account has this <code>login</code> and auto-provisioning is disabled; <code>local_user_by_email</code> shows the login of an account having the same email</td>
+<td>Align the Mercator login with the typed identifier, or enable <code>LDAP_AUTO_PROVISION</code></td>
+</tr>
+<tr>
+<td><code>[auth] Login succeeded but user has no role.</code></td>
+<td>Account without role (e.g. auto-provisioned without <code>LDAP_AUTO_PROVISION_ROLE</code>): every page answers 403</td>
+<td>Assign a role to the user</td>
+</tr>
+<tr>
+<td><code>[auth] Login refused: LDAP failed and local fallback disabled.</code></td>
+<td>LDAP failure with <code>LDAP_FALLBACK_LOCAL=false</code>, including for local-only accounts</td>
+<td>See the previous LDAP message in the log</td>
+</tr>
+</tbody>
+</table>
 <hr />
 <h2 id="email-configuration">Email Configuration<a class="headerlink" href="#email-configuration" title="Permanent link">&para;</a></h2>
 <p>Mercator sends notifications, password resets (for local accounts), and system emails.</p>
@@ -2731,18 +2820,18 @@ API_RATE_LIMIT_DECAY=1
 <td>Auto-provision role</td>
 <td><code>LDAP_AUTO_PROVISION_ROLE</code></td>
 <td>null</td>
-<td>Role assigned to newly created users</td>
+<td>Role assigned to newly created users (none if empty)</td>
 </tr>
 <tr>
 <td>LDAP Server</td>
 <td><code>LDAP_HOST</code></td>
-<td>ldap.example.com</td>
+<td>127.0.0.1</td>
 <td>For connecting to the LDAP server</td>
 </tr>
 <tr>
 <td>LDAP User</td>
 <td><code>LDAP_USERNAME</code></td>
-<td>CN=ldap-reader,…</td>
+<td>cn=user,dc=local,dc=com</td>
 <td>For connecting to the LDAP server</td>
 </tr>
 <tr>
@@ -2791,13 +2880,13 @@ API_RATE_LIMIT_DECAY=1
 <td>Required group</td>
 <td><code>LDAP_GROUP</code></td>
 <td>""</td>
-<td>Restricts login</td>
+<td>Restricts login (full group DN)</td>
 </tr>
 <tr>
 <td>LDAP user base</td>
 <td><code>LDAP_USERS_BASE_DN</code></td>
 <td>""</td>
-<td>Search base</td>
+<td>Search base (<code>LDAP_BASE_DN</code> if empty)</td>
 </tr>
 <tr>
 <td>Login attributes</td>
@@ -2809,7 +2898,7 @@ API_RATE_LIMIT_DECAY=1
 <td>LDAP logging</td>
 <td><code>LDAP_LOGGING</code></td>
 <td>false</td>
-<td>Writes to <code>ldap.log</code></td>
+<td>Writes LDAPRecord operations to <code>storage/logs/ldap.log</code></td>
 </tr>
 <tr>
 <td>API call limit</td>
