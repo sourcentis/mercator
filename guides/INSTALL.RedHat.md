@@ -1,15 +1,17 @@
-# Mercator installation procedure
+# Mercator installation procedure (Red Hat)
+
+This procedure applies to Red Hat Enterprise Linux 9 and its compatible distributions (Rocky Linux 9, AlmaLinux 9).
 
 ## Recommended configuration
 
-- OS: RedHat 9.3 - Server
+- OS: Red Hat Enterprise Linux 9 - Server
 - RAM: 2G
 - Disk: 10G
-- VCPU2
+- VCPU: 2
 
-## Facility
+## Installation
 
-Update linux distribution
+Update the Linux distribution
 
     sudo dnf update && sudo dnf upgrade
 
@@ -17,29 +19,33 @@ Install Httpd, GIT, Graphviz and Vim
 
     sudo dnf install vim httpd git graphviz
 
-Mercator requires PHP **8.4.x** (>= 8.4.1, PHP 8.5 is not supported yet). The RHEL 9 AppStream repositories do not
-provide PHP 8.4, so enable the EPEL and Remi repositories
+Mercator requires PHP **8.4.x** (>= 8.4.1, PHP 8.5 is not supported yet) with the `sodium` extension. The PHP 8.4
+module of the RHEL 9 AppStream repositories does not provide `php-sodium`, so enable the EPEL and Remi repositories
 
     sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
     sudo dnf install https://rpms.remirepo.net/enterprise/remi-release-9.rpm
 
-Check that the php 8.4 module is available
+Check that the `remi-8.4` module is available
 
     sudo dnf module list php
 
-Install php 8.4
+Install PHP 8.4
 
     sudo dnf module reset php
     sudo dnf module enable php:remi-8.4
     sudo dnf install php
 
-Check php version (must be 8.4.x)
+Check the PHP version (must be 8.4.x)
 
     php --version
 
-Install PHP and libraries
+Install the PHP extensions
 
     sudo dnf install php-json php-dbg php-mysqlnd php-gd php-zip php-curl php-mbstring php-xml php-ldap php-soap php-sodium php-intl
+
+> On Red Hat, the `php` package runs PHP through **PHP-FPM**: it installs `php-fpm` and the
+> `/etc/httpd/conf.d/php.conf` file, which sends PHP files to the `/run/php-fpm/www.sock` socket. No `mod_php` module
+> is needed.
 
 Install Composer
 
@@ -54,18 +60,18 @@ Verify that Composer is installed
 
 Create the project directory
 
-    cd /var/www
-    sudo mkdir mercator
-    sudo chown $USER:$GROUP mercator
+    sudo mkdir /var/www/mercator
+    sudo chown $USER: /var/www/mercator
 
 Clone the project from Github
 
-    git clone https://www.github.com/dbarzin/mercator
+    git clone https://github.com/sourcentis/mercator /var/www/mercator
 
 ## Composer
 
 Install packages with composer
 
+    cd /var/www/mercator
     composer install
 
 ## MySQL
@@ -76,12 +82,11 @@ Install MySQL
 
 Verify that you are using MySQL
 
-    sudo mysql --version
+    mysql --version
 
-Start the MySQL service
+Start the MySQL service and enable it at boot
 
-    systemctl start mysqld.service
-    systemctl enable mysqld.service
+    sudo systemctl enable --now mysqld.service
 
 Launch MySQL with root rights
 
@@ -89,7 +94,7 @@ Launch MySQL with root rights
 
 Create the _mercator_ database and the _mercator_user_ user
 
-    CREATE DATABASE mercator CHARACTER SET utf8 COLLATE utf8_general_ci;
+    CREATE DATABASE mercator CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
     CREATE USER 'mercator_user'@'localhost' IDENTIFIED BY 's3cr3t';
     GRANT ALL PRIVILEGES ON mercator.* TO 'mercator_user'@'localhost';
     GRANT PROCESS ON *.* TO 'mercator_user'@'localhost';
@@ -134,47 +139,47 @@ Clear cache
 
 To import the test database (optional)
 
-    sudo mysql mercator < data/mercator_data_en.sql
+    sudo mysql mercator < database/data/mercator_data_en.sql
 
-## Import the CPE database
+## CPE database (optional)
 
-Unpack the database
+The `mercator:cpe-sync` command synchronizes CPEs (Common Platform Enumeration) from the NVD (National Vulnerability
+Database). It is scheduled daily at 00:30 by the Laravel scheduler (see [Scheduler](#scheduler)).
 
-     gzip -d mercator_cpe.sql.gz
+Add the following parameters to the `.env` file:
 
-Import database
+    NVD_API_URL=https://services.nvd.nist.gov/rest/json/cpes/2.0
+    # Optional but recommended: NVD API key for higher request quotas
+    NVD_API_KEY=
 
-     sudo mysql mercator < mercator_cpe.sql
+The first synchronization downloads the whole CPE dictionary (1 to 2 hours without API key). It can be started
+manually:
+
+    php artisan mercator:cpe-sync --now
 
 ## Startup
 
-Start application with php
+Start the application with php to check the installation
 
-     php artisan serve
+    php artisan serve
 
 or to access the application from another server
 
-     php artisan serve --host 0.0.0.0 --port 8000
+    php artisan serve --host 0.0.0.0 --port 8000
 
 The application is accessible at URL [http://127.0.0.1:8000]
 
-     user: admin@admin.com
-     password: password
+    user: admin@admin.com
+    password: password
 
 ## Configure Passport
 
-For the JSON API, you need to install Laravel Passport
+For the JSON API, install Laravel Passport. This command also generates the API encryption keys
+(`storage/oauth-private.key` and `storage/oauth-public.key`)
 
-     php artisan passport:install
+    php artisan passport:install
 
-Generate API keys
-
-     php artisan passport:keys
-
-Change key access permissions
-
-     sudo chown apache:apache storage/oauth-*.key
-     sudo chmod 600 storage/oauth-*.key
+The permissions of these keys are set in the [Apache](#apache) section.
 
 ## Email configuration
 
@@ -197,263 +202,227 @@ You may also configure DKIM :
     MAIL_DKIM_SELECTOR = 'default'; // Match your DKIM DNS selector
     MAIL_DKIM_PASSPHRASE = '';      // Only if your key has a passphrase
 
-## Sheduler
-
-Edit crontab
-
-     sudo crontab -e
-
-add this line to the crontab
-
-     * * * * * cd /var/www/mercator && php artisan schedule:run >> /dev/null 2>&1
-
 ## Configuring the LDAP connection
 
 If you want to connect Mercator with an Active Directory or an LDAP server, set the connection parameters in the
 `.env` file:
 
-      LDAP_ENABLED=true
-      LDAP_FALLBACK_LOCAL=true
-      LDAP_AUTO_PROVISION=false
-      LDAP_AUTO_PROVISION_ROLE=User
-      LDAP_HOST=ldap.example.org
-      # Service account used to search for users
-      LDAP_USERNAME="cn=user,dc=example,dc=org"
-      LDAP_PASSWORD=secret
-      LDAP_PORT=389
-      LDAP_BASE_DN="dc=example,dc=org"
-      LDAP_USERS_BASE_DN="ou=people,dc=example,dc=org"
-      LDAP_TIMEOUT=5
-      LDAP_SSL=false
-      LDAP_TLS=true
-      # Attribute(s) matching the identifier typed on the login page (sAMAccountName on Active Directory)
-      LDAP_LOGIN_ATTRIBUTES=uid
-      # Optional: full DN of the group the user must belong to
-      LDAP_GROUP="cn=mercator,ou=groups,dc=example,dc=org"
+    LDAP_ENABLED=true
+    LDAP_FALLBACK_LOCAL=true
+    LDAP_AUTO_PROVISION=false
+    LDAP_AUTO_PROVISION_ROLE=User
+    LDAP_HOST=ldap.example.org
+    # Service account used to search for users
+    LDAP_USERNAME="cn=user,dc=example,dc=org"
+    LDAP_PASSWORD=secret
+    LDAP_PORT=389
+    LDAP_BASE_DN="dc=example,dc=org"
+    LDAP_USERS_BASE_DN="ou=people,dc=example,dc=org"
+    LDAP_TIMEOUT=5
+    LDAP_SSL=false
+    LDAP_TLS=true
+    # Attribute(s) matching the identifier typed on the login page (sAMAccountName on Active Directory)
+    LDAP_LOGIN_ATTRIBUTES=uid
+    # Optional: full DN of the group the user must belong to
+    LDAP_GROUP="cn=mercator,ou=groups,dc=example,dc=org"
 
 With TLS or LDAPS, declare the directory's CA with `TLS_CACERT` in `/etc/openldap/ldap.conf`.
 
 All LDAP options and a troubleshooting table are described in the
 [configuration documentation](https://sourcentis.github.io/mercator/config/#ldap-configuration).
 
- ##Apache
+## Apache
 
- To configure Apache, modify the properties of the mercator directory and grant the appropriate permissions to the storage directory with the following command
+Give the project to the `apache` user and allow it to write to the `storage` and `bootstrap/cache` directories
 
-      sudo chown -R apache:apache /var/www/mercator
-      sudo chmod -R 775 /var/www/mercator/storage
+    sudo chown -R apache:apache /var/www/mercator
+    sudo chmod -R 775 /var/www/mercator/storage /var/www/mercator/bootstrap/cache
 
- > **Do not run `php artisan` as `root`.** Cache files created in `storage/` (for example `storage/app/purifier`) would be owned by `root` and the web server could no longer write to them (error *"Directory … storage/app/purifier not writable"*). Use `sudo -u apache php artisan …`. If the problem has already occurred, run the two commands above again.
+Then restrict the Passport keys again: the previous command also applied to them, and Passport refuses keys that are
+readable by everyone (the API then answers with an error 500)
 
- Check if the SELinux module is activated (For the application to be accessible, SELinux must be deactivated)
+    sudo chmod 600 /var/www/mercator/storage/oauth-*.key
 
- status
+> **Do not run `php artisan` as `root`.** Cache files created in `storage/` (for example `storage/app/purifier`) would be owned by `root` and the web server could no longer write to them (error *"Directory … storage/app/purifier not writable"*). Use `sudo -u apache php artisan …`. If the problem has already occurred, run the three commands above again.
 
- If the module is activated, proceed as follows:
+Create a new Apache virtual host configuration file to serve the Mercator application:
 
- sudo vi /etc/selinux/config
+    sudo vi /etc/httpd/conf.d/mercator.conf
 
- Find the line that starts with SELINUX= in the file. It should look like this:
-
- SELINUX=enforcing
-
- Change enforcing to disabled. Your line should now look like this:
-
- SELINUX=disabled
-
- Restart the system
-
- sudo reboot
-
- Next, create a new Apache virtual host configuration file to serve the Mercator application:
-
-      sudo vi /etc/httpd/conf.d/mercator.conf
-
- Add the following lines:
-
- ```xml
- <VirtualHost *:80>
-      ServerName mercator.local
-      ServerAdmin admin@example.com
-      DocumentRoot /var/www/mercator/public
-      <Directory /var/www/mercator>
-          AllowOverride All
-      </Directory>
-      ErrorLog /var/log/httpd/mercator_error.log
-      CustomLog /var/log/httpd/mercator_access.log combined
- </VirtualHost>
- ```
-
- Finally, restart the Apache service to activate the changes:
-
-      sudo systemctl restart httpd
-
- ### HTTPS
-
- Here is the configuration file for HTTPS
-
- ```xml
- <VirtualHost *:443>
-      ServerName map.XXXXXXXX
-      ServerAdmin
-      DocumentRoot /var/www/mercator/public
-      SSLEngine on
-      SSLProtocol all -SSLv2 -SSLv3
-      SSLCipherSuite HIGH:3DES:!aNULL:!MD5:!SEED:!IDEA
-      SSLCertificateFile /etc/apache2/certs/certs/carto.XXXXX.crt
-      SSLCertificateKeyFile /etc/apache2/certs/private/private.key
-      SSLCertificateChainFile /etc/apache2/certs/certs/XXXXXCA.crt
-      <Directory /var/www/mercator/public>
-          AllowOverride All
-      </Directory>
-      ErrorLog /var/log/httpd/mercator_error.log
-      CustomLog /var/log/httpd/mercator_access.log combined
- </VirtualHost>
- ```
-
- To force HTTPS redirection, you must put this parameter in the .env file:
-
-      APP_ENV=production
-
-
-### PHP-FPM Variant
-
-This setup configures Apache to use PHP-FPM via a UNIX socket, improving performance and compatibility with `mpm_event`.
-
-#### 1. Install PHP-FPM
-
-```bash
-sudo dnf install php-fpm
-```
-
-Ensure that `php-fpm` is enabled and started:
-
-```bash
-sudo systemctl enable --now php-fpm
-```
-
-> You may need to install additional PHP modules depending on your application needs (e.g. `php-mbstring`, `php-mysqlnd`, `php-xml`, etc.).
-
----
-
-#### 2. Apache VirtualHost Configuration
-
-##### Example: HTTP VirtualHost
+Add the following lines:
 
 ```apache
 <VirtualHost *:80>
     ServerName mercator.local
     ServerAdmin admin@example.com
-
     DocumentRoot /var/www/mercator/public
-
-    <Directory /var/www/mercator>
+    <Directory /var/www/mercator/public>
         AllowOverride All
         Require all granted
     </Directory>
-
-    <FilesMatch "\.php$">
-        SetHandler "proxy:unix:/run/php/php-fpm.sock|fcgi://localhost/"
-    </FilesMatch>
-
     ErrorLog /var/log/httpd/mercator_error.log
     CustomLog /var/log/httpd/mercator_access.log combined
 </VirtualHost>
 ```
 
-##### Example: HTTPS VirtualHost
+PHP files are executed by PHP-FPM through `/etc/httpd/conf.d/php.conf`. Start PHP-FPM and Apache, and enable them at
+boot:
+
+    sudo systemctl enable --now php-fpm httpd
+
+Open the HTTP (and HTTPS) port in the firewall:
+
+    sudo firewall-cmd --permanent --add-service=http --add-service=https
+    sudo firewall-cmd --reload
+
+### SELinux
+
+SELinux is enabled by default on Red Hat. Rather than disabling it, allow Apache to write to the application's
+`storage` and `bootstrap/cache` directories:
+
+    sudo dnf install policycoreutils-python-utils
+    sudo semanage fcontext -a -t httpd_sys_rw_content_t "/var/www/mercator/storage(/.*)?"
+    sudo semanage fcontext -a -t httpd_sys_rw_content_t "/var/www/mercator/bootstrap/cache(/.*)?"
+    sudo restorecon -Rv /var/www/mercator
+
+Then allow the outgoing connections Mercator needs:
+
+    # Database (MySQL / PostgreSQL)
+    sudo setsebool -P httpd_can_network_connect_db on
+    # LDAP / Active Directory
+    sudo setsebool -P httpd_can_connect_ldap on
+    # SMTP server, NVD API, Keycloak / Entra ID
+    sudo setsebool -P httpd_can_network_connect on
+
+If access is still denied, look for the blocked operations with `sudo ausearch -m avc -ts recent`.
+
+### HTTPS
+
+Install the Apache SSL module
+
+    sudo dnf install mod_ssl
+
+Here is the configuration file for HTTPS
 
 ```apache
 <VirtualHost *:443>
     ServerName carto.example.com
     ServerAdmin admin@example.com
-
     DocumentRoot /var/www/mercator/public
 
     SSLEngine on
     SSLProtocol all -SSLv2 -SSLv3
     SSLCipherSuite HIGH:!aNULL:!MD5
 
-    SSLCertificateFile /etc/httpd/certs/carto.example.com.crt
-    SSLCertificateKeyFile /etc/httpd/certs/private.key
-    SSLCertificateChainFile /etc/httpd/certs/CA.crt
+    SSLCertificateFile /etc/pki/tls/certs/carto.example.com.crt
+    SSLCertificateKeyFile /etc/pki/tls/private/carto.example.com.key
+    SSLCertificateChainFile /etc/pki/tls/certs/CA.crt
 
     <Directory /var/www/mercator/public>
         AllowOverride All
         Require all granted
     </Directory>
-
-    <FilesMatch "\.php$">
-        SetHandler "proxy:unix:/run/php/php-fpm.sock|fcgi://localhost/"
-    </FilesMatch>
-
     ErrorLog /var/log/httpd/mercator_error.log
     CustomLog /var/log/httpd/mercator_access.log combined
 </VirtualHost>
 ```
 
-> **Notes:**
-> - Adjust paths and file names to match your certificate setup.
-> - Verify the PHP-FPM socket path; on some systems it may be `/run/php-fpm/www.sock`.
+Restart Apache
 
+    sudo systemctl restart httpd
 
- ## Problems
+To force HTTPS redirection, set this parameter in the .env file (`APP_ENV=production` also forces HTTPS when
+`APP_FORCE_HTTPS` is not set):
 
- ### Restore administrator password
+    APP_FORCE_HTTPS=true
 
-      mysql mercator -e "update users set password=$(php -r "echo password_hash('n3w-p4sSw0rD.', PASSWORD_BCRYPT, ['cost' => 10]);") where id=1;"
+### Dedicated PHP-FPM handler (optional)
 
- ### PHP Memory
+To declare the PHP-FPM socket explicitly in the virtual host (for example after changing the pool configuration in
+`/etc/php-fpm.d/www.conf`), add this block inside `<VirtualHost>`:
 
- If you are generating large reports, you will need to increase the memory allocated to PHP in /etc/php/8.x/apache2/php.ini
+```apache
+<FilesMatch "\.php$">
+    SetHandler "proxy:unix:/run/php-fpm/www.sock|fcgi://localhost/"
+</FilesMatch>
+```
 
-      memory_limit = 512M
+> The socket path must match the `listen` parameter of `/etc/php-fpm.d/www.conf` (`/run/php-fpm/www.sock` by default
+> on Red Hat). A wrong path makes Apache answer with an error 503.
 
- ## Update
+## Scheduler
 
- Before updating the application, take a backup of the database and the project.
+Install and start cron if needed
 
-      mysqldump mercator > mercator_backup.sql
+    sudo dnf install cronie
+    sudo systemctl enable --now crond
 
- or (Postgres)
+Edit the crontab of the `apache` user (not root, see the warning in the [Apache](#apache) section)
 
-      pg_dump mercator > mercator_backup.sql
+    sudo crontab -u apache -e
 
- Retrieve GIT sources
+add this line to the crontab
 
-      cd /var/www/mercator
-      sudo -u apache git pull
+    * * * * * cd /var/www/mercator && php artisan schedule:run >> /dev/null 2>&1
 
- Migrate the database
+## Problems
 
-      sudo -u apache php artisan migrate
+### Restore administrator password
 
- Update libraries
+    sudo mysql mercator -e "update users set password='$(php -r "echo password_hash('n3w-p4sSw0rD.', PASSWORD_BCRYPT, ['cost' => 10]);")' where id=1;"
 
-      sudo -u apache composer install
+### PHP Memory
 
- Clear caches
+If you are generating large reports, you will need to increase the memory allocated to PHP in `/etc/php.ini`
 
-      sudo -u apache php artisan config:clear && php artisan view:clear
+    memory_limit = 512M
 
- ## Non regression tests
+then restart PHP-FPM
 
- To run Mercator regression tests, you must first install Chromium:
+    sudo systemctl restart php-fpm
 
-      sudo apt install chromium-browser
+## Update
 
- Install the dusk plugin
+Before updating the application, take a backup of the database and the project.
 
-      sudo -u apache php artisan dusk:chrome-driver
+    sudo mysqldump mercator > mercator_backup.sql
 
- Configure the environment
+or (Postgres)
 
-      sudo -u apache cp .env .env.dusk.local
+    sudo -u postgres pg_dump mercator > mercator_backup.sql
 
- Launch the application
+Retrieve GIT sources
 
-      sudo -u apache php artisan serve
+    cd /var/www/mercator
+    sudo -u apache git pull
 
- In another terminal, run the tests
+Update libraries (`sudo` does not search `/usr/local/bin`, hence the full path to Composer)
 
-      sudo -u apache php artisan dusk
+    sudo -u apache /usr/local/bin/composer install
+
+Migrate the database
+
+    sudo -u apache php artisan migrate
+
+Clear caches
+
+    sudo -u apache php artisan config:clear
+    sudo -u apache php artisan view:clear
+
+## Non-regression tests
+
+Mercator uses [Pest](https://pestphp.com) for non-regression testing. The tests use the `.env.testing` file provided
+with the project, which points to a dedicated `mercator_test` database (the tests empty the database they run on, never
+use the production database). Create it with `sudo mysql`:
+
+    CREATE DATABASE mercator_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    GRANT ALL PRIVILEGES ON mercator_test.* TO 'mercator_user'@'localhost';
+
+Run the tests
+
+    cd /var/www/mercator
+    sudo -u apache ./vendor/bin/pest
+
+or only one group of tests
+
+    sudo -u apache ./vendor/bin/pest --group=api
