@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Application;
+use App\Models\AuditLog;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\SavedQuery;
@@ -67,19 +68,82 @@ describe('show', function () {
             ->assertForbidden();
     });
 
-    it('fournit le lien signé à qui peut lire tout le résultat', function () {
+    it('propose le lien signé à qui a query_export et peut lire tout le résultat', function () {
+        $this->actingAs(queryAccessUser(['query_show', 'query_export', 'application_show']))
+            ->get(route('admin.queries.show', accessQuery($this->other, public: true)))
+            ->assertOk()
+            ->assertViewHas('canExport', true)
+            ->assertSee('id="btn-copy-url"', false);
+    });
+
+    it('ne propose pas le lien signé sans query_export', function () {
         $this->actingAs(queryAccessUser(['query_show', 'application_show']))
             ->get(route('admin.queries.show', accessQuery($this->other, public: true)))
             ->assertOk()
-            ->assertViewHas('exportUrl', fn ($url) => is_string($url));
+            ->assertViewHas('canExport', false)
+            ->assertDontSee('id="btn-copy-url"', false);
     });
 
-    it('ne fournit pas le lien signé sans droit sur les objets de la requête', function () {
-        $this->actingAs(queryAccessUser(['query_show']))
+    it('ne propose pas le lien signé sans droit sur les objets de la requête', function () {
+        $this->actingAs(queryAccessUser(['query_show', 'query_export']))
             ->get(route('admin.queries.show', accessQuery($this->other, public: true)))
             ->assertOk()
-            ->assertViewHas('exportUrl', null)
+            ->assertViewHas('canExport', false)
             ->assertDontSee('id="btn-copy-url"', false);
+    });
+});
+
+describe('exportLink', function () {
+    it('génère un lien signé valable 90 jours et trace sa création', function () {
+        $this->freezeTime();
+        $user = queryAccessUser(['query_show', 'query_export', 'application_show']);
+        $query = accessQuery($this->other, public: true);
+
+        $response = $this->actingAs($user)
+            ->postJson(route('admin.queries.export-link', $query))
+            ->assertOk()
+            ->assertJsonStructure(['url', 'expires_at', 'expires_at_label']);
+
+        expect($response->json('expires_at'))->toBe(now()->addDays(90)->toIso8601String());
+        parse_str(parse_url($response->json('url'), PHP_URL_QUERY), $params);
+        expect((int) $params['by'])->toBe($user->id)
+            ->and((int) $params['expires'])->toBe(now()->addDays(90)->getTimestamp());
+
+        $log = AuditLog::query()->where('description', 'export_link_created')->sole();
+        expect($log->user_id)->toBe($user->id)
+            ->and($log->subject_id)->toBe($query->id)
+            ->and($log->subject_type)->toBe(SavedQuery::class)
+            ->and($log->properties['expires_at'])->toBe(now()->addDays(90)->toIso8601String());
+    });
+
+    it('respecte la durée configurée', function () {
+        $this->freezeTime();
+        config(['mercator.query.export_link_days' => 7]);
+
+        $this->actingAs(queryAccessUser(['query_show', 'query_export', 'application_show']))
+            ->postJson(route('admin.queries.export-link', accessQuery($this->other, public: true)))
+            ->assertOk()
+            ->assertJsonPath('expires_at', now()->addDays(7)->toIso8601String());
+    });
+
+    it('refuse sans query_export', function () {
+        $this->actingAs(queryAccessUser(['query_show', 'application_show']))
+            ->postJson(route('admin.queries.export-link', accessQuery($this->other, public: true)))
+            ->assertForbidden();
+
+        expect(AuditLog::query()->where('description', 'export_link_created')->exists())->toBeFalse();
+    });
+
+    it('refuse sans droit sur les objets de la requête', function () {
+        $this->actingAs(queryAccessUser(['query_show', 'query_export']))
+            ->postJson(route('admin.queries.export-link', accessQuery($this->other, public: true)))
+            ->assertForbidden();
+    });
+
+    it('refuse la requête privée d\'un autre utilisateur', function () {
+        $this->actingAs(queryAccessUser(['query_show', 'query_export', 'application_show']))
+            ->postJson(route('admin.queries.export-link', accessQuery($this->other)))
+            ->assertForbidden();
     });
 });
 
@@ -355,7 +419,18 @@ describe('Compte en lecture seule (query_show + query_access)', function () {
             ->assertOk()
             ->assertSee('readonly', false)
             ->assertSee(json_encode(route('admin.queries.run', $query)), false)
-            ->assertSee('id="btn-copy-url"', false);
+            ->assertDontSee('id="btn-copy-url"', false);
+    });
+
+    it('affiche seulement le lien d\'export en lecture seule avec query_export', function () {
+        $reader = queryAccessUser(['query_show', 'query_access', 'query_export', 'application_show']);
+        $query = accessQuery($reader);
+
+        $this->actingAs($reader)
+            ->get(route('admin.queries.show', $query))
+            ->assertOk()
+            ->assertSee('id="btn-copy-url"', false)
+            ->assertSee(route('admin.queries.export-link', $query), false);
     });
 
     it('n\'affiche pas de lien sur le nom des requêtes dans la liste', function () {

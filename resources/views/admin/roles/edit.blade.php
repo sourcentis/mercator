@@ -171,7 +171,7 @@
                 @include('admin.roles.partials._checkbox', ['action' => [$permission['actions'][0][0], trans('panel.menu.cairn')]])
             </div>
             @endisset
-            @include('admin.roles.partials._group', ['permission' => $permissions_sorted['query'],   'label' => trans('cruds.tools.query.title')])
+            @include('admin.roles.partials._group', ['permission' => $permissions_sorted['query'],   'label' => trans('cruds.tools.query.title'), 'indices' => [0, 5, 1, 3, 2, 4]])
             {{-- @include('admin.roles.partials._group', ['permission' => $permissions_sorted['patching'], 'label' => trans('cruds.tools.patching'), 'indices' => [0, 1]]) --}}
             <div class="col-md-2">
                 @php($permission = $permissions_sorted['reports'])

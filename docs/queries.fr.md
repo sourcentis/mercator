@@ -232,6 +232,14 @@ OUTPUT graph
 
 Il est possible de **sauvegarder des requêtes** dans l'interface pour les retrouver et les réexécuter sans les ressaisir. Les requêtes sauvegardées peuvent être rendues publiques (visibles par tous les utilisateurs) ou privées (visibles uniquement par leur auteur).
 
+### Lien d'export signé {#export-link}
+
+Sur une requête sauvegardée en `OUTPUT list`, le bouton **Copier l'URL** génère un lien signé de téléchargement CSV. Le lien réexécute la requête à chaque accès et ne nécessite pas d'authentification : il peut être importé dans une feuille de calcul (Excel, LibreOffice…) qui se met à jour automatiquement.
+
+- Le bouton nécessite la permission `query_export` et le droit de lecture sur tous les types d'objets utilisés par la requête.
+- Le lien est valable **90 jours** (variable d'environnement `QUERY_EXPORT_LINK_DAYS`) ; sa date d'expiration est affichée lors de sa génération.
+- Chaque génération (`export_link_created`) et chaque téléchargement (`export_link_used`, avec l'adresse IP du consommateur) sont enregistrés dans les logs d'audit, rattachés à l'utilisateur qui a créé le lien.
+
 ## Exemples
 
 ### Serveurs Linux en production avec leurs applications

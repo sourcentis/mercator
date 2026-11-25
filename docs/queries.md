@@ -232,6 +232,14 @@ OUTPUT graph
 
 Queries can be **saved** in the interface so they can be retrieved and re-executed without retyping them. Saved queries can be made public (visible to all users) or private (visible only to their author).
 
+### Signed export link {#export-link}
+
+On a saved `OUTPUT list` query, the **Copy URL** button generates a signed CSV download link. The link re-runs the query on every access and requires no authentication, so it can be imported into a spreadsheet (Excel, LibreOffice…) that refreshes automatically.
+
+- The button requires the `query_export` permission and read access to every object type used by the query.
+- The link is valid for **90 days** (`QUERY_EXPORT_LINK_DAYS` environment variable); its expiry date is displayed when it is generated.
+- Each generation (`export_link_created`) and each download (`export_link_used`, with the consumer's IP address) is recorded in the audit logs, attributed to the user who created the link.
+
 ## Examples
 
 ### Linux production servers with their applications

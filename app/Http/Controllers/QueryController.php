@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\MassDestroySavedQueryRequest;
 use App\Http\Requests\StoreSavedQueryRequest;
 use App\Http\Requests\UpdateSavedQueryRequest;
+use App\Models\AuditLog;
 use App\Models\SavedQuery;
 use App\Services\QueryEngine\QueryAccessChecker;
 use App\Services\QueryEngine\QueryDslValidator;
@@ -144,19 +145,51 @@ class QueryController extends Controller
         abort_unless($query->isVisibleBy(auth()->id()), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $canUseEditor = Gate::any(self::EDITOR_ABILITIES);
-
-        // Le lien signé s'utilise sans authentification : il n'est remis qu'à
-        // un utilisateur qui a lui-même le droit de lire tout le résultat.
-        $exportUrl = $this->canReadResult($query)
-            ? URL::temporarySignedRoute(
-                'queries.export.signed',
-                now()->addDays(30),
-                ['query' => $query->id],
-            )
-            : null;
+        $canExport = $this->canExport($query);
 
         return view('queries.show',
-            compact('query', 'exportUrl', 'canUseEditor'));
+            compact('query', 'canExport', 'canUseEditor'));
+    }
+
+    /**
+     * Génère un lien d'export CSV signé et trace sa création.
+     *
+     * Le lien s'utilise sans authentification : il n'est remis qu'à un
+     * utilisateur ayant query_export et le droit de lire tout le résultat.
+     */
+    public function exportLink(Request $request, SavedQuery $query): JsonResponse
+    {
+        abort_if(Gate::denies('query_export'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_unless($query->isVisibleBy(auth()->id()), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_unless($this->canReadResult($query), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $expiresAt = now()->addDays(max(1, (int) config('mercator.query.export_link_days', 90)));
+
+        // « by » est couvert par la signature : il permet d'attribuer chaque
+        // téléchargement anonyme au créateur du lien.
+        $url = URL::temporarySignedRoute(
+            'queries.export.signed',
+            $expiresAt,
+            ['query' => $query->id, 'by' => auth()->id()],
+        );
+
+        AuditLog::query()->create([
+            'description' => 'export_link_created',
+            'subject_id' => $query->id,
+            'subject_type' => SavedQuery::class,
+            'user_id' => auth()->id(),
+            'properties' => [
+                'name' => $query->name,
+                'expires_at' => $expiresAt->toIso8601String(),
+            ],
+            'host' => $request->ip(),
+        ]);
+
+        return response()->json([
+            'url' => $url,
+            'expires_at' => $expiresAt->toIso8601String(),
+            'expires_at_label' => $expiresAt->format(config('panel.date_format').' '.config('panel.time_format')),
+        ]);
     }
 
     /**
@@ -232,6 +265,11 @@ class QueryController extends Controller
     }
 
     // ─── Private ───────────────────────────────────────────────
+
+    private function canExport(SavedQuery $query): bool
+    {
+        return Gate::allows('query_export') && $this->canReadResult($query);
+    }
 
     private function canReadResult(SavedQuery $query): bool
     {

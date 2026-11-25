@@ -41,6 +41,10 @@ return [
     'cpe' => [
         'guesser' => 'https://cpe-guesser.cve-search.org',
     ],
+    'query' => [
+        // Durée de validité (jours) des liens d'export CSV signés
+        'export_link_days' => (int) env('QUERY_EXPORT_LINK_DAYS', 90),
+    ],
     'cartography' => [
         'reminders_enabled' => false,
         'reminder_from' => 'mercator@localhost.com',

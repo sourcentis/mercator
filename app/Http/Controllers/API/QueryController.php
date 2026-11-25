@@ -7,6 +7,7 @@ use App\Http\Requests\MassStoreSavedQueryRequest;
 use App\Http\Requests\MassUpdateSavedQueryRequest;
 use App\Http\Requests\StoreSavedQueryRequest;
 use App\Http\Requests\UpdateSavedQueryRequest;
+use App\Models\AuditLog;
 use App\Models\SavedQuery;
 use App\Services\QueryEngine\GraphResult;
 use App\Services\QueryEngine\ListResult;
@@ -19,6 +20,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -120,9 +122,29 @@ class QueryController extends APIController
      * Export CSV via URL signée (signature = autorisation).
      * Pas de Gate ici : aucun utilisateur authentifié.
      */
-    public function exportSigned(SavedQuery $query): StreamedResponse|JsonResponse
+    public function exportSigned(Request $request, SavedQuery $query): StreamedResponse|JsonResponse
     {
-        return $this->exportCsv($query);
+        $response = $this->exportCsv($query);
+
+        // Accès anonyme : l'entrée est rattachée au créateur du lien (paramètre
+        // « by », couvert par la signature) et l'IP du consommateur est dans host.
+        AuditLog::query()->create([
+            'description' => 'export_link_used',
+            'subject_id' => $query->id,
+            'subject_type' => SavedQuery::class,
+            'user_id' => $request->integer('by') ?: null,
+            'properties' => [
+                'name' => $query->name,
+                'expires_at' => $request->filled('expires')
+                    ? Carbon::createFromTimestamp($request->integer('expires'))->toIso8601String()
+                    : null,
+                'status' => $response->getStatusCode(),
+                'user_agent' => $request->userAgent(),
+            ],
+            'host' => $request->ip(),
+        ]);
+
+        return $response;
     }
 
     private function exportCsv(SavedQuery $query): StreamedResponse|JsonResponse

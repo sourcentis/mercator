@@ -19,7 +19,8 @@
 @endphp
 
 {{-- ── Barre d'outils (conservée dans le DOM si masquée : le JS lit ses champs) --}}
-<div class="card-header py-2 d-flex gap-2 align-items-center flex-wrap{{ (($hideEditor ?? false) || ($readOnly && ! isset($exportUrl))) ? ' d-none' : '' }}">
+@php($canExport = $canExport ?? false)
+<div class="card-header py-2 d-flex gap-2 align-items-center flex-wrap{{ (($hideEditor ?? false) || ($readOnly && ! $canExport)) ? ' d-none' : '' }}">
 
     {{-- Mode sortie --}}
     <div class="btn-group btn-group-sm{{ $readOnlyClass }}" role="group">
@@ -33,18 +34,11 @@
         </label>
     </div>
 
-    <div class="flex-grow-1"></div>
-
+    {{-- Actions sur la requête, à gauche --}}
     <button class="btn btn-sm btn-outline-secondary{{ $readOnlyClass }}" id="btn-toggle-editor"
             title="@lang('Afficher/masquer l\'éditeur')">
         <i class="fas fa-code"></i> @lang('Éditeur')
     </button>
-
-    @isset($exportUrl)
-        <button class="btn btn-sm btn-outline-secondary" id="btn-copy-url" data-url="{{ $exportUrl }}">
-            <i class="fas fa-link"></i> {{ trans('global.copyUrl') }}
-        </button>
-    @endisset
 
     <button class="btn btn-sm btn-outline-secondary{{ $readOnlyClass }}" id="btn-format"
             title="@lang('Formater la requête')">
@@ -54,6 +48,26 @@
     <button class="btn btn-sm btn-primary{{ $readOnlyClass }}" id="btn-run">
         <i class="fas fa-play"></i> @lang('Exécuter')
     </button>
+
+    <div class="flex-grow-1"></div>
+
+    {{-- Lien d'export signé, à droite (query_export) --}}
+    @if($canExport && isset($query) && $query->exists)
+        <button class="btn btn-sm btn-outline-secondary" id="btn-copy-url"
+                data-url="{{ route('admin.queries.export-link', $query) }}">
+            <i class="fas fa-link"></i> {{ trans('global.copyUrl') }}
+        </button>
+    @endif
+</div>
+
+{{-- Lien d'export généré : URL + date d'expiration --}}
+<div id="export-link-info" class="alert alert-info rounded-0 border-0 border-bottom mb-0 py-2 d-none">
+    <div class="d-flex gap-2 align-items-center flex-wrap">
+        <i class="fas fa-link"></i>
+        <span id="export-link-message"></span>
+        <input type="text" class="form-control form-control-sm flex-grow-1" id="export-link-url">
+        <button type="button" class="btn-close" id="export-link-close" aria-label="Close"></button>
+    </div>
 </div>
 
 {{-- ── Éditeur DSL ─────────────────────────────────────────────────── --}}

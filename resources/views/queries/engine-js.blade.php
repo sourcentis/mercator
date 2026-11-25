@@ -92,12 +92,52 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // ── Copier l'URL d'export signée ─────────────────────────────
+    // Génère un lien signé (création tracée côté serveur), le copie et
+    // affiche sa date d'expiration.
+    const linkInfo    = document.getElementById('export-link-info');
+    const linkMessage = document.getElementById('export-link-message');
+    const linkUrl     = document.getElementById('export-link-url');
+
+    document.getElementById('export-link-close')?.addEventListener('click', () => {
+        linkInfo.classList.add('d-none');
+    });
+    if (linkUrl) linkUrl.readOnly = true;
+    linkUrl?.addEventListener('focus', () => linkUrl.select());
+
     btnCopyUrl?.addEventListener('click', async () => {
+        btnCopyUrl.disabled = true;
         try {
-            await navigator.clipboard.writeText(btnCopyUrl.dataset.url);
-            setStatus('URL copiée.');
+            const res = await fetch(btnCopyUrl.dataset.url, {
+                method:  'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept':       'application/json',
+                },
+            });
+            if (!res.ok) {
+                const err = await res.json().catch(() => ({ message: res.statusText }));
+                throw new Error(err.message ?? res.statusText);
+            }
+            const link = await res.json();
+
+            let copied = true;
+            try {
+                await navigator.clipboard.writeText(link.url);
+            } catch (e) {
+                copied = false;
+            }
+
+            const validity = `valable jusqu'au ${link.expires_at_label}`;
+            linkMessage.textContent = copied
+                ? `URL copiée, ${validity}.`
+                : `Lien ${validity} (copie automatique impossible) :`;
+            linkUrl.value = link.url;
+            linkInfo.classList.remove('d-none');
+            setStatus(copied ? 'URL copiée.' : 'Lien généré.');
         } catch (e) {
-            setStatus('Erreur : impossible de copier l\'URL.');
+            setStatus('Erreur : impossible de générer le lien (' + e.message + ').');
+        } finally {
+            btnCopyUrl.disabled = false;
         }
     });
 

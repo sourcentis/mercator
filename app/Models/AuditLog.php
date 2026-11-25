@@ -54,6 +54,11 @@ class AuditLog extends Model
             $subject_type = 'App\Models\Application';
         }
 
+        // Les requêtes enregistrées sont servies sous /admin/queries
+        if ($subject_type === SavedQuery::class) {
+            return '/admin/queries/'.$subject_id;
+        }
+
         return '/admin/'.
             Str::plural(Str::snake(Str::afterLast($subject_type, '\\'), '-')).
             '/'.$subject_id;
