@@ -976,6 +976,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Saving queries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#export-link" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signed export link
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1648,6 +1663,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Saving queries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#export-link" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signed export link
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2144,6 +2174,13 @@ If you also want to display fields from that relation in <code>FIELDS</code>, de
 </div>
 <h2 id="saving-queries">Saving queries<a class="headerlink" href="#saving-queries" title="Permanent link">&para;</a></h2>
 <p>Queries can be <strong>saved</strong> in the interface so they can be retrieved and re-executed without retyping them. Saved queries can be made public (visible to all users) or private (visible only to their author).</p>
+<h3 id="export-link">Signed export link<a class="headerlink" href="#export-link" title="Permanent link">&para;</a></h3>
+<p>On a saved <code>OUTPUT list</code> query, the <strong>Copy URL</strong> button generates a signed CSV download link. The link re-runs the query on every access and requires no authentication, so it can be imported into a spreadsheet (Excel, LibreOffice…) that refreshes automatically.</p>
+<ul>
+<li>The button requires the <code>query_export</code> permission and read access to every object type used by the query.</li>
+<li>The link is valid for <strong>90 days</strong> (<code>QUERY_EXPORT_LINK_DAYS</code> environment variable); its expiry date is displayed when it is generated.</li>
+<li>Each generation (<code>export_link_created</code>) and each download (<code>export_link_used</code>, with the consumer's IP address) is recorded in the audit logs, attributed to the user who created the link.</li>
+</ul>
 <h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
 <h3 id="linux-production-servers-with-their-applications">Linux production servers with their applications<a class="headerlink" href="#linux-production-servers-with-their-applications" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="n">logical</span><span class="o">-</span><span class="n">servers</span>

@@ -976,6 +976,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Sauvegarde des requêtes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#export-link" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lien d'export signé
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1648,6 +1663,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Sauvegarde des requêtes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#export-link" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lien d'export signé
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2144,6 +2174,13 @@ Si vous souhaitez également afficher les champs de cette relation dans <code>FI
 </div>
 <h2 id="sauvegarde-des-requetes">Sauvegarde des requêtes<a class="headerlink" href="#sauvegarde-des-requetes" title="Permanent link">&para;</a></h2>
 <p>Il est possible de <strong>sauvegarder des requêtes</strong> dans l'interface pour les retrouver et les réexécuter sans les ressaisir. Les requêtes sauvegardées peuvent être rendues publiques (visibles par tous les utilisateurs) ou privées (visibles uniquement par leur auteur).</p>
+<h3 id="export-link">Lien d'export signé<a class="headerlink" href="#export-link" title="Permanent link">&para;</a></h3>
+<p>Sur une requête sauvegardée en <code>OUTPUT list</code>, le bouton <strong>Copier l'URL</strong> génère un lien signé de téléchargement CSV. Le lien réexécute la requête à chaque accès et ne nécessite pas d'authentification : il peut être importé dans une feuille de calcul (Excel, LibreOffice…) qui se met à jour automatiquement.</p>
+<ul>
+<li>Le bouton nécessite la permission <code>query_export</code> et le droit de lecture sur tous les types d'objets utilisés par la requête.</li>
+<li>Le lien est valable <strong>90 jours</strong> (variable d'environnement <code>QUERY_EXPORT_LINK_DAYS</code>) ; sa date d'expiration est affichée lors de sa génération.</li>
+<li>Chaque génération (<code>export_link_created</code>) et chaque téléchargement (<code>export_link_used</code>, avec l'adresse IP du consommateur) sont enregistrés dans les logs d'audit, rattachés à l'utilisateur qui a créé le lien.</li>
+</ul>
 <h2 id="exemples">Exemples<a class="headerlink" href="#exemples" title="Permanent link">&para;</a></h2>
 <h3 id="serveurs-linux-en-production-avec-leurs-applications">Serveurs Linux en production avec leurs applications<a class="headerlink" href="#serveurs-linux-en-production-avec-leurs-applications" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="n">logical</span><span class="o">-</span><span class="n">servers</span>
