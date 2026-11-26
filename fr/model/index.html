@@ -4396,6 +4396,11 @@ Dans l'application, un service applicatif peut être rattaché à un module appl
 <td style="text-align: left;">Externe</td>
 </tr>
 <tr>
+<td style="text-align: left;">install_date</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">Date de mise en service</td>
+</tr>
+<tr>
 <td style="text-align: left;">created_at</td>
 <td style="text-align: left;">timestamp</td>
 <td style="text-align: left;">Date de création</td>
@@ -7819,12 +7824,12 @@ salle.</p>
 </tr>
 <tr>
 <td style="text-align: left;">install_date</td>
-<td style="text-align: left;">datetime</td>
+<td style="text-align: left;">date</td>
 <td style="text-align: left;">Date d'installation du serveur</td>
 </tr>
 <tr>
 <td style="text-align: left;">update_date</td>
-<td style="text-align: left;">datetime</td>
+<td style="text-align: left;">date</td>
 <td style="text-align: left;">Date de mise à jour du serveur</td>
 </tr>
 <tr>
@@ -7861,6 +7866,31 @@ salle.</p>
 <td style="text-align: left;">logical_servers</td>
 <td style="text-align: left;">List int [,]</td>
 <td style="text-align: left;">Liste des id de(s) logical(s) serveurs(s) associé(s)</td>
+</tr>
+<tr>
+<td style="text-align: left;">warranty_end_date</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">Date de fin de garantie / de contrat de support</td>
+</tr>
+<tr>
+<td style="text-align: left;">end_of_life_date</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">Date de fin de vie / de réforme</td>
+</tr>
+<tr>
+<td style="text-align: left;">manufacturer</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Fabricant</td>
+</tr>
+<tr>
+<td style="text-align: left;">model</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Modèle</td>
+</tr>
+<tr>
+<td style="text-align: left;">serial_number</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Numéro de série</td>
 </tr>
 <tr>
 <td style="text-align: left;">created_at</td>
@@ -8083,6 +8113,16 @@ moment dans l'application pour la table <em>physical_servers</em> ont été regr
 <td style="text-align: left;">liste des applications liées</td>
 </tr>
 <tr>
+<td style="text-align: left;">install_date</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">Date de mise en service</td>
+</tr>
+<tr>
+<td style="text-align: left;">end_of_life_date</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">Date de fin de vie / de réforme</td>
+</tr>
+<tr>
 <td style="text-align: left;">created_at</td>
 <td style="text-align: left;">timestamp</td>
 <td style="text-align: left;">Date de création</td>
@@ -8278,6 +8318,36 @@ réseau (NAS), réseau de stockage (SAN), disque dur…</p>
 <td style="text-align: left;">Adresse IP de l'infrastructure de stockage</td>
 </tr>
 <tr>
+<td style="text-align: left;">manufacturer</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Fabricant</td>
+</tr>
+<tr>
+<td style="text-align: left;">model</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Modèle</td>
+</tr>
+<tr>
+<td style="text-align: left;">serial_number</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Numéro de série</td>
+</tr>
+<tr>
+<td style="text-align: left;">install_date</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">Date de mise en service</td>
+</tr>
+<tr>
+<td style="text-align: left;">warranty_end_date</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">Date de fin de garantie / de contrat de support</td>
+</tr>
+<tr>
+<td style="text-align: left;">end_of_life_date</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">Date de fin de vie / de réforme</td>
+</tr>
+<tr>
 <td style="text-align: left;">created_at</td>
 <td style="text-align: left;">timestamp</td>
 <td style="text-align: left;">Date de création</td>
@@ -8402,6 +8472,26 @@ fonctionnalités (ex. : clavier, souris, imprimante, scanner, etc.)</p>
 <td style="text-align: left;">Référence vers l'entité fournisseuse</td>
 </tr>
 <tr>
+<td style="text-align: left;">serial_number</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Numéro de série</td>
+</tr>
+<tr>
+<td style="text-align: left;">install_date</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">Date de mise en service</td>
+</tr>
+<tr>
+<td style="text-align: left;">warranty_end_date</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">Date de fin de garantie / de contrat de support</td>
+</tr>
+<tr>
+<td style="text-align: left;">end_of_life_date</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">Date de fin de vie / de réforme</td>
+</tr>
+<tr>
 <td style="text-align: left;">created_at</td>
 <td style="text-align: left;">timestamp</td>
 <td style="text-align: left;">Date de création</td>
@@ -8506,6 +8596,36 @@ Dans l'application, un périphérique peut être rattaché à une application de
 <td style="text-align: left;">Adresse IP du téléphone</td>
 </tr>
 <tr>
+<td style="text-align: left;">manufacturer</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Fabricant</td>
+</tr>
+<tr>
+<td style="text-align: left;">model</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Modèle</td>
+</tr>
+<tr>
+<td style="text-align: left;">serial_number</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Numéro de série</td>
+</tr>
+<tr>
+<td style="text-align: left;">install_date</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">Date de mise en service</td>
+</tr>
+<tr>
+<td style="text-align: left;">warranty_end_date</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">Date de fin de garantie / de contrat de support</td>
+</tr>
+<tr>
+<td style="text-align: left;">end_of_life_date</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">Date de fin de vie / de réforme</td>
+</tr>
+<tr>
 <td style="text-align: left;">created_at</td>
 <td style="text-align: left;">timestamp</td>
 <td style="text-align: left;">Date de création</td>
@@ -8605,6 +8725,36 @@ d’un réseau.</p>
 <td style="text-align: left;">bay_id</td>
 <td style="text-align: left;">unsigned int</td>
 <td style="text-align: left;">Référence vers la baie</td>
+</tr>
+<tr>
+<td style="text-align: left;">manufacturer</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Fabricant</td>
+</tr>
+<tr>
+<td style="text-align: left;">model</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Modèle</td>
+</tr>
+<tr>
+<td style="text-align: left;">serial_number</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Numéro de série</td>
+</tr>
+<tr>
+<td style="text-align: left;">install_date</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">Date de mise en service</td>
+</tr>
+<tr>
+<td style="text-align: left;">warranty_end_date</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">Date de fin de garantie / de contrat de support</td>
+</tr>
+<tr>
+<td style="text-align: left;">end_of_life_date</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">Date de fin de vie / de réforme</td>
 </tr>
 <tr>
 <td style="text-align: left;">created_at</td>
@@ -8708,6 +8858,36 @@ depuis ces deux types d'objets.</p>
 <td style="text-align: left;">bay_id</td>
 <td style="text-align: left;">int unsigned</td>
 <td style="text-align: left;">Référence vers la baie</td>
+</tr>
+<tr>
+<td style="text-align: left;">manufacturer</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Fabricant</td>
+</tr>
+<tr>
+<td style="text-align: left;">model</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Modèle</td>
+</tr>
+<tr>
+<td style="text-align: left;">serial_number</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Numéro de série</td>
+</tr>
+<tr>
+<td style="text-align: left;">install_date</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">Date de mise en service</td>
+</tr>
+<tr>
+<td style="text-align: left;">warranty_end_date</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">Date de fin de garantie / de contrat de support</td>
+</tr>
+<tr>
+<td style="text-align: left;">end_of_life_date</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">Date de fin de vie / de réforme</td>
 </tr>
 <tr>
 <td style="text-align: left;">created_at</td>
@@ -8823,6 +9003,26 @@ Un VLAN peut être rattaché à un routeur physique depuis un objet routeur phys
 <td style="text-align: left;">Liste des id de(s) logical routeurs associés</td>
 </tr>
 <tr>
+<td style="text-align: left;">serial_number</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Numéro de série</td>
+</tr>
+<tr>
+<td style="text-align: left;">install_date</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">Date de mise en service</td>
+</tr>
+<tr>
+<td style="text-align: left;">warranty_end_date</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">Date de fin de garantie / de contrat de support</td>
+</tr>
+<tr>
+<td style="text-align: left;">end_of_life_date</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">Date de fin de vie / de réforme</td>
+</tr>
+<tr>
 <td style="text-align: left;">created_at</td>
 <td style="text-align: left;">timestamp</td>
 <td style="text-align: left;">Date de création</td>
@@ -8925,6 +9125,36 @@ la protection des équipements ou ayant une fonction de sécurisation du systèm
 <td style="text-align: left;">address_ip</td>
 <td style="text-align: left;">varchar(255)</td>
 <td style="text-align: left;">Adresse(s) IP de l'équipement</td>
+</tr>
+<tr>
+<td style="text-align: left;">manufacturer</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Fabricant</td>
+</tr>
+<tr>
+<td style="text-align: left;">model</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Modèle</td>
+</tr>
+<tr>
+<td style="text-align: left;">serial_number</td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">Numéro de série</td>
+</tr>
+<tr>
+<td style="text-align: left;">install_date</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">Date de mise en service</td>
+</tr>
+<tr>
+<td style="text-align: left;">warranty_end_date</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">Date de fin de garantie / de contrat de support</td>
+</tr>
+<tr>
+<td style="text-align: left;">end_of_life_date</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">Date de fin de vie / de réforme</td>
 </tr>
 <tr>
 <td style="text-align: left;">created_at</td>
