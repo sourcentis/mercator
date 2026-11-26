@@ -5,6 +5,7 @@ use App\Models\Network;
 use App\Models\Perimeter;
 use App\Models\Permission;
 use App\Models\PhysicalLink;
+use App\Models\Relation;
 use App\Models\Role;
 use App\Models\User;
 use App\Support\PerimeterSettings;
@@ -15,6 +16,7 @@ use Database\Seeders\RoleUserTableSeeder;
 use Database\Seeders\UsersTableSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -72,6 +74,23 @@ describe('import', function () {
 
         // DOCX/XLSX sont des ZIP → début "PK"
         expect(substr($content, 0, 2))->toBe('PK');
+    });
+
+    test('does not export removed security needs for relations', function () {
+
+        Relation::factory()->create();
+
+        $response = $this->post(
+            route('admin.config.export'),
+            ['object' => 'Relation']);
+
+        $response->assertOk();
+
+        $sheet = IOFactory::load($response->baseResponse->getFile()->getPathname())->getActiveSheet();
+        $header = $sheet->rangeToArray('A1:'.$sheet->getHighestColumn().'1')[0];
+
+        expect($header)->toContain('name')
+            ->and(preg_grep('/^security_need_/', $header))->toBeEmpty();
     });
 
     test('can reimport physical links exported with attributes', function () {
