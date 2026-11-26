@@ -132,6 +132,7 @@
     </div>
 
 
+    @include('partials.lifecycle-section', ['object' => $database, 'fields' => ['install_date']])
     @include('admin._footer', ['model' => $database])
 </div>
 <div class="form-group">

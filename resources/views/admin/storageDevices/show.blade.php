@@ -84,6 +84,7 @@
             @endif
         </div>
         @endcan
+    @include('partials.lifecycle-section', ['object' => $storageDevice, 'fields' => ['manufacturer', 'model', 'serial_number', 'install_date', 'warranty_end_date', 'end_of_life_date']])
     @include('admin._footer', ['model' => $storageDevice])
 </div>
 <div class="form-group">

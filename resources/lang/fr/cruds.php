@@ -1627,8 +1627,6 @@ return [
             'memory_helper' => 'Quantité de mémoire (GB)',
             'operating_system' => 'Système d\'exploitation',
             'operating_system_helper' => "Nom et version de l'OS",
-            'install_date' => "Date d'installation",
-            'install_date_helper' => "Date d'installation du système d'exploitation",
             'update_date' => 'Date de mise à jour',
             'update_date_helper' => "Date de dernière mise à jour du système d'exploitation",
         ],

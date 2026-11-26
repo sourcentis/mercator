@@ -255,6 +255,7 @@
             </div>
         </div>
     </div>
+    @include('partials.lifecycle-section', ['object' => $workstation, 'fields' => ['install_date', 'end_of_life_date', 'purchase_date', 'fin_value', 'warranty', 'warranty_period', 'warranty_start_date', 'warranty_end_date']])
     @include('admin._footer', ['model' => $workstation])
 </div>
 <div id="btn-cancel" class="form-group">

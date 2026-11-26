@@ -518,7 +518,7 @@ class PhysicalInfrastructureSection implements ReportSection
             }
 
             $helper->addHTMLRow($table, trans('cruds.physicalServer.fields.operating_system'), $physicalServer->operating_system);
-            $helper->addTextRow($table, trans('cruds.physicalServer.fields.install_date'), $physicalServer->install_date);
+            $helper->addTextRow($table, trans('cruds.lifecycle.fields.install_date'), $physicalServer->install_date);
             $helper->addTextRow($table, trans('cruds.physicalServer.fields.update_date'), $physicalServer->update_date);
             $helper->addTextRow($table, trans('cruds.physicalServer.fields.address_ip'), $physicalServer->address_ip);
             $helper->addTextRow($table, trans('cruds.physicalServer.fields.responsible'), $physicalServer->responsible);

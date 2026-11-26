@@ -125,6 +125,5 @@
         </td>
     </tr>
     @endcanAccessAny
-        @include('partials.lifecycle-details', ['object' => $physicalSecurityDevice, 'fields' => ['manufacturer', 'model', 'serial_number', 'install_date', 'warranty_end_date', 'end_of_life_date']])
     </tbody>
 </table>

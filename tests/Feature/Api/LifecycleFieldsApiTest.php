@@ -116,10 +116,16 @@ it('displays lifecycle fields on show and edit pages', function (string $route, 
     $this->actingAs($this->user);
     $model = $modelClass::factory()->create($fields);
 
-    $this->get(route("admin.{$route}.show", $model))
+    $html = $this->get(route("admin.{$route}.show", $model))
         ->assertOk()
         ->assertSee($fields['install_date'])
-        ->assertSee($fields['end_of_life_date']);
+        ->assertSee($fields['end_of_life_date'])
+        ->getContent();
+
+    // Dedicated "Lifecycle" section, not rows appended to the object's own table.
+    expect(substr_count($html, $fields['end_of_life_date']))->toBe(1);
+    $details = view('admin.'.str($route)->camel().'._details', [str($modelClass)->classBasename()->camel()->toString() => $model])->render();
+    expect($details)->not->toContain($fields['end_of_life_date']);
 
     $this->get(route("admin.{$route}.edit", $model))
         ->assertOk()

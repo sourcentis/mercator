@@ -141,14 +141,8 @@
                     <th width="10%">
                         {{ trans('cruds.physicalServer.fields.operating_system') }}
                     </th>
-                    <td width="22%">
+                    <td width="54%" colspan="3">
                         {{ $physicalServer->operating_system }}
-                    </td>
-                    <th width="10%">
-                        {{ trans('cruds.physicalServer.fields.install_date') }}
-                    </th>
-                    <td width="22%">
-                        {{ $physicalServer->install_date }}
                     </td>
                     <th width="10%">
                         {{ trans('cruds.physicalServer.fields.update_date') }}
@@ -267,6 +261,7 @@
                 </tbody>
             </table>
         </div>
+        @include('partials.lifecycle-section', ['object' => $physicalServer, 'fields' => ['manufacturer', 'model', 'serial_number', 'install_date', 'warranty_end_date', 'end_of_life_date']])
         @include('admin._footer', ['model' => $physicalServer])
     </div>
 

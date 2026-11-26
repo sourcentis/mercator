@@ -51,6 +51,5 @@
                  height='60'>
         @endif
     </td>
-        @include('partials.lifecycle-details', ['object' => $physicalServer, 'fields' => ['manufacturer', 'model', 'serial_number', 'warranty_end_date', 'end_of_life_date']])
     </tbody>
 </table>
