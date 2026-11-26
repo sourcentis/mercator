@@ -178,11 +178,6 @@ erDiagram
         date end_date
         text comments
         int importance
-        int security_need_c
-        int security_need_i
-        int security_need_a
-        int security_need_t
-        int security_need_auth
         timestamp created_at
         timestamp updated_at
         timestamp deleted_at
@@ -262,18 +257,9 @@ d’information.
 | end_date           | date         | Fin de la relation                               |
 | comments           | text         | Commentaires sur l'état de la relation           |
 | importance         | int          | Importance de la relation                        |
-| security_need_c    | int          | Confidentialité                                  |
-| security_need_i    | int          | Intégrité                                        |
-| security_need_a    | int          | Disponibilité                                    |
-| security_need_t    | int          | Traçabilité                                      |
-| security_need_auth | int          | Authenticité                                     |
 | created_at         | timestamp    | Date de création                                 |
 | updated_at         | timestamp    | Date de mise à jour                              |
 | deleted_at         | timestamp    | Date de suppression                              |
-
-Dans l'application, le besoin en authenticité est masqué par défaut. Il est obligatoire dans le cas
-d'une entité soumise à la directive UE 2022/2554 (DORA).  
-Il s'active depuis le menu Configuration > Paramètres.
 
 L'export du modèle de données référence les documents de référence rattachés à une relation.  
 Dans l'application, un document peut être rattaché à une relation depuis un objet relations.

@@ -27,11 +27,6 @@ class RelationFactory extends Factory
             'start_date' => Carbon::now(),
             'end_date' => Carbon::now(),
             'comments' => $this->faker->word(),
-            'security_need_c' => $this->faker->optional()->numberBetween(0, 4),
-            'security_need_i' => $this->faker->optional()->numberBetween(0, 4),
-            'security_need_a' => $this->faker->optional()->numberBetween(0, 4),
-            'security_need_t' => $this->faker->optional()->numberBetween(0, 4),
-            'security_need_auth' => $this->faker->optional()->numberBetween(0, 4),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
 

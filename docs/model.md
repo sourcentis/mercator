@@ -133,11 +133,6 @@ erDiagram
         date end_date
         text comments
         int importance
-        int security_need_c
-        int security_need_i
-        int security_need_a
-        int security_need_t
-        int security_need_auth
         timestamp created_at
         timestamp updated_at
         timestamp deleted_at
@@ -214,18 +209,9 @@ Relationships are contracts, service agreements, legal obligations... that have 
 | end_date           | date         | End date of the relation                   |
 | comments           | text         | Comment on the status of the relation      |
 | importance         | int          | Importance of relationship                 |
-| security_need_c    | int          | Confidentiality level needed               |
-| security_need_i    | int          | Integrity level needed                     |
-| security_need_a    | int          | Available level needed                     |
-| security_need_t    | int          | Traceability level needed                  |
-| security_need_auth | int          | Authenticity level needed                  |
 | created_at         | timestamp    | Date of creation                           |
 | updated_at         | timestamp    | Date of update                             |
 | deleted_at         | timestamp    | Date of deletion                           |
-
-In the app, the field for the authenticity need ("security_need_auth") is hidden by default. It is mandatory for
-entities subject to the regulation (EU) 2022/2554 (DORA).  
-This default configuration can be changed in the menu Configuration > Parameters.
 
 The data model export lists the reference documents attached to a relationship.  
 In the application, a document can be attached to a relationship from a relationships object.
