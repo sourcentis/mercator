@@ -42,6 +42,7 @@ class Peripheral extends Model implements HasIconContract, HasPrefix, HasUniqueI
         'responsible',
         'address_ip',
         'attributes',
+        'serial_number',
     ];
 
     protected array $dates = [
@@ -67,6 +68,12 @@ class Peripheral extends Model implements HasIconContract, HasPrefix, HasUniqueI
         'vendor',
         'product',
         'version',
+
+        // Lifecycle
+        'install_date',
+        'warranty_end_date',
+        'end_of_life_date',
+        'serial_number',
         'address_ip',
         'created_at',
         'updated_at',

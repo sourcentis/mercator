@@ -39,6 +39,7 @@ class Phone extends Model implements HasPrefix, HasUniqueIdentifierContract
         'address_ip',
         'type',
         'attributes',
+        'serial_number',
     ];
 
     protected array $dates = [
@@ -55,6 +56,14 @@ class Phone extends Model implements HasPrefix, HasUniqueIdentifierContract
         'type',
         'attributes',
         'address_ip',
+
+        // Lifecycle
+        'install_date',
+        'warranty_end_date',
+        'end_of_life_date',
+        'manufacturer',
+        'model',
+        'serial_number',
         'site_id',
         'building_id',
         'created_at',

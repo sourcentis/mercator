@@ -3,11 +3,13 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Concerns\ValidatesIcon;
+use App\Http\Requests\Concerns\ValidatesLifecycleFields;
 use Illuminate\Validation\Rule;
 
 class UpdateStorageDeviceRequest extends BaseFormRequest
 {
     use ValidatesIcon;
+    use ValidatesLifecycleFields;
 
     protected array $htmlFields = ['description'];
 
@@ -21,6 +23,7 @@ class UpdateStorageDeviceRequest extends BaseFormRequest
         $perimeterId = $this->input('perimeter_id') ?: $this->route('storage_device')?->perimeter_id;
 
         return [
+            ...$this->lifecycleRules(['install_date', 'warranty_end_date', 'end_of_life_date', 'manufacturer', 'model', 'serial_number']),
             'perimeter_id' => ['nullable', 'integer', Rule::in(auth()->user()?->perimeterIds() ?? [])],
             'name' => [
                 'min:3',

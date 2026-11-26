@@ -62,15 +62,15 @@ class Workstation extends Model implements HasIconContract, HasPrefix, HasUnique
         'user_id',
         'other_user',
 
-        // Warranty
-        /*
+        // Lifecycle / warranty
+        'install_date',
+        'end_of_life_date',
         'purchase_date',
         'fin_value',
         'warranty',
         'warranty_start_date',
         'warranty_end_date',
         'warranty_period',
-        */
 
         // Network
         'network_id',

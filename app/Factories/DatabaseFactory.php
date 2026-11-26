@@ -25,6 +25,7 @@ class DatabaseFactory extends Factory
             'security_need_a' => $this->faker->optional()->numberBetween(0, 4),
             'security_need_t' => $this->faker->optional()->numberBetween(0, 4),
             'security_need_auth' => $this->faker->optional()->numberBetween(0, 4),
+            'install_date' => $this->faker->dateTimeBetween('-8 years', '-1 year')->format('Y-m-d'),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
 

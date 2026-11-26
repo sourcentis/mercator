@@ -3,11 +3,13 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Concerns\ValidatesIcon;
+use App\Http\Requests\Concerns\ValidatesLifecycleFields;
 use Illuminate\Validation\Rule;
 
 class UpdateDatabaseRequest extends BaseFormRequest
 {
     use ValidatesIcon;
+    use ValidatesLifecycleFields;
 
     protected array $htmlFields = ['description'];
 
@@ -21,6 +23,7 @@ class UpdateDatabaseRequest extends BaseFormRequest
         $perimeterId = $this->input('perimeter_id') ?: $this->route('database')?->perimeter_id;
 
         return [
+            ...$this->lifecycleRules(['install_date']),
             'perimeter_id' => ['nullable', 'integer', Rule::in(auth()->user()?->perimeterIds() ?? [])],
             'name' => [
                 'min:3',

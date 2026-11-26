@@ -47,6 +47,14 @@ class PhysicalSecurityDevice extends Model implements HasIconContract, HasPrefix
         'site_id',
         'building_id',
         'bay_id',
+
+        // Lifecycle
+        'install_date',
+        'warranty_end_date',
+        'end_of_life_date',
+        'manufacturer',
+        'model',
+        'serial_number',
     ];
 
     public static array $searchable = [
@@ -55,6 +63,7 @@ class PhysicalSecurityDevice extends Model implements HasIconContract, HasPrefix
         'attributes',
         'description',
         'address_ip',
+        'serial_number',
     ];
 
     protected array $dates = [

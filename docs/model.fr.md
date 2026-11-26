@@ -1087,6 +1087,7 @@ Une base de données est un ensemble structuré et ordonné d’informations des
 | security_need_t    | int          | Traçabilité                               |
 | security_need_auth | int          | Authenticité                              |
 | external           | varchar(255) | Externe                                   |
+| install_date       | date         | Date de mise en service |
 | created_at         | timestamp    | Date de création                          |
 | updated_at         | timestamp    | Date de mise à jour                       |
 | deleted_at         | timestamp    | Date de suppression                       |
@@ -2629,8 +2630,8 @@ Les serveurs physiques sont des machines physiques exécutant un ensemble de ser
 | disk_used        | varchar(255) | Stockage utilisé du serveur                          |
 | configuration    | longtext     | Configuration du serveur                             |
 | operating_system | varchar(255) | Système d’exploitation du serveur                     |
-| install_date     | datetime     | Date d'installation du serveur                       |
-| update_date      | datetime     | Date de mise à jour du serveur                       |
+| install_date     | date         | Date d'installation du serveur                       |
+| update_date      | date         | Date de mise à jour du serveur                       |
 | responsible      | varchar(255) | Responsable d'exploitation du serveur                |
 | address_ip       | varchar      | Adresse(s) IP du serveur                             |
 | site_id          | int unsigned | Référence vers le site                               |
@@ -2638,6 +2639,11 @@ Les serveurs physiques sont des machines physiques exécutant un ensemble de ser
 | bay_id           | int unsigned | Référence vers la baie                               |
 | clusters         | List int [,] | Liste des id de(s) cluster(s) associé(s)             |
 | logical_servers  | List int [,] | Liste des id de(s) logical(s) serveurs(s) associé(s) |
+| warranty_end_date  | date         | Date de fin de garantie / de contrat de support |
+| end_of_life_date   | date         | Date de fin de vie / de réforme |
+| manufacturer       | varchar(255) | Fabricant |
+| model              | varchar(255) | Modèle |
+| serial_number      | varchar(255) | Numéro de série |
 | created_at       | timestamp    | Date de création                                     |
 | updated_at       | timestamp    | Date de mise à jour                                  |
 | deleted_at       | timestamp    | Date de suppression                                  |
@@ -2696,6 +2702,8 @@ Les postes de travail sont des machines physiques permettant à un utilisateur d
 | site_id           | int unsigned | Référence vers le site                                          |
 | building_id       | int unsigned | Référence vers le building / salle                              |
 | applications      | List int [,] | liste des applications liées                                    |
+| install_date       | date         | Date de mise en service |
+| end_of_life_date   | date         | Date de fin de vie / de réforme |
 | created_at        | timestamp    | Date de création                                                |
 | updated_at        | timestamp    | Date de mise à jour                                             |
 | deleted_at        | timestamp    | Date de suppression                                             |
@@ -2755,6 +2763,12 @@ réseau (NAS), réseau de stockage (SAN), disque dur…
 | building_id | int unsigned | Référence vers le building / salle          |
 | bay_id      | int unsigned | Référence vers la baie                      |
 | address_ip  | varchar(255) | Adresse IP de l'infrastructure de stockage  |
+| manufacturer       | varchar(255) | Fabricant |
+| model              | varchar(255) | Modèle |
+| serial_number      | varchar(255) | Numéro de série |
+| install_date       | date         | Date de mise en service |
+| warranty_end_date  | date         | Date de fin de garantie / de contrat de support |
+| end_of_life_date   | date         | Date de fin de vie / de réforme |
 | created_at  | timestamp    | Date de création                            |
 | updated_at  | timestamp    | Date de mise à jour                         |
 | deleted_at  | timestamp    | Date de suppression                         |
@@ -2788,6 +2802,10 @@ fonctionnalités (ex. : clavier, souris, imprimante, scanner, etc.)
 | address_ip  | varchar(255) | Adresse IP de l'équipement                         |
 | domain      | varchar(255) | Domaine général d'appartenance (IT, OT, IOT, etc.) |
 | provider_id | int unsigned | Référence vers l'entité fournisseuse               |
+| serial_number      | varchar(255) | Numéro de série |
+| install_date       | date         | Date de mise en service |
+| warranty_end_date  | date         | Date de fin de garantie / de contrat de support |
+| end_of_life_date   | date         | Date de fin de vie / de réforme |
 | created_at  | timestamp    | Date de création                                   |
 | updated_at  | timestamp    | Date de mise à jour                                |
 | deleted_at  | timestamp    | Date de suppression                                |
@@ -2817,6 +2835,12 @@ Les téléphones fixes ou portables appartenant à l’organisation.
 | building_id        | int unsigned | Référence vers le building / salle      |
 | physical_switch_id | int unsigned | Référence vers le commutateur physique  |
 | address_ip         | varchar(255) | Adresse IP du téléphone                 |
+| manufacturer       | varchar(255) | Fabricant |
+| model              | varchar(255) | Modèle |
+| serial_number      | varchar(255) | Numéro de série |
+| install_date       | date         | Date de mise en service |
+| warranty_end_date  | date         | Date de fin de garantie / de contrat de support |
+| end_of_life_date   | date         | Date de fin de vie / de réforme |
 | created_at         | timestamp    | Date de création                        |
 | updated_at         | timestamp    | Date de mise à jour                     |
 | deleted_at         | timestamp    | Date de suppression                     |
@@ -2847,6 +2871,12 @@ d’un réseau.
 | site_id     | int unsigned | Référence vers le site                  |
 | building_id | int unsigned | Référence vers le building / salle      |
 | bay_id      | unsigned int | Référence vers la baie                  |
+| manufacturer       | varchar(255) | Fabricant |
+| model              | varchar(255) | Modèle |
+| serial_number      | varchar(255) | Numéro de série |
+| install_date       | date         | Date de mise en service |
+| warranty_end_date  | date         | Date de fin de garantie / de contrat de support |
+| end_of_life_date   | date         | Date de fin de vie / de réforme |
 | created_at  | timestamp    | Date de création                        |
 | updated_at  | timestamp    | Date de mise à jour                     |
 | deleted_at  | timestamp    | Date de suppression                     |
@@ -2879,6 +2909,12 @@ Les routeurs physiques sont des composants physiques gérant les connexions entr
 | site_id     | int unsigned | Référence vers le site                  |
 | building_id | int unsigned | Référence vers le building / salle      |
 | bay_id      | int unsigned | Référence vers la baie                  |
+| manufacturer       | varchar(255) | Fabricant |
+| model              | varchar(255) | Modèle |
+| serial_number      | varchar(255) | Numéro de série |
+| install_date       | date         | Date de mise en service |
+| warranty_end_date  | date         | Date de fin de garantie / de contrat de support |
+| end_of_life_date   | date         | Date de fin de vie / de réforme |
 | created_at  | timestamp    | Date de création                        |
 | updated_at  | timestamp    | Date de mise à jour                     |
 | deleted_at  | timestamp    | Date de suppression                     |
@@ -2913,6 +2949,10 @@ Les bornes WiFi sont des équipements matériel permettant l’accès au réseau
 | building_id | int unsigned | Référence vers le building / salle      |
 | vlans       | List int [,] | Liste des id de(s) vlans associés       |
 | routers     | List int [,] | Liste des id de(s) logical routeurs associés |
+| serial_number      | varchar(255) | Numéro de série |
+| install_date       | date         | Date de mise en service |
+| warranty_end_date  | date         | Date de fin de garantie / de contrat de support |
+| end_of_life_date   | date         | Date de fin de vie / de réforme |
 | created_at  | timestamp    | Date de création                        |
 | updated_at  | timestamp    | Date de mise à jour                     |
 | deleted_at  | timestamp    | Date de suppression                     |
@@ -2942,6 +2982,12 @@ Les équipements de sécurité physique sont des sondes de températures, des ca
 | bay_id           | int unsigned | Référence vers la baie                                         |
 | security_devices | List int [,] | Liste des id de(s) équipements de sécurité (logiques) associés |
 | address_ip       | varchar(255) | Adresse(s) IP de l'équipement                                  |
+| manufacturer       | varchar(255) | Fabricant |
+| model              | varchar(255) | Modèle |
+| serial_number      | varchar(255) | Numéro de série |
+| install_date       | date         | Date de mise en service |
+| warranty_end_date  | date         | Date de fin de garantie / de contrat de support |
+| end_of_life_date   | date         | Date de fin de vie / de réforme |
 | created_at       | timestamp    | Date de création                                               |
 | updated_at       | timestamp    | Date de mise à jour                                            |
 | deleted_at       | timestamp    | Date de suppression                                            |

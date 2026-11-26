@@ -333,6 +333,7 @@
                     </div>
                 </div>
             </div>
+        @include('partials.lifecycle-fields', ['object' => null, 'fields' => ['serial_number', 'install_date', 'warranty_end_date', 'end_of_life_date']])
         </div>
 
         <div class="form-group">

@@ -1044,6 +1044,7 @@ A database is a set of structured and ordered information meant for computed pro
 | security_need_t    | int          | Traceability                 |
 | security_need_auth | int          | Authenticity                 |
 | external           | varchar(255) | External                     |
+| install_date       | date         | Commissioning date |
 | created_at         | timestamp    | Date of creation             |
 | updated_at         | timestamp    | Date of update               |
 | deleted_at         | timestamp    | Date of deletion             |
@@ -2584,14 +2585,19 @@ Physical servers are physical machines running a set of IT services.
 | configuration    | longtext     | Server configuration                      |
 | operating_system | varchar(255) | Operating system                          |
 | address_ip       | varchar(255) | IP address                                |
-| install_date     | datetime     | Date of server installation               |
-| update_date      | datetime     | Date of server upgrade                    |
+| install_date     | date         | Date of server installation               |
+| update_date      | date         | Date of server upgrade                    |
 | responsible      | varchar(255) | Person/Team responsible for the server    |
 | site_id          | int unsigned | Reference to the site                     |
 | building_id      | int unsigned | Reference to the building / room          |
 | bay_id           | int unsigned | Reference to the rack                     |
 | clusters         | List int [,] | IDs list of related cluster(s)            |
 | logical_servers  | List int [,] | IDs list of related logical(s) servers(s) |
+| warranty_end_date  | date         | End of warranty / support contract |
+| end_of_life_date   | date         | End of life / decommissioning date |
+| manufacturer       | varchar(255) | Manufacturer |
+| model              | varchar(255) | Model |
+| serial_number      | varchar(255) | Serial number |
 | created_at       | timestamp    | Date of creation                          |
 | updated_at       | timestamp    | Date of update                            |
 | deleted_at       | timestamp    | Date of deletion                          |
@@ -2650,6 +2656,8 @@ Workstations are physical machines that enable a user to access the information 
 | site_id           | int unsigned | Reference to site                                |
 | building_id       | int unsigned | Reference to building / room                     |
 | applications      | List int [,] | IDs list of linked applications                  |
+| install_date       | date         | Commissioning date |
+| end_of_life_date   | date         | End of life / decommissioning date |
 | created_at        | timestamp    | Date of creation                                 |
 | updated_at        | timestamp    | Date of update                                   |
 | deleted_at        | timestamp    | Date of deletion                                 |
@@ -2711,6 +2719,12 @@ network (SAN), hard disk...
 | vendor      | varchar(255) | Vendor / editor for CPE search                    |
 | product     | varchar(255) | Product of an editor for CPE search               |
 | version     | varchar(255) | Version of a product for CPE search               |
+| manufacturer       | varchar(255) | Manufacturer |
+| model              | varchar(255) | Model |
+| serial_number      | varchar(255) | Serial number |
+| install_date       | date         | Commissioning date |
+| warranty_end_date  | date         | End of warranty / support contract |
+| end_of_life_date   | date         | End of life / decommissioning date |
 | created_at  | timestamp    | Date of creation                                  |
 | updated_at  | timestamp    | Date of update                                    |
 | deleted_at  | timestamp    | Date of deletion                                  |
@@ -2744,6 +2758,10 @@ scanner, etc.).
 | product     | varchar(255) | Product of an editor for CPE search                 |
 | version     | varchar(255) | Version of a product for CPE search                 |
 | provider_id | int unsigned | ID related to the provider of this peripheral       |
+| serial_number      | varchar(255) | Serial number |
+| install_date       | date         | Commissioning date |
+| warranty_end_date  | date         | End of warranty / support contract |
+| end_of_life_date   | date         | End of life / decommissioning date |
 | created_at  | timestamp    | Date of creation                                    |
 | updated_at  | timestamp    | Date of update                                      |
 | deleted_at  | timestamp    | Date of deletion                                    |
@@ -2770,6 +2788,12 @@ Landlines and mobile phones belonging to the organization.
 | building_id        | int unsigned | Reference to building / room        |
 | physical_switch_id | int unsigned | ID related to the physical switch   |
 | address_ip         | varchar(255) | IP address of the phone             |
+| manufacturer       | varchar(255) | Manufacturer |
+| model              | varchar(255) | Model |
+| serial_number      | varchar(255) | Serial number |
+| install_date       | date         | Commissioning date |
+| warranty_end_date  | date         | End of warranty / support contract |
+| end_of_life_date   | date         | End of life / decommissioning date |
 | created_at         | timestamp    | Date of creation                    |
 | updated_at         | timestamp    | Date of update                      |
 | deleted_at         | timestamp    | Date of deletion                    |
@@ -2800,6 +2824,12 @@ Physical switches are physical components that manage connections between differ
 | vendor      | varchar(255) | Vendor / editor for CPE search      |
 | product     | varchar(255) | Product of an editor for CPE search |
 | version     | varchar(255) | Version of a product for CPE search |
+| manufacturer       | varchar(255) | Manufacturer |
+| model              | varchar(255) | Model |
+| serial_number      | varchar(255) | Serial number |
+| install_date       | date         | Commissioning date |
+| warranty_end_date  | date         | End of warranty / support contract |
+| end_of_life_date   | date         | End of life / decommissioning date |
 | created_at  | timestamp    | Date of creation                    |
 | updated_at  | timestamp    | Date of update                      |
 | deleted_at  | timestamp    | Date of deletion                    |
@@ -2833,6 +2863,12 @@ Physical routers are physical components that manage connections between differe
 | vendor      | varchar(255) | Vendor / editor for CPE search      |
 | product     | varchar(255) | Product of an editor for CPE search |
 | version     | varchar(255) | Version of a product for CPE search |
+| manufacturer       | varchar(255) | Manufacturer |
+| model              | varchar(255) | Model |
+| serial_number      | varchar(255) | Serial number |
+| install_date       | date         | Commissioning date |
+| warranty_end_date  | date         | End of warranty / support contract |
+| end_of_life_date   | date         | End of life / decommissioning date |
 | created_at  | timestamp    | Date of creation                    |
 | updated_at  | timestamp    | Date of update                      |
 | deleted_at  | timestamp    | Date of deletion                    |
@@ -2866,6 +2902,10 @@ WiFi hotspots are hardware devices that enable access to the WiFi wireless netwo
 | vendor      | varchar(255) | Vendor / editor for CPE search      |
 | product     | varchar(255) | Product of an editor for CPE search |
 | version     | varchar(255) | Version of a product for CPE search |
+| serial_number      | varchar(255) | Serial number |
+| install_date       | date         | Commissioning date |
+| warranty_end_date  | date         | End of warranty / support contract |
+| end_of_life_date   | date         | End of life / decommissioning date |
 | created_at  | timestamp    | Date of creation                    |
 | created_at  | timestamp    | Date of creation                    |
 | updated_at  | timestamp    | Date of update                      |
@@ -2895,6 +2935,12 @@ Physical security device includes temperature sensors, cameras, security doors, 
 | bay_id           | int unsigned | Reference to rack                              |
 | security_devices | List int [,] | IDs list of related security devices (logical) |
 | address_ip       | varchar(255) | IP address                                     |
+| manufacturer       | varchar(255) | Manufacturer |
+| model              | varchar(255) | Model |
+| serial_number      | varchar(255) | Serial number |
+| install_date       | date         | Commissioning date |
+| warranty_end_date  | date         | End of warranty / support contract |
+| end_of_life_date   | date         | End of life / decommissioning date |
 | created_at       | timestamp    | Date of creation                               |
 | updated_at       | timestamp    | Date of update                                 |
 | deleted_at       | timestamp    | Date of deletion                               |
