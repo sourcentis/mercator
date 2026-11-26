@@ -1614,8 +1614,6 @@ return [
             'memory_helper' => 'Memory size (GB)',
             'operating_system' => 'Operating system',
             'operating_system_helper' => 'Name of the operating system',
-            'install_date' => 'Install date',
-            'install_date_helper' => 'Operating system install date',
             'update_date' => 'Update date',
             'update_date_helper' => 'Operating system update date',
         ],

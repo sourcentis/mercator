@@ -275,14 +275,6 @@
                     </div>
                     <div class="col-sm">
                         <div class="form-group">
-                            <label for="install_date">{{ trans('cruds.physicalServer.fields.install_date') }}</label>
-                            <input class="form-control datetime" type="date" name="install_date" id="install_date"
-                                   value="{{ old('install_date', $physicalServer->install_date) }}">
-                            <span class="help-block">{{ trans('cruds.physicalServer.fields.install_date_helper') }}</span>
-                        </div>
-                    </div>
-                    <div class="col-sm">
-                        <div class="form-group">
                             <label for="update_date">{{ trans('cruds.physicalServer.fields.update_date') }}</label>
                             <input class="datetime form-control" type="date" id="update_date" name="update_date"
                                    value="{{ old('update_date', $physicalServer->update_date) }}">
@@ -430,7 +422,7 @@
                     </div>
                 </div>
             </div>
-        @include('partials.lifecycle-fields', ['object' => $physicalServer, 'fields' => ['manufacturer', 'model', 'serial_number', 'warranty_end_date', 'end_of_life_date']])
+        @include('partials.lifecycle-fields', ['object' => $physicalServer, 'fields' => ['manufacturer', 'model', 'serial_number', 'install_date', 'warranty_end_date', 'end_of_life_date']])
         </div>
         <div class="form-group">
             <a id="btn-cancel" class="btn btn-default" href="{{ route('admin.physical-servers.index') }}">
