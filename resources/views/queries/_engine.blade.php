@@ -61,12 +61,12 @@
 </div>
 
 {{-- Lien d'export généré : URL + date d'expiration --}}
-<div id="export-link-info" class="alert alert-info rounded-0 border-0 border-bottom mb-0 py-2 d-none">
+<div id="export-link-info" class="alert alert-info rounded-0 border-0 border-bottom mb-0 py-2 pe-5 position-relative d-none">
+    <button type="button" class="btn-close position-absolute top-0 end-0 m-2 border border-secondary rounded bg-white p-1" id="export-link-close" aria-label="Close"></button>
     <div class="d-flex gap-2 align-items-center flex-wrap">
         <i class="fas fa-link"></i>
         <span id="export-link-message"></span>
         <input type="text" class="form-control form-control-sm flex-grow-1" id="export-link-url">
-        <button type="button" class="btn-close" id="export-link-close" aria-label="Close"></button>
     </div>
 </div>
 
