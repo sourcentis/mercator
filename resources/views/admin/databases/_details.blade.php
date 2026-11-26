@@ -206,5 +206,6 @@
             @endif
             </td>
         </tr>
+        @include('partials.lifecycle-details', ['object' => $database, 'fields' => ['install_date']])
     </tbody>
 </table>

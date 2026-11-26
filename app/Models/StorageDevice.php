@@ -42,6 +42,7 @@ class StorageDevice extends Model implements HasIconContract, HasPrefix, HasUniq
         'address_ip',
         'type',
         'attributes',
+        'serial_number',
     ];
 
     protected array $dates = [
@@ -62,6 +63,14 @@ class StorageDevice extends Model implements HasIconContract, HasPrefix, HasUniq
         'site_id',
         'building_id',
         'bay_id',
+
+        // Lifecycle
+        'install_date',
+        'warranty_end_date',
+        'end_of_life_date',
+        'manufacturer',
+        'model',
+        'serial_number',
         'created_at',
         'updated_at',
         'deleted_at',

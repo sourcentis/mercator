@@ -2,11 +2,14 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Concerns\ValidatesLifecycleFields;
 use App\Rules\IPList;
 use Illuminate\Validation\Rule;
 
 class UpdateWifiTerminalRequest extends BaseFormRequest
 {
+    use ValidatesLifecycleFields;
+
     protected array $htmlFields = ['description'];
 
     public function authorize(): bool
@@ -19,6 +22,7 @@ class UpdateWifiTerminalRequest extends BaseFormRequest
         $perimeterId = $this->input('perimeter_id') ?: $this->route('wifi_terminal')?->perimeter_id;
 
         return [
+            ...$this->lifecycleRules(['install_date', 'warranty_end_date', 'end_of_life_date', 'serial_number']),
             'perimeter_id' => ['nullable', 'integer', Rule::in(auth()->user()?->perimeterIds() ?? [])],
             'name' => [
                 'min:3',

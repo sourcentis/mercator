@@ -270,6 +270,7 @@
                     </div>
                 </div>
                 @endcan
+        @include('partials.lifecycle-fields', ['object' => null, 'fields' => ['manufacturer', 'model', 'serial_number', 'install_date', 'warranty_end_date', 'end_of_life_date']])
             </div>
             <!---------------------------------------------------------------------------------------------------->
         <div class="form-group">

@@ -432,6 +432,7 @@
                 </div>
 
             </div>
+        @include('partials.lifecycle-fields', ['object' => null, 'fields' => ['install_date']])
         </div>
         <div class="form-group">
             <a id="btn-cancel" class="btn btn-default" href="{{ route('admin.databases.index') }}">

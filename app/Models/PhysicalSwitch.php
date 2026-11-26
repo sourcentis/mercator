@@ -46,6 +46,14 @@ class PhysicalSwitch extends Model implements HasIconContract, HasPrefix, HasUni
         'site_id',
         'building_id',
         'bay_id',
+
+        // Lifecycle
+        'install_date',
+        'warranty_end_date',
+        'end_of_life_date',
+        'manufacturer',
+        'model',
+        'serial_number',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -56,6 +64,7 @@ class PhysicalSwitch extends Model implements HasIconContract, HasPrefix, HasUni
         'description',
         'type',
         'attributes',
+        'serial_number',
     ];
 
     protected array $dates = [

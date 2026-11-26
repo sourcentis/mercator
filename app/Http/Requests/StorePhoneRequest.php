@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Concerns\ValidatesLifecycleFields;
 use App\Rules\IPList;
 use Gate;
 use Illuminate\Validation\Rule;
@@ -9,6 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class StorePhoneRequest extends BaseFormRequest
 {
+    use ValidatesLifecycleFields;
+
     protected array $htmlFields = ['description'];
 
     public function authorize(): bool
@@ -23,6 +26,7 @@ class StorePhoneRequest extends BaseFormRequest
         $perimeterId = $this->input('perimeter_id') ?: auth()->user()?->activeOrDefaultPerimeterId();
 
         return [
+            ...$this->lifecycleRules(['install_date', 'warranty_end_date', 'end_of_life_date', 'manufacturer', 'model', 'serial_number']),
             'perimeter_id' => ['nullable', 'integer', Rule::in(auth()->user()?->perimeterIds() ?? [])],
             'name' => [
                 'min:3',

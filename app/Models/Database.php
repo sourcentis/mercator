@@ -66,6 +66,9 @@ class Database extends Model implements HasIconContract, HasPrefix, HasUniqueIde
         'security_need_t',
         'security_need_auth',
         'external',
+
+        // Lifecycle
+        'install_date',
         'created_at',
         'updated_at',
         'deleted_at',

@@ -3,12 +3,14 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Concerns\ValidatesIcon;
+use App\Http\Requests\Concerns\ValidatesLifecycleFields;
 use App\Rules\IPList;
 use Illuminate\Validation\Rule;
 
 class UpdateWorkstationRequest extends BaseFormRequest
 {
     use ValidatesIcon;
+    use ValidatesLifecycleFields;
 
     protected array $htmlFields = ['description'];
 
@@ -22,6 +24,7 @@ class UpdateWorkstationRequest extends BaseFormRequest
         $perimeterId = $this->input('perimeter_id') ?: $this->route('workstation')?->perimeter_id;
 
         return [
+            ...$this->lifecycleRules(['install_date', 'end_of_life_date', 'purchase_date', 'fin_value', 'warranty', 'warranty_start_date', 'warranty_end_date', 'warranty_period']),
             'perimeter_id' => ['nullable', 'integer', Rule::in(auth()->user()?->perimeterIds() ?? [])],
             'name' => [
                 'min:3',

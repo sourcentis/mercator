@@ -23,6 +23,10 @@ class WifiTerminalFactory extends Factory
             'product' => $this->faker->word(),
             'version' => $this->faker->regexify(FakerPatterns::SEMVER),
             'address_ip' => $this->faker->ipv4(),
+            'install_date' => $this->faker->dateTimeBetween('-8 years', '-1 year')->format('Y-m-d'),
+            'warranty_end_date' => $this->faker->dateTimeBetween('-1 year', '+4 years')->format('Y-m-d'),
+            'end_of_life_date' => $this->faker->dateTimeBetween('+1 year', '+8 years')->format('Y-m-d'),
+            'serial_number' => strtoupper($this->faker->bothify('??########')),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
 

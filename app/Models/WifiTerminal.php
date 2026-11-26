@@ -40,6 +40,7 @@ class WifiTerminal extends Model implements HasIconContract, HasPrefix, HasUniqu
         'address_ip',
         'type',
         'attributes',
+        'serial_number',
     ];
 
     protected array $dates = [
@@ -59,6 +60,12 @@ class WifiTerminal extends Model implements HasIconContract, HasPrefix, HasUniqu
         'vendor',
         'product',
         'version',
+
+        // Lifecycle
+        'install_date',
+        'warranty_end_date',
+        'end_of_life_date',
+        'serial_number',
         'site_id',
         'building_id',
         'created_at',

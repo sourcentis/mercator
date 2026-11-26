@@ -3087,8 +3087,6 @@ class ScenarioBuilder
                         $destinationId = $pool[array_rand($pool)];
                     } while ($destinationId === $sourceId);
 
-                    [$min2, $max2] = $this->securityNeedRange();
-
                     $rows[] = [
                         'perimeter_id' => $perimeterId,
                         'name' => fake()->regexify(FakerPatterns::ORG_NAME),
@@ -3102,11 +3100,6 @@ class ScenarioBuilder
                         'end_date' => null,
                         'comments' => fake()->sentence(),
                         'importance' => random_int(1, 4),
-                        'security_need_c' => random_int($min2, $max2),
-                        'security_need_i' => random_int($min2, $max2),
-                        'security_need_a' => random_int($min2, $max2),
-                        'security_need_t' => random_int($min2, $max2),
-                        'security_need_auth' => random_int(0, 4),
                         'source_id' => $sourceId,
                         'destination_id' => $destinationId,
                         'attributes' => $this->randomAttributes(),

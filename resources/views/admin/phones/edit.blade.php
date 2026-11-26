@@ -189,6 +189,7 @@
                     </div>
                 </div>
             </div>
+        @include('partials.lifecycle-fields', ['object' => $phone, 'fields' => ['manufacturer', 'model', 'serial_number', 'install_date', 'warranty_end_date', 'end_of_life_date']])
         </div>
         <div class="form-group">
             <a class="btn btn-default" href="{{ route('admin.phones.index') }}">

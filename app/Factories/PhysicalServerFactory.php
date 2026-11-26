@@ -38,6 +38,11 @@ class PhysicalServerFactory extends Factory
             'patching_group' => $this->faker->word(),
             'patching_frequency' => $this->faker->randomNumber(),
             'next_update' => Carbon::now(),
+            'warranty_end_date' => $this->faker->dateTimeBetween('-1 year', '+4 years')->format('Y-m-d'),
+            'end_of_life_date' => $this->faker->dateTimeBetween('+1 year', '+8 years')->format('Y-m-d'),
+            'manufacturer' => $this->faker->randomElement(['Cisco', 'HPE', 'Dell', 'Fortinet', 'Juniper', 'NetApp', 'Yealink']),
+            'model' => strtoupper($this->faker->bothify('??-####')),
+            'serial_number' => strtoupper($this->faker->bothify('??########')),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
 

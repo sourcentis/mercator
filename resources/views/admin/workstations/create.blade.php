@@ -503,6 +503,7 @@
                     </div>
                 </div>
             </div>
+        @include('partials.lifecycle-fields', ['object' => null, 'fields' => ['install_date', 'end_of_life_date', 'purchase_date', 'fin_value', 'warranty', 'warranty_period', 'warranty_start_date', 'warranty_end_date']])
         </div>
         <div class="form-group">
             <a id="btn-cancel" class="btn btn-default" href="{{ route('admin.workstations.index') }}">

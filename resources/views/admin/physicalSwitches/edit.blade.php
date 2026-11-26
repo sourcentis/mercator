@@ -228,6 +228,7 @@
 
             </div>
 
+        @include('partials.lifecycle-fields', ['object' => $physicalSwitch, 'fields' => ['manufacturer', 'model', 'serial_number', 'install_date', 'warranty_end_date', 'end_of_life_date']])
         </div>
         <div class="form-group">
             <a id="btn-cancel" class="btn btn-default" href="{{ route('admin.physical-switches.index') }}">

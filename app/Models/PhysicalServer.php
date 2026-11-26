@@ -51,6 +51,13 @@ class PhysicalServer extends Model implements HasIconContract, HasPrefix, HasUni
         'operating_system',
         'install_date',
         'update_date',
+
+        // Lifecycle
+        'warranty_end_date',
+        'end_of_life_date',
+        'manufacturer',
+        'model',
+        'serial_number',
         'address_ip',
         'site_id',
         'building_id',
@@ -75,6 +82,7 @@ class PhysicalServer extends Model implements HasIconContract, HasPrefix, HasUni
         'responsible',
         'address_ip',
         'attributes',
+        'serial_number',
     ];
 
     protected static function newFactory(): Factory

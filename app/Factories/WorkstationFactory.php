@@ -49,6 +49,8 @@ class WorkstationFactory extends Factory
             'mac_address' => $this->faker->regexify(FakerPatterns::MAC_ADDRESS),
             'purchase_date' => Carbon::now(),
             'fin_value' => $this->faker->randomFloat(),
+            'install_date' => $this->faker->dateTimeBetween('-8 years', '-1 year')->format('Y-m-d'),
+            'end_of_life_date' => $this->faker->dateTimeBetween('+1 year', '+8 years')->format('Y-m-d'),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
 
