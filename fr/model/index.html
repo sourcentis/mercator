@@ -2352,11 +2352,6 @@ de l’écosystème sans se limiter à l’étude individuelle de chaque entité
         date end_date
         text comments
         int importance
-        int security_need_c
-        int security_need_i
-        int security_need_a
-        int security_need_t
-        int security_need_auth
         timestamp created_at
         timestamp updated_at
         timestamp deleted_at
@@ -2585,31 +2580,6 @@ d’information.</p>
 <td style="text-align: left;">Importance de la relation</td>
 </tr>
 <tr>
-<td style="text-align: left;">security_need_c</td>
-<td style="text-align: left;">int</td>
-<td style="text-align: left;">Confidentialité</td>
-</tr>
-<tr>
-<td style="text-align: left;">security_need_i</td>
-<td style="text-align: left;">int</td>
-<td style="text-align: left;">Intégrité</td>
-</tr>
-<tr>
-<td style="text-align: left;">security_need_a</td>
-<td style="text-align: left;">int</td>
-<td style="text-align: left;">Disponibilité</td>
-</tr>
-<tr>
-<td style="text-align: left;">security_need_t</td>
-<td style="text-align: left;">int</td>
-<td style="text-align: left;">Traçabilité</td>
-</tr>
-<tr>
-<td style="text-align: left;">security_need_auth</td>
-<td style="text-align: left;">int</td>
-<td style="text-align: left;">Authenticité</td>
-</tr>
-<tr>
 <td style="text-align: left;">created_at</td>
 <td style="text-align: left;">timestamp</td>
 <td style="text-align: left;">Date de création</td>
@@ -2626,9 +2596,6 @@ d’information.</p>
 </tr>
 </tbody>
 </table>
-<p>Dans l'application, le besoin en authenticité est masqué par défaut. Il est obligatoire dans le cas
-d'une entité soumise à la directive UE 2022/2554 (DORA).<br/>
-Il s'active depuis le menu Configuration &gt; Paramètres.</p>
 <p>L'export du modèle de données référence les documents de référence rattachés à une relation.<br/>
 Dans l'application, un document peut être rattaché à une relation depuis un objet relations.</p>
 <p>Les valeurs financières d'un contrat peuvent être indiquées dans des champs dédiés.</p>

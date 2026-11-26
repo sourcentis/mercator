@@ -2345,11 +2345,6 @@ limited to the individual study of each entity.</p>
         date end_date
         text comments
         int importance
-        int security_need_c
-        int security_need_i
-        int security_need_a
-        int security_need_t
-        int security_need_auth
         timestamp created_at
         timestamp updated_at
         timestamp deleted_at
@@ -2575,31 +2570,6 @@ An application can be linked with an entity (as operations manager) from these t
 <td style="text-align: left;">Importance of relationship</td>
 </tr>
 <tr>
-<td style="text-align: left;">security_need_c</td>
-<td style="text-align: left;">int</td>
-<td style="text-align: left;">Confidentiality level needed</td>
-</tr>
-<tr>
-<td style="text-align: left;">security_need_i</td>
-<td style="text-align: left;">int</td>
-<td style="text-align: left;">Integrity level needed</td>
-</tr>
-<tr>
-<td style="text-align: left;">security_need_a</td>
-<td style="text-align: left;">int</td>
-<td style="text-align: left;">Available level needed</td>
-</tr>
-<tr>
-<td style="text-align: left;">security_need_t</td>
-<td style="text-align: left;">int</td>
-<td style="text-align: left;">Traceability level needed</td>
-</tr>
-<tr>
-<td style="text-align: left;">security_need_auth</td>
-<td style="text-align: left;">int</td>
-<td style="text-align: left;">Authenticity level needed</td>
-</tr>
-<tr>
 <td style="text-align: left;">created_at</td>
 <td style="text-align: left;">timestamp</td>
 <td style="text-align: left;">Date of creation</td>
@@ -2616,9 +2586,6 @@ An application can be linked with an entity (as operations manager) from these t
 </tr>
 </tbody>
 </table>
-<p>In the app, the field for the authenticity need ("security_need_auth") is hidden by default. It is mandatory for
-entities subject to the regulation (EU) 2022/2554 (DORA).<br/>
-This default configuration can be changed in the menu Configuration &gt; Parameters.</p>
 <p>The data model export lists the reference documents attached to a relationship.<br/>
 In the application, a document can be attached to a relationship from a relationships object.</p>
 <p>The financial values of a contract can be indicated in dedicated fields.</p>
