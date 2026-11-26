@@ -1493,15 +1493,15 @@ UNLOCK TABLES;
 
 LOCK TABLES `relations` WRITE;
 /*!40000 ALTER TABLE `relations` DISABLE KEYS */;
-INSERT INTO `relations` (`id`, `importance`, `name`, `type`, `description`, `source_id`, `destination_id`, `attributes`, `reference`, `responsible`, `order_number`, `active`, `start_date`, `end_date`, `comments`, `security_need_c`, `security_need_i`, `security_need_a`, `security_need_t`, `security_need_auth`, `created_at`, `updated_at`, `deleted_at`) VALUES (1,2,'Licences Medi+','Fournisseur','<p>Foruniture des licens Medi+</p>',9,2,'Validé','1234567','Paul','1234567',1,'2025-01-01','2025-12-31',NULL,NULL,NULL,NULL,NULL,NULL,'2025-06-14 18:30:24','2025-06-14 18:30:45',NULL),
-(2,3,'Suport RX','Fournisseur','<p>Support imagerie médical - 24x7</p>',10,17,'Validé','1235948453','Henri','432043284382',1,'2025-01-01','2025-12-31',NULL,NULL,NULL,NULL,NULL,NULL,'2025-06-14 18:32:03','2025-06-14 18:32:03',NULL),
-(3,2,'Mission conseil LTR','Conseil','<p>Conseil IT</p>',11,2,'Validé','43943284320','Pierre','32443929432',1,'2025-01-01','2025-04-01',NULL,NULL,NULL,NULL,NULL,NULL,'2025-06-14 18:33:26','2025-06-14 18:33:26',NULL),
-(4,3,'Support PharmaMan','Fournisseur','<p>Support Logiciel Pharmaman - 24x7</p>',1,4,'Validé','43943294329','Sophie','943294329432',1,'2025-01-01','2025-12-31',NULL,NULL,NULL,NULL,NULL,NULL,'2025-06-14 18:35:36','2025-06-14 18:35:36',NULL),
-(5,3,'Logiel Comptable','Fournisseur','<p>Licence logiciel comptable</p>',12,3,'Validé','42343243232','Henri','443224432',1,'2025-01-01','2025-12-31',NULL,NULL,NULL,NULL,NULL,NULL,'2025-06-14 18:36:59','2025-06-14 18:36:59',NULL),
-(6,3,'Suport Tech24','Fournisseur','<p>Support logiciel Dossier Médical 24x7</p>',15,3,'Validé','43294329432','Pierre','424329439',1,'2025-01-01','2025-12-31',NULL,NULL,NULL,NULL,NULL,NULL,'2025-06-14 18:38:20','2025-06-14 18:38:20',NULL),
-(7,3,'Maintenance Mainframe','Maintenance','<p>Maintenance 24x7 du Mainrame</p>',13,2,'Validé','439432943','Paul','1044384833',1,'2025-01-01','2025-12-31',NULL,NULL,NULL,NULL,NULL,NULL,'2025-06-14 18:39:56','2025-06-14 18:39:56',NULL),
-(8,3,'Analyse aboratoire','Partenariat','<p>Partrnariat Analyse laboratoire</p>',14,4,'Validé','5943548354','Julie','60545965945',1,'2025-04-01','2026-04-01',NULL,NULL,NULL,NULL,NULL,NULL,'2025-06-14 18:44:20','2025-06-14 18:44:20',NULL),
-(9,3,'Filitation','Membre','<p>Membre de l\'Open Hospital Federation</p>',3,16,'','5439555453','Nathalie','06544569456',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2025-06-14 18:45:24','2025-06-14 18:45:36',NULL);
+INSERT INTO `relations` (`id`, `importance`, `name`, `type`, `description`, `source_id`, `destination_id`, `attributes`, `reference`, `responsible`, `order_number`, `active`, `start_date`, `end_date`, `comments`, `created_at`, `updated_at`, `deleted_at`) VALUES (1,2,'Licences Medi+','Fournisseur','<p>Foruniture des licens Medi+</p>',9,2,'Validé','1234567','Paul','1234567',1,'2025-01-01','2025-12-31',NULL,'2025-06-14 18:30:24','2025-06-14 18:30:45',NULL),
+(2,3,'Suport RX','Fournisseur','<p>Support imagerie médical - 24x7</p>',10,17,'Validé','1235948453','Henri','432043284382',1,'2025-01-01','2025-12-31',NULL,'2025-06-14 18:32:03','2025-06-14 18:32:03',NULL),
+(3,2,'Mission conseil LTR','Conseil','<p>Conseil IT</p>',11,2,'Validé','43943284320','Pierre','32443929432',1,'2025-01-01','2025-04-01',NULL,'2025-06-14 18:33:26','2025-06-14 18:33:26',NULL),
+(4,3,'Support PharmaMan','Fournisseur','<p>Support Logiciel Pharmaman - 24x7</p>',1,4,'Validé','43943294329','Sophie','943294329432',1,'2025-01-01','2025-12-31',NULL,'2025-06-14 18:35:36','2025-06-14 18:35:36',NULL),
+(5,3,'Logiel Comptable','Fournisseur','<p>Licence logiciel comptable</p>',12,3,'Validé','42343243232','Henri','443224432',1,'2025-01-01','2025-12-31',NULL,'2025-06-14 18:36:59','2025-06-14 18:36:59',NULL),
+(6,3,'Suport Tech24','Fournisseur','<p>Support logiciel Dossier Médical 24x7</p>',15,3,'Validé','43294329432','Pierre','424329439',1,'2025-01-01','2025-12-31',NULL,'2025-06-14 18:38:20','2025-06-14 18:38:20',NULL),
+(7,3,'Maintenance Mainframe','Maintenance','<p>Maintenance 24x7 du Mainrame</p>',13,2,'Validé','439432943','Paul','1044384833',1,'2025-01-01','2025-12-31',NULL,'2025-06-14 18:39:56','2025-06-14 18:39:56',NULL),
+(8,3,'Analyse aboratoire','Partenariat','<p>Partrnariat Analyse laboratoire</p>',14,4,'Validé','5943548354','Julie','60545965945',1,'2025-04-01','2026-04-01',NULL,'2025-06-14 18:44:20','2025-06-14 18:44:20',NULL),
+(9,3,'Filitation','Membre','<p>Membre de l\'Open Hospital Federation</p>',3,16,'','5439555453','Nathalie','06544569456',1,NULL,NULL,NULL,'2025-06-14 18:45:24','2025-06-14 18:45:36',NULL);
 /*!40000 ALTER TABLE `relations` ENABLE KEYS */;
 UNLOCK TABLES;
 
