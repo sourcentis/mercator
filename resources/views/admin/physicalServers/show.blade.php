@@ -267,6 +267,7 @@
                 </tbody>
             </table>
         </div>
+        @include('partials.lifecycle-section', ['object' => $physicalServer, 'fields' => ['manufacturer', 'model', 'serial_number', 'warranty_end_date', 'end_of_life_date']])
         @include('admin._footer', ['model' => $physicalServer])
     </div>
 

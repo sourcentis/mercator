@@ -41,6 +41,5 @@
                 <img src="{{ $workstation->icon_id === null ? '/images/workstation.png' : route('admin.documents.show', $workstation->icon_id) }}" width='60' height='60'/>
             </td>
        </tr>
-        @include('partials.lifecycle-details', ['object' => $workstation, 'fields' => ['install_date', 'end_of_life_date', 'purchase_date', 'fin_value', 'warranty', 'warranty_period', 'warranty_start_date', 'warranty_end_date']])
     </tbody>
 </table>

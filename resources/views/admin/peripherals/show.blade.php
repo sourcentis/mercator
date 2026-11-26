@@ -246,6 +246,7 @@
             </tbody>
         </table>
     </div>
+    @include('partials.lifecycle-section', ['object' => $peripheral, 'fields' => ['serial_number', 'install_date', 'warranty_end_date', 'end_of_life_date']])
     @include('admin._footer', ['model' => $peripheral])
 </div>
 <div class="form-group">

@@ -44,6 +44,7 @@
                  'withLink' => false,
              ])
         </div>
+        @include('partials.lifecycle-section', ['object' => $physicalSecurityDevice, 'fields' => ['manufacturer', 'model', 'serial_number', 'install_date', 'warranty_end_date', 'end_of_life_date']])
         @include('admin._footer', ['model' => $physicalSecurityDevice])
     </div>
     <div class="form-group">

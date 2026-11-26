@@ -53,6 +53,5 @@
             {{ $wifiTerminal->address_ip ?? '' }}
         </td>
     </tr>
-        @include('partials.lifecycle-details', ['object' => $wifiTerminal, 'fields' => ['serial_number', 'install_date', 'warranty_end_date', 'end_of_life_date']])
     </tbody>
 </table>
